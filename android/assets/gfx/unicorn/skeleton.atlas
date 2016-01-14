@@ -1,0 +1,146 @@
+
+skeleton.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Glow
+  rotate: false
+  xy: 492, 66
+  size: 18, 26
+  orig: 18, 26
+  offset: 0, 0
+  index: -1
+Head
+  rotate: true
+  xy: 349, 369
+  size: 141, 137
+  orig: 141, 137
+  offset: 0, 0
+  index: -1
+L thigh
+  rotate: false
+  xy: 252, 72
+  size: 82, 118
+  orig: 82, 118
+  offset: 0, 0
+  index: -1
+L_Leg
+  rotate: false
+  xy: 271, 193
+  size: 76, 118
+  orig: 76, 118
+  offset: 0, 0
+  index: -1
+L_front Leg
+  rotate: true
+  xy: 2, 236
+  size: 75, 167
+  orig: 75, 167
+  offset: 0, 0
+  index: -1
+R Leg
+  rotate: true
+  xy: 336, 90
+  size: 76, 118
+  orig: 76, 118
+  offset: 0, 0
+  index: -1
+R thigh
+  rotate: false
+  xy: 168, 59
+  size: 82, 131
+  orig: 82, 131
+  offset: 0, 0
+  index: -1
+R_front leg
+  rotate: false
+  xy: 2, 67
+  size: 73, 167
+  orig: 73, 167
+  offset: 0, 0
+  index: -1
+body
+  rotate: true
+  xy: 349, 168
+  size: 199, 120
+  orig: 199, 120
+  offset: 0, 0
+  index: -1
+closed eye
+  rotate: false
+  xy: 77, 5
+  size: 70, 69
+  orig: 70, 69
+  offset: 0, 0
+  index: -1
+ear
+  rotate: false
+  xy: 456, 14
+  size: 34, 78
+  orig: 34, 462
+  offset: 0, 384
+  index: -1
+eye
+  rotate: true
+  xy: 2, 2
+  size: 63, 69
+  orig: 63, 69
+  offset: 0, 0
+  index: -1
+eye Highlight
+  rotate: false
+  xy: 149, 65
+  size: 9, 9
+  orig: 9, 9
+  offset: 0, 0
+  index: -1
+eye ball
+  rotate: true
+  xy: 149, 35
+  size: 22, 24
+  orig: 22, 24
+  offset: 0, 0
+  index: -1
+half close eye
+  rotate: true
+  xy: 456, 94
+  size: 72, 40
+  orig: 72, 40
+  offset: 0, 0
+  index: -1
+half open eye
+  rotate: false
+  xy: 252, 32
+  size: 67, 38
+  orig: 67, 38
+  offset: 0, 0
+  index: -1
+horn
+  rotate: true
+  xy: 336, 23
+  size: 65, 102
+  orig: 65, 102
+  offset: 0, 0
+  index: -1
+mane
+  rotate: false
+  xy: 2, 313
+  size: 345, 197
+  orig: 345, 197
+  offset: 0, 0
+  index: -1
+neck
+  rotate: false
+  xy: 77, 76
+  size: 89, 158
+  orig: 89, 158
+  offset: 0, 0
+  index: -1
+tail
+  rotate: true
+  xy: 171, 192
+  size: 119, 98
+  orig: 119, 98
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\edgar\.gradle\caches\modules-2\files-2.1\com.badlogicgames.gdx\gdx-backend-android\1.8.0\33979d6d61ea91a3a758717cbc6acf38fbb6aae2\gdx-backend-android-1.8.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="33979d6d61ea91a3a758717cbc6acf38fbb6aae2">
+        <dex dex="C:\Users\edgar\workspace\UnicornGame\android\build\intermediates\pre-dexed\debug\gdx-backend-android-1.8.0-35f1c915689986bd35658e5cb2c89517805bf3a3.jar" />
+    </item>
+    <item
+        jar="C:\Users\edgar\workspace\UnicornGame\android\build\intermediates\exploded-aar\com.google.android.gms\play-services-auth\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="966e5771a5a2ebfb31bf00d7cd6cd2546d245517">
+        <dex dex="C:\Users\edgar\workspace\UnicornGame\android\build\intermediates\pre-dexed\debug\classes-2b13d22904dc082d4ade88563e656c70c8c3923e.jar" />
+    </item>
+    <item
+        jar="C:\Users\edgar\.gradle\caches\modules-2\files-2.1\com.badlogicgames.gdx\gdx-box2d\1.8.0\a87cfc0621180fd6976238366541d6211f9e18a4\gdx-box2d-1.8.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="a87cfc0621180fd6976238366541d6211f9e18a4">
+        <dex dex="C:\Users\edgar\workspace\UnicornGame\android\build\intermediates\pre-dexed\debug\gdx-box2d-1.8.0-f0fda4525789246c93c95ac6c6040bc93496b889.jar" />
+    </item>
+    <item
+        jar="C:\Users\edgar\workspace\UnicornGame\android\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.0\jars\libs\internal_impl-23.0.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="8bd336eeae661e8311330284897ee07f8ebaa297">
+        <dex dex="C:\Users\edgar\workspace\UnicornGame\android\build\intermediates\pre-dexed\debug\internal_impl-23.0.0-08a951a0bfab6d5ffba24230877582640907255a.jar" />
+    </item>
+    <item
+        jar="C:\Users\edgar\workspace\UnicornGame\android\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="8e673cdfadd8f2d98fdb2fda2285c30f6e449782">
+        <dex dex="C:\Users\edgar\workspace\UnicornGame\android\build\intermediates\pre-dexed\debug\classes-b05fdea1141fa1b6a8cd585a3a3ec15cd1ec1ea1.jar" />
+    </item>
+    <item
+        jar="C:\Users\edgar\workspace\UnicornGame\android\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="8413c27b45b7fe61dca4a98159f65e2cee215f5a">
+        <dex dex="C:\Users\edgar\workspace\UnicornGame\android\build\intermediates\pre-dexed\debug\classes-4cc0d641100e2c4b6e442815f146ad9a165cf543.jar" />
+    </item>
+    <item
+        jar="C:\Users\edgar\.gradle\caches\modules-2\files-2.1\com.kotcrab.vis\vis-ui\0.9.5\f2c97bbeb5e97886b22fcdbc9859771efecf9e23\vis-ui-0.9.5.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="f2c97bbeb5e97886b22fcdbc9859771efecf9e23">
+        <dex dex="C:\Users\edgar\workspace\UnicornGame\android\build\intermediates\pre-dexed\debug\vis-ui-0.9.5-62750be1c3e0b21a1e9d13e738e016bc6b71a22c.jar" />
+    </item>
+    <item
+        jar="C:\Users\edgar\workspace\UnicornGame\android\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="fef2b3e4b6b1b0e5fe7b69fa137a5fa55a3182ab">
+        <dex dex="C:\Users\edgar\workspace\UnicornGame\android\build\intermediates\pre-dexed\debug\classes-f803999a5d6de70a9a040e8c60d92543ff0070a8.jar" />
+    </item>
+    <item
+        jar="C:\Users\edgar\.gradle\caches\modules-2\files-2.1\com.badlogicgames.gdx\gdx\1.8.0\8aaf0d40f211e94051538d28b06996a6cc5ed2af\gdx-1.8.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="8aaf0d40f211e94051538d28b06996a6cc5ed2af">
+        <dex dex="C:\Users\edgar\workspace\UnicornGame\android\build\intermediates\pre-dexed\debug\gdx-1.8.0-bfa6f456780e0fd899f24dbb2169eb9def45841b.jar" />
+    </item>
+    <item
+        jar="C:\Users\edgar\workspace\UnicornGame\core\build\libs\core-1.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="be8928b645bd7d57117405db3d9fc0abdc3424b7">
+        <dex dex="C:\Users\edgar\workspace\UnicornGame\android\build\intermediates\pre-dexed\debug\core-1.0-ac785fe8ed2cfe3f2f6cddc5a9803e22da725405.jar" />
+    </item>
+    <item
+        jar="C:\Users\edgar\.gradle\caches\modules-2\files-2.1\com.badlogicgames.gdx\gdx-freetype\1.8.0\1b0670e281e8f72ed3a94c9afc6d73f6f5f27aed\gdx-freetype-1.8.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="1b0670e281e8f72ed3a94c9afc6d73f6f5f27aed">
+        <dex dex="C:\Users\edgar\workspace\UnicornGame\android\build\intermediates\pre-dexed\debug\gdx-freetype-1.8.0-a51293791f1175c9905c842190ffdeb5c763c413.jar" />
+    </item>
+    <item
+        jar="C:\Users\edgar\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.0.0\support-annotations-23.0.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="990e7f98a7bad86a40b1f0bcfeb039023afd0839">
+        <dex dex="C:\Users\edgar\workspace\UnicornGame\android\build\intermediates\pre-dexed\debug\support-annotations-23.0.0-f3aacc60d7050deb7598b7d8cdaede271f67f3ce.jar" />
+    </item>
+
+</items>

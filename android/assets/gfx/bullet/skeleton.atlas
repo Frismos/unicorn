@@ -1,0 +1,111 @@
+
+skeleton.png
+size: 800,127
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+boom/explosion-0001
+  rotate: false
+  xy: 779, 108
+  size: 19, 17
+  orig: 51, 48
+  offset: 15, 12
+  index: -1
+boom/explosion-0002
+  rotate: false
+  xy: 769, 15
+  size: 29, 31
+  orig: 51, 48
+  offset: 11, 6
+  index: -1
+boom/explosion-0003
+  rotate: false
+  xy: 733, 9
+  size: 34, 35
+  orig: 51, 48
+  offset: 9, 4
+  index: -1
+boom/explosion-0004
+  rotate: false
+  xy: 694, 7
+  size: 37, 37
+  orig: 51, 48
+  offset: 8, 3
+  index: -1
+boom/explosion-0005
+  rotate: false
+  xy: 737, 48
+  size: 38, 37
+  orig: 51, 48
+  offset: 8, 2
+  index: -1
+boom/explosion-0006
+  rotate: false
+  xy: 696, 87
+  size: 40, 38
+  orig: 51, 48
+  offset: 5, 2
+  index: -1
+boom/explosion-0007
+  rotate: false
+  xy: 653, 2
+  size: 39, 37
+  orig: 51, 48
+  offset: 6, 4
+  index: -1
+boom/explosion-0008
+  rotate: true
+  xy: 738, 87
+  size: 38, 39
+  orig: 51, 48
+  offset: 7, 3
+  index: -1
+boom/explosion-0009
+  rotate: false
+  xy: 653, 41
+  size: 39, 40
+  orig: 51, 48
+  offset: 6, 3
+  index: -1
+boom/explosion-0010
+  rotate: false
+  xy: 653, 83
+  size: 41, 42
+  orig: 51, 48
+  offset: 6, 2
+  index: -1
+boom/explosion-0011
+  rotate: false
+  xy: 696, 46
+  size: 39, 39
+  orig: 51, 48
+  offset: 5, 6
+  index: -1
+fire/Layer 1
+  rotate: true
+  xy: 347, 12
+  size: 113, 155
+  orig: 113, 155
+  offset: 0, 0
+  index: -1
+fire/Layer 2
+  rotate: true
+  xy: 180, 8
+  size: 117, 165
+  orig: 117, 165
+  offset: 0, 0
+  index: -1
+fire/Layer 3
+  rotate: true
+  xy: 2, 11
+  size: 114, 176
+  orig: 114, 176
+  offset: 0, 0
+  index: -1
+fire/Layer 4
+  rotate: true
+  xy: 504, 3
+  size: 122, 147
+  orig: 122, 147
+  offset: 0, 0
+  index: -1

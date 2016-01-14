@@ -1,0 +1,41 @@
+
+skeleton.png
+size: 237,275
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+achq
+  rotate: false
+  xy: 134, 57
+  size: 76, 50
+  orig: 76, 50
+  offset: 0, 0
+  index: -1
+deraj
+  rotate: true
+  xy: 2, 10
+  size: 97, 64
+  orig: 97, 64
+  offset: 0, 0
+  index: -1
+derdax
+  rotate: true
+  xy: 68, 10
+  size: 97, 64
+  orig: 97, 64
+  offset: 0, 0
+  index: -1
+katar
+  rotate: false
+  xy: 134, 2
+  size: 41, 53
+  orig: 41, 53
+  offset: 0, 0
+  index: -1
+marmin
+  rotate: true
+  xy: 2, 109
+  size: 164, 233
+  orig: 164, 233
+  offset: 0, 0
+  index: -1

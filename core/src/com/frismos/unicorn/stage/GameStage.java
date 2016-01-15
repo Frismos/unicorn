@@ -219,6 +219,7 @@ public class GameStage extends Stage {
         changeUnicornType.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+//                GameStage.this.game.gameCenterController.showLeaderboardView("");
                 if(unicorn.unicornType == UnicornType.SINGLE_BULLET_ATTACK) {
                     unicorn.setUnicornType(UnicornType.CANNON_ATTACK);
                 } else if(unicorn.unicornType == UnicornType.CANNON_ATTACK) {

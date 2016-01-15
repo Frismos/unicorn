@@ -69,6 +69,8 @@ public abstract class Creature extends GameActor {
 //                hitLabelIndex = 0;
 //            }
 //        }
+        gameStage.score++;
+        gameStage.scoreLabel.setText(String.format("score: %s", String.valueOf(gameStage.score)));
         hitPoints-= damage;
         if(hitPoints <= 0) {
             die();

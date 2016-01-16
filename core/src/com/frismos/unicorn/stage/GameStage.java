@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -17,25 +18,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.frismos.unicorn.UnicornGame;
-import com.frismos.unicorn.actor.AttackingEnemy;
-import com.frismos.unicorn.actor.Background;
-import com.frismos.unicorn.actor.BezierBullet;
-import com.frismos.unicorn.actor.Boss;
-import com.frismos.unicorn.actor.BouncingEnemy;
-import com.frismos.unicorn.actor.Bullet;
-import com.frismos.unicorn.actor.Enemy;
-import com.frismos.unicorn.actor.GameActor;
-import com.frismos.unicorn.actor.MiniUnicorn;
-import com.frismos.unicorn.actor.MotherBoss;
-import com.frismos.unicorn.actor.ShootingBoss;
-import com.frismos.unicorn.actor.ShootingEnemy;
-import com.frismos.unicorn.actor.Spell;
-import com.frismos.unicorn.actor.Unicorn;
-import com.frismos.unicorn.actor.WalkingEnemy;
+import com.frismos.unicorn.actor.*;
 import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.enums.SpellType;
 import com.frismos.unicorn.enums.UnicornType;
 import com.frismos.unicorn.grid.Grid;
+import com.frismos.unicorn.userdata.BulletUserData;
 import com.frismos.unicorn.userdata.SpellUserData;
 import com.frismos.unicorn.util.BodyUtils;
 import com.frismos.unicorn.util.Constants;
@@ -43,6 +31,9 @@ import com.frismos.unicorn.util.Utils;
 import com.frismos.unicorn.util.WorldUtils;
 
 import com.badlogic.gdx.utils.Array;
+
+import java.util.Collection;
+import java.util.Comparator;
 
 /**
  * Created by edgaravanyan on 10/12/15.
@@ -154,6 +145,30 @@ public class GameStage extends Stage {
     private boolean sendWave = false;
     private int currentWaveLevel = 1;
     private int fireIndex;
+    private Comparator<? super Actor> comparatorByPosition = new Comparator<Actor>() {
+        @Override
+        public int compare(Actor o1, Actor o2) {
+            if(o1 instanceof Background || o2 instanceof Background ||
+                    o1 instanceof Bullet || o2 instanceof Bullet ||
+                    o1 instanceof Grid || o2 instanceof Grid ||
+                    o1 instanceof ProgressBar || o2 instanceof ProgressBar) {
+                return 0;
+            }
+            if(o1.getY() < o2.getY()) {
+                return 1;
+            } else if(o1.getY() > o2.getY()) {
+                return -1;
+            } else if(o1.getX() < o2.getX()) {
+                return 1;
+            } else if(o1.getX() > o2.getX()) {
+                return -1;
+            } else if(o1.getZIndex() > o2.getZIndex()){
+                return 1;
+            } else {
+                return -1;
+            }
+        }
+    };
 
     public GameStage(UnicornGame game) {
         super(new StretchViewport(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT), new PolygonSpriteBatch());
@@ -220,6 +235,7 @@ public class GameStage extends Stage {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 //                GameStage.this.game.gameCenterController.showLeaderboardView("");
+                unicorn.callUnicorns();
                 if(unicorn.unicornType == UnicornType.SINGLE_BULLET_ATTACK) {
                     unicorn.setUnicornType(UnicornType.CANNON_ATTACK);
                 } else if(unicorn.unicornType == UnicornType.CANNON_ATTACK) {
@@ -294,128 +310,6 @@ public class GameStage extends Stage {
         addActor(enemy);
         collisionDetector.collisionListeners.add(enemy);
         enemy.setZIndex(background.getZIndex() + 1);
-    }
-
-    @Override
-    public void act(float delta) {
-        super.act(delta);
-        if(!stopGame) {
-            enemySendCounter += delta;
-            enemySendTimer += delta;
-            enemyMoveTimer += delta;
-
-            if(sendWave) {
-                enemyAccelerationTimer += delta;
-                if(enemyAccelerationTimer >= _ENEMY_SEND_ACCELERATION_TIME) {
-                    enemyAccelerationTimer = 0;
-                    sendWave = false;
-                    _ENEMY_SEND_ACCELERATION_TIME += 0.3f;
-                    _ENEMY_SEND_TIME_STEP = normalEnemySendTimeStep;
-                }
-            }
-
-            if (enemySendCounter >= _ENEMY_SEND_TIME_STEP) {
-                if(!sendWave && MathUtils.random(100) < 50 && level == currentWaveLevel) {
-                    sendWave = true;
-                    normalEnemySendTimeStep = _ENEMY_SEND_TIME_STEP;
-                    _ENEMY_SEND_TIME_STEP = 0.2f;
-                    currentWaveLevel++;
-                }
-                if(deadEnemyCounter >= DEAD_ENEMIES_TILL_BOSS * 0.6f && _ENEMY_SEND_TIME_STEP != 1 && !sendWave) {
-                    normalEnemySendTimeStep = _ENEMY_SEND_TIME_STEP;
-                    _ENEMY_SEND_TIME_STEP = 1f;
-                }
-                int bossSendProb = deadEnemyCounter >= DEAD_ENEMIES_TILL_BOSS ? MathUtils.random(100) : 100;
-                if (bossSendProb <= 70) {
-                    boss = sendBoss();
-                    _ENEMY_SEND_TIME_STEP = normalEnemySendTimeStep;
-                    if(DEAD_ENEMIES_TILL_BOSS < MAX_DEAD_ENEMY_COUNT) {
-                        DEAD_ENEMIES_TILL_BOSS += 10;
-                    }
-                    deadEnemyCounter = 0;
-                } else if(boss == null) {
-                    sendEnemy();
-                }
-                enemySendCounter = 0.0f;
-            }
-            if (enemySendTimer >= _ENEMY_SEND_ACCELERATION_TIME_STEP && _ENEMY_SEND_TIME_STEP > _MIN_ENEMY_SEND_TIME_STEP) {
-                _ENEMY_SEND_TIME_STEP -= _ENEMY_SEND_ACCELERATION_STEP;
-                enemySendTimer = 0.0f;
-            }
-            if(enemyMoveTimer >= _ENEMY_MOVE_ACCELERATION_TIME_STEP && _ENEMY_MOVE_SPEED < _MAX_ENEMY_MOVE_SPEED) {
-                _ENEMY_MOVE_SPEED += _ENEMY_MOVE_ACCELERATION_STEP;
-                enemyMoveTimer = 0.0f;
-            }
-
-            if (unicornDie != null) {
-                unicornDie.die();
-                unicornDie = null;
-            }
-
-            if (enemyDie != null) {
-                enemyDie.die();
-                enemyDie = null;
-            }
-
-            fireTimer += delta;
-            if(joystickTouched) {
-                if(fireTimer >= unicorn.attackSpeed) {
-                    float fingerX = Constants.VIEWPORT_WIDTH / Gdx.graphics.getWidth() * fingerScreenX;
-                    float fingerY = Constants.VIEWPORT_HEIGHT - Constants.VIEWPORT_HEIGHT / Gdx.graphics.getHeight() * fingerScreenY;
-
-                    float aimX = fingerScreenX;
-                    float aimY = Constants.VIEWPORT_HEIGHT / joystickRadius * 2 * fingerY;
-                    aimY = Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / Constants.VIEWPORT_HEIGHT * fingerY;
-
-                    float deltaX = fingerX - joystickX - joystick.getWidth() * joystick.getScaleX() / 2;
-                    float deltaY = fingerY - joystickY - joystick.getHeight() * joystick.getScaleY() / 2;
-                    float angle = 0;
-                    float minDelta = 0.5f;
-                    if(deltaX > minDelta || deltaY > minDelta || deltaX < -minDelta || deltaY < -minDelta) {
-                        angle = (float) Math.toDegrees(Math.atan2(fingerX - joystickX + joystickRadius,
-                                fingerY - joystickY - joystick.getHeight() * joystick.getScaleY() / 2));
-                        angle = 90 - angle;
-//                        if(angle > 0) {
-//                            angle = (int) angle % 10 < 5 ? (int) angle / 10 * 10 : (int) angle / 10 * 10 + 5;
-//                        } else {
-//                            angle = (int) angle % 10 > -5 ? (int) angle / 10 * 10 : (int) angle / 10 * 10 - 5;
-//                        }
-                    }
-//                    if(deltaX > minDelta || deltaY > minDelta || deltaX < -minDelta || deltaY < -minDelta) {
-//                        angle = (float) Math.toDegrees(Math.atan2(aimX - unicorn.getX() - unicorn.getFirePoint().x,
-//                                aimY - unicorn.getY() - unicorn.getFirePoint().y));
-//                            angle = 90 - angle;
-//                        if(angle > 0) {
-//                            angle = (int) angle % 10 < 5 ? (int) angle / 10 * 10 : (int) angle / 10 * 10 + 5;
-//                        } else {
-//                            angle = (int) angle % 10 > -5 ? (int) angle / 10 * 10 : (int) angle / 10 * 10 - 5;
-//                        }
-//                    }
-
-//                    if(unicorn.unicornType == UnicornType.SINGLE_BULLET_ATTACK) {
-//                        unicornFire(angle);
-//                    } else {
-                        unicornFire(fingerScreenX, fingerScreenY);
-//                    }
-                    fireTimer = 0.0f;
-
-                    if(unicorn.unicornType != UnicornType.AUTOMATIC_ATTACK) {
-                        joystickTouched = false;
-//                    } else if(unicorn.unicornType == UnicornType.SINGLE_BULLET_ATTACK) {
-//                        if(++fireIndex >= level / 2) {
-//                            fireIndex = 0;
-//                            joystickTouched = false;
-//                        }
-                    }
-                }
-            }
-            collisionDetector.run();
-        }
-    }
-
-    @Override
-    public void draw() {
-        super.draw();
     }
 
     public void restartGame() {
@@ -798,5 +692,140 @@ public class GameStage extends Stage {
                 }
             }
         }
+    }
+
+    public void layerStage() {
+        Array<Actor> actors = this.getActors();
+        actors.sort(comparatorByPosition);
+    }
+
+    private float layeringTime = 0.1f;
+    private float layeringTimer = 0.0f;
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        if(!stopGame) {
+            enemySendCounter += delta;
+            enemySendTimer += delta;
+            enemyMoveTimer += delta;
+            layeringTimer += delta;
+            if(layeringTimer >= layeringTime) {
+                layerStage();
+                layeringTimer = 0.0f;
+            }
+
+            if(sendWave) {
+                enemyAccelerationTimer += delta;
+                if(enemyAccelerationTimer >= _ENEMY_SEND_ACCELERATION_TIME) {
+                    enemyAccelerationTimer = 0;
+                    sendWave = false;
+                    _ENEMY_SEND_ACCELERATION_TIME += 0.3f;
+                    _ENEMY_SEND_TIME_STEP = normalEnemySendTimeStep;
+                }
+            }
+
+            if (enemySendCounter >= _ENEMY_SEND_TIME_STEP) {
+                if(!sendWave && MathUtils.random(100) < 50 && level == currentWaveLevel) {
+                    sendWave = true;
+                    normalEnemySendTimeStep = _ENEMY_SEND_TIME_STEP;
+                    _ENEMY_SEND_TIME_STEP = 0.2f;
+                    currentWaveLevel++;
+                }
+                if(deadEnemyCounter >= DEAD_ENEMIES_TILL_BOSS * 0.6f && _ENEMY_SEND_TIME_STEP != 1 && !sendWave) {
+                    normalEnemySendTimeStep = _ENEMY_SEND_TIME_STEP;
+                    _ENEMY_SEND_TIME_STEP = 1f;
+                }
+                int bossSendProb = deadEnemyCounter >= DEAD_ENEMIES_TILL_BOSS ? MathUtils.random(100) : 100;
+                if (bossSendProb <= 70) {
+                    boss = sendBoss();
+                    _ENEMY_SEND_TIME_STEP = normalEnemySendTimeStep;
+                    if(DEAD_ENEMIES_TILL_BOSS < MAX_DEAD_ENEMY_COUNT) {
+                        DEAD_ENEMIES_TILL_BOSS += 10;
+                    }
+                    deadEnemyCounter = 0;
+                } else if(boss == null) {
+                    sendEnemy();
+                }
+                enemySendCounter = 0.0f;
+            }
+            if (enemySendTimer >= _ENEMY_SEND_ACCELERATION_TIME_STEP && _ENEMY_SEND_TIME_STEP > _MIN_ENEMY_SEND_TIME_STEP) {
+                _ENEMY_SEND_TIME_STEP -= _ENEMY_SEND_ACCELERATION_STEP;
+                enemySendTimer = 0.0f;
+            }
+            if(enemyMoveTimer >= _ENEMY_MOVE_ACCELERATION_TIME_STEP && _ENEMY_MOVE_SPEED < _MAX_ENEMY_MOVE_SPEED) {
+                _ENEMY_MOVE_SPEED += _ENEMY_MOVE_ACCELERATION_STEP;
+                enemyMoveTimer = 0.0f;
+            }
+
+            if (unicornDie != null) {
+                unicornDie.die();
+                unicornDie = null;
+            }
+
+            if (enemyDie != null) {
+                enemyDie.die();
+                enemyDie = null;
+            }
+
+            fireTimer += delta;
+            if(joystickTouched) {
+                if(fireTimer >= unicorn.attackSpeed) {
+                    float fingerX = Constants.VIEWPORT_WIDTH / Gdx.graphics.getWidth() * fingerScreenX;
+                    float fingerY = Constants.VIEWPORT_HEIGHT - Constants.VIEWPORT_HEIGHT / Gdx.graphics.getHeight() * fingerScreenY;
+
+                    float aimX = fingerScreenX;
+                    float aimY = Constants.VIEWPORT_HEIGHT / joystickRadius * 2 * fingerY;
+                    aimY = Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / Constants.VIEWPORT_HEIGHT * fingerY;
+
+                    float deltaX = fingerX - joystickX - joystick.getWidth() * joystick.getScaleX() / 2;
+                    float deltaY = fingerY - joystickY - joystick.getHeight() * joystick.getScaleY() / 2;
+                    float angle = 0;
+                    float minDelta = 0.5f;
+                    if(deltaX > minDelta || deltaY > minDelta || deltaX < -minDelta || deltaY < -minDelta) {
+                        angle = (float) Math.toDegrees(Math.atan2(fingerX - joystickX + joystickRadius,
+                                fingerY - joystickY - joystick.getHeight() * joystick.getScaleY() / 2));
+                        angle = 90 - angle;
+//                        if(angle > 0) {
+//                            angle = (int) angle % 10 < 5 ? (int) angle / 10 * 10 : (int) angle / 10 * 10 + 5;
+//                        } else {
+//                            angle = (int) angle % 10 > -5 ? (int) angle / 10 * 10 : (int) angle / 10 * 10 - 5;
+//                        }
+                    }
+//                    if(deltaX > minDelta || deltaY > minDelta || deltaX < -minDelta || deltaY < -minDelta) {
+//                        angle = (float) Math.toDegrees(Math.atan2(aimX - unicorn.getX() - unicorn.getFirePoint().x,
+//                                aimY - unicorn.getY() - unicorn.getFirePoint().y));
+//                            angle = 90 - angle;
+//                        if(angle > 0) {
+//                            angle = (int) angle % 10 < 5 ? (int) angle / 10 * 10 : (int) angle / 10 * 10 + 5;
+//                        } else {
+//                            angle = (int) angle % 10 > -5 ? (int) angle / 10 * 10 : (int) angle / 10 * 10 - 5;
+//                        }
+//                    }
+
+//                    if(unicorn.unicornType == UnicornType.SINGLE_BULLET_ATTACK) {
+//                        unicornFire(angle);
+//                    } else {
+                    unicornFire(fingerScreenX, fingerScreenY);
+//                    }
+                    fireTimer = 0.0f;
+
+                    if(unicorn.unicornType != UnicornType.AUTOMATIC_ATTACK) {
+                        joystickTouched = false;
+//                    } else if(unicorn.unicornType == UnicornType.SINGLE_BULLET_ATTACK) {
+//                        if(++fireIndex >= level / 2) {
+//                            fireIndex = 0;
+//                            joystickTouched = false;
+//                        }
+                    }
+                }
+            }
+            collisionDetector.run();
+        }
+    }
+
+    @Override
+    public void draw() {
+        super.draw();
     }
 }

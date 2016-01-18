@@ -17,9 +17,11 @@ public class BouncingEnemy extends ShootingEnemy {
     private Runnable moveListener = new Runnable() {
         @Override
         public void run() {
-            invulnerable = false;
+            if(isAttacking) {
+                invulnerable = false;
 //            animationState.setTimeScale(1.0f);
-            animationState.setAnimation(0, "walk", true);
+                animationState.setAnimation(0, "walk", true);
+            }
         }
     };
 

@@ -5,8 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.frismos.unicorn.manager.AtlasManager;
 import com.frismos.unicorn.manager.FontsManager;
+import com.frismos.unicorn.manager.GameCenterController;
 import com.frismos.unicorn.screen.GameScreen;
-import com.frismos.unicorn.util.Debug;
 import com.frismos.unicorn.util.Strings;
 
 public class UnicornGame extends Game {
@@ -15,9 +15,19 @@ public class UnicornGame extends Game {
     public AtlasManager atlasManager;
     public FontsManager fontsManager;
 
+	public GameCenterController gameCenterController;
+
+	public UnicornGame(GameCenterController gameCenterController) {
+		this.gameCenterController = gameCenterController;
+	}
+
 	@Override
 	public void create () {
-		Debug.Log("CREATE");
+		if(this.gameCenterController != null) {
+			this.gameCenterController.setKeyWindowRootViewController(Gdx.app);
+			this.gameCenterController.login();
+		}
+
 		Gdx.input.setCatchBackKey(true);
         strings = new Strings();
         atlasManager = new AtlasManager();
@@ -35,5 +45,9 @@ public class UnicornGame extends Game {
 	@Override
 	public void pause() {
 		super.pause();
+	}
+
+	public void submitScore() {
+		//// TODO: 1/15/16 submit player score to gamecenter here
 	}
 }

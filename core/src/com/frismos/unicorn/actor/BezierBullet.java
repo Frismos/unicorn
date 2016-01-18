@@ -71,8 +71,6 @@ public class BezierBullet extends Bullet {
     public void move(float delta) {
         t = index / (Math.abs(p3.x - p0.x) + 75) * 2;
         index += 60 * delta;
-        Debug.Log("t = " + t);
-        Debug.Log("delta = " + delta);
         Vector2 p = calculateBezierPoint();
         setPosition(p.x, p.y);
     }

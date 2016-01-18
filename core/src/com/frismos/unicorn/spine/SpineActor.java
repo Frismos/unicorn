@@ -44,7 +44,7 @@ public abstract class SpineActor extends BaseSpineActor {
 
         AnimationStateData animationStateData = new AnimationStateData(skeleton.getData());
         animationState = new AnimationState(animationStateData);
-        animationState.setTimeScale(MathUtils.random(.4f,.8f));
+//        animationState.setTimeScale(MathUtils.random(.4f,.8f));
     }
 
     @Override

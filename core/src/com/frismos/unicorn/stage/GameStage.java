@@ -15,20 +15,20 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.frismos.unicorn.UnicornGame;
 import com.frismos.unicorn.actor.*;
 import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.enums.SpellType;
+import com.frismos.unicorn.enums.TutorialStep;
 import com.frismos.unicorn.enums.UnicornType;
 import com.frismos.unicorn.grid.Grid;
+import com.frismos.unicorn.manager.TutorialManager;
 import com.frismos.unicorn.userdata.BulletUserData;
 import com.frismos.unicorn.userdata.SpellUserData;
-import com.frismos.unicorn.util.BodyUtils;
-import com.frismos.unicorn.util.Constants;
-import com.frismos.unicorn.util.Utils;
-import com.frismos.unicorn.util.WorldUtils;
+import com.frismos.unicorn.util.*;
 
 import com.badlogic.gdx.utils.Array;
 
@@ -145,6 +145,10 @@ public class GameStage extends Stage {
     private boolean sendWave = false;
     private int currentWaveLevel = 1;
     private int fireIndex;
+
+    private float layeringTime = 0.1f;
+    private float layeringTimer = 0.0f;
+
     private Comparator<? super Actor> comparatorByPosition = new Comparator<Actor>() {
         @Override
         public int compare(Actor o1, Actor o2) {
@@ -229,7 +233,7 @@ public class GameStage extends Stage {
 
         changeUnicornType = new Image(game.atlasManager.get("gfx/unicorn.png", Texture.class));
         changeUnicornType.setSize(3, 3);
-        changeUnicornType.setX(Constants.VIEWPORT_WIDTH - changeUnicornType.getWidth() * 20 * changeUnicornType.getScaleX());
+        changeUnicornType.setX(background.getZero().x);//Constants.VIEWPORT_WIDTH - changeUnicornType.getWidth() * 20 * changeUnicornType.getScaleX());
         changeUnicornType.setY(1);
         changeUnicornType.addListener(new ClickListener() {
             @Override
@@ -255,6 +259,10 @@ public class GameStage extends Stage {
 
         Thread detector = new Thread(collisionDetector);
         detector.start();
+
+        if(game.tutorialManager.isTutorialMode) {
+            colorIndices.add(0);
+        }
     }
 
     private void initConstants() {
@@ -286,13 +294,17 @@ public class GameStage extends Stage {
     }
 
     private void sendEnemy() {
+        sendEnemy(false);
+    }
+
+    private void sendEnemy(boolean isTutorial) {
         ColorType colorType;
         Enemy enemy;
         ATTACKING_ENEMY_SPAWN_CHANCE = level == 1 || sendWave ? 0 : 10;
         if(colorIndices.size > 0) {
             int colorIndex = colorIndices.get(MathUtils.random(colorIndices.size - 1));
             colorType = ColorType.values()[colorIndex];
-            enemy = new ShootingEnemy(this, WorldUtils.createEnemy(), colorType);
+            enemy = new WalkingEnemy(this, WorldUtils.createEnemy(), colorType, isTutorial);
             colorIndices.removeValue(colorIndex, true);
         } else {
             colorType = ColorType.getRandomColor();
@@ -307,6 +319,7 @@ public class GameStage extends Stage {
                 enemy = new WalkingEnemy(this, WorldUtils.createEnemy(), colorType);
             }
         }
+        enemy.isTutorialEnemy = isTutorial;
         addActor(enemy);
         collisionDetector.collisionListeners.add(enemy);
         enemy.setZIndex(background.getZIndex() + 1);
@@ -699,9 +712,6 @@ public class GameStage extends Stage {
         actors.sort(comparatorByPosition);
     }
 
-    private float layeringTime = 0.1f;
-    private float layeringTimer = 0.0f;
-
     @Override
     public void act(float delta) {
         super.act(delta);
@@ -710,64 +720,91 @@ public class GameStage extends Stage {
             enemySendTimer += delta;
             enemyMoveTimer += delta;
             layeringTimer += delta;
-            if(layeringTimer >= layeringTime) {
-                layerStage();
-                layeringTimer = 0.0f;
-            }
+            if (!game.tutorialManager.isTutorialMode) {
+                if (layeringTimer >= layeringTime) {
+                    layerStage();
+                    layeringTimer = 0.0f;
+                }
 
-            if(sendWave) {
-                enemyAccelerationTimer += delta;
-                if(enemyAccelerationTimer >= _ENEMY_SEND_ACCELERATION_TIME) {
-                    enemyAccelerationTimer = 0;
-                    sendWave = false;
-                    _ENEMY_SEND_ACCELERATION_TIME += 0.3f;
-                    _ENEMY_SEND_TIME_STEP = normalEnemySendTimeStep;
-                }
-            }
-
-            if (enemySendCounter >= _ENEMY_SEND_TIME_STEP) {
-                if(!sendWave && MathUtils.random(100) < 50 && level == currentWaveLevel) {
-                    sendWave = true;
-                    normalEnemySendTimeStep = _ENEMY_SEND_TIME_STEP;
-                    _ENEMY_SEND_TIME_STEP = 0.2f;
-                    currentWaveLevel++;
-                }
-                if(deadEnemyCounter >= DEAD_ENEMIES_TILL_BOSS * 0.6f && _ENEMY_SEND_TIME_STEP != 1 && !sendWave) {
-                    normalEnemySendTimeStep = _ENEMY_SEND_TIME_STEP;
-                    _ENEMY_SEND_TIME_STEP = 1f;
-                }
-                int bossSendProb = deadEnemyCounter >= DEAD_ENEMIES_TILL_BOSS ? MathUtils.random(100) : 100;
-                if (bossSendProb <= 70) {
-                    boss = sendBoss();
-                    _ENEMY_SEND_TIME_STEP = normalEnemySendTimeStep;
-                    if(DEAD_ENEMIES_TILL_BOSS < MAX_DEAD_ENEMY_COUNT) {
-                        DEAD_ENEMIES_TILL_BOSS += 10;
+                if (sendWave) {
+                    enemyAccelerationTimer += delta;
+                    if (enemyAccelerationTimer >= _ENEMY_SEND_ACCELERATION_TIME) {
+                        enemyAccelerationTimer = 0;
+                        sendWave = false;
+                        _ENEMY_SEND_ACCELERATION_TIME += 0.3f;
+                        _ENEMY_SEND_TIME_STEP = normalEnemySendTimeStep;
                     }
-                    deadEnemyCounter = 0;
-                } else if(boss == null) {
-                    sendEnemy();
                 }
-                enemySendCounter = 0.0f;
-            }
-            if (enemySendTimer >= _ENEMY_SEND_ACCELERATION_TIME_STEP && _ENEMY_SEND_TIME_STEP > _MIN_ENEMY_SEND_TIME_STEP) {
-                _ENEMY_SEND_TIME_STEP -= _ENEMY_SEND_ACCELERATION_STEP;
-                enemySendTimer = 0.0f;
-            }
-            if(enemyMoveTimer >= _ENEMY_MOVE_ACCELERATION_TIME_STEP && _ENEMY_MOVE_SPEED < _MAX_ENEMY_MOVE_SPEED) {
-                _ENEMY_MOVE_SPEED += _ENEMY_MOVE_ACCELERATION_STEP;
-                enemyMoveTimer = 0.0f;
-            }
 
-            if (unicornDie != null) {
-                unicornDie.die();
-                unicornDie = null;
-            }
+                if (enemySendCounter >= _ENEMY_SEND_TIME_STEP) {
+                    if (!sendWave && MathUtils.random(100) < 50 && level == currentWaveLevel) {
+                        sendWave = true;
+                        normalEnemySendTimeStep = _ENEMY_SEND_TIME_STEP;
+                        _ENEMY_SEND_TIME_STEP = 0.2f;
+                        currentWaveLevel++;
+                    }
+                    if (deadEnemyCounter >= DEAD_ENEMIES_TILL_BOSS * 0.6f && _ENEMY_SEND_TIME_STEP != 1 && !sendWave) {
+                        normalEnemySendTimeStep = _ENEMY_SEND_TIME_STEP;
+                        _ENEMY_SEND_TIME_STEP = 1f;
+                    }
+                    int bossSendProb = deadEnemyCounter >= DEAD_ENEMIES_TILL_BOSS ? MathUtils.random(100) : 100;
+                    if (bossSendProb <= 70) {
+                        boss = sendBoss();
+                        _ENEMY_SEND_TIME_STEP = normalEnemySendTimeStep;
+                        if (DEAD_ENEMIES_TILL_BOSS < MAX_DEAD_ENEMY_COUNT) {
+                            DEAD_ENEMIES_TILL_BOSS += 10;
+                        }
+                        deadEnemyCounter = 0;
+                    } else if (boss == null) {
+                        sendEnemy();
+                    }
+                    enemySendCounter = 0.0f;
+                }
+                if (enemySendTimer >= _ENEMY_SEND_ACCELERATION_TIME_STEP && _ENEMY_SEND_TIME_STEP > _MIN_ENEMY_SEND_TIME_STEP) {
+                    _ENEMY_SEND_TIME_STEP -= _ENEMY_SEND_ACCELERATION_STEP;
+                    enemySendTimer = 0.0f;
+                }
+                if (enemyMoveTimer >= _ENEMY_MOVE_ACCELERATION_TIME_STEP && _ENEMY_MOVE_SPEED < _MAX_ENEMY_MOVE_SPEED) {
+                    _ENEMY_MOVE_SPEED += _ENEMY_MOVE_ACCELERATION_STEP;
+                    enemyMoveTimer = 0.0f;
+                }
 
-            if (enemyDie != null) {
-                enemyDie.die();
-                enemyDie = null;
-            }
+                if (unicornDie != null) {
+                    unicornDie.die();
+                    unicornDie = null;
+                }
 
+                if (enemyDie != null) {
+                    enemyDie.die();
+                    enemyDie = null;
+                }
+            } else {
+                if (game.tutorialManager.currentStep == TutorialStep.FIRST) {
+                    if (!game.tutorialManager.isFirstEnemySend) {
+                        sendEnemy(true);
+                        game.tutorialManager.isFirstEnemySend = true;
+                    }
+                } else if (game.tutorialManager.currentStep == TutorialStep.SECOND) {
+                    if (!game.tutorialManager.isSecondEnemySend) {
+                        colorIndices.add(2);
+                        sendEnemy(true);
+                        game.tutorialManager.isSecondEnemySend = true;
+                        game.tutorialManager.isTutorialEnemyOnStage = true;
+                        Debug.Log("issecond send");
+                    } else if(!game.tutorialManager.pauseGame && !game.tutorialManager.isTutorialEnemyOnStage) {
+                        if (enemySendCounter >= _ENEMY_SEND_TIME_STEP) {
+                            Debug.Log("paused send " + game.tutorialManager.isTutorialEnemyOnStage);
+                            sendEnemy();
+                            enemySendCounter = 0;
+                            if(game.tutorialManager.secondStepEnemies++ == TutorialManager.SECOND_STEP_ENEMIES_COUNT) {
+                                game.tutorialManager.currentStep = TutorialStep.THIRD;
+                            }
+                        }
+                    }
+                } else if(game.tutorialManager.currentStep == TutorialStep.THIRD) {
+//// TODO: 1/18/16 third tutorial step goes here
+                }
+            }
             fireTimer += delta;
             if(joystickTouched) {
                 if(fireTimer >= unicorn.attackSpeed) {
@@ -783,9 +820,9 @@ public class GameStage extends Stage {
                     float angle = 0;
                     float minDelta = 0.5f;
                     if(deltaX > minDelta || deltaY > minDelta || deltaX < -minDelta || deltaY < -minDelta) {
-                        angle = (float) Math.toDegrees(Math.atan2(fingerX - joystickX + joystickRadius,
-                                fingerY - joystickY - joystick.getHeight() * joystick.getScaleY() / 2));
-                        angle = 90 - angle;
+//                        angle = (float) Math.toDegrees(Math.atan2(fingerX - joystickX + joystickRadius,
+//                                fingerY - joystickY - joystick.getHeight() * joystick.getScaleY() / 2));
+//                        angle = 90 - angle;
 //                        if(angle > 0) {
 //                            angle = (int) angle % 10 < 5 ? (int) angle / 10 * 10 : (int) angle / 10 * 10 + 5;
 //                        } else {

@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.spine.AnimationState;
 import com.esotericsoftware.spine.Event;
+import com.frismos.unicorn.enums.TutorialStep;
 import com.frismos.unicorn.userdata.UserData;
 import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.enums.UserDataType;
@@ -27,12 +28,15 @@ public abstract class Enemy extends Creature {
 
     protected int positionY;
 
+    public boolean isTutorialEnemy;
+
     public boolean isSonOfABoss = false; // :D
 
     private AnimationState.AnimationStateListener dieListener = new AnimationState.AnimationStateListener() {
 
         @Override
         public void event(int trackIndex, Event event) {
+            gameStage.game.tutorialManager.pauseGame = false;
             if (Enemy.this.tile != null) {
                 if(Enemy.this.tile.j != 0){
                     tile.color(colorType);
@@ -72,6 +76,10 @@ public abstract class Enemy extends Creature {
     };
 
     public Enemy(GameStage stage, UserData userData, ColorType colorType) {
+        this(stage, userData,  colorType, false);
+    }
+
+    public Enemy(GameStage stage, UserData userData, ColorType colorType, boolean isTutorialEnemy) {
         super(stage, userData, colorType);
 
         setColorType(colorType);
@@ -108,24 +116,27 @@ public abstract class Enemy extends Creature {
         }
         if(gameStage.colorIndices.size > 0) {
             if(colorType == ColorType.YELLOW) {
-                positionY = 0;
-            } else if(colorType == ColorType.RED) {
-                positionY = 1;
-            } else if(colorType == ColorType.GREEN) {
-                positionY = 2;
-            } else if(colorType == ColorType.BLUE) {
                 positionY = 3;
+//            } else if(colorType == ColorType.RED) {
+//                positionY = 1;
+            } else if(colorType == ColorType.GREEN) {
+                positionY = 0;
+//            } else if(colorType == ColorType.BLUE) {
+//                positionY = 1;
             }
         }
 //        if(MathUtils.random(100) <= GameStage.ENEMY_SPAWN_MIDDLE_CHANCE) {
 //            positionX = MathUtils.random(3, GameStage.COLUMN_LENGTH - 1);
 //        }
         this.setX(gameStage.background.getZero().x + positionX * gameStage.grid.tileWidth + getWidth() / 2);
-        this.setY(gameStage.background.getZero().y + positionY * gameStage.grid.tileHeight + getHeight() / 2);
+        this.setY(gameStage.background.getZero().y + positionY * gameStage.grid.tileHeight + getHeight() / 4);
         spawnPoint = new Vector2(0, getY() + getHeight() * getScaleY() / 2);
         spawnPoint = gameStage.stageToScreenCoordinates(spawnPoint);
         isAttacking = true;
-        moveSpeed = GameStage._ENEMY_MOVE_SPEED;
+        this.isTutorialEnemy = isTutorialEnemy;
+        if(!isTutorialEnemy) {
+            moveSpeed = GameStage._ENEMY_MOVE_SPEED;
+        }
     }
 
     public void setColorType(ColorType colorType) {
@@ -143,6 +154,16 @@ public abstract class Enemy extends Creature {
 
     public void die(AnimationState.AnimationStateListener dieListener) {
         if(isAttacking) {
+            if(gameStage.game.tutorialManager.isTutorialMode) {
+                gameStage.game.tutorialManager.isTutorialEnemyOnStage = false;
+                if(TutorialStep.values().length - 1 == gameStage.game.tutorialManager.currentStep.ordinal()) {
+                    gameStage.game.tutorialManager.isTutorialMode = false;
+                } else {
+                    if(gameStage.game.tutorialManager.currentStep == TutorialStep.FIRST) {
+                        gameStage.game.tutorialManager.currentStep = TutorialStep.SECOND;
+                    }
+                }
+            }
             gameStage.collisionDetector.collisionListeners.removeValue(this, false);
             dispose();
             gameStage.unicorn.removePositionChangeListener(this);
@@ -181,7 +202,9 @@ public abstract class Enemy extends Creature {
                 tile = gameStage.grid.getTileByPoint(getX() + getWidth() / 2, getY());
                 tile.enemies.add(this);
             }
-            moveBy(-directionX * moveSpeed * delta, -directionY * moveSpeed * delta);  //  23
+            if(!gameStage.game.tutorialManager.isTutorialMode || !gameStage.game.tutorialManager.pauseGame) {
+                moveBy(-directionX * moveSpeed * delta, -directionY * moveSpeed * delta);  //  23
+            }
 
             if(this.getX() < 7) {
                 die(new AnimationState.AnimationStateListener() {
@@ -207,6 +230,9 @@ public abstract class Enemy extends Creature {
                 });
             }
 
+            if(isTutorialEnemy && getX() < gameStage.background.getZero().x + gameStage.background.getWidth() - gameStage.grid.tileWidth) {
+                gameStage.game.tutorialManager.pauseGame = true;
+            }
         }
     }
 

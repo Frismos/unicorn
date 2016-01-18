@@ -27,7 +27,7 @@ public class BouncingEnemy extends ShootingEnemy {
 
     public BouncingEnemy(GameStage stage, UserData userData, ColorType colorType) {
         super(stage, userData, colorType);
-            animationState.setTimeScale(1.0f);
+        animationState.setTimeScale(1.0f);
         animationState.getData().setMix("jump", "walk", 0.1f);
         animationState.setAnimation(0, "walk", true);
         TIME_STEP = 2f;
@@ -50,7 +50,7 @@ public class BouncingEnemy extends ShootingEnemy {
         if(this.positionY != positionY) {
             this.positionY = positionY;
 //        invulnerable = true;
-            float destY = gameStage.background.getZero().y + positionY * gameStage.grid.tileHeight + getHeight() / 2;
+            float destY = gameStage.background.getZero().y + positionY * gameStage.grid.tileHeight + getHeight() / 4;
 //            animationState.setTimeScale(0.6f);
 
             animationState.setAnimation(0, "jump", true);

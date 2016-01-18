@@ -3,9 +3,7 @@ package com.frismos.unicorn;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.frismos.unicorn.manager.AtlasManager;
-import com.frismos.unicorn.manager.FontsManager;
-import com.frismos.unicorn.manager.GameCenterController;
+import com.frismos.unicorn.manager.*;
 import com.frismos.unicorn.screen.GameScreen;
 import com.frismos.unicorn.util.Strings;
 
@@ -14,6 +12,8 @@ public class UnicornGame extends Game {
 	public Strings strings;
     public AtlasManager atlasManager;
     public FontsManager fontsManager;
+	public DataManager dataManager;
+    public TutorialManager tutorialManager;
 
 	public GameCenterController gameCenterController;
 
@@ -32,6 +32,8 @@ public class UnicornGame extends Game {
         strings = new Strings();
         atlasManager = new AtlasManager();
         fontsManager = new FontsManager();
+		dataManager = new DataManager();
+        tutorialManager =new TutorialManager(this);
         setScreen(new GameScreen(this));
 	}
 

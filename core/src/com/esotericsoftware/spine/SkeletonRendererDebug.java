@@ -1,15 +1,15 @@
 /******************************************************************************
- * SpineActor Runtimes Software License
+ * Spine Runtimes Software License
  * Version 2.3
  * 
  * Copyright (c) 2013-2015, Esoteric Software
  * All rights reserved.
  * 
  * You are granted a perpetual, non-exclusive, non-sublicensable and
- * non-transferable license to use, install, execute and perform the SpineActor
+ * non-transferable license to use, install, execute and perform the Spine
  * Runtimes Software (the "Software") and derivative works solely for personal
  * or internal use. Without the written permission of Esoteric Software (see
- * Section 2 of the SpineActor Software License Agreement), you may not (a) modify,
+ * Section 2 of the Spine Software License Agreement), you may not (a) modify,
  * translate, adapt or otherwise create derivative works, improvements of the
  * Software or develop new applications using the Software or (b) remove,
  * delete, alter or obscure any trademarks or any copyright, trademark, patent
@@ -87,8 +87,8 @@ public class SkeletonRendererDebug {
 			for (int i = 0, n = bones.size; i < n; i++) {
 				Bone bone = bones.get(i);
 				if (bone.parent == null) continue;
-				float x = skeletonX + bone.data.length * bone.m00 + bone.worldX;
-				float y = skeletonY + bone.data.length * bone.m10 + bone.worldY;
+				float x = skeletonX + bone.data.length * bone.a + bone.worldX;
+				float y = skeletonY + bone.data.length * bone.c + bone.worldY;
 				shapes.rectLine(skeletonX + bone.worldX, skeletonY + bone.worldY, x, y, boneWidth * scale);
 			}
 			shapes.end();
@@ -105,8 +105,7 @@ public class SkeletonRendererDebug {
 				Attachment attachment = slot.attachment;
 				if (attachment instanceof RegionAttachment) {
 					RegionAttachment regionAttachment = (RegionAttachment)attachment;
-					regionAttachment.updateWorldVertices(slot, false);
-					float[] vertices = regionAttachment.getWorldVertices();
+					float[] vertices = regionAttachment.updateWorldVertices(slot, false);
 					shapes.line(vertices[X1], vertices[Y1], vertices[X2], vertices[Y2]);
 					shapes.line(vertices[X2], vertices[Y2], vertices[X3], vertices[Y3]);
 					shapes.line(vertices[X3], vertices[Y3], vertices[X4], vertices[Y4]);

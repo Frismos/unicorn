@@ -80,7 +80,7 @@ public class MiniUnicorn extends GameActor {
     public void resetPosition() {
         int positionY = MathUtils.random(GameStage.ROW_LENGTH * 2 - 1);
         this.setX(Constants.MINI_UNICORN_X);
-        float yOffset = positionY % 2 == 0 ? getHeight() : getHeight() / 2;
+        float yOffset = positionY % 2 == 0 ? getHeight() : getHeight() / 4;
         this.setY(gameStage.background.getZero().y + positionY * gameStage.grid.tileHeight / 2 + yOffset);
         super.act(Gdx.graphics.getDeltaTime());
     }

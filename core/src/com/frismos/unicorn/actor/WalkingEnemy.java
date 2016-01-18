@@ -11,7 +11,10 @@ import com.frismos.unicorn.util.Strings;
  */
 public class WalkingEnemy extends Enemy {
     public WalkingEnemy(GameStage stage, UserData userData, ColorType colorType) {
-        super(stage, userData, colorType);
+        this(stage, userData,  colorType, false);
+    }
+    public WalkingEnemy(GameStage stage, UserData userData, ColorType colorType, boolean isTutorial) {
+        super(stage, userData, colorType, isTutorial);
         if (MathUtils.randomBoolean()) {
             animationState.setAnimation(0, "walk1", true);
         } else {

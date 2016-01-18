@@ -1,15 +1,15 @@
 /******************************************************************************
- * SpineActor Runtimes Software License
+ * Spine Runtimes Software License
  * Version 2.3
  * 
  * Copyright (c) 2013-2015, Esoteric Software
  * All rights reserved.
  * 
  * You are granted a perpetual, non-exclusive, non-sublicensable and
- * non-transferable license to use, install, execute and perform the SpineActor
+ * non-transferable license to use, install, execute and perform the Spine
  * Runtimes Software (the "Software") and derivative works solely for personal
  * or internal use. Without the written permission of Esoteric Software (see
- * Section 2 of the SpineActor Software License Agreement), you may not (a) modify,
+ * Section 2 of the Spine Software License Agreement), you may not (a) modify,
  * translate, adapt or otherwise create derivative works, improvements of the
  * Software or develop new applications using the Software or (b) remove,
  * delete, alter or obscure any trademarks or any copyright, trademark, patent
@@ -99,7 +99,8 @@ public class SkinnedMeshAttachment extends Attachment {
 		}
 	}
 
-	public void updateWorldVertices (Slot slot, boolean premultipliedAlpha) {
+	/** @return The updated world vertices. */
+	public float[] updateWorldVertices (Slot slot, boolean premultipliedAlpha) {
 		Skeleton skeleton = slot.getSkeleton();
 		Color skeletonColor = skeleton.getColor();
 		Color meshColor = slot.getColor();
@@ -126,8 +127,8 @@ public class SkinnedMeshAttachment extends Attachment {
 				for (; v < nn; v++, b += 3) {
 					Bone bone = (Bone)skeletonBones[bones[v]];
 					float vx = weights[b], vy = weights[b + 1], weight = weights[b + 2];
-					wx += (vx * bone.getM00() + vy * bone.getM01() + bone.getWorldX()) * weight;
-					wy += (vx * bone.getM10() + vy * bone.getM11() + bone.getWorldY()) * weight;
+					wx += (vx * bone.getA() + vy * bone.getB() + bone.getWorldX()) * weight;
+					wy += (vx * bone.getC() + vy * bone.getD() + bone.getWorldY()) * weight;
 				}
 				worldVertices[w] = wx + x;
 				worldVertices[w + 1] = wy + y;
@@ -141,14 +142,15 @@ public class SkinnedMeshAttachment extends Attachment {
 				for (; v < nn; v++, b += 3, f += 2) {
 					Bone bone = (Bone)skeletonBones[bones[v]];
 					float vx = weights[b] + ffd[f], vy = weights[b + 1] + ffd[f + 1], weight = weights[b + 2];
-					wx += (vx * bone.getM00() + vy * bone.getM01() + bone.getWorldX()) * weight;
-					wy += (vx * bone.getM10() + vy * bone.getM11() + bone.getWorldY()) * weight;
+					wx += (vx * bone.getA() + vy * bone.getB() + bone.getWorldX()) * weight;
+					wy += (vx * bone.getC() + vy * bone.getD() + bone.getWorldY()) * weight;
 				}
 				worldVertices[w] = wx + x;
 				worldVertices[w + 1] = wy + y;
 				worldVertices[w + 2] = color;
 			}
 		}
+		return worldVertices;
 	}
 
 	public float[] getWorldVertices () {

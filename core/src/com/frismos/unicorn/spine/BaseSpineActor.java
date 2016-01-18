@@ -6,11 +6,7 @@ import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.esotericsoftware.spine.AnimationState;
-import com.esotericsoftware.spine.Skeleton;
-import com.esotericsoftware.spine.SkeletonData;
-import com.esotericsoftware.spine.SkeletonJson;
-import com.esotericsoftware.spine.SkeletonRenderer;
+import com.esotericsoftware.spine.*;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.util.Constants;
 import com.frismos.unicorn.util.Debug;
@@ -31,7 +27,7 @@ public abstract class BaseSpineActor extends Actor {
 
     public BaseSpineActor(GameStage stage) {
         gameStage = stage;
-        skeletonRenderer = new SkeletonRenderer();
+        skeletonRenderer = new SkeletonMeshRenderer();
 
         setResourcesPath();
         setScaleRatio();

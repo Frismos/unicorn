@@ -5,28 +5,31 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
+import com.frismos.unicorn.grid.Grid;
 import com.frismos.unicorn.userdata.UserData;
 import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.manager.FontsManager;
 import com.frismos.unicorn.stage.GameStage;
 
 import com.badlogic.gdx.utils.Array;
+import com.frismos.unicorn.util.Debug;
 
 /**
  * Created by edgar on 12/9/2015.
  */
 public abstract class Creature extends GameActor {
-    public Creature(GameStage stage, UserData userData, ColorType colorType) {
-        super(stage, userData, colorType);
-    }
 
-    protected float moveSpeed;
+    protected float moveSpeed = 10.0f;
 
     public int hitPoints;
 //    protected Array<Label> hitLabels = new Array<Label>();
 
     private ProgressBar pb;
     private int hitLabelIndex = 0;
+
+    public Creature(GameStage stage, UserData userData, ColorType colorType) {
+        super(stage, userData, colorType);
+    }
 
     public void showProgressBar() {
         pb = new ProgressBar(gameStage, 3, hitPoints);

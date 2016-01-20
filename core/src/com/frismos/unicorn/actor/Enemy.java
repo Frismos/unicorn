@@ -5,12 +5,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.spine.AnimationState;
 import com.esotericsoftware.spine.Event;
 import com.frismos.unicorn.enums.TutorialStep;
+import com.frismos.unicorn.manager.TutorialManager;
 import com.frismos.unicorn.userdata.UserData;
 import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.enums.UserDataType;
 import com.frismos.unicorn.grid.Tile;
 import com.frismos.unicorn.stage.GameStage;
-import com.frismos.unicorn.util.Debug;
 import com.frismos.unicorn.util.Utils;
 
 /**
@@ -112,7 +112,8 @@ public abstract class Enemy extends Creature {
         }
 
         if(positionY == -1) {
-            positionY = MathUtils.random(GameStage.ROW_LENGTH - 1);
+            int positionYOffset = isTutorialEnemy ? 2 : 1;
+            positionY = MathUtils.random(GameStage.ROW_LENGTH - positionYOffset);
         }
         if(gameStage.colorIndices.size > 0) {
             if(colorType == ColorType.YELLOW) {
@@ -155,19 +156,30 @@ public abstract class Enemy extends Creature {
     public void die(AnimationState.AnimationStateListener dieListener) {
         if(isAttacking) {
             if(gameStage.game.tutorialManager.isTutorialMode) {
+                gameStage.game.tutorialManager.enemies.removeValue(this, false);
                 gameStage.game.tutorialManager.isTutorialEnemyOnStage = false;
                 if(TutorialStep.values().length - 1 == gameStage.game.tutorialManager.currentStep.ordinal()) {
                     gameStage.game.tutorialManager.isTutorialMode = false;
                 } else {
                     if(gameStage.game.tutorialManager.currentStep == TutorialStep.FIRST) {
                         gameStage.game.tutorialManager.currentStep = TutorialStep.SECOND;
+                    } else if(TutorialStep.SECOND == gameStage.game.tutorialManager.currentStep) {
+                        if(gameStage.game.tutorialManager.secondStepEnemies >= TutorialManager.SECOND_STEP_ENEMIES_COUNT) {
+                            if(gameStage.game.tutorialManager.enemies.size == 0) {
+                                gameStage.game.tutorialManager.currentStep = TutorialStep.THIRD;
+                            }
+                        }
+                    } else if(TutorialStep.THIRD == gameStage.game.tutorialManager.currentStep) {
+                        if(isTutorialEnemy) {
+                            gameStage.game.tutorialManager.isTutorialMode = false;
+                        }
                     }
                 }
             }
             gameStage.collisionDetector.collisionListeners.removeValue(this, false);
             dispose();
             gameStage.unicorn.removePositionChangeListener(this);
-            if(gameStage.boss == null) {
+            if(gameStage.boss == null && !isTutorialEnemy) {
                 gameStage.deadEnemyCounter++;
             }
             if (Enemy.this.tile != null) {
@@ -232,6 +244,7 @@ public abstract class Enemy extends Creature {
 
             if(isTutorialEnemy && getX() < gameStage.background.getZero().x + gameStage.background.getWidth() - gameStage.grid.tileWidth) {
                 gameStage.game.tutorialManager.pauseGame = true;
+                moveSpeed = GameStage._ENEMY_MOVE_SPEED;
             }
         }
     }

@@ -20,7 +20,7 @@ public abstract class GameActor extends SpineActor {
         this.userData.actor = this;
         this.colorType = colorType;
         this.userData.colorType = this.colorType;
-//        this.debug();
+        this.debug();
     }
 
     @Override

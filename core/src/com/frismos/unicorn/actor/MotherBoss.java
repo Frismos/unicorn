@@ -18,7 +18,7 @@ public class MotherBoss extends Boss {
         super(stage, userData, colorType);
         TIME_STEP = 2.0f;
         FIRE_CHANCE = 80;
-        hitPoints = 75;
+        hitPoints = 50;
     }
 
     @Override

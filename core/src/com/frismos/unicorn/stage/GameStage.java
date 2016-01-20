@@ -152,24 +152,31 @@ public class GameStage extends Stage {
     private Comparator<? super Actor> comparatorByPosition = new Comparator<Actor>() {
         @Override
         public int compare(Actor o1, Actor o2) {
-            if(o1 instanceof Background || o2 instanceof Background ||
-                    o1 instanceof Bullet || o2 instanceof Bullet ||
-                    o1 instanceof Grid || o2 instanceof Grid ||
-                    o1 instanceof ProgressBar || o2 instanceof ProgressBar) {
+            try {
+                if (o1 instanceof Background || o2 instanceof Background ||
+                        o1 instanceof Bullet || o2 instanceof Bullet ||
+                        o1 instanceof Grid || o2 instanceof Grid ||
+                        o1 instanceof ProgressBar || o2 instanceof ProgressBar) {
+                    return 0;
+                }
+                if (o1.getY() < o2.getY()) {
+                    return 1;
+                } else if (o1.getY() > o2.getY()) {
+                    return -1;
+                } else if (o1.getX() < o2.getX()) {
+                    return 1;
+                } else if (o1.getX() > o2.getX()) {
+                    return -1;
+                } else if (o1.getZIndex() > o2.getZIndex()) {
+                    return 1;
+                } else if (o1.getZIndex() < o2.getZIndex()) {
+                    return -1;
+                }
+
                 return 0;
-            }
-            if(o1.getY() < o2.getY()) {
-                return 1;
-            } else if(o1.getY() > o2.getY()) {
-                return -1;
-            } else if(o1.getX() < o2.getX()) {
-                return 1;
-            } else if(o1.getX() > o2.getX()) {
-                return -1;
-            } else if(o1.getZIndex() > o2.getZIndex()){
-                return 1;
-            } else {
-                return -1;
+            } catch (IllegalStateException ex) {
+                Gdx.app.error("", ex.getMessage(), ex);
+                return 0;
             }
         }
     };
@@ -239,7 +246,7 @@ public class GameStage extends Stage {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 //                GameStage.this.game.gameCenterController.showLeaderboardView("");
-                unicorn.callUnicorns();
+//                unicorn.callUnicorns();
                 if(unicorn.unicornType == UnicornType.SINGLE_BULLET_ATTACK) {
                     unicorn.setUnicornType(UnicornType.CANNON_ATTACK);
                 } else if(unicorn.unicornType == UnicornType.CANNON_ATTACK) {
@@ -304,6 +311,7 @@ public class GameStage extends Stage {
         if(colorIndices.size > 0) {
             int colorIndex = colorIndices.get(MathUtils.random(colorIndices.size - 1));
             colorType = ColorType.values()[colorIndex];
+            Debug.Log("color type = " + colorType);
             enemy = new WalkingEnemy(this, WorldUtils.createEnemy(), colorType, isTutorial);
             colorIndices.removeValue(colorIndex, true);
         } else {
@@ -320,9 +328,13 @@ public class GameStage extends Stage {
             }
         }
         enemy.isTutorialEnemy = isTutorial;
+        game.tutorialManager.isTutorialEnemyOnStage = isTutorial;
         addActor(enemy);
         collisionDetector.collisionListeners.add(enemy);
         enemy.setZIndex(background.getZIndex() + 1);
+        if(game.tutorialManager.isTutorialMode) {
+            game.tutorialManager.enemies.add(enemy);
+        }
     }
 
     public void restartGame() {
@@ -465,8 +477,23 @@ public class GameStage extends Stage {
                     stageX > changeUnicornType.getX() + changeUnicornType.getWidth() ||
                     stageY < changeUnicornType.getY() ||
                     stageY > changeUnicornType.getY() + changeUnicornType.getHeight()) {
-                joystickTouched = true;
-                fireIndex = 0;
+                if(!game.tutorialManager.isTutorialMode) {
+                    joystickTouched = true;
+                    fireIndex = 0;
+                } else {
+                    if(!game.tutorialManager.isTutorialEnemyOnStage || game.tutorialManager.pauseGame) {
+                        if(game.tutorialManager.currentStep == TutorialStep.FIRST ||
+                                game.tutorialManager.currentStep == TutorialStep.SECOND) {
+                            joystickTouched = true;
+                            fireIndex = 0;
+                        } else if(game.tutorialManager.currentStep == TutorialStep.THIRD) {
+                            if(unicorn.unicornType == UnicornType.CANNON_ATTACK && unicorn.colorType == game.tutorialManager.thirdStepColor) {
+                                joystickTouched = true;
+                                fireIndex = 0;
+                            }
+                        }
+                    }
+                }
             }
 //            }
             isFingerDown = true;
@@ -787,22 +814,37 @@ public class GameStage extends Stage {
                 } else if (game.tutorialManager.currentStep == TutorialStep.SECOND) {
                     if (!game.tutorialManager.isSecondEnemySend) {
                         colorIndices.add(2);
-                        sendEnemy(true);
+                        colorIndices.add(3);
+                        colorIndices.add(1);
                         game.tutorialManager.isSecondEnemySend = true;
-                        game.tutorialManager.isTutorialEnemyOnStage = true;
-                        Debug.Log("issecond send");
-                    } else if(!game.tutorialManager.pauseGame && !game.tutorialManager.isTutorialEnemyOnStage) {
+                    }
+                    if (colorIndices.size > 0) {
+                        if(!game.tutorialManager.pauseGame && !game.tutorialManager.isTutorialEnemyOnStage) {
+                            sendEnemy(true);
+                        }
+                    } else if(!game.tutorialManager.pauseGame && !game.tutorialManager.isTutorialEnemyOnStage &&
+                            game.tutorialManager.secondStepEnemies < TutorialManager.SECOND_STEP_ENEMIES_COUNT) {
                         if (enemySendCounter >= _ENEMY_SEND_TIME_STEP) {
-                            Debug.Log("paused send " + game.tutorialManager.isTutorialEnemyOnStage);
                             sendEnemy();
                             enemySendCounter = 0;
-                            if(game.tutorialManager.secondStepEnemies++ == TutorialManager.SECOND_STEP_ENEMIES_COUNT) {
-                                game.tutorialManager.currentStep = TutorialStep.THIRD;
-                            }
+                            game.tutorialManager.secondStepEnemies++;
                         }
                     }
                 } else if(game.tutorialManager.currentStep == TutorialStep.THIRD) {
-//// TODO: 1/18/16 third tutorial step goes here
+                    if(!game.tutorialManager.isThirdEnemiesInit) {
+                        for (int i = 0; i < TutorialManager.THIRD_STEP_ENEMIES_COUNT - 1; i++) {
+                            colorIndices.add(1);
+                        }
+                        colorIndices.add(3);
+                        game.tutorialManager.isThirdEnemiesInit = true;
+                    }
+                    if (!game.tutorialManager.isThirdEnemySend && enemySendCounter >= TutorialManager.THIRD_STEP_ENEMIES_SEND_TIME) {
+                        sendEnemy(true);
+                        enemySendCounter = 0;
+                        if(++game.tutorialManager.thirdStepEnemies == TutorialManager.THIRD_STEP_ENEMIES_COUNT) {
+                            game.tutorialManager.isThirdEnemySend = true;
+                        }
+                    }
                 }
             }
             fireTimer += delta;

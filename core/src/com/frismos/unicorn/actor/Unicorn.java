@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.esotericsoftware.spine.AnimationState;
 import com.esotericsoftware.spine.Event;
+import com.frismos.unicorn.enums.TutorialStep;
 import com.frismos.unicorn.userdata.UnicornUserData;
 import com.frismos.unicorn.userdata.UserData;
 import com.frismos.unicorn.enums.ColorType;
@@ -170,6 +171,23 @@ public class Unicorn extends Creature {
 
     public void moveUp(float velocity) {
         if(tile != null) {
+            if(gameStage.game.tutorialManager.isTutorialMode) {
+                if(gameStage.game.tutorialManager.isTutorialEnemyOnStage) {
+                    if (gameStage.game.tutorialManager.currentStep == TutorialStep.FIRST) {
+                        if (colorType == gameStage.game.tutorialManager.firstStepColor) {
+                            return;
+                        }
+                    } else if (gameStage.game.tutorialManager.currentStep == TutorialStep.SECOND) {
+                        if (colorType == gameStage.game.tutorialManager.enemies.get(0).colorType) {
+                            return;
+                        }
+                    } else if (gameStage.game.tutorialManager.currentStep == TutorialStep.THIRD) {
+                        if (colorType == gameStage.game.tutorialManager.thirdStepColor) {
+                            return;
+                        }
+                    }
+                }
+            }
             tile.unicorn = null;
             if (gameStage.grid.isTileInsideGrid(tile.i + 1, tile.j)) {
                 tile = gameStage.grid.grid[tile.i + 1][tile.j];
@@ -185,6 +203,23 @@ public class Unicorn extends Creature {
 
     public void moveDown(float velocity) {
         if(tile != null) {
+            if(gameStage.game.tutorialManager.isTutorialMode) {
+                if(gameStage.game.tutorialManager.isTutorialEnemyOnStage) {
+                    if (gameStage.game.tutorialManager.currentStep == TutorialStep.FIRST) {
+                        if (colorType == gameStage.game.tutorialManager.firstStepColor) {
+                            return;
+                        }
+                    } else if (gameStage.game.tutorialManager.currentStep == TutorialStep.SECOND) {
+                        if (colorType == gameStage.game.tutorialManager.enemies.get(0).colorType) {
+                            return;
+                        }
+                    } else if (gameStage.game.tutorialManager.currentStep == TutorialStep.THIRD) {
+                        if (colorType == gameStage.game.tutorialManager.thirdStepColor) {
+                            return;
+                        }
+                    }
+                }
+            }
             tile.unicorn = null;
             if(gameStage.grid.isTileInsideGrid(tile.i - 1, tile.j)) {
                 tile = gameStage.grid.grid[tile.i - 1][tile.j];

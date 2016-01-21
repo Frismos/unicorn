@@ -38,8 +38,6 @@ public abstract class Enemy extends Creature {
         @Override
         public void event(int trackIndex, Event event) {
             if(isTutorialEnemy) {
-                Debug.Log("die listener 41");
-                Debug.Log("enemy type is " + Enemy.this);
                 gameStage.game.tutorialManager.pauseGame = false;
             }
             if (Enemy.this.tile != null) {

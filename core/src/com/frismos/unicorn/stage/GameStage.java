@@ -244,7 +244,6 @@ public class GameStage extends Stage {
 //                GameStage.this.game.gameCenterController.showLeaderboardView("");
 //                unicorn.callUnicorns();
                 if(game.tutorialManager.isTutorialMode && game.tutorialManager.currentStep == TutorialStep.FOURTH) {
-                    Debug.Log("change unicorn type " + game.tutorialManager.currentStep);
                     game.tutorialManager.currentStep = TutorialStep.FINISH;
                 }
                 if(unicorn.unicornType == UnicornType.SINGLE_BULLET_ATTACK) {
@@ -439,7 +438,6 @@ public class GameStage extends Stage {
             unicorn.moveDown(0);
         } else if(keyCode == Input.Keys.E) {
             if(game.tutorialManager.isTutorialMode && game.tutorialManager.currentStep == TutorialStep.FOURTH) {
-                Debug.Log("change unicorn type " + game.tutorialManager.currentStep);
                 game.tutorialManager.currentStep = TutorialStep.FINISH;
             }
             if(unicorn.unicornType == UnicornType.SINGLE_BULLET_ATTACK) {

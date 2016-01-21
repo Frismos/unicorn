@@ -1,8 +1,11 @@
 package com.frismos.unicorn.actor;
 
+import aurelienribon.tweenengine.Tween;
+import com.TweenAccessor.BoneAccessor;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.esotericsoftware.spine.Bone;
 import com.frismos.unicorn.userdata.UserData;
 import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.enums.UserDataType;
@@ -47,11 +50,14 @@ public class ShootingEnemy extends Enemy {
                     spawnPoint.y = MathUtils.random(gameStage.unicorn.getY(), gameStage.unicorn.getY() + gameStage.unicorn.getHeight());
                 }
                 if (!(this instanceof Boss)) {
+                    Bone gunBone = skeleton.findBone("gun");
                     animationState.setAnimation(1, "attack", false);
-                    float angle = (float) Math.toDegrees(Math.atan2(spawnPoint.x - skeleton.findBone("gun").getWorldX() - getX(), spawnPoint.y - skeleton.findBone("gun").getWorldY() - getY()));
+                    float angle = (float) Math.toDegrees(Math.atan2(spawnPoint.x - gunBone.getWorldX() - getX(), spawnPoint.y - gunBone.getWorldY() - getY()));
                     angle = 90 - angle;
+
                     if (!isSonOfABoss) {
-                        skeleton.findBone("gun").setRotation(angle);
+                        gunBone.setRotation(angle);
+                        Tween.to(gunBone, BoneAccessor.ROTATION, 0.5f).targetRelative(-angle + 180).start(gameStage.game.tweenManager);
                     }
                 }
                 fire = true;

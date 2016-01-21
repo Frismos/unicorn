@@ -1,4 +1,4 @@
-package com.TweenAccessor;
+package com.frismos.TweenAccessor;
 
 import aurelienribon.tweenengine.TweenAccessor;
 import com.esotericsoftware.spine.Bone;

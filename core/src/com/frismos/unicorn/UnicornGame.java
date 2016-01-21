@@ -2,11 +2,11 @@ package com.frismos.unicorn;
 
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenManager;
-import com.TweenAccessor.BoneAccessor;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.esotericsoftware.spine.Bone;
+import com.frismos.TweenAccessor.BoneAccessor;
 import com.frismos.unicorn.manager.*;
 import com.frismos.unicorn.screen.GameScreen;
 import com.frismos.unicorn.util.Strings;

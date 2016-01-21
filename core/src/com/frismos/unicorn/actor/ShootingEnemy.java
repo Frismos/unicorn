@@ -5,6 +5,7 @@ import com.TweenAccessor.BoneAccessor;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.RotateByAction;
 import com.esotericsoftware.spine.Bone;
 import com.frismos.unicorn.userdata.UserData;
 import com.frismos.unicorn.enums.ColorType;
@@ -56,6 +57,8 @@ public class ShootingEnemy extends Enemy {
                     angle = 90 - angle;
 
                     if (!isSonOfABoss) {
+                        RotateByAction rotateByAction = new RotateByAction();
+//                        rotateByAction.
                         gunBone.setRotation(angle);
                         Tween.to(gunBone, BoneAccessor.ROTATION, 0.5f).targetRelative(-angle + 180).start(gameStage.game.tweenManager);
                     }

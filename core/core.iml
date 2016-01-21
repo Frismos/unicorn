@@ -25,7 +25,7 @@
       <excludeFolder url="file://$MODULE_DIR$/.gradle" />
       <excludeFolder url="file://$MODULE_DIR$/build" />
     </content>
-    <orderEntry type="jdk" jdkName="JDK 1.7.0_79-b15 (Java HotSpot(TM) 64-Bit Server VM)" jdkType="JavaSDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="gdx-1.8.0" level="project" />
     <orderEntry type="library" exported="" name="gdx-box2d-1.8.0" level="project" />

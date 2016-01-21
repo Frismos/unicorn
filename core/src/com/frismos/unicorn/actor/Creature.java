@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
+import com.frismos.unicorn.enums.TutorialStep;
 import com.frismos.unicorn.grid.Grid;
 import com.frismos.unicorn.userdata.UserData;
 import com.frismos.unicorn.enums.ColorType;
@@ -72,6 +73,12 @@ public abstract class Creature extends GameActor {
 //                hitLabelIndex = 0;
 //            }
 //        }
+
+        if(gameStage.game.tutorialManager.isTutorialMode && gameStage.game.tutorialManager.currentStep == TutorialStep.FINISH) {
+            Debug.Log("creature hit = " + 78);
+            gameStage.game.tutorialManager.isTutorialMode = false;
+            gameStage.game.tutorialManager.pauseGame = false;
+        }
         gameStage.score++;
         gameStage.scoreLabel.setText(String.format("score: %s", String.valueOf(gameStage.score)));
         hitPoints-= damage;

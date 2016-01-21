@@ -15,7 +15,6 @@ public class Spell extends GameActor {
 
     public Spell(GameStage stage, UserData userData) {
         super(stage, userData, ColorType.getRandomColor());
-        setSize(10 / 4.0f, 15 / 4.0f);
         spellType = SpellType.getRandomValue(gameStage.unicorn.hitPoints == 1);
     }
 

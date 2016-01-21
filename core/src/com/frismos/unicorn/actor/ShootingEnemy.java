@@ -22,7 +22,11 @@ public class ShootingEnemy extends Enemy {
     private Bullet bullet;
 
     public ShootingEnemy(GameStage stage, UserData userData, ColorType colorType) {
-        super(stage, userData, colorType);
+        this(stage, userData, colorType, false);
+    }
+
+    public ShootingEnemy(GameStage stage, UserData userData, ColorType colorType, boolean isTutorial) {
+        super(stage, userData, colorType, isTutorial);
         if(userData.getUserDataType() != UserDataType.BOSS) {
             if (MathUtils.randomBoolean()) {
                 animationState.setAnimation(0, "walk1", true);
@@ -93,14 +97,16 @@ public class ShootingEnemy extends Enemy {
                 bullet.setY(getY() + offsetY);
                 bullet.calculateAngle();
             }
-            accumulator += delta;
-            if (accumulator >= TIME_STEP) {
-                accumulator = 0;
-                if (MathUtils.random(100) <= FIRE_CHANCE) {
-                    attack();
-                }
-                if (FIRE_CHANCE < 50) {
-                    FIRE_CHANCE += 1;
+            if(!gameStage.game.tutorialManager.isTutorialMode || !gameStage.game.tutorialManager.pauseGame) {
+                accumulator += delta;
+                if (accumulator >= TIME_STEP) {
+                    accumulator = 0;
+                    if (MathUtils.random(100) <= FIRE_CHANCE) {
+                        attack();
+                    }
+                    if (FIRE_CHANCE < 50) {
+                        FIRE_CHANCE += 1;
+                    }
                 }
             }
         }

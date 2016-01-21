@@ -15,10 +15,18 @@ import com.frismos.unicorn.util.WorldUtils;
  */
 public class MotherBoss extends Boss {
     public MotherBoss(GameStage stage, BossUserData userData, ColorType colorType) {
-        super(stage, userData, colorType);
+        this(stage, userData, colorType, false);
+    }
+
+    public MotherBoss(GameStage gameStage, BossUserData boss, ColorType colorType, boolean isTutorial) {
+        super(gameStage, boss, colorType, isTutorial);
         TIME_STEP = 2.0f;
         FIRE_CHANCE = 80;
-        hitPoints = 50;
+        if(isTutorial) {
+            hitPoints = 25;
+        } else {
+            hitPoints = 50;
+        }
     }
 
     @Override

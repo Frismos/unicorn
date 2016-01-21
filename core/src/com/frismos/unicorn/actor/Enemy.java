@@ -11,6 +11,7 @@ import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.enums.UserDataType;
 import com.frismos.unicorn.grid.Tile;
 import com.frismos.unicorn.stage.GameStage;
+import com.frismos.unicorn.util.Debug;
 import com.frismos.unicorn.util.Utils;
 
 /**
@@ -36,7 +37,11 @@ public abstract class Enemy extends Creature {
 
         @Override
         public void event(int trackIndex, Event event) {
-            gameStage.game.tutorialManager.pauseGame = false;
+            if(isTutorialEnemy) {
+                Debug.Log("die listener 41");
+                Debug.Log("enemy type is " + Enemy.this);
+                gameStage.game.tutorialManager.pauseGame = false;
+            }
             if (Enemy.this.tile != null) {
                 if(Enemy.this.tile.j != 0){
                     tile.color(colorType);
@@ -157,7 +162,9 @@ public abstract class Enemy extends Creature {
         if(isAttacking) {
             if(gameStage.game.tutorialManager.isTutorialMode) {
                 gameStage.game.tutorialManager.enemies.removeValue(this, false);
-                gameStage.game.tutorialManager.isTutorialEnemyOnStage = false;
+                if(this.isTutorialEnemy) {
+                    gameStage.game.tutorialManager.isTutorialEnemyOnStage = false;
+                }
                 if(TutorialStep.values().length - 1 == gameStage.game.tutorialManager.currentStep.ordinal()) {
                     gameStage.game.tutorialManager.isTutorialMode = false;
                 } else {
@@ -172,6 +179,7 @@ public abstract class Enemy extends Creature {
                     } else if(TutorialStep.THIRD == gameStage.game.tutorialManager.currentStep) {
                         if(isTutorialEnemy) {
                             gameStage.game.tutorialManager.isTutorialMode = false;
+                            gameStage.game.tutorialManager.currentStep = TutorialStep.FOURTH;
                         }
                     }
                 }
@@ -218,29 +226,29 @@ public abstract class Enemy extends Creature {
                 moveBy(-directionX * moveSpeed * delta, -directionY * moveSpeed * delta);  //  23
             }
 
-            if(this.getX() < 7) {
-                die(new AnimationState.AnimationStateListener() {
-                    @Override
-                    public void event(int trackIndex, Event event) {
-
-                    }
-
-                    @Override
-                    public void complete(int trackIndex, int loopCount) {
-                        gameStage.restartGame();
-                    }
-
-                    @Override
-                    public void start(int trackIndex) {
-
-                    }
-
-                    @Override
-                    public void end(int trackIndex) {
-
-                    }
-                });
-            }
+//            if(this.getX() < 7) {
+//                die(new AnimationState.AnimationStateListener() {
+//                    @Override
+//                    public void event(int trackIndex, Event event) {
+//
+//                    }
+//
+//                    @Override
+//                    public void complete(int trackIndex, int loopCount) {
+//                        gameStage.restartGame();
+//                    }
+//
+//                    @Override
+//                    public void start(int trackIndex) {
+//
+//                    }
+//
+//                    @Override
+//                    public void end(int trackIndex) {
+//
+//                    }
+//                });
+//            }
 
             if(isTutorialEnemy && getX() < gameStage.background.getZero().x + gameStage.background.getWidth() - gameStage.grid.tileWidth) {
                 gameStage.game.tutorialManager.pauseGame = true;

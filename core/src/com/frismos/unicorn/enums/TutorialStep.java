@@ -7,5 +7,6 @@ public enum TutorialStep {
     FIRST,
     SECOND,
     THIRD,
-    FOURTH
+    FOURTH,
+    FINISH,
 }

@@ -37,7 +37,7 @@
       <GradleProjectSettings>
         <option name="distributionType" value="LOCAL" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleHome" value="/Applications/Android Studio.app/Contents/gradle/gradle-2.4" />
+        <option name="gradleHome" value="/Applications/Android Studio.app/Contents/gradle/gradle-2.8" />
         <option name="gradleJvm" value="JDK 1.7.0_79-b15 (Java HotSpot(TM) 64-Bit Server VM)" />
         <option name="modules">
           <set>
@@ -231,6 +231,7 @@
   </component>
   <component name="ProjectDictionaryState">
     <dictionary name="edgar" />
+    <dictionary name="edgaravanyan" />
   </component>
   <component name="ProjectModuleManager">
     <modules>
@@ -241,7 +242,7 @@
       <module fileurl="file://$PROJECT_DIR$/unicorn.iml" filepath="$PROJECT_DIR$/unicorn.iml" />
     </modules>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" assert-keyword="true" jdk-15="true" project-jdk-name="JDK 1.7.0_79-b15 (Java HotSpot(TM) 64-Bit Server VM)" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" default="false" assert-keyword="true" jdk-15="true" project-jdk-name="JDK 1.7.0_79-b15 (Java HotSpot(TM) 64-Bit Server VM)" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
   <component name="ProjectRunConfigurationManager">
@@ -254,6 +255,71 @@
       <option name="provisioningProfile" value="Auto" />
       <option name="simArch" value="x86_64" />
       <option name="simulatorName" value="com.apple.CoreSimulator.SimDeviceType.iPhone-6s" />
+      <option name="arguments" value="" />
+      <option name="workingDir" value="" />
+      <method />
+    </configuration>
+    <configuration default="false" name="iPad-2" type="com.robovm.idea.running.RoboVmIOSConfigurationType" factoryName="RoboVM iOS">
+      <module name="ios" />
+      <option name="moduleName" value="ios" />
+      <option name="targetType" value="Simulator" />
+      <option name="deviceArch" value="" />
+      <option name="signingIdentity" value="" />
+      <option name="provisioningProfile" value="" />
+      <option name="simArch" value="x86" />
+      <option name="simulatorName" value="com.apple.CoreSimulator.SimDeviceType.iPad-2" />
+      <option name="arguments" value="" />
+      <option name="workingDir" value="" />
+      <method />
+    </configuration>
+    <configuration default="false" name="iPad-Air" type="com.robovm.idea.running.RoboVmIOSConfigurationType" factoryName="RoboVM iOS">
+      <module name="ios" />
+      <option name="moduleName" value="ios" />
+      <option name="targetType" value="Simulator" />
+      <option name="deviceArch" value="" />
+      <option name="signingIdentity" value="" />
+      <option name="provisioningProfile" value="" />
+      <option name="simArch" value="x86_64" />
+      <option name="simulatorName" value="com.apple.CoreSimulator.SimDeviceType.iPad-Air" />
+      <option name="arguments" value="" />
+      <option name="workingDir" value="" />
+      <method />
+    </configuration>
+    <configuration default="false" name="iPad-Air-2" type="com.robovm.idea.running.RoboVmIOSConfigurationType" factoryName="RoboVM iOS">
+      <module name="ios" />
+      <option name="moduleName" value="ios" />
+      <option name="targetType" value="Simulator" />
+      <option name="deviceArch" value="" />
+      <option name="signingIdentity" value="" />
+      <option name="provisioningProfile" value="" />
+      <option name="simArch" value="x86_64" />
+      <option name="simulatorName" value="com.apple.CoreSimulator.SimDeviceType.iPad-Air-2" />
+      <option name="arguments" value="" />
+      <option name="workingDir" value="" />
+      <method />
+    </configuration>
+    <configuration default="false" name="iPad-Pro" type="com.robovm.idea.running.RoboVmIOSConfigurationType" factoryName="RoboVM iOS">
+      <module name="ios" />
+      <option name="moduleName" value="ios" />
+      <option name="targetType" value="Simulator" />
+      <option name="deviceArch" value="" />
+      <option name="signingIdentity" value="" />
+      <option name="provisioningProfile" value="" />
+      <option name="simArch" value="x86_64" />
+      <option name="simulatorName" value="com.apple.CoreSimulator.SimDeviceType.iPad-Pro" />
+      <option name="arguments" value="" />
+      <option name="workingDir" value="" />
+      <method />
+    </configuration>
+    <configuration default="false" name="iPad-Retina" type="com.robovm.idea.running.RoboVmIOSConfigurationType" factoryName="RoboVM iOS">
+      <module name="ios" />
+      <option name="moduleName" value="ios" />
+      <option name="targetType" value="Simulator" />
+      <option name="deviceArch" value="" />
+      <option name="signingIdentity" value="" />
+      <option name="provisioningProfile" value="" />
+      <option name="simArch" value="x86" />
+      <option name="simulatorName" value="com.apple.CoreSimulator.SimDeviceType.iPad-Retina" />
       <option name="arguments" value="" />
       <option name="workingDir" value="" />
       <method />
@@ -345,71 +411,6 @@
       <option name="provisioningProfile" value="" />
       <option name="simArch" value="x86_64" />
       <option name="simulatorName" value="com.apple.CoreSimulator.SimDeviceType.iPhone-6s-Plus" />
-      <option name="arguments" value="" />
-      <option name="workingDir" value="" />
-      <method />
-    </configuration>
-    <configuration default="false" name="iPad-2" type="com.robovm.idea.running.RoboVmIOSConfigurationType" factoryName="RoboVM iOS">
-      <module name="ios" />
-      <option name="moduleName" value="ios" />
-      <option name="targetType" value="Simulator" />
-      <option name="deviceArch" value="" />
-      <option name="signingIdentity" value="" />
-      <option name="provisioningProfile" value="" />
-      <option name="simArch" value="x86" />
-      <option name="simulatorName" value="com.apple.CoreSimulator.SimDeviceType.iPad-2" />
-      <option name="arguments" value="" />
-      <option name="workingDir" value="" />
-      <method />
-    </configuration>
-    <configuration default="false" name="iPad-Air" type="com.robovm.idea.running.RoboVmIOSConfigurationType" factoryName="RoboVM iOS">
-      <module name="ios" />
-      <option name="moduleName" value="ios" />
-      <option name="targetType" value="Simulator" />
-      <option name="deviceArch" value="" />
-      <option name="signingIdentity" value="" />
-      <option name="provisioningProfile" value="" />
-      <option name="simArch" value="x86_64" />
-      <option name="simulatorName" value="com.apple.CoreSimulator.SimDeviceType.iPad-Air" />
-      <option name="arguments" value="" />
-      <option name="workingDir" value="" />
-      <method />
-    </configuration>
-    <configuration default="false" name="iPad-Air-2" type="com.robovm.idea.running.RoboVmIOSConfigurationType" factoryName="RoboVM iOS">
-      <module name="ios" />
-      <option name="moduleName" value="ios" />
-      <option name="targetType" value="Simulator" />
-      <option name="deviceArch" value="" />
-      <option name="signingIdentity" value="" />
-      <option name="provisioningProfile" value="" />
-      <option name="simArch" value="x86_64" />
-      <option name="simulatorName" value="com.apple.CoreSimulator.SimDeviceType.iPad-Air-2" />
-      <option name="arguments" value="" />
-      <option name="workingDir" value="" />
-      <method />
-    </configuration>
-    <configuration default="false" name="iPad-Pro" type="com.robovm.idea.running.RoboVmIOSConfigurationType" factoryName="RoboVM iOS">
-      <module name="ios" />
-      <option name="moduleName" value="ios" />
-      <option name="targetType" value="Simulator" />
-      <option name="deviceArch" value="" />
-      <option name="signingIdentity" value="" />
-      <option name="provisioningProfile" value="" />
-      <option name="simArch" value="x86_64" />
-      <option name="simulatorName" value="com.apple.CoreSimulator.SimDeviceType.iPad-Pro" />
-      <option name="arguments" value="" />
-      <option name="workingDir" value="" />
-      <method />
-    </configuration>
-    <configuration default="false" name="iPad-Retina" type="com.robovm.idea.running.RoboVmIOSConfigurationType" factoryName="RoboVM iOS">
-      <module name="ios" />
-      <option name="moduleName" value="ios" />
-      <option name="targetType" value="Simulator" />
-      <option name="deviceArch" value="" />
-      <option name="signingIdentity" value="" />
-      <option name="provisioningProfile" value="" />
-      <option name="simArch" value="x86" />
-      <option name="simulatorName" value="com.apple.CoreSimulator.SimDeviceType.iPad-Retina" />
       <option name="arguments" value="" />
       <option name="workingDir" value="" />
       <method />
@@ -548,11 +549,6 @@
       <JAVADOC />
       <SOURCES />
     </library>
-    <library name="ios.ios-1.0">
-      <CLASSES />
-      <JAVADOC />
-      <SOURCES />
-    </library>
     <library name="jinput-2.0.5">
       <CLASSES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.java.jinput/jinput/2.0.5/39c7796b469a600f72380316f6b1f11db6c2c7c4/jinput-2.0.5.jar!/" />
@@ -674,6 +670,24 @@
       <JAVADOC />
       <SOURCES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.robovm/robovm-rt/1.9.0/bb289b79c773a868a43ebab2923787a3827b94dc/robovm-rt-1.9.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="tweenengine-6.3.3">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/aurelienribon/tweenengine/6.3.3/tweenengine-6.3.3.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/aurelienribon/tweenengine/6.3.3/tweenengine-6.3.3-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="tweenengine-6.3.3-sources">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/aurelienribon/tweenengine/6.3.3/tweenengine-6.3.3-sources.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/aurelienribon/tweenengine/6.3.3/tweenengine-6.3.3-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="vis-ui-0.9.5">

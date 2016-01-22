@@ -1,10 +1,8 @@
 package com.frismos.unicorn.actor;
 
 import aurelienribon.tweenengine.Tween;
-import com.TweenAccessor.BoneAccessor;
+import com.frismos.TweenAccessor.BoneAccessor;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RotateByAction;
 import com.esotericsoftware.spine.Bone;
 import com.frismos.unicorn.userdata.UserData;

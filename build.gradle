@@ -23,6 +23,7 @@ allprojects {
         aiVersion = '1.6.0'
         visuiVersion = '0.9.5'
         tweenVersion = '6.3.3'
+        roboPodsVersion = '1.12.0'
     }
 
     repositories {
@@ -64,6 +65,7 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi"
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi-v7a"
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86"
+        compile fileTree(dir: 'libs', include: '*.jar')
     }
 }
 
@@ -81,6 +83,7 @@ project(":ios") {
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-ios"
         compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-ios"
         compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-ios"
+        compile "org.robovm:robopods-flurry-ios:$roboPodsVersion"
     }
 }
 

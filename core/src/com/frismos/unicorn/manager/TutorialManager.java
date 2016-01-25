@@ -40,7 +40,7 @@ public class TutorialManager {
 
     public TutorialManager(UnicornGame game) {
         this.game = game;
-        isTutorialMode = !game.dataManager.isTutorialPassed();
+        isTutorialMode = false;//s!game.dataManager.isTutorialPassed();
         if(isTutorialMode) {
             currentStep = TutorialStep.FIRST;
             enemies = new Array<Enemy>();

@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <option name="DEFAULT_COMPILER" value="Javac" />
     <excludeFromCompile>
       <file url="file://$PROJECT_DIR$" />
     </excludeFromCompile>
-    <resourceExtensions>
-      <entry name=".+\.(properties|xml|html|dtd|tld)" />
-      <entry name=".+\.(gif|png|jpeg|jpg)" />
-    </resourceExtensions>
-    <wildcardResourcePatterns>
-      <entry name="!?*.java" />
-      <entry name="!?*.groovy" />
-    </wildcardResourcePatterns>
+    <resourceExtensions />
+    <wildcardResourcePatterns />
     <annotationProcessing>
       <profile default="true" name="Default" enabled="false">
         <processorPath useClasspath="true" />
@@ -23,14 +16,11 @@
   <component name="DependencyValidationManager">
     <option name="SKIP_IMPORT_STATEMENTS" value="false" />
   </component>
-  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
+  <component name="Encoding">
     <file url="PROJECT" charset="UTF-8" />
   </component>
   <component name="EntryPointsManager">
     <entry_points version="2.0" />
-  </component>
-  <component name="ExcludeFromValidation">
-    <file url="file://$PROJECT_DIR$" />
   </component>
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
@@ -60,30 +50,6 @@
       </GradleProjectSettings>
     </option>
   </component>
-  <component name="GradleUISettings">
-    <setting name="root" />
-  </component>
-  <component name="GradleUISettings2">
-    <setting name="root" />
-  </component>
-  <component name="IdProvider" IDEtalkID="11DA1DB66DD62DDA1ED602B7079FE97C" />
-  <component name="JavadocGenerationManager">
-    <option name="OUTPUT_DIRECTORY" />
-    <option name="OPTION_SCOPE" value="protected" />
-    <option name="OPTION_HIERARCHY" value="true" />
-    <option name="OPTION_NAVIGATOR" value="true" />
-    <option name="OPTION_INDEX" value="true" />
-    <option name="OPTION_SEPARATE_INDEX" value="true" />
-    <option name="OPTION_DOCUMENT_TAG_USE" value="false" />
-    <option name="OPTION_DOCUMENT_TAG_AUTHOR" value="false" />
-    <option name="OPTION_DOCUMENT_TAG_VERSION" value="false" />
-    <option name="OPTION_DOCUMENT_TAG_DEPRECATED" value="true" />
-    <option name="OPTION_DEPRECATED_LIST" value="true" />
-    <option name="OTHER_OPTIONS" value="" />
-    <option name="HEAP_SIZE" />
-    <option name="LOCALE" />
-    <option name="OPEN_IN_BROWSER" value="true" />
-  </component>
   <component name="NullableNotNullManager">
     <option name="myDefaultNullable" value="android.support.annotation.Nullable" />
     <option name="myDefaultNotNull" value="android.support.annotation.NonNull" />
@@ -108,131 +74,6 @@
       </value>
     </option>
   </component>
-  <component name="Palette2">
-    <group name="Swing">
-      <item class="com.intellij.uiDesigner.HSpacer" tooltip-text="Horizontal Spacer" icon="/com/intellij/uiDesigner/icons/hspacer.png" removable="false" auto-create-binding="false" can-attach-label="false">
-        <default-constraints vsize-policy="1" hsize-policy="6" anchor="0" fill="1" />
-      </item>
-      <item class="com.intellij.uiDesigner.VSpacer" tooltip-text="Vertical Spacer" icon="/com/intellij/uiDesigner/icons/vspacer.png" removable="false" auto-create-binding="false" can-attach-label="false">
-        <default-constraints vsize-policy="6" hsize-policy="1" anchor="0" fill="2" />
-      </item>
-      <item class="javax.swing.JPanel" icon="/com/intellij/uiDesigner/icons/panel.png" removable="false" auto-create-binding="false" can-attach-label="false">
-        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3" />
-      </item>
-      <item class="javax.swing.JScrollPane" icon="/com/intellij/uiDesigner/icons/scrollPane.png" removable="false" auto-create-binding="false" can-attach-label="true">
-        <default-constraints vsize-policy="7" hsize-policy="7" anchor="0" fill="3" />
-      </item>
-      <item class="javax.swing.JButton" icon="/com/intellij/uiDesigner/icons/button.png" removable="false" auto-create-binding="true" can-attach-label="false">
-        <default-constraints vsize-policy="0" hsize-policy="3" anchor="0" fill="1" />
-        <initial-values>
-          <property name="text" value="Button" />
-        </initial-values>
-      </item>
-      <item class="javax.swing.JRadioButton" icon="/com/intellij/uiDesigner/icons/radioButton.png" removable="false" auto-create-binding="true" can-attach-label="false">
-        <default-constraints vsize-policy="0" hsize-policy="3" anchor="8" fill="0" />
-        <initial-values>
-          <property name="text" value="RadioButton" />
-        </initial-values>
-      </item>
-      <item class="javax.swing.JCheckBox" icon="/com/intellij/uiDesigner/icons/checkBox.png" removable="false" auto-create-binding="true" can-attach-label="false">
-        <default-constraints vsize-policy="0" hsize-policy="3" anchor="8" fill="0" />
-        <initial-values>
-          <property name="text" value="CheckBox" />
-        </initial-values>
-      </item>
-      <item class="javax.swing.JLabel" icon="/com/intellij/uiDesigner/icons/label.png" removable="false" auto-create-binding="false" can-attach-label="false">
-        <default-constraints vsize-policy="0" hsize-policy="0" anchor="8" fill="0" />
-        <initial-values>
-          <property name="text" value="Label" />
-        </initial-values>
-      </item>
-      <item class="javax.swing.JTextField" icon="/com/intellij/uiDesigner/icons/textField.png" removable="false" auto-create-binding="true" can-attach-label="true">
-        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
-          <preferred-size width="150" height="-1" />
-        </default-constraints>
-      </item>
-      <item class="javax.swing.JPasswordField" icon="/com/intellij/uiDesigner/icons/passwordField.png" removable="false" auto-create-binding="true" can-attach-label="true">
-        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
-          <preferred-size width="150" height="-1" />
-        </default-constraints>
-      </item>
-      <item class="javax.swing.JFormattedTextField" icon="/com/intellij/uiDesigner/icons/formattedTextField.png" removable="false" auto-create-binding="true" can-attach-label="true">
-        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
-          <preferred-size width="150" height="-1" />
-        </default-constraints>
-      </item>
-      <item class="javax.swing.JTextArea" icon="/com/intellij/uiDesigner/icons/textArea.png" removable="false" auto-create-binding="true" can-attach-label="true">
-        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
-          <preferred-size width="150" height="50" />
-        </default-constraints>
-      </item>
-      <item class="javax.swing.JTextPane" icon="/com/intellij/uiDesigner/icons/textPane.png" removable="false" auto-create-binding="true" can-attach-label="true">
-        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
-          <preferred-size width="150" height="50" />
-        </default-constraints>
-      </item>
-      <item class="javax.swing.JEditorPane" icon="/com/intellij/uiDesigner/icons/editorPane.png" removable="false" auto-create-binding="true" can-attach-label="true">
-        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
-          <preferred-size width="150" height="50" />
-        </default-constraints>
-      </item>
-      <item class="javax.swing.JComboBox" icon="/com/intellij/uiDesigner/icons/comboBox.png" removable="false" auto-create-binding="true" can-attach-label="true">
-        <default-constraints vsize-policy="0" hsize-policy="2" anchor="8" fill="1" />
-      </item>
-      <item class="javax.swing.JTable" icon="/com/intellij/uiDesigner/icons/table.png" removable="false" auto-create-binding="true" can-attach-label="false">
-        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
-          <preferred-size width="150" height="50" />
-        </default-constraints>
-      </item>
-      <item class="javax.swing.JList" icon="/com/intellij/uiDesigner/icons/list.png" removable="false" auto-create-binding="true" can-attach-label="false">
-        <default-constraints vsize-policy="6" hsize-policy="2" anchor="0" fill="3">
-          <preferred-size width="150" height="50" />
-        </default-constraints>
-      </item>
-      <item class="javax.swing.JTree" icon="/com/intellij/uiDesigner/icons/tree.png" removable="false" auto-create-binding="true" can-attach-label="false">
-        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
-          <preferred-size width="150" height="50" />
-        </default-constraints>
-      </item>
-      <item class="javax.swing.JTabbedPane" icon="/com/intellij/uiDesigner/icons/tabbedPane.png" removable="false" auto-create-binding="true" can-attach-label="false">
-        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3">
-          <preferred-size width="200" height="200" />
-        </default-constraints>
-      </item>
-      <item class="javax.swing.JSplitPane" icon="/com/intellij/uiDesigner/icons/splitPane.png" removable="false" auto-create-binding="false" can-attach-label="false">
-        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3">
-          <preferred-size width="200" height="200" />
-        </default-constraints>
-      </item>
-      <item class="javax.swing.JSpinner" icon="/com/intellij/uiDesigner/icons/spinner.png" removable="false" auto-create-binding="true" can-attach-label="true">
-        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1" />
-      </item>
-      <item class="javax.swing.JSlider" icon="/com/intellij/uiDesigner/icons/slider.png" removable="false" auto-create-binding="true" can-attach-label="false">
-        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1" />
-      </item>
-      <item class="javax.swing.JSeparator" icon="/com/intellij/uiDesigner/icons/separator.png" removable="false" auto-create-binding="false" can-attach-label="false">
-        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3" />
-      </item>
-      <item class="javax.swing.JProgressBar" icon="/com/intellij/uiDesigner/icons/progressbar.png" removable="false" auto-create-binding="true" can-attach-label="false">
-        <default-constraints vsize-policy="0" hsize-policy="6" anchor="0" fill="1" />
-      </item>
-      <item class="javax.swing.JToolBar" icon="/com/intellij/uiDesigner/icons/toolbar.png" removable="false" auto-create-binding="false" can-attach-label="false">
-        <default-constraints vsize-policy="0" hsize-policy="6" anchor="0" fill="1">
-          <preferred-size width="-1" height="20" />
-        </default-constraints>
-      </item>
-      <item class="javax.swing.JToolBar$Separator" icon="/com/intellij/uiDesigner/icons/toolbarSeparator.png" removable="false" auto-create-binding="false" can-attach-label="false">
-        <default-constraints vsize-policy="0" hsize-policy="0" anchor="0" fill="1" />
-      </item>
-      <item class="javax.swing.JScrollBar" icon="/com/intellij/uiDesigner/icons/scrollbar.png" removable="false" auto-create-binding="true" can-attach-label="false">
-        <default-constraints vsize-policy="6" hsize-policy="0" anchor="0" fill="2" />
-      </item>
-    </group>
-  </component>
-  <component name="ProjectDictionaryState">
-    <dictionary name="edgar" />
-    <dictionary name="edgaravanyan" />
-  </component>
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/android/android.iml" filepath="$PROJECT_DIR$/android/android.iml" />
@@ -242,7 +83,7 @@
       <module fileurl="file://$PROJECT_DIR$/unicorn.iml" filepath="$PROJECT_DIR$/unicorn.iml" />
     </modules>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" default="false" assert-keyword="true" jdk-15="true" project-jdk-name="JDK 1.7.0_79-b15 (Java HotSpot(TM) 64-Bit Server VM)" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" assert-keyword="true" jdk-15="true" project-jdk-name="JDK 1.7.0_79-b15 (Java HotSpot(TM) 64-Bit Server VM)" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
   <component name="ProjectRunConfigurationManager">
@@ -253,202 +94,27 @@
       <option name="deviceArch" value="thumbv7" />
       <option name="signingIdentity" value="Auto (matches 'iPhone Developer|iOS Development')" />
       <option name="provisioningProfile" value="Auto" />
-      <option name="simArch" value="x86_64" />
-      <option name="simulatorName" value="com.apple.CoreSimulator.SimDeviceType.iPhone-6s" />
+      <option name="simArch" value="" />
+      <option name="simulatorName" value="" />
       <option name="arguments" value="" />
       <option name="workingDir" value="" />
       <method />
     </configuration>
-    <configuration default="false" name="iPad-2" type="com.robovm.idea.running.RoboVmIOSConfigurationType" factoryName="RoboVM iOS">
-      <module name="ios" />
-      <option name="moduleName" value="ios" />
-      <option name="targetType" value="Simulator" />
-      <option name="deviceArch" value="" />
-      <option name="signingIdentity" value="" />
-      <option name="provisioningProfile" value="" />
-      <option name="simArch" value="x86" />
-      <option name="simulatorName" value="com.apple.CoreSimulator.SimDeviceType.iPad-2" />
-      <option name="arguments" value="" />
-      <option name="workingDir" value="" />
-      <method />
-    </configuration>
-    <configuration default="false" name="iPad-Air" type="com.robovm.idea.running.RoboVmIOSConfigurationType" factoryName="RoboVM iOS">
-      <module name="ios" />
-      <option name="moduleName" value="ios" />
-      <option name="targetType" value="Simulator" />
-      <option name="deviceArch" value="" />
-      <option name="signingIdentity" value="" />
-      <option name="provisioningProfile" value="" />
-      <option name="simArch" value="x86_64" />
-      <option name="simulatorName" value="com.apple.CoreSimulator.SimDeviceType.iPad-Air" />
-      <option name="arguments" value="" />
-      <option name="workingDir" value="" />
-      <method />
-    </configuration>
-    <configuration default="false" name="iPad-Air-2" type="com.robovm.idea.running.RoboVmIOSConfigurationType" factoryName="RoboVM iOS">
-      <module name="ios" />
-      <option name="moduleName" value="ios" />
-      <option name="targetType" value="Simulator" />
-      <option name="deviceArch" value="" />
-      <option name="signingIdentity" value="" />
-      <option name="provisioningProfile" value="" />
-      <option name="simArch" value="x86_64" />
-      <option name="simulatorName" value="com.apple.CoreSimulator.SimDeviceType.iPad-Air-2" />
-      <option name="arguments" value="" />
-      <option name="workingDir" value="" />
-      <method />
-    </configuration>
-    <configuration default="false" name="iPad-Pro" type="com.robovm.idea.running.RoboVmIOSConfigurationType" factoryName="RoboVM iOS">
-      <module name="ios" />
-      <option name="moduleName" value="ios" />
-      <option name="targetType" value="Simulator" />
-      <option name="deviceArch" value="" />
-      <option name="signingIdentity" value="" />
-      <option name="provisioningProfile" value="" />
-      <option name="simArch" value="x86_64" />
-      <option name="simulatorName" value="com.apple.CoreSimulator.SimDeviceType.iPad-Pro" />
-      <option name="arguments" value="" />
-      <option name="workingDir" value="" />
-      <method />
-    </configuration>
-    <configuration default="false" name="iPad-Retina" type="com.robovm.idea.running.RoboVmIOSConfigurationType" factoryName="RoboVM iOS">
-      <module name="ios" />
-      <option name="moduleName" value="ios" />
-      <option name="targetType" value="Simulator" />
-      <option name="deviceArch" value="" />
-      <option name="signingIdentity" value="" />
-      <option name="provisioningProfile" value="" />
-      <option name="simArch" value="x86" />
-      <option name="simulatorName" value="com.apple.CoreSimulator.SimDeviceType.iPad-Retina" />
-      <option name="arguments" value="" />
-      <option name="workingDir" value="" />
-      <method />
-    </configuration>
-    <configuration default="false" name="iPhone-4s" type="com.robovm.idea.running.RoboVmIOSConfigurationType" factoryName="RoboVM iOS">
-      <module name="ios" />
-      <option name="moduleName" value="ios" />
-      <option name="targetType" value="Simulator" />
-      <option name="deviceArch" value="" />
-      <option name="signingIdentity" value="" />
-      <option name="provisioningProfile" value="" />
-      <option name="simArch" value="x86" />
-      <option name="simulatorName" value="com.apple.CoreSimulator.SimDeviceType.iPhone-4s" />
-      <option name="arguments" value="" />
-      <option name="workingDir" value="" />
-      <method />
-    </configuration>
-    <configuration default="false" name="iPhone-5" type="com.robovm.idea.running.RoboVmIOSConfigurationType" factoryName="RoboVM iOS">
-      <module name="ios" />
-      <option name="moduleName" value="ios" />
-      <option name="targetType" value="Simulator" />
-      <option name="deviceArch" value="" />
-      <option name="signingIdentity" value="" />
-      <option name="provisioningProfile" value="" />
-      <option name="simArch" value="x86" />
-      <option name="simulatorName" value="com.apple.CoreSimulator.SimDeviceType.iPhone-5" />
-      <option name="arguments" value="" />
-      <option name="workingDir" value="" />
-      <method />
-    </configuration>
-    <configuration default="false" name="iPhone-5s" type="com.robovm.idea.running.RoboVmIOSConfigurationType" factoryName="RoboVM iOS">
-      <module name="ios" />
-      <option name="moduleName" value="ios" />
-      <option name="targetType" value="Simulator" />
-      <option name="deviceArch" value="" />
-      <option name="signingIdentity" value="" />
-      <option name="provisioningProfile" value="" />
-      <option name="simArch" value="x86_64" />
-      <option name="simulatorName" value="com.apple.CoreSimulator.SimDeviceType.iPhone-5s" />
-      <option name="arguments" value="" />
-      <option name="workingDir" value="" />
-      <method />
-    </configuration>
-    <configuration default="false" name="iPhone-6" type="com.robovm.idea.running.RoboVmIOSConfigurationType" factoryName="RoboVM iOS">
-      <module name="ios" />
-      <option name="moduleName" value="ios" />
-      <option name="targetType" value="Simulator" />
-      <option name="deviceArch" value="" />
-      <option name="signingIdentity" value="" />
-      <option name="provisioningProfile" value="" />
-      <option name="simArch" value="x86_64" />
-      <option name="simulatorName" value="com.apple.CoreSimulator.SimDeviceType.iPhone-6" />
-      <option name="arguments" value="" />
-      <option name="workingDir" value="" />
-      <method />
-    </configuration>
-    <configuration default="false" name="iPhone-6-Plus" type="com.robovm.idea.running.RoboVmIOSConfigurationType" factoryName="RoboVM iOS">
-      <module name="ios" />
-      <option name="moduleName" value="ios" />
-      <option name="targetType" value="Simulator" />
-      <option name="deviceArch" value="" />
-      <option name="signingIdentity" value="" />
-      <option name="provisioningProfile" value="" />
-      <option name="simArch" value="x86_64" />
-      <option name="simulatorName" value="com.apple.CoreSimulator.SimDeviceType.iPhone-6-Plus" />
-      <option name="arguments" value="" />
-      <option name="workingDir" value="" />
-      <method />
-    </configuration>
-    <configuration default="false" name="iPhone-6s" type="com.robovm.idea.running.RoboVmIOSConfigurationType" factoryName="RoboVM iOS">
-      <module name="ios" />
-      <option name="moduleName" value="ios" />
-      <option name="targetType" value="Simulator" />
-      <option name="deviceArch" value="" />
-      <option name="signingIdentity" value="" />
-      <option name="provisioningProfile" value="" />
-      <option name="simArch" value="x86_64" />
-      <option name="simulatorName" value="com.apple.CoreSimulator.SimDeviceType.iPhone-6s" />
-      <option name="arguments" value="" />
-      <option name="workingDir" value="" />
-      <method />
-    </configuration>
-    <configuration default="false" name="iPhone-6s-Plus" type="com.robovm.idea.running.RoboVmIOSConfigurationType" factoryName="RoboVM iOS">
-      <module name="ios" />
-      <option name="moduleName" value="ios" />
-      <option name="targetType" value="Simulator" />
-      <option name="deviceArch" value="" />
-      <option name="signingIdentity" value="" />
-      <option name="provisioningProfile" value="" />
-      <option name="simArch" value="x86_64" />
-      <option name="simulatorName" value="com.apple.CoreSimulator.SimDeviceType.iPhone-6s-Plus" />
-      <option name="arguments" value="" />
-      <option name="workingDir" value="" />
-      <method />
-    </configuration>
-  </component>
-  <component name="RunConfigurationProducerService">
-    <option name="ignoredProducers">
-      <set>
-        <option value="org.jetbrains.plugins.gradle.execution.test.runner.AllInPackageGradleConfigurationProducer" />
-        <option value="org.jetbrains.plugins.gradle.execution.test.runner.TestClassGradleConfigurationProducer" />
-        <option value="org.jetbrains.plugins.gradle.execution.test.runner.TestMethodGradleConfigurationProducer" />
-      </set>
-    </option>
-  </component>
-  <component name="SvnBranchConfigurationManager">
-    <option name="myConfigurationMap">
-      <map>
-        <entry key="$PROJECT_DIR$">
-          <value>
-            <SvnBranchConfiguration>
-              <option name="branchUrls">
-                <list>
-                  <option value="svn+ssh://192.168.0.4/svn/sourcio/android/Frismos1/UnicornGame" />
-                </list>
-              </option>
-              <option name="trunkUrl" value="svn+ssh://192.168.0.4/svn/sourcio/android/Frismos1/UnicornGame" />
-            </SvnBranchConfiguration>
-          </value>
-        </entry>
-      </map>
-    </option>
-    <option name="mySupportsUserInfoFilter" value="true" />
   </component>
   <component name="VcsDirectoryMappings">
+    <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
   </component>
   <component name="libraryTable">
     <library name="core.core-1.0">
+      <CLASSES />
+      <JAVADOC />
+      <SOURCES />
+    </library>
+    <library name="desktop.desktop-1.0">
       <CLASSES />
       <JAVADOC />
       <SOURCES />
@@ -474,9 +140,7 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx-backend-android/1.8.0/33979d6d61ea91a3a758717cbc6acf38fbb6aae2/gdx-backend-android-1.8.0.jar!/" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx-backend-android/1.8.0/c5a02b0a07eb95565108e325bf6b0dd3cf02ce38/gdx-backend-android-1.8.0-sources.jar!/" />
-      </SOURCES>
+      <SOURCES />
     </library>
     <library name="gdx-backend-lwjgl-1.8.0">
       <CLASSES>
@@ -553,11 +217,6 @@
       <CLASSES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx-platform/1.8.0/e011e0493c7b8953bffd4ebf5c7f7b517598e349/gdx-platform-1.8.0-natives-ios.jar!/" />
       </CLASSES>
-      <JAVADOC />
-      <SOURCES />
-    </library>
-    <library name="ios.ios-1.0">
-      <CLASSES />
       <JAVADOC />
       <SOURCES />
     </library>
@@ -680,6 +339,33 @@
       <JAVADOC />
       <SOURCES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.robovm/robopods-flurry-ios-analytics/1.12.0/b24ba1d2a108cf415fdced11c0be2ccb2935dcf4/robopods-flurry-ios-analytics-1.12.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="robopods-google-analytics-ios-1.12.0">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.robovm/robopods-google-analytics-ios/1.12.0/96943b6798d6e9b6f85a8bc560b4f2fea95aa6ea/robopods-google-analytics-ios-1.12.0.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.robovm/robopods-google-analytics-ios/1.12.0/db177f1925959b6a91720461133af3c487ca2e51/robopods-google-analytics-ios-1.12.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="robopods-google-analytics-ios-noads-1.12.0">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.robovm/robopods-google-analytics-ios-noads/1.12.0/d488adf107f8e33deaada22026862d867f7e7446/robopods-google-analytics-ios-noads-1.12.0.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.robovm/robopods-google-analytics-ios-noads/1.12.0/3c1f024f6f11add1eb9f7079275904a2a5ba8064/robopods-google-analytics-ios-noads-1.12.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="robopods-google-apis-ios-1.12.0">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.robovm/robopods-google-apis-ios/1.12.0/204bc3ff84e982ed54d5acfc165846efc83d72ad/robopods-google-apis-ios-1.12.0.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.robovm/robopods-google-apis-ios/1.12.0/7fc1407b73035da4eb64857af75ba890443c7882/robopods-google-apis-ios-1.12.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="robovm-cocoatouch-1.12.0">

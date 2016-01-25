@@ -61,7 +61,7 @@ public class Unicorn extends Creature {
         @Override
         public void complete(int trackIndex, int loopCount) {
             animationState.removeListener(this);
-            animationState.setAnimation(0, "idle", true);
+//            animationState.setAnimation(0, "idle", true);
             isFiring = false;
         }
 
@@ -97,7 +97,7 @@ public class Unicorn extends Creature {
         setColorType(this.colorType);
 
         this.setY(gameStage.background.getZero().y);
-        animationState.setAnimation(0, "idle", true);
+//        animationState.setAnimation(0, "idle", true);
 
         for (int i = 0; i < MINI_UNICORNS_COUNT; i++) {
             miniUnicorns.add(new MiniUnicorn(gameStage, WorldUtils.createMiniUnicorn()));
@@ -114,6 +114,12 @@ public class Unicorn extends Creature {
         } else if(unicornType == UnicornType.SINGLE_BULLET_ATTACK) {
             attackSpeed = SINGLE_ATTACK_SPEED;
         }
+    }
+
+    @Override
+    public void hit(int damage) {
+        super.hit(damage);
+        animationState.setAnimation(0, "hit", false);
     }
 
     public void addPositionChangeListener(final Enemy enemy) {
@@ -289,7 +295,8 @@ public class Unicorn extends Creature {
 
     @Override
     protected void setScaleRatio() {
-        this.scaleRatio = 0.075f;
+        this.scaleRatio = 0.5f;
+        //0.075f;
     }
 
     public Vector2 getFirePoint() {

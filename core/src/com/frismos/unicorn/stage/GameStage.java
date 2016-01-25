@@ -911,8 +911,8 @@ public class GameStage extends Stage {
 //                    }
                     fireTimer = 0.0f;
 
-                    Unicorn unicornchik = null;
-                    unicornchik.unicornType =UnicornType.SINGLE_BULLET_ATTACK;
+//                    Unicorn unicornchik = null;
+//                    unicornchik.unicornType =UnicornType.SINGLE_BULLET_ATTACK;
 
                     if(unicorn.unicornType != UnicornType.AUTOMATIC_ATTACK) {
                         joystickTouched = false;

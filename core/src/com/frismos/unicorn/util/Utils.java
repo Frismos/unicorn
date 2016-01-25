@@ -24,7 +24,6 @@ public class Utils {
         colors.add(Color.valueOf(Strings.RED));
         colors.add(Color.valueOf(Strings.GREEN));
         colors.add(Color.valueOf(Strings.YELLOW));
-        colors.add(Color.BLACK);
     }
 
     public static BoundingBox calculateBodyBoundingBox(Body body) {

@@ -8,6 +8,7 @@ import com.frismos.unicorn.userdata.UserData;
 
 import com.badlogic.gdx.utils.Array;
 import com.frismos.unicorn.util.Debug;
+import com.frismos.unicorn.util.Strings;
 
 /**
  * Created by edgar on 12/16/2015.
@@ -104,5 +105,15 @@ public class BezierBullet extends Bullet {
         p2 = new Vector2(destPoint.x - (destPoint.x - getX()) / 2, getY() + 10);
 
         return super.calculateAngle();
+    }
+
+    @Override
+    protected void setResourcesPath() {
+        path = Strings.BOMB;
+    }
+
+    @Override
+    protected void setScaleRatio() {
+        scaleRatio = 0.7f;
     }
 }

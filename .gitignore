@@ -1,7 +1,13 @@
+/local.properties
 .gradle/2.4/
 .idea/
+/ios/robovm-build
+/ios/build
+/build
+/android/build
+/core/build
+/desktop/build
 gradle/wrapper/gradle-wrapper.jar
 gradle/wrapper/gradle-wrapper.properties
 android/build/
 captures/
-UnicornGame.iml

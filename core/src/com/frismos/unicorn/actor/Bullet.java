@@ -124,7 +124,7 @@ public class Bullet extends GameActor {
 
     @Override
     protected void setScaleRatio() {
-        scaleRatio = 0.5f;
+        scaleRatio = 0.75f;
     }
 
     @Override

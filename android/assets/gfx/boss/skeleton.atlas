@@ -1,13 +1,222 @@
 
 skeleton.png
-size: 693,786
+size: 512,512
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-111111111111111111111111111
+base
+  rotate: true
+  xy: 244, 174
+  size: 334, 121
+  orig: 400, 385
+  offset: 30, 27
+  index: -1
+body
   rotate: false
-  xy: 2, 2
-  size: 689, 782
-  orig: 689, 782
+  xy: 4, 216
+  size: 236, 292
+  orig: 362, 370
+  offset: 47, 55
+  index: -1
+destroy/destroy-0001
+  rotate: false
+  xy: 212, 50
+  size: 18, 19
+  orig: 151, 153
+  offset: 80, 19
+  index: -1
+destroy/destroy-0002
+  rotate: false
+  xy: 462, 211
+  size: 44, 61
+  orig: 151, 153
+  offset: 70, 19
+  index: -1
+destroy/destroy-0005
+  rotate: false
+  xy: 94, 4
+  size: 80, 88
+  orig: 151, 153
+  offset: 51, 13
+  index: -1
+destroy/destroy-0006
+  rotate: true
+  xy: 4, 4
+  size: 88, 86
+  orig: 151, 153
+  offset: 46, 12
+  index: -1
+destroy/destroy-0013
+  rotate: true
+  xy: 462, 372
+  size: 136, 46
+  orig: 151, 153
+  offset: 15, 6
+  index: -1
+destroy/destroy-0014
+  rotate: true
+  xy: 178, 15
+  size: 77, 30
+  orig: 151, 153
+  offset: 51, 12
+  index: -1
+eye
+  rotate: false
+  xy: 462, 162
+  size: 45, 45
+  orig: 45, 45
   offset: 0, 0
+  index: -1
+hair1
+  rotate: false
+  xy: 244, 7
+  size: 121, 163
+  orig: 128, 184
+  offset: 0, 15
+  index: -1
+hair2
+  rotate: false
+  xy: 369, 11
+  size: 80, 141
+  orig: 98, 167
+  offset: 8, 20
+  index: -1
+hair3
+  rotate: true
+  xy: 4, 96
+  size: 116, 236
+  orig: 121, 253
+  offset: 0, 17
+  index: -1
+mouth
+  rotate: true
+  xy: 462, 276
+  size: 92, 45
+  orig: 92, 61
+  offset: 0, 0
+  index: -1
+reflect
+  rotate: false
+  xy: 212, 73
+  size: 25, 19
+  orig: 25, 19
+  offset: 0, 0
+  index: -1
+shadow
+  rotate: true
+  xy: 369, 156
+  size: 352, 89
+  orig: 352, 89
+  offset: 0, 0
+  index: -1
+
+skeleton2.png
+size: 490,371
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+arm1
+  rotate: false
+  xy: 4, 118
+  size: 98, 122
+  orig: 127, 137
+  offset: 19, 12
+  index: -1
+arm2
+  rotate: true
+  xy: 304, 175
+  size: 66, 115
+  orig: 97, 158
+  offset: 22, 15
+  index: -1
+destroy/destroy-0003
+  rotate: false
+  xy: 423, 200
+  size: 63, 79
+  orig: 151, 153
+  offset: 59, 17
+  index: -1
+destroy/destroy-0004
+  rotate: false
+  xy: 408, 13
+  size: 74, 85
+  orig: 151, 153
+  offset: 53, 15
+  index: -1
+destroy/destroy-0007
+  rotate: false
+  xy: 182, 82
+  size: 100, 86
+  orig: 151, 153
+  offset: 39, 6
+  index: -1
+destroy/destroy-0008
+  rotate: true
+  xy: 4, 4
+  size: 110, 82
+  orig: 151, 153
+  offset: 34, 5
+  index: -1
+destroy/destroy-0009
+  rotate: false
+  xy: 286, 22
+  size: 118, 76
+  orig: 151, 153
+  offset: 28, 4
+  index: -1
+destroy/destroy-0010
+  rotate: true
+  xy: 304, 245
+  size: 122, 69
+  orig: 151, 153
+  offset: 24, 4
+  index: -1
+destroy/destroy-0011
+  rotate: false
+  xy: 286, 102
+  size: 128, 66
+  orig: 151, 153
+  offset: 20, 5
+  index: -1
+destroy/destroy-0012
+  rotate: true
+  xy: 106, 6
+  size: 133, 59
+  orig: 151, 153
+  offset: 17, 4
+  index: -1
+eyelid
+  rotate: true
+  xy: 106, 143
+  size: 97, 72
+  orig: 123, 78
+  offset: 15, 1
+  index: -1
+eyeunder
+  rotate: false
+  xy: 169, 12
+  size: 98, 66
+  orig: 107, 73
+  offset: 9, 4
+  index: -1
+hair4
+  rotate: false
+  xy: 182, 172
+  size: 118, 195
+  orig: 137, 212
+  offset: 13, 17
+  index: -1
+hair5
+  rotate: false
+  xy: 4, 244
+  size: 174, 123
+  orig: 184, 162
+  offset: 3, 23
+  index: -1
+whiteeye
+  rotate: true
+  xy: 377, 283
+  size: 84, 64
+  orig: 88, 64
+  offset: 4, 0
   index: -1

@@ -169,7 +169,7 @@ public abstract class Enemy extends Creature {
                 } else {
                     if(gameStage.game.tutorialManager.currentStep == TutorialStep.FIRST) {
                         gameStage.game.tutorialManager.currentStep = TutorialStep.SECOND;
-                    } else if(TutorialStep.SECOND == gameStage.game.tutorialManager.currentStep) {
+                    } else if(TutorialStep.SECOND == gameStage.game.tutorialManager.currentStep) {    //kov
                         if(gameStage.game.tutorialManager.secondStepEnemies >= TutorialManager.SECOND_STEP_ENEMIES_COUNT) {
                             if(gameStage.game.tutorialManager.enemies.size == 0) {
                                 gameStage.game.tutorialManager.currentStep = TutorialStep.THIRD;

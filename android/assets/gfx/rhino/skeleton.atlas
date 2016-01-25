@@ -1,132 +1,132 @@
 
 skeleton.png
-size: 341,139
+size: 247,265
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 images/arm
   rotate: true
-  xy: 255, 76
-  size: 59, 77
-  orig: 67, 79
-  offset: 5, 2
+  xy: 104, 13
+  size: 70, 93
+  orig: 80, 95
+  offset: 6, 2
   index: -1
 images/belt
-  rotate: false
-  xy: 255, 51
-  size: 63, 21
-  orig: 73, 24
-  offset: 10, 3
+  rotate: true
+  xy: 217, 186
+  size: 75, 26
+  orig: 87, 29
+  offset: 12, 3
   index: -1
 images/bomb
-  rotate: false
-  xy: 253, 8
-  size: 29, 39
-  orig: 36, 43
-  offset: 6, 4
+  rotate: true
+  xy: 54, 119
+  size: 35, 47
+  orig: 43, 51
+  offset: 7, 4
   index: -1
 images/chest
   rotate: false
-  xy: 4, 49
-  size: 85, 86
-  orig: 98, 92
-  offset: 9, 6
-  index: -1
-images/croch
-  rotate: false
-  xy: 4, 14
-  size: 65, 31
-  orig: 70, 37
-  offset: 5, 6
-  index: -1
-images/crossbelt
-  rotate: false
-  xy: 93, 50
-  size: 71, 85
-  orig: 90, 94
+  xy: 4, 158
+  size: 103, 103
+  orig: 118, 110
   offset: 10, 7
   index: -1
+images/croch
+  rotate: true
+  xy: 4, 5
+  size: 78, 37
+  orig: 84, 44
+  offset: 6, 7
+  index: -1
+images/crossbelt
+  rotate: true
+  xy: 111, 176
+  size: 85, 102
+  orig: 108, 112
+  offset: 12, 8
+  index: -1
 images/cuff
-  rotate: false
-  xy: 98, 24
-  size: 27, 22
-  orig: 29, 25
+  rotate: true
+  xy: 214, 107
+  size: 33, 26
+  orig: 35, 29
   offset: 0, 0
   index: -1
 images/ear1
   rotate: true
-  xy: 98, 8
-  size: 12, 22
-  orig: 12, 22
+  xy: 214, 89
+  size: 14, 26
+  orig: 14, 26
   offset: 0, 0
   index: -1
 images/ear2
-  rotate: false
-  xy: 321, 8
-  size: 12, 22
-  orig: 12, 22
+  rotate: true
+  xy: 214, 71
+  size: 14, 26
+  orig: 14, 26
   offset: 0, 0
   index: -1
 images/eye-close
   rotate: false
-  xy: 129, 11
-  size: 15, 12
-  orig: 15, 12
+  xy: 223, 4
+  size: 17, 14
+  orig: 17, 14
   offset: 0, 0
   index: -1
 images/eye-half
   rotate: true
-  xy: 322, 55
-  size: 17, 15
-  orig: 17, 15
+  xy: 201, 20
+  size: 20, 18
+  orig: 20, 18
   offset: 0, 0
   index: -1
 images/eye-open
-  rotate: true
-  xy: 322, 34
-  size: 17, 15
-  orig: 17, 15
+  rotate: false
+  xy: 223, 22
+  size: 20, 18
+  orig: 20, 18
   offset: 0, 0
   index: -1
 images/foot
   rotate: true
-  xy: 286, 14
-  size: 33, 31
-  orig: 38, 39
-  offset: 2, 5
+  xy: 45, 8
+  size: 39, 38
+  orig: 45, 46
+  offset: 3, 5
   index: -1
 images/hand1
   rotate: false
-  xy: 73, 14
-  size: 21, 31
-  orig: 26, 36
+  xy: 217, 144
+  size: 26, 38
+  orig: 31, 43
   offset: 0, 3
   index: -1
 images/hand2
   rotate: true
-  xy: 129, 27
-  size: 19, 29
-  orig: 19, 34
-  offset: 0, 3
+  xy: 201, 44
+  size: 23, 34
+  orig: 23, 41
+  offset: 0, 4
   index: -1
 images/head
   rotate: false
-  xy: 168, 64
-  size: 83, 71
-  orig: 83, 73
+  xy: 111, 87
+  size: 99, 85
+  orig: 99, 87
   offset: 0, 0
   index: -1
 images/leg1
   rotate: false
-  xy: 210, 7
-  size: 39, 53
-  orig: 49, 68
-  offset: 10, 7
+  xy: 54, 51
+  size: 46, 64
+  orig: 58, 82
+  offset: 12, 9
   index: -1
 images/leg2
   rotate: false
-  xy: 168, 4
-  size: 38, 56
-  orig: 48, 75
-  offset: 8, 12
+  xy: 4, 87
+  size: 46, 67
+  orig: 57, 89
+  offset: 9, 14
   index: -1

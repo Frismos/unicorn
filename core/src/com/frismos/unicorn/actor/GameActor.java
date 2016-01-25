@@ -32,9 +32,7 @@ public abstract class GameActor extends SpineActor {
         this.colorType = colorType;
         this.userData.colorType = this.colorType;
         this.debug();
-        if(this instanceof Boss) {
-            setSize(10, 15);
-        } else if(this instanceof Spell) {
+        if(this instanceof Spell) {
             setSize(10 / 4.0f, 15 / 4.0f);
         }
 //        this.shapeRenderer.setAutoShapeType(true);

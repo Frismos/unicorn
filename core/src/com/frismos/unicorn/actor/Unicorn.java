@@ -50,19 +50,41 @@ public class Unicorn extends Creature {
     private AnimationState.AnimationStateListener fireAnimationListener = new AnimationState.AnimationStateListener() {
         @Override
         public void event(int trackIndex, Event event) {
-//            if(touchX != Float.MIN_VALUE) {
-//                gameStage.fireBullet(touchX, touchY);
-//                touchX = Float.MIN_VALUE;
-//            } else {
-//                gameStage.fireBullet(bulletAngle);
-//            }
+            if(touchX != Float.MIN_VALUE) {
+                gameStage.fireBullet(touchX, touchY);
+                touchX = Float.MIN_VALUE;
+            } else {
+                gameStage.fireBullet(bulletAngle);
+            }
         }
 
         @Override
         public void complete(int trackIndex, int loopCount) {
             animationState.removeListener(this);
-//            animationState.setAnimation(0, "idle", true);
+            animationState.setAnimation(0, "idle", true);
             isFiring = false;
+        }
+
+        @Override
+        public void start(int trackIndex) {
+
+        }
+
+        @Override
+        public void end(int trackIndex) {
+
+        }
+    };
+
+    private AnimationState.AnimationStateListener hitAnimationStateListener = new AnimationState.AnimationStateListener() {
+        @Override
+        public void event(int trackIndex, Event event) {
+        }
+
+        @Override
+        public void complete(int trackIndex, int loopCount) {
+            animationState.removeListener(this);
+            animationState.setAnimation(0, "idle", true);
         }
 
         @Override
@@ -97,7 +119,7 @@ public class Unicorn extends Creature {
         setColorType(this.colorType);
 
         this.setY(gameStage.background.getZero().y);
-//        animationState.setAnimation(0, "idle", true);
+        animationState.setAnimation(0, "idle", true);
 
         for (int i = 0; i < MINI_UNICORNS_COUNT; i++) {
             miniUnicorns.add(new MiniUnicorn(gameStage, WorldUtils.createMiniUnicorn()));
@@ -120,6 +142,8 @@ public class Unicorn extends Creature {
     public void hit(int damage) {
         super.hit(damage);
         animationState.setAnimation(0, "hit", false);
+        animationState.clearListeners();
+        animationState.addListener(hitAnimationStateListener);
     }
 
     public void addPositionChangeListener(final Enemy enemy) {
@@ -141,16 +165,16 @@ public class Unicorn extends Creature {
 
     public void playFireAnimation(float x, float y) {
 //        if(isFiring) {
-            gameStage.fireBullet(x, y);
-            touchX = Float.MIN_VALUE;
+//            gameStage.fireBullet(x, y);
+//            touchX = Float.MIN_VALUE;
 //        }
 //        if(!isFiring) {
 //            isFiring = true;
-//            this.touchX = x;
-//            this.touchY = y;
+            this.touchX = x;
+            this.touchY = y;
             this.directions = directions;
             animationState.setAnimation(0, "fire", false);
-            animationState.removeListener(fireAnimationListener);
+        animationState.clearListeners();
             animationState.addListener(fireAnimationListener);
 //        }
     }
@@ -158,13 +182,14 @@ public class Unicorn extends Creature {
     public void playFireAnimation(float angle) {
         bulletAngle = angle;
 //        if(isFiring) {
-            gameStage.fireBullet(angle);
-//            touchX = Float.MIN_VALUE;
+//            gameStage.fireBullet(angle);
+            touchX = Float.MIN_VALUE;
+
 //        }
 //        if(!isFiring) {
 //            isFiring = true;
             animationState.setAnimation(0, "fire", false);
-            animationState.removeListener(fireAnimationListener);
+        animationState.clearListeners();
             animationState.addListener(fireAnimationListener);
 //        }
     }
@@ -295,7 +320,7 @@ public class Unicorn extends Creature {
 
     @Override
     protected void setScaleRatio() {
-        this.scaleRatio = 0.5f;
+        this.scaleRatio = 0.55f;
         //0.075f;
     }
 

@@ -21,6 +21,7 @@ public class Strings {
     public static final String ENEMY = "walking-enemy";
     public static final String BOSS = "boss";
     public static final String BOUNCING_ENEMY = "bouncing-enemy";
+    public static final String BOMB = "bomb";
 
     private StringBuilder builder;
 

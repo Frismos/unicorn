@@ -28,7 +28,7 @@
         <option name="distributionType" value="LOCAL" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="gradleHome" value="/Applications/Android Studio.app/Contents/gradle/gradle-2.8" />
-        <option name="gradleJvm" value="JDK 1.7.0_79-b15 (Java HotSpot(TM) 64-Bit Server VM)" />
+        <option name="gradleJvm" value="1.8" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />

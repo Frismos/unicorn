@@ -42,7 +42,7 @@ public abstract class Enemy extends Creature {
             }
             if (Enemy.this.tile != null) {
                 if(Enemy.this.tile.j != 0){
-                    tile.color(colorType);
+//                    tile.color(colorType);
                 }
                 tile = null;
             }
@@ -52,6 +52,7 @@ public abstract class Enemy extends Creature {
         public void complete(int trackIndex, int loopCount) {
             int prob = 0;
             if(Enemy.this instanceof Boss) {
+                Debug.Log("listener complete");
                 prob = 100;
             } else if(Enemy.this instanceof AttackingEnemy) {
                 prob = 25;
@@ -182,6 +183,7 @@ public abstract class Enemy extends Creature {
                     }
                 }
             }
+
             gameStage.collisionDetector.collisionListeners.removeValue(this, false);
             dispose();
             gameStage.unicorn.removePositionChangeListener(this);
@@ -192,13 +194,11 @@ public abstract class Enemy extends Creature {
                 tile.enemies.removeValue(Enemy.this, false);
             }
             isAttacking = false;
-            if(userData.getUserDataType() != UserDataType.BOSS) {
-                animationState.setAnimation(0, "die", false);
-            }
+            animationState.setAnimation(0, "die", false);
             if(dieListener == null) {
                 dieListener = this.dieListener;
             }
-            animationState.removeListener(dieListener);
+            animationState.clearListeners();
             animationState.addListener(dieListener);
         }
     }

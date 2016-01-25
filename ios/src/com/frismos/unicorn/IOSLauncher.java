@@ -5,6 +5,7 @@ import com.frismos.unicorn.gamecenter.GameCenterListener;
 import com.frismos.unicorn.gamecenter.GameCenterManager;
 import com.frismos.unicorn.gamecenter.Sample;
 import com.frismos.unicorn.manager.GameCenterController;
+import com.frismos.unicorn.util.Constants;
 import org.robovm.apple.foundation.NSAutoreleasePool;
 import org.robovm.apple.foundation.NSError;
 import org.robovm.apple.gamekit.GKAchievement;
@@ -14,13 +15,13 @@ import org.robovm.apple.uikit.*;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplication;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplicationConfiguration;
 import com.frismos.unicorn.UnicornGame;
+import org.robovm.pods.flurry.analytics.Flurry;
 
 import java.util.ArrayList;
 
 public class IOSLauncher extends IOSApplication.Delegate {
     @Override
     protected IOSApplication createApplication() {
-
 
         UIWindow uiWindow = new UIWindow(UIScreen.getMainScreen().getBounds());
         uiWindow.makeKeyAndVisible();
@@ -105,6 +106,13 @@ public class IOSLauncher extends IOSApplication.Delegate {
     }
 
     public static void main(String[] argv) {
+
+        Flurry.startSession("CG69RNZHRCRXY9P3CJTY");
+        Flurry.setAppVersion(Constants.APP_VERSION);
+        Flurry.setCrashReportingEnabled(true);
+        Flurry.enableCrashReporting();
+        Flurry.activeSessionExists();
+
         NSAutoreleasePool pool = new NSAutoreleasePool();
         UIApplication.main(argv, null, Sample.class);
         pool.close();

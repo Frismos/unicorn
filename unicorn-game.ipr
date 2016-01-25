@@ -453,6 +453,13 @@
       <JAVADOC />
       <SOURCES />
     </library>
+    <library name="FlurryAnalytics-6.2.0">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/android/libs/FlurryAnalytics-6.2.0.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
     <library name="gdx-1.8.0">
       <CLASSES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx/1.8.0/8aaf0d40f211e94051538d28b06996a6cc5ed2af/gdx-1.8.0.jar!/" />
@@ -546,6 +553,11 @@
       <CLASSES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx-platform/1.8.0/e011e0493c7b8953bffd4ebf5c7f7b517598e349/gdx-platform-1.8.0-natives-ios.jar!/" />
       </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
+    <library name="ios.ios-1.0">
+      <CLASSES />
       <JAVADOC />
       <SOURCES />
     </library>
@@ -645,49 +657,74 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl.lwjgl/lwjgl_util/2.9.2/308d4ebe8d7b240d3490b6a7e0424807ea3ad98b/lwjgl_util-2.9.2-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="robovm-cocoatouch-1.9.0">
+    <library name="robopods-flurry-ios-1.12.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.robovm/robovm-cocoatouch/1.9.0/778a1cc990670e2bd4cff9058a865b411f6898f5/robovm-cocoatouch-1.9.0.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.robovm/robopods-flurry-ios/1.12.0/5f612bd7191dbb236d9cb16b4dc271767acf2f61/robopods-flurry-ios-1.12.0.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
+    <library name="robopods-flurry-ios-ads-1.12.0">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.robovm/robopods-flurry-ios-ads/1.12.0/28f4a58783b69b4cb3c0b28f39137f5ee100faf3/robopods-flurry-ios-ads-1.12.0.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.robovm/robovm-cocoatouch/1.9.0/4f9be8c45c69dd08dfda06544d3fb36294741b5/robovm-cocoatouch-1.9.0-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.robovm/robopods-flurry-ios-ads/1.12.0/89585384e1eb30cc31588db29e5ccba3f2cc8a1a/robopods-flurry-ios-ads-1.12.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="robovm-objc-1.9.0">
+    <library name="robopods-flurry-ios-analytics-1.12.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.robovm/robovm-objc/1.9.0/df860e4d0e0f6102cb2e15f026c95a38ac842138/robovm-objc-1.9.0.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.robovm/robopods-flurry-ios-analytics/1.12.0/b6765c67899e91e4c06ae214fd6624ce2eee18a/robopods-flurry-ios-analytics-1.12.0.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.robovm/robovm-objc/1.9.0/82b29b1cfbd557b94f9345b361ba0e6108d50a18/robovm-objc-1.9.0-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.robovm/robopods-flurry-ios-analytics/1.12.0/b24ba1d2a108cf415fdced11c0be2ccb2935dcf4/robopods-flurry-ios-analytics-1.12.0-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="robovm-rt-1.9.0">
+    <library name="robovm-cocoatouch-1.12.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.robovm/robovm-rt/1.9.0/411c6f6febf857a6ff13e3a9012d4477941e8037/robovm-rt-1.9.0.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.robovm/robovm-cocoatouch/1.12.0/3981e8b8dc5c446d3ac99533d9a0ea9b1514e84f/robovm-cocoatouch-1.12.0.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.robovm/robovm-rt/1.9.0/bb289b79c773a868a43ebab2923787a3827b94dc/robovm-rt-1.9.0-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.robovm/robovm-cocoatouch/1.12.0/a5c9fccf45196e13f635efc5f6c21f6fafc23d3e/robovm-cocoatouch-1.12.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="robovm-objc-1.12.0">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.robovm/robovm-objc/1.12.0/d4547162299dcd29848c13a8adf71264c3929a1/robovm-objc-1.12.0.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.robovm/robovm-objc/1.12.0/20aad179741334fd271c3e4ee48c8545c0bd4618/robovm-objc-1.12.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="robovm-rt-1.12.0">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.robovm/robovm-rt/1.12.0/17250fd5ced5ed79feb78dd3ec17ab51b26a4472/robovm-rt-1.12.0.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.robovm/robovm-rt/1.12.0/763788926b70821f462e884c8b53d0ea22555924/robovm-rt-1.12.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="tweenengine-6.3.3">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/aurelienribon/tweenengine/6.3.3/tweenengine-6.3.3.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/aurelienribon/tweenengine/6.3.3/8be8beb70b7ccae059d523e56670f6e44fb1821f/tweenengine-6.3.3.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/aurelienribon/tweenengine/6.3.3/tweenengine-6.3.3-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/aurelienribon/tweenengine/6.3.3/b471c161e1bd73eb4a762a35d75b40eb5b4de3a1/tweenengine-6.3.3-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="tweenengine-6.3.3-sources">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/aurelienribon/tweenengine/6.3.3/tweenengine-6.3.3-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/aurelienribon/tweenengine/6.3.3/b471c161e1bd73eb4a762a35d75b40eb5b4de3a1/tweenengine-6.3.3-sources.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/aurelienribon/tweenengine/6.3.3/tweenengine-6.3.3-sources.jar!/" />
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/aurelienribon/tweenengine/6.3.3/b471c161e1bd73eb4a762a35d75b40eb5b4de3a1/tweenengine-6.3.3-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="vis-ui-0.9.5">

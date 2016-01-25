@@ -66,4 +66,6 @@ public class Constants {
     public static final float GROUND_DENSITY = 0.0f;
 
     public static final float TILE_WIDTH = 256.0f / SCALE_RATIO;
+
+    public static final String APP_VERSION = "0.0-alpha";
 }

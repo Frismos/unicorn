@@ -33,7 +33,9 @@ public abstract class Creature extends GameActor {
     }
 
     public void showProgressBar() {
-        pb = new ProgressBar(gameStage, 3, hitPoints);
+        if(pb == null) {
+            pb = new ProgressBar(gameStage, 3, hitPoints);
+        }
         gameStage.addActor(pb);
         pb.setX(getX());
         pb.setY(getY());
@@ -95,7 +97,7 @@ public abstract class Creature extends GameActor {
         super.act(delta);
         if(pb != null) {
             pb.setProgress(hitPoints);
-            pb.setPosition(getX() + getWidth() * getScaleX() / 2 - pb.getWidth() / 2, getY() + getHeight() * getScaleY());
+            pb.setPosition(getX() + getWidth() * getScaleX() / 2 - pb.getWidth() / 2, getY() + getHeight() * getScaleY() + 1);
             pb.setZIndex(getZIndex() + 1);
         }
     }

@@ -87,12 +87,19 @@ public class Grid extends Group {
 
     public Tile getTileByPoint(float x, float y) {
         for (int i = GameStage.ROW_LENGTH - 1; i >= 0; i--) {
-            if(y > i * tileHeight + offset.y) {
+            if (y > i * tileHeight + offset.y) {
                 for (int j = GameStage.COLUMN_LENGTH - 1; j >= 0; j--) {
-                    if(x > j * tileWidth + offset.x) {
+                    if (x > j * tileWidth + offset.x) {
                         return grid[i][j];
                     }
                 }
+                return grid[i][0];
+            }
+        }
+
+        for (int j = GameStage.COLUMN_LENGTH - 1; j >= 0; j--) {
+            if (x > j * tileWidth + offset.x) {
+                return grid[0][j];
             }
         }
         return null;
@@ -200,10 +207,43 @@ public class Grid extends Group {
         if(isTileInsideGrid(tile.i+1, tile.j+1)) {
             neighbours.add(grid[tile.i+1][tile.j+1]);
         }
+        neighbours.add(tile);
+        return neighbours;
+    }
+    
+    public Array<Tile> getNeighbourTiles(int i, int j) {
+        Array<Tile> neighbours = new Array<Tile>();
+        if(isTileInsideGrid(i-1, j)) {
+            neighbours.add(grid[i-1][j]);
+        }
+        if(isTileInsideGrid(i-1, j-1)) {
+            neighbours.add(grid[i-1][j-1]);
+        }
+        if(isTileInsideGrid(i-1, j+1)) {
+            neighbours.add(grid[i-1][j+1]);
+        }
+        if(isTileInsideGrid(i, j-1)) {
+            neighbours.add(grid[i][j-1]);
+        }
+        if(isTileInsideGrid(i, j+1)) {
+            neighbours.add(grid[i][j+1]);
+        }
+        if(isTileInsideGrid(i+1, j-1)) {
+            neighbours.add(grid[i+1][j-1]);
+        }
+        if(isTileInsideGrid(i+1, j)) {
+            neighbours.add(grid[i+1][j]);
+        }
+        if(isTileInsideGrid(i+1, j+1)) {
+            neighbours.add(grid[i+1][j+1]);
+        }
+        if(isTileInsideGrid(i, j)) {
+            neighbours.add(grid[i][j]);
+        }
 
         return neighbours;
     }
-
+    
     public Enemy isEnemyOnDirection(Tile tile, int direction) {
         if(tile != null) {
             switch (direction) {

@@ -12,7 +12,7 @@ public class AttackingEnemy extends Enemy {
     public AttackingEnemy(GameStage stage, UserData userData, ColorType colorType) {
         super(stage, userData, colorType);
         animationState.setAnimation(0, "walk", true);
-        hitPoints = 5;
+        hitPoints = 15;
         showProgressBar();
     }
 

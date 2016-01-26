@@ -12,7 +12,8 @@ public class Strings {
     public static final String YELLOW = "ece000";
     public static final String RED = "e74546";
 
-    public static final String UNICORN = "rhino";
+    public static final String UNICORN = "unicorn";
+    public static final String RHINO = "rhino";
     public static final String MINI_UNICORN = "unicorn";
     public static final String BULLET = "bullet";
 

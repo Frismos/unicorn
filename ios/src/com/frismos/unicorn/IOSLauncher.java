@@ -107,7 +107,6 @@ public class IOSLauncher extends IOSApplication.Delegate {
 
         Flurry.setAppVersion(Constants.APP_VERSION);
         Flurry.setCrashReportingEnabled(true);
-        Flurry.enableCrashReporting();
         Flurry.startSession("CG69RNZHRCRXY9P3CJTY");
 
         GAI gaiInstance = GAI.getSharedInstance();

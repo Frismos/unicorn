@@ -47,6 +47,9 @@ public abstract class GameActor extends SpineActor {
     @Override
     protected void positionChanged() {
         super.positionChanged();
+        if(bounds.getY() != getY() && !(this instanceof Bullet)) {
+            gameStage.layerStage();
+        }
         this.bounds.setPosition(getX(), getY());
 //        this.bounds.getVertices()[0] = getX();
 //        this.bounds.getVertices()[1] = getY();

@@ -52,7 +52,6 @@ public abstract class Enemy extends Creature {
         public void complete(int trackIndex, int loopCount) {
             int prob = 0;
             if(Enemy.this instanceof Boss) {
-                Debug.Log("listener complete");
                 prob = 100;
             } else if(Enemy.this instanceof AttackingEnemy) {
                 prob = 25;
@@ -224,29 +223,29 @@ public abstract class Enemy extends Creature {
                 moveBy(-directionX * moveSpeed * delta, -directionY * moveSpeed * delta);  //  23
             }
 
-//            if(this.getX() < 7) {
-//                die(new AnimationState.AnimationStateListener() {
-//                    @Override
-//                    public void event(int trackIndex, Event event) {
-//
-//                    }
-//
-//                    @Override
-//                    public void complete(int trackIndex, int loopCount) {
-//                        gameStage.restartGame();
-//                    }
-//
-//                    @Override
-//                    public void start(int trackIndex) {
-//
-//                    }
-//
-//                    @Override
-//                    public void end(int trackIndex) {
-//
-//                    }
-//                });
-//            }
+            if(this.getX() < 7) {
+                die(new AnimationState.AnimationStateListener() {
+                    @Override
+                    public void event(int trackIndex, Event event) {
+
+                    }
+
+                    @Override
+                    public void complete(int trackIndex, int loopCount) {
+                        gameStage.restartGame();
+                    }
+
+                    @Override
+                    public void start(int trackIndex) {
+
+                    }
+
+                    @Override
+                    public void end(int trackIndex) {
+
+                    }
+                });
+            }
 
             if(isTutorialEnemy && getX() < gameStage.background.getZero().x + gameStage.background.getWidth() - gameStage.grid.tileWidth) {
                 gameStage.game.tutorialManager.pauseGame = true;

@@ -82,7 +82,7 @@ public class Bullet extends GameActor {
 
         if(userData.getUserDataType() == UserDataType.BULLET) {
             speed = GameStage.BULLET_MOVE_SPEED;
-            damage = 2;
+            damage = 5;
         } else if(userData.getUserDataType() == UserDataType.ENEMY_BULLET) {
             speed = GameStage.ENEMY_BULLET_MOVE_SPEED;
             damage = 1;
@@ -90,7 +90,6 @@ public class Bullet extends GameActor {
 
         setColorType(colorType);
         setAngle(angle);
-
     }
 
     public float calculateAngle() {
@@ -144,7 +143,7 @@ public class Bullet extends GameActor {
             move(delta);
         }
         if(isDestroyed ||
-                this.getX() > Constants.VIEWPORT_WIDTH - this.getWidth() || this.getX() < 0 ||
+                this.getX() > Constants.VIEWPORT_WIDTH + this.getWidth() || this.getX() < 0 ||
                 this.getY() > Constants.VIEWPORT_HEIGHT * 2 || this.getY() < -Constants.VIEWPORT_HEIGHT) {
             isDestroyed = false;
             this.remove();

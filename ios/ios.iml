@@ -10,7 +10,6 @@
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/build/classes/main" />
     <output-test url="file://$MODULE_DIR$/build/classes/test" />
-    <exclude-output />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
@@ -41,5 +40,6 @@
     <orderEntry type="library" exported="" name="robovm-cocoatouch-1.12.0" level="project" />
     <orderEntry type="library" exported="" name="robovm-objc-1.12.0" level="project" />
     <orderEntry type="library" exported="" name="robovm-rt-1.12.0" level="project" />
+    <orderEntry type="library" exported="" name="ios.ios-1.0" level="project" />
   </component>
 </module>

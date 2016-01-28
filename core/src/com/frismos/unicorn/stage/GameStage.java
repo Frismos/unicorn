@@ -1,14 +1,17 @@
 package com.frismos.unicorn.stage;
 
+import aurelienribon.tweenengine.BaseTween;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -16,9 +19,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.frismos.TweenAccessor.CameraAccessor;
 import com.frismos.unicorn.UnicornGame;
 import com.frismos.unicorn.actor.*;
 import com.frismos.unicorn.enums.ColorType;
@@ -27,13 +31,11 @@ import com.frismos.unicorn.enums.TutorialStep;
 import com.frismos.unicorn.enums.UnicornType;
 import com.frismos.unicorn.grid.Grid;
 import com.frismos.unicorn.manager.TutorialManager;
-import com.frismos.unicorn.userdata.BulletUserData;
 import com.frismos.unicorn.userdata.SpellUserData;
 import com.frismos.unicorn.util.*;
 
 import com.badlogic.gdx.utils.Array;
 
-import java.util.Collection;
 import java.util.Comparator;
 
 /**
@@ -48,6 +50,8 @@ public class GameStage extends Stage {
     public static Texture blackPixel;
 
     public Unicorn unicorn;
+
+    private ObjectMap<UnicornType, Unicorn> unicorns = new ObjectMap<UnicornType, Unicorn>();
 
     public Background background;
     public int deadEnemyCounter = 0;
@@ -73,8 +77,8 @@ public class GameStage extends Stage {
     public static final int ENEMY_MATCH_CHANCE = 50;
     public static final float ENEMY_SPAWN_MIDDLE_CHANCE = 30;
 
-    public static final float BULLET_MOVE_SPEED = 40;
-    public static final float ENEMY_BULLET_MOVE_SPEED = 10f;
+    public static final float BULLET_MOVE_SPEED = 60;
+    public static final float ENEMY_BULLET_MOVE_SPEED = 30;
 
     private int DEAD_ENEMIES_TILL_BOSS = 10;
     private static final int MAX_DEAD_ENEMY_COUNT = 50;
@@ -150,33 +154,6 @@ public class GameStage extends Stage {
     private float layeringTime = 0.1f;
     private float layeringTimer = 0.0f;
 
-    private Comparator<? super Actor> comparatorByPosition = new Comparator<Actor>() {
-        @Override
-        public int compare(Actor o1, Actor o2) {
-            if (o1 instanceof Background || o2 instanceof Background ||
-                    o1 instanceof Bullet || o2 instanceof Bullet ||
-                    o1 instanceof Grid || o2 instanceof Grid ||
-                    o1 instanceof ProgressBar || o2 instanceof ProgressBar) {
-                return 0;
-            }
-            if (o1.getY() < o2.getY()) {
-                return 1;
-            } else if (o1.getY() > o2.getY()) {
-                return -1;
-            } else if (o1.getX() < o2.getX()) {
-                return 1;
-            } else if (o1.getX() > o2.getX()) {
-                return -1;
-            } else if (o1.getZIndex() > o2.getZIndex()) {
-                return 1;
-            } else if (o1.getZIndex() < o2.getZIndex()) {
-                return -1;
-            }
-
-            return 0;
-        }
-    };
-
     public GameStage(final UnicornGame game) {
         super(new StretchViewport(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT), new PolygonSpriteBatch());
         this.game = game;
@@ -187,10 +164,17 @@ public class GameStage extends Stage {
         grid = new Grid(this);
         addActor(grid);
 
-        unicorn = new Unicorn(this, WorldUtils.createUnicorn(), UnicornType.SINGLE_BULLET_ATTACK);
+        unicorn = new Unicorn(this, WorldUtils.createUnicorn(), UnicornType.UNICORN);
         unicorn.setX(background.getZero().x + grid.tileWidth / 2 - unicorn.getWidth() / 2);
         unicorn.setY(background.getZero().y + grid.tileHeight / 2 - unicorn.getHeight() / 2);
         unicorn.showProgressBar();
+        unicorns.put(unicorn.unicornType, unicorn);
+
+        Rhino rhino = new Rhino(this, WorldUtils.createUnicorn(), UnicornType.RHINO);
+        rhino.setX(background.getZero().x + grid.tileWidth / 2 - rhino.getWidth() / 2);
+        rhino.setY(background.getZero().y + grid.tileHeight / 2 - rhino.getHeight() / 2);
+        rhino.showProgressBar();
+        unicorns.put(UnicornType.RHINO, rhino);
 
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(this);
@@ -243,14 +227,7 @@ public class GameStage extends Stage {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 //                GameStage.this.game.gameCenterController.showLeaderboardView("");
 //                unicorn.callUnicorns();
-                if(game.tutorialManager.isTutorialMode && game.tutorialManager.currentStep == TutorialStep.FOURTH) {
-                    game.tutorialManager.currentStep = TutorialStep.FINISH;
-                }
-                if(unicorn.unicornType == UnicornType.SINGLE_BULLET_ATTACK) {
-                    unicorn.setUnicornType(UnicornType.CANNON_ATTACK);
-                } else if(unicorn.unicornType == UnicornType.CANNON_ATTACK) {
-                    unicorn.setUnicornType(UnicornType.SINGLE_BULLET_ATTACK);
-                }
+                changeUnicorn();
                 joystickTouched = false;
                 return super.touchDown(event, x, y, pointer, button);
             }
@@ -259,7 +236,7 @@ public class GameStage extends Stage {
 
         initConstants();
 
-        for (int i = 0; i < 15; i++) {
+        for (int i = 0; i < 20; i++) {
             gameBullets.add(new Bullet(this, WorldUtils.createBullet()));
         }
 
@@ -269,6 +246,41 @@ public class GameStage extends Stage {
         if(game.tutorialManager.isTutorialMode) {
             colorIndices.add(0);
         }
+    }
+
+    public void shakeWorld(int count) {
+        if(count == 0) {
+            return;
+        }
+        float x = MathUtils.random(-0.1f, 0.1f);
+        float y = MathUtils.random(-0.1f, 0.1f);
+
+        final int fCount = --count;
+        Tween.to(getCamera(), CameraAccessor.POSITION_XY, 0.05f).targetRelative(x, y).start(game.tweenManager).setCallback((type, source) -> {
+            Tween.to(getCamera(), CameraAccessor.POSITION_XY, 0.05f).targetRelative(-x, -y).start(game.tweenManager).setCallback((t, s) -> {
+                shakeWorld(fCount);
+            });
+        });
+    }
+
+    private void changeUnicorn() {
+        if(game.tutorialManager.isTutorialMode && game.tutorialManager.currentStep == TutorialStep.FOURTH) {
+            game.tutorialManager.currentStep = TutorialStep.FINISH;
+        }
+        unicorn.remove();
+        float y = unicorn.getY();
+        ColorType colorType = unicorn.colorType;
+        if(unicorn.unicornType == UnicornType.UNICORN) {
+            unicorn = unicorns.get(UnicornType.RHINO);
+        } else if(unicorn.unicornType == UnicornType.RHINO) {
+            unicorn = unicorns.get(UnicornType.UNICORN);
+        }
+        unicorn.setUnicornType(unicorn.unicornType);
+        unicorn.setY(y);
+        unicorn.showProgressBar();
+        unicorn.setColorType(colorType);
+        collisionDetector.collisionListeners.add(unicorn);
+        addActor(unicorn);
     }
 
     private void initConstants() {
@@ -387,7 +399,7 @@ public class GameStage extends Stage {
     public void fireBullet(float x, float y) {
         if(unicorn.colorType != null) {
             Bullet bullet;
-            if(unicorn.unicornType == UnicornType.CANNON_ATTACK) {
+            if(unicorn.unicornType == UnicornType.RHINO) {
                 bullet = new BezierBullet(this, WorldUtils.createCannonBullet(), x, y);
                 bullet.damage = 1;
             } else {
@@ -437,14 +449,7 @@ public class GameStage extends Stage {
         } else if(keyCode == Input.Keys.S || keyCode == Input.Keys.DOWN) {
             unicorn.moveDown(0);
         } else if(keyCode == Input.Keys.E) {
-            if(game.tutorialManager.isTutorialMode && game.tutorialManager.currentStep == TutorialStep.FOURTH) {
-                game.tutorialManager.currentStep = TutorialStep.FINISH;
-            }
-            if(unicorn.unicornType == UnicornType.SINGLE_BULLET_ATTACK) {
-                unicorn.setUnicornType(UnicornType.CANNON_ATTACK);
-            } else if(unicorn.unicornType == UnicornType.CANNON_ATTACK) {
-                unicorn.setUnicornType(UnicornType.SINGLE_BULLET_ATTACK);
-            }
+            changeUnicorn();
         }
         return true;
     }
@@ -493,12 +498,12 @@ public class GameStage extends Stage {
                             joystickTouched = true;
                             fireIndex = 0;
                         } else if(game.tutorialManager.currentStep == TutorialStep.THIRD) {
-                            if(unicorn.unicornType == UnicornType.CANNON_ATTACK && unicorn.colorType == game.tutorialManager.thirdStepColor) {
+                            if(unicorn.unicornType == UnicornType.RHINO && unicorn.colorType == game.tutorialManager.thirdStepColor) {
                                 joystickTouched = true;
                                 fireIndex = 0;
                             }
                         } else if(game.tutorialManager.currentStep == TutorialStep.FOURTH || game.tutorialManager.currentStep == TutorialStep.FINISH) {
-                            if(unicorn.unicornType == UnicornType.SINGLE_BULLET_ATTACK) {
+                            if(unicorn.unicornType == UnicornType.UNICORN) {
                                 joystickTouched = true;
                                 fireIndex = 0;
                             }
@@ -709,8 +714,8 @@ public class GameStage extends Stage {
                             break;
                         }
                         if (BodyUtils.bodyIsUnicorn(b) && BodyUtils.bodyIsEnemyBullet(a)) {
-                            final Unicorn unicorn = (Unicorn) a;
-                            final Bullet bullet = (Bullet) b;
+                            final Unicorn unicorn = (Unicorn) b;
+                            final Bullet bullet = (Bullet) a;
                             unicorn.hit(bullet.damage);
                             bullet.destroy();
                             break;
@@ -748,9 +753,46 @@ public class GameStage extends Stage {
     public void layerStage() {
         Array<Actor> actors = this.getActors();
         try {
-            actors.sort(comparatorByPosition);
+            long time = System.currentTimeMillis();
+            actors.sort((o1, o2) -> {
+                if (o1 instanceof Background || o2 instanceof Background ||
+                        o1 instanceof Bullet || o2 instanceof Bullet ||
+                        o1 instanceof Grid || o2 instanceof Grid ||
+                        o1 instanceof ProgressBar || o2 instanceof ProgressBar) {
+                    return 0;
+                }
+                if (o1.getY() < o2.getY()) {
+//                    Debug.Log("y smaller");
+                    return 1;
+                } else if (o1.getY() > o2.getY()) {
+                    return -1;
+                } else if (o1.getX() < o2.getX()) {
+//                    Debug.Log("x smaller");
+                    return 1;
+                } else if (o1.getX() > o2.getX()) {
+//                    Debug.Log("x greater");
+                    return -1;
+                } else if (o1.getZIndex() < o2.getZIndex()) {
+                    Debug.Log("z index smaller");
+                    return 1;
+                } else if (o1.getZIndex() > o2.getZIndex()) {
+                    Debug.Log("z index greater");
+                    return -1;
+                }
+
+                Debug.Log("LAYER STAGE 0");
+                return 0;
+            });
         } catch (IllegalArgumentException ex) {
             Gdx.app.error("", ex.getMessage(), ex);
+        }
+    }
+
+    @Override
+    public void addActor(Actor actor) {
+        super.addActor(actor);
+        if(!(actor instanceof Bullet)) {
+            layerStage();
         }
     }
 
@@ -761,11 +803,11 @@ public class GameStage extends Stage {
             enemySendCounter += delta;
             enemySendTimer += delta;
             enemyMoveTimer += delta;
-            layeringTimer += delta;
-            if (layeringTimer >= layeringTime) {
-                layerStage();
-                layeringTimer = 0.0f;
-            }
+//            layeringTimer += delta;
+//            if (layeringTimer >= layeringTime) {
+//                layerStage();
+//                layeringTimer = 0.0f;
+//            }
             if (!game.tutorialManager.isTutorialMode) {
 
                 if (sendWave) {
@@ -904,7 +946,7 @@ public class GameStage extends Stage {
 //                        }
 //                    }
 
-//                    if(unicorn.unicornType == UnicornType.SINGLE_BULLET_ATTACK) {
+//                    if(unicorn.unicornType == UnicornType.UNICORN) {
 //                        unicornFire(angle);
 //                    } else {
                     unicornFire(fingerScreenX, fingerScreenY);
@@ -912,11 +954,11 @@ public class GameStage extends Stage {
                     fireTimer = 0.0f;
 
 //                    Unicorn unicornchik = null;
-//                    unicornchik.unicornType =UnicornType.SINGLE_BULLET_ATTACK;
+//                    unicornchik.unicornType =UnicornType.UNICORN;
 
                     if(unicorn.unicornType != UnicornType.AUTOMATIC_ATTACK) {
                         joystickTouched = false;
-//                    } else if(unicorn.unicornType == UnicornType.SINGLE_BULLET_ATTACK) {
+//                    } else if(unicorn.unicornType == UnicornType.UNICORN) {
 //                        if(++fireIndex >= level / 2) {
 //                            fireIndex = 0;
 //                            joystickTouched = false;

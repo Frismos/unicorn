@@ -104,15 +104,17 @@ public class ShootingEnemy extends Enemy {
                 bullet.setY(getY() + offsetY);
                 bullet.calculateAngle();
             }
-            if(!gameStage.game.tutorialManager.isTutorialMode || !gameStage.game.tutorialManager.pauseGame) {
-                accumulator += delta;
-                if (accumulator >= TIME_STEP) {
-                    accumulator = 0;
-                    if (MathUtils.random(100) <= FIRE_CHANCE) {
-                        attack();
-                    }
-                    if (FIRE_CHANCE < 50) {
-                        FIRE_CHANCE += 1;
+            if(getX() + getWidth() < gameStage.background.getWidth() + gameStage.background.getZero().x - gameStage.grid.tileWidth) {
+                if (!gameStage.game.tutorialManager.isTutorialMode || !gameStage.game.tutorialManager.pauseGame) {
+                    accumulator += delta;
+                    if (accumulator >= TIME_STEP) {
+                        accumulator = 0;
+                        if (MathUtils.random(100) <= FIRE_CHANCE) {
+                            attack();
+                        }
+                        if (FIRE_CHANCE < 50) {
+                            FIRE_CHANCE += 1;
+                        }
                     }
                 }
             }

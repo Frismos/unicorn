@@ -30,7 +30,7 @@ public class Tile extends SpineActor {
     public int j;
 
     public ColorType colorType;
-    public Array<Enemy> enemies = new Array<Enemy>();
+    public Array<Enemy> enemies = new Array<>();
     public Unicorn unicorn;
 
     private String skinNumber;
@@ -38,7 +38,7 @@ public class Tile extends SpineActor {
 
     public Grid grid;
 
-    public Array<Tile> matchingTiles = new Array<Tile>();
+    public Array<Tile> matchingTiles = new Array<>();
 
     private Comparator<Tile> horizontalComp = new Comparator<Tile>() {
         @Override

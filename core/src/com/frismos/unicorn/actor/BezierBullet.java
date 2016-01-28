@@ -47,9 +47,7 @@ public class BezierBullet extends Bullet {
     }
 
     private void explode() {
-        if (gameStage.grid.isPointInsideGrid(getX(), getY())) {
-            tile = gameStage.grid.getTileByPoint(getX() + getWidth() / 2, getY());
-        }
+        tile = gameStage.grid.getTileByPoint(getX() + getWidth() / 2, getY());
         this.destroy();
         if(getTile() != null) {
             Array<Tile> neighbours = gameStage.grid.getNeighbourTiles(getTile());
@@ -60,12 +58,8 @@ public class BezierBullet extends Bullet {
                     }
                 }
             }
-            for (int i = 0; i < getTile().enemies.size; i++) {
-                if(!(getTile().enemies.get(i) instanceof AttackingEnemy) && getTile().enemies.get(i) instanceof Boss || (this.colorType == getTile().enemies.get(i).colorType || this.colorType == ColorType.RAINBOW) && getTile().enemies.get(i).isAttacking()) {
-                    enemiesToHit.add(getTile().enemies.get(i));
-                }
-            }
         }
+        gameStage.shakeWorld(2);
     }
 
     @Override

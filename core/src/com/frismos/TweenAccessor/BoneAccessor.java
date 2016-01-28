@@ -1,6 +1,8 @@
 package com.frismos.TweenAccessor;
 
 import aurelienribon.tweenengine.TweenAccessor;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.esotericsoftware.spine.Bone;
 
 /**

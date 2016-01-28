@@ -1,6 +1,6 @@
 package com.frismos.unicorn.userdata;
 
-import com.frismos.unicorn.enums.UserDataType;
+import com.frismos.unicorn.enums.ActorDataType;
 
 /**
  * Created by edgar on 11/30/2015.
@@ -8,6 +8,6 @@ import com.frismos.unicorn.enums.UserDataType;
 public class EnemyBulletUserData extends UserData {
      public EnemyBulletUserData() {
          super();
-         userDataType = UserDataType.ENEMY_BULLET;
+         actorDataType = ActorDataType.ENEMY_BULLET;
      }
 }

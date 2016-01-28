@@ -25,9 +25,9 @@ public class SkeletonActor extends Actor {
 	}
 
 	public void act (float delta) {
-		state.update(delta);
 		state.apply(skeleton);
 		skeleton.updateWorldTransform();
+		state.update(delta);
 		super.act(delta);
 	}
 

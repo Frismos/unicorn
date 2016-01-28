@@ -3,6 +3,7 @@ package com.frismos.unicorn.actor;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
+import com.frismos.unicorn.enums.ActorDataType;
 import com.frismos.unicorn.userdata.MiniUnicornUserData;
 import com.frismos.unicorn.userdata.UserData;
 import com.frismos.unicorn.enums.ColorType;
@@ -17,13 +18,19 @@ public class MiniUnicorn extends GameActor {
 
     public int damage;
 
-    public MiniUnicorn(GameStage stage, UserData userData) {
-        super(stage, userData, ColorType.getRandomColor());
+    public MiniUnicorn(GameStage stage) {
+        super(stage, ColorType.getRandomColor());
 
         setColorType(colorType);
         resetPosition();
-        animationState.setAnimation(0, "hors", true);
         damage = 3;
+        setUserObject(ActorDataType.MINI_UNICORN);
+    }
+
+    @Override
+    protected void startDefaultAnimation() {
+        setColorType(colorType);
+        skeletonActor.getAnimationState().setAnimation(0, "hors", true);
     }
 
     public void setColorType(ColorType colorType) {
@@ -38,18 +45,13 @@ public class MiniUnicorn extends GameActor {
         } else if (colorType == ColorType.RED) {
             color = Color.valueOf(Strings.RED);
         }
-        for (int i = 0; i < skeleton.getSlots().size; i++) {
-            if(skeleton.getSlots().get(i).getData().getName().contains("color")) {
-                skeleton.getSlots().get(i).getColor().r = color.r;
-                skeleton.getSlots().get(i).getColor().g = color.g;
-                skeleton.getSlots().get(i).getColor().b = color.b;
+        for (int i = 0; i < skeletonActor.getSkeleton().getSlots().size; i++) {
+            if(skeletonActor.getSkeleton().getSlots().get(i).getData().getName().contains("color")) {
+                skeletonActor.getSkeleton().getSlots().get(i).getColor().r = color.r;
+                skeletonActor.getSkeleton().getSlots().get(i).getColor().g = color.g;
+                skeletonActor.getSkeleton().getSlots().get(i).getColor().b = color.b;
             }
         }
-    }
-
-    @Override
-    public MiniUnicornUserData getUserData() {
-        return (MiniUnicornUserData)userData;
     }
 
     @Override

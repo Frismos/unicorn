@@ -20,16 +20,16 @@ public class BouncingEnemy extends ShootingEnemy {
             if(isAttacking) {
                 invulnerable = false;
 //            animationState.setTimeScale(1.0f);
-                animationState.setAnimation(0, "walk", true);
+                skeletonActor.getAnimationState().setAnimation(0, "walk", true);
             }
         }
     };
 
-    public BouncingEnemy(GameStage stage, UserData userData, ColorType colorType) {
-        super(stage, userData, colorType);
-        animationState.setTimeScale(1.0f);
-        animationState.getData().setMix("jump", "walk", 0.1f);
-        animationState.setAnimation(0, "walk", true);
+    public BouncingEnemy(GameStage stage, ColorType colorType) {
+        super(stage, colorType, false);
+        skeletonActor.getAnimationState().setTimeScale(1.0f);
+        skeletonActor.getAnimationState().getData().setMix("jump", "walk", 0.1f);
+        skeletonActor.getAnimationState().setAnimation(0, "walk", true);
         TIME_STEP = 2f;
         FIRE_CHANCE = 60;
         hitPoints = 1;
@@ -53,7 +53,7 @@ public class BouncingEnemy extends ShootingEnemy {
             float destY = gameStage.background.getZero().y + positionY * gameStage.grid.tileHeight + getHeight() / 4;
 //            animationState.setTimeScale(0.6f);
 
-            animationState.setAnimation(0, "jump", true);
+            skeletonActor.getAnimationState().setAnimation(0, "jump", true);
             Interpolation pol = Interpolation.bounceIn;
             addAction(Actions.sequence(Actions.moveTo(getX(), destY, 0.6f, Interpolation.swingOut), Actions.run(moveListener)));
         }

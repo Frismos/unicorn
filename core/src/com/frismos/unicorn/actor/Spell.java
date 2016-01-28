@@ -1,5 +1,6 @@
 package com.frismos.unicorn.actor;
 
+import com.frismos.unicorn.enums.ActorDataType;
 import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.enums.SpellType;
 import com.frismos.unicorn.stage.GameStage;
@@ -13,14 +14,15 @@ public class Spell extends GameActor {
 
     public SpellType spellType;
 
-    public Spell(GameStage stage, UserData userData) {
-        super(stage, userData, ColorType.getRandomColor());
+    public Spell(GameStage stage) {
+        super(stage, ColorType.getRandomColor());
         spellType = SpellType.getRandomValue(gameStage.unicorn.hitPoints == 1);
+        setUserObject(ActorDataType.SPELL);
     }
 
     @Override
-    public UserData getUserData() {
-        return this.userData;
+    protected void startDefaultAnimation() {
+
     }
 
     @Override
@@ -31,5 +33,33 @@ public class Spell extends GameActor {
     @Override
     protected void setScaleRatio() {
         scaleRatio = 0.1f;
+    }
+
+    @Override
+    public void setScale(float scaleXY) {
+//        scaleRatio = scaleXY * 0.1f;
+        skeletonActor.getSkeleton().findBone("root").setScale(scaleXY);
+        super.setScale(scaleXY);
+    }
+
+    @Override
+    public void setScale(float scaleX, float scaleY) {
+//        scaleRatio = scaleX * 0.1f;
+        skeletonActor.getSkeleton().findBone("root").setScale(scaleX);
+        super.setScale(scaleX, scaleY);
+    }
+
+    @Override
+    public void setScaleX(float scaleX) {
+//        scaleRatio = scaleX * 0.1f;
+        skeletonActor.getSkeleton().findBone("root").setScale(scaleX);
+        super.setScaleX(scaleX);
+    }
+
+    @Override
+    public void setScaleY(float scaleY) {
+//        scaleRatio = scaleY * 0.1f;
+        skeletonActor.getSkeleton().findBone("root").setScale(scaleY);
+        super.setScaleY(scaleY);
     }
 }

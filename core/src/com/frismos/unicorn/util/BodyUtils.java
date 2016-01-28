@@ -1,62 +1,55 @@
 package com.frismos.unicorn.util;
 
-import com.badlogic.gdx.physics.box2d.Body;
 import com.frismos.unicorn.actor.GameActor;
-import com.frismos.unicorn.userdata.UserData;
-import com.frismos.unicorn.enums.UserDataType;
+import com.frismos.unicorn.enums.ActorDataType;
 
 /**
  * Created by edgaravanyan on 10/13/15.
  */
 public class BodyUtils {
 
-    public static boolean bodyIsGround(Body body) {
-        UserData userData = (UserData)body.getUserData();
-        return userData != null && userData.getUserDataType() == UserDataType.GROUND;
-    }
-
     public static boolean bodyIsUnicorn(GameActor body) {
-        UserData userData = (UserData)body.getUserData();
-        return userData != null && userData.getUserDataType() == UserDataType.UNICORN;
+        ActorDataType actorDataType = (ActorDataType)body.getUserObject();
+        return actorDataType == ActorDataType.UNICORN;
     }
 
     public static boolean bodyIsMiniUnicorn(GameActor body) {
-        UserData userData = (UserData)body.getUserData();
-        return userData != null && userData.getUserDataType() == UserDataType.MINI_UNICORN;
+        ActorDataType actorDataType = (ActorDataType)body.getUserObject();
+        return actorDataType == ActorDataType.MINI_UNICORN;
     }
 
     public static boolean bodyIsEnemy(GameActor body) {
-        UserData userData = (UserData)body.getUserData();
-        return userData != null && userData.getUserDataType() == UserDataType.ENEMY;
+        ActorDataType actorDataType = (ActorDataType)body.getUserObject();
+        return actorDataType == ActorDataType.ENEMY;
     }
 
     public static boolean bodyIsBullet(GameActor body) {
-        UserData userData = (UserData)body.getUserData();
-        return userData != null && userData.getUserDataType() == UserDataType.BULLET;
+        ActorDataType actorDataType = (ActorDataType)body.getUserObject();
+        return actorDataType == ActorDataType.BULLET;
     }
 
     public static boolean bodyIsCannonBullet(GameActor body) {
-        UserData userData = (UserData)body.getUserData();
-        return userData != null && userData.getUserDataType() == UserDataType.CANNON_BULLET;
+        ActorDataType actorDataType = (ActorDataType)body.getUserObject();
+        return actorDataType == ActorDataType.CANNON_BULLET;
     }
 
     public static boolean bodyIsPlatform(GameActor body) {
-        UserData userData = (UserData)body.getUserData();
-        return userData != null && userData.getUserDataType() == UserDataType.PLATFORM;
+        ActorDataType actorDataType = (ActorDataType)body.getUserObject();
+        return actorDataType == ActorDataType.PLATFORM;
     }
 
     public static boolean bodyIsBoss(GameActor body) {
-        UserData userData = (UserData)body.getUserData();
-        return userData != null && userData.getUserDataType() == UserDataType.BOSS;
+        ActorDataType actorDataType = (ActorDataType)body.getUserObject();
+        return actorDataType == ActorDataType.BOSS;
     }
 
     public static boolean bodyIsEnemyBullet(GameActor body) {
-        UserData userData = (UserData)body.getUserData();
-        return userData != null && userData.getUserDataType() == UserDataType.ENEMY_BULLET;
+        ActorDataType actorDataType = (ActorDataType)body.getUserObject();
+        return actorDataType == ActorDataType.ENEMY_BULLET;
     }
 
     public static boolean bodyIsSpell(GameActor body) {
-        UserData userData = (UserData)body.getUserData();
-        return userData != null && userData.getUserDataType() == UserDataType.SPELL;
+        ActorDataType actorDataType = (ActorDataType)body.getUserObject();
+        return actorDataType == ActorDataType.SPELL;
     }
 }

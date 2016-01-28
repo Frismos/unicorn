@@ -6,9 +6,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.spine.AnimationState;
 import com.esotericsoftware.spine.Event;
 import com.frismos.unicorn.enums.ColorType;
-import com.frismos.unicorn.enums.UserDataType;
+import com.frismos.unicorn.enums.ActorDataType;
 import com.frismos.unicorn.stage.GameStage;
-import com.frismos.unicorn.userdata.UserData;
 import com.frismos.unicorn.util.Constants;
 import com.frismos.unicorn.util.Strings;
 import com.frismos.unicorn.util.Utils;
@@ -64,32 +63,37 @@ public class Bullet extends GameActor {
         }
     };
 
-    public Bullet(GameStage stage, UserData userData) {
-        this(stage, userData, 0);
+    public Bullet(GameStage stage, ActorDataType actorDataType) {
+        this(stage, 0, actorDataType);
     }
 
-    public Bullet(GameStage stage, UserData userData, float x, float y) {
-        this(stage, userData, 0);
+    public Bullet(GameStage stage, float x, float y, ActorDataType actorDataType) {
+        this(stage, 0, actorDataType);
         destPoint.x = x;
         destPoint.y = y;
         destPoint = gameStage.screenToStageCoordinates(destPoint);
         calculateAngle();
     }
 
-    public Bullet(GameStage stage, UserData userData, float angle) {
-        super(stage, userData, userData.colorType);
-        animationState.setAnimation(0, "life", true);
+    public Bullet(GameStage stage, float angle, ActorDataType actorDataType) {
+        super(stage, null);
 
-        if(userData.getUserDataType() == UserDataType.BULLET) {
+        if(actorDataType == ActorDataType.BULLET) {
             speed = GameStage.BULLET_MOVE_SPEED;
             damage = 5;
-        } else if(userData.getUserDataType() == UserDataType.ENEMY_BULLET) {
+        } else if(actorDataType == ActorDataType.ENEMY_BULLET) {
             speed = GameStage.ENEMY_BULLET_MOVE_SPEED;
             damage = 1;
         }
 
         setColorType(colorType);
         setAngle(angle);
+        setUserObject(actorDataType);
+    }
+
+    @Override
+    protected void startDefaultAnimation() {
+        skeletonActor.getAnimationState().setAnimation(0, "life", true);
     }
 
     public float calculateAngle() {
@@ -100,16 +104,11 @@ public class Bullet extends GameActor {
     }
 
     public void setAngle(float angle) {
-        skeleton.getRootBone().setRotation(angle);
+        skeletonActor.getSkeleton().getRootBone().setRotation(angle);
 
         directionX = MathUtils.cosDeg(angle);
         directionY = MathUtils.sinDeg(angle);
         setRotation(angle);
-    }
-
-    @Override
-    public UserData getUserData() {
-        return this.userData;
     }
 
     public void fire() {
@@ -157,9 +156,9 @@ public class Bullet extends GameActor {
     public void destroy() {
         gameStage.collisionDetector.collisionListeners.removeValue(this, false);
         isFiring = false;
-        animationState.setAnimation(0, "destroy", false);
-        animationState.removeListener(bulletDestroyAnimationListener);
-        animationState.addListener(bulletDestroyAnimationListener);
+        skeletonActor.getAnimationState().setAnimation(0, "destroy", false);
+        skeletonActor.getAnimationState().removeListener(bulletDestroyAnimationListener);
+        skeletonActor.getAnimationState().addListener(bulletDestroyAnimationListener);
     }
 
     public void setColorType(ColorType colorType) {
@@ -173,8 +172,8 @@ public class Bullet extends GameActor {
     }
 
     public void resetPosition() {
-        animationState.removeListener(bulletDestroyAnimationListener);
-        animationState.setAnimation(0, "life", true);
+        skeletonActor.getAnimationState().removeListener(bulletDestroyAnimationListener);
+        skeletonActor.getAnimationState().setAnimation(0, "life", true);
         this.setX(Constants.VIEWPORT_WIDTH + 10);
         this.setY(Constants.VIEWPORT_HEIGHT + 10);
         super.act(Gdx.graphics.getDeltaTime());

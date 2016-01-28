@@ -54,24 +54,24 @@ public class Utils {
         } else if (colorType == ColorType.RED) {
             color = Color.valueOf(Strings.RED);
         }
-        for (int i = 0; i < actor.skeleton.getSlots().size; i++) {
+        for (int i = 0; i < actor.skeletonActor.getSkeleton().getSlots().size; i++) {
             if(colorType == ColorType.RAINBOW) {
                 color = colors.get(MathUtils.random(colors.size - 1));
             }
-            if(actor.skeleton.getSlots().get(i).getData().getName().contains("color") && !actor.skeleton.getSlots().get(i).getData().getName().contains("mini")) {
-                actor.skeleton.getSlots().get(i).getColor().r = color.r;
-                actor.skeleton.getSlots().get(i).getColor().g = color.g;
-                actor.skeleton.getSlots().get(i).getColor().b = color.b;
+            if(actor.skeletonActor.getSkeleton().getSlots().get(i).getData().getName().contains("color") && !actor.skeletonActor.getSkeleton().getSlots().get(i).getData().getName().contains("mini")) {
+                actor.skeletonActor.getSkeleton().getSlots().get(i).getColor().r = color.r;
+                actor.skeletonActor.getSkeleton().getSlots().get(i).getColor().g = color.g;
+                actor.skeletonActor.getSkeleton().getSlots().get(i).getColor().b = color.b;
             }
         }
     }
 
     public static void colorActor(GameActor actor, Color color) {
-        for (int i = 0; i < actor.skeleton.getSlots().size; i++) {
-            if(actor.skeleton.getSlots().get(i).getData().getName().contains("color")) {
-                actor.skeleton.getSlots().get(i).getColor().r = color.r;
-                actor.skeleton.getSlots().get(i).getColor().g = color.g;
-                actor.skeleton.getSlots().get(i).getColor().b = color.b;
+        for (int i = 0; i < actor.skeletonActor.getSkeleton().getSlots().size; i++) {
+            if(actor.skeletonActor.getSkeleton().getSlots().get(i).getData().getName().contains("color")) {
+                actor.skeletonActor.getSkeleton().getSlots().get(i).getColor().r = color.r;
+                actor.skeletonActor.getSkeleton().getSlots().get(i).getColor().g = color.g;
+                actor.skeletonActor.getSkeleton().getSlots().get(i).getColor().b = color.b;
             }
         }
     }

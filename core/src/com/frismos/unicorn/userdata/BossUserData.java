@@ -1,6 +1,6 @@
 package com.frismos.unicorn.userdata;
 
-import com.frismos.unicorn.enums.UserDataType;
+import com.frismos.unicorn.enums.ActorDataType;
 
 /**
  * Created by edgar on 11/29/2015.
@@ -8,6 +8,6 @@ import com.frismos.unicorn.enums.UserDataType;
 public class BossUserData  extends UserData {
     public BossUserData() {
         super();
-        userDataType = UserDataType.BOSS;
+        actorDataType = ActorDataType.BOSS;
     }
 }

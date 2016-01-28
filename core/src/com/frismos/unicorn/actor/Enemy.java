@@ -4,14 +4,12 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.spine.AnimationState;
 import com.esotericsoftware.spine.Event;
+import com.frismos.unicorn.enums.ActorDataType;
 import com.frismos.unicorn.enums.TutorialStep;
 import com.frismos.unicorn.manager.TutorialManager;
-import com.frismos.unicorn.userdata.UserData;
 import com.frismos.unicorn.enums.ColorType;
-import com.frismos.unicorn.enums.UserDataType;
 import com.frismos.unicorn.grid.Tile;
 import com.frismos.unicorn.stage.GameStage;
-import com.frismos.unicorn.util.Debug;
 import com.frismos.unicorn.util.Utils;
 
 /**
@@ -63,7 +61,7 @@ public abstract class Enemy extends Creature {
             if(MathUtils.random(100) < prob) {
                 gameStage.putSpell(getX(), getY());
             }
-            animationState.removeListener(this);
+            skeletonActor.getAnimationState().removeListener(this);
             remove();
         }
 
@@ -78,12 +76,12 @@ public abstract class Enemy extends Creature {
         }
     };
 
-    public Enemy(GameStage stage, UserData userData, ColorType colorType) {
-        this(stage, userData,  colorType, false);
+    public Enemy(GameStage stage, ColorType colorType) {
+        this(stage, colorType, false);
     }
 
-    public Enemy(GameStage stage, UserData userData, ColorType colorType, boolean isTutorialEnemy) {
-        super(stage, userData, colorType);
+    public Enemy(GameStage stage, ColorType colorType, boolean isTutorialEnemy) {
+        super(stage, colorType);
 
         setColorType(colorType);
 
@@ -141,15 +139,11 @@ public abstract class Enemy extends Creature {
         if(!isTutorialEnemy) {
             moveSpeed = GameStage._ENEMY_MOVE_SPEED;
         }
+        setUserObject(ActorDataType.ENEMY);
     }
 
     public void setColorType(ColorType colorType) {
         Utils.setActorColorType(this, colorType);
-    }
-
-    @Override
-    public UserData getUserData() {
-        return this.userData;
     }
 
     public boolean isAttacking() {
@@ -193,12 +187,12 @@ public abstract class Enemy extends Creature {
                 tile.enemies.removeValue(Enemy.this, false);
             }
             isAttacking = false;
-            animationState.setAnimation(0, "die", false);
+            skeletonActor.getAnimationState().setAnimation(0, "die", false);
             if(dieListener == null) {
                 dieListener = this.dieListener;
             }
-            animationState.clearListeners();
-            animationState.addListener(dieListener);
+            skeletonActor.getAnimationState().clearListeners();
+            skeletonActor.getAnimationState().addListener(dieListener);
         }
     }
 

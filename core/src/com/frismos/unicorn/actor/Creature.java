@@ -28,8 +28,8 @@ public abstract class Creature extends GameActor {
     private ProgressBar pb;
     private int hitLabelIndex = 0;
 
-    public Creature(GameStage stage, UserData userData, ColorType colorType) {
-        super(stage, userData, colorType);
+    public Creature(GameStage stage, ColorType colorType) {
+        super(stage, colorType);
     }
 
     public void showProgressBar() {
@@ -77,7 +77,6 @@ public abstract class Creature extends GameActor {
 //        }
 
         if(gameStage.game.tutorialManager.isTutorialMode && gameStage.game.tutorialManager.currentStep == TutorialStep.FINISH) {
-            Debug.Log("creature hit = " + 78);
             gameStage.game.tutorialManager.isTutorialMode = false;
             gameStage.game.tutorialManager.pauseGame = false;
         }

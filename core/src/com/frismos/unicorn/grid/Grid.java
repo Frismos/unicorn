@@ -2,10 +2,12 @@ package com.frismos.unicorn.grid;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.frismos.unicorn.actor.Bullet;
 import com.frismos.unicorn.actor.Enemy;
 import com.frismos.unicorn.enums.ColorType;
+import com.frismos.unicorn.spine.SpineActor;
 import com.frismos.unicorn.stage.GameStage;
 
 import com.badlogic.gdx.utils.Array;
@@ -395,5 +397,13 @@ public class Grid extends Group {
 
     public int distanceColumn(Tile tile1, Tile tile2) {
         return Math.abs(tile1.j - tile2.j);
+    }
+
+    @Override
+    public void addActor(Actor actor) {
+        if(actor instanceof SpineActor) {
+            ((SpineActor)actor).actorAddedToStage();
+        }
+        super.addActor(actor);
     }
 }

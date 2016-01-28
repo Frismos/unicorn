@@ -45,6 +45,7 @@ public class SkeletonActorPool extends Pool<SkeletonActor> {
 				skeleton.setSkin((Skin)null);
 				skeleton.setSkin(SkeletonActorPool.this.skeletonData.getDefaultSkin());
 				skeleton.setToSetupPose();
+
 			}
 		};
 

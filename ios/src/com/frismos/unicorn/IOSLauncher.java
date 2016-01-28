@@ -106,7 +106,7 @@ public class IOSLauncher extends IOSApplication.Delegate {
         });
 
         Flurry.setAppVersion(Constants.APP_VERSION);
-        Flurry.setCrashReportingEnabled(true);
+        Flurry.enableCrashReporting();
         Flurry.startSession("CG69RNZHRCRXY9P3CJTY");
 
         GAI gaiInstance = GAI.getSharedInstance();
@@ -119,7 +119,6 @@ public class IOSLauncher extends IOSApplication.Delegate {
     }
 
     public static void main(String[] argv) {
-
         NSAutoreleasePool pool = new NSAutoreleasePool();
         UIApplication.main(argv, null, Sample.class);
         pool.close();

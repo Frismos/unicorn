@@ -3,7 +3,7 @@ package com.frismos.unicorn.enums;
 /**
  * Created by edgaravanyan on 10/12/15.
  */
-public enum UserDataType {
+public enum ActorDataType {
     GROUND,
     UNICORN,
     MINI_UNICORN,

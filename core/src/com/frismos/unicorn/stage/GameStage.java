@@ -3,10 +3,10 @@ package com.frismos.unicorn.stage;
 import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -20,21 +20,20 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.Pool;
+import com.badlogic.gdx.utils.Pools;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.esotericsoftware.spine.utils.SkeletonActorPool;
 import com.frismos.TweenAccessor.CameraAccessor;
 import com.frismos.unicorn.UnicornGame;
 import com.frismos.unicorn.actor.*;
-import com.frismos.unicorn.enums.ColorType;
-import com.frismos.unicorn.enums.SpellType;
-import com.frismos.unicorn.enums.TutorialStep;
-import com.frismos.unicorn.enums.UnicornType;
+import com.frismos.unicorn.enums.*;
 import com.frismos.unicorn.grid.Grid;
 import com.frismos.unicorn.manager.TutorialManager;
-import com.frismos.unicorn.userdata.SpellUserData;
+import com.frismos.unicorn.spine.SpineActor;
 import com.frismos.unicorn.util.*;
-
-import com.badlogic.gdx.utils.Array;
 
 import java.util.Comparator;
 
@@ -117,10 +116,10 @@ public class GameStage extends Stage {
     public boolean restartGame = false;
     public boolean stopGame = false;
 
-    private Array<Integer> directions = new Array<Integer>();
-    public Array<Integer> colorIndices = new Array<Integer>();
+    private Array<Integer> directions = new Array<>();
+    public Array<Integer> colorIndices = new Array<>();
 
-    public Array<Bullet> gameBullets = new Array<Bullet>();
+    public Array<Bullet> gameBullets = new Array<>();
     public int nextBulletIndex = 0;
 
     public int score = 0;
@@ -154,6 +153,45 @@ public class GameStage extends Stage {
     private float layeringTime = 0.1f;
     private float layeringTimer = 0.0f;
 
+    private Pool<Enemy> pools = new Pool<Enemy>() {
+        @Override
+        protected Enemy newObject() {
+            return new WalkingEnemy(GameStage.this, ColorType.GREEN);
+        }
+    };
+    private Comparator<? super Actor> actorsComporator = new Comparator<Actor>() {
+        @Override
+        public int compare(Actor o1, Actor o2) {
+            if (o1 instanceof Background || o2 instanceof Background ||
+                    o1 instanceof Bullet || o2 instanceof Bullet ||
+                    o1 instanceof Grid || o2 instanceof Grid ||
+                    o1 instanceof ProgressBar || o2 instanceof ProgressBar) {
+                return 0;
+            }
+            if (o1.getY() < o2.getY()) {
+                //                    Debug.Log("y smaller");
+                return 1;
+            } else if (o1.getY() > o2.getY()) {
+                return -1;
+            } else if (o1.getX() < o2.getX()) {
+                //                    Debug.Log("x smaller");
+                return 1;
+            } else if (o1.getX() > o2.getX()) {
+                //                    Debug.Log("x greater");
+                return -1;
+            } else if (o1.getZIndex() < o2.getZIndex()) {
+                Debug.Log("z index smaller");
+                return 1;
+            } else if (o1.getZIndex() > o2.getZIndex()) {
+                Debug.Log("z index greater");
+                return -1;
+            }
+
+            Debug.Log("LAYER STAGE 0");
+            return 0;
+        }
+    };
+
     public GameStage(final UnicornGame game) {
         super(new StretchViewport(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT), new PolygonSpriteBatch());
         this.game = game;
@@ -164,13 +202,13 @@ public class GameStage extends Stage {
         grid = new Grid(this);
         addActor(grid);
 
-        unicorn = new Unicorn(this, WorldUtils.createUnicorn(), UnicornType.UNICORN);
+        unicorn = new Unicorn(this, UnicornType.UNICORN);
         unicorn.setX(background.getZero().x + grid.tileWidth / 2 - unicorn.getWidth() / 2);
         unicorn.setY(background.getZero().y + grid.tileHeight / 2 - unicorn.getHeight() / 2);
         unicorn.showProgressBar();
         unicorns.put(unicorn.unicornType, unicorn);
 
-        Rhino rhino = new Rhino(this, WorldUtils.createUnicorn(), UnicornType.RHINO);
+        Rhino rhino = new Rhino(this, UnicornType.RHINO);
         rhino.setX(background.getZero().x + grid.tileWidth / 2 - rhino.getWidth() / 2);
         rhino.setY(background.getZero().y + grid.tileHeight / 2 - rhino.getHeight() / 2);
         rhino.showProgressBar();
@@ -226,7 +264,7 @@ public class GameStage extends Stage {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 //                GameStage.this.game.gameCenterController.showLeaderboardView("");
-//                unicorn.callUnicorns();
+                unicorn.callUnicorns();
                 changeUnicorn();
                 joystickTouched = false;
                 return super.touchDown(event, x, y, pointer, button);
@@ -237,7 +275,7 @@ public class GameStage extends Stage {
         initConstants();
 
         for (int i = 0; i < 20; i++) {
-            gameBullets.add(new Bullet(this, WorldUtils.createBullet()));
+            gameBullets.add(new Bullet(this, ActorDataType.BULLET));
         }
 
         Thread detector = new Thread(collisionDetector);
@@ -252,14 +290,20 @@ public class GameStage extends Stage {
         if(count == 0) {
             return;
         }
-        float x = MathUtils.random(-0.1f, 0.1f);
-        float y = MathUtils.random(-0.1f, 0.1f);
+        final float x = MathUtils.randomBoolean() ? -0.1f : 0.1f;
+        final float y = MathUtils.randomBoolean() ? -0.1f : 0.1f;
 
         final int fCount = --count;
-        Tween.to(getCamera(), CameraAccessor.POSITION_XY, 0.05f).targetRelative(x, y).start(game.tweenManager).setCallback((type, source) -> {
-            Tween.to(getCamera(), CameraAccessor.POSITION_XY, 0.05f).targetRelative(-x, -y).start(game.tweenManager).setCallback((t, s) -> {
-                shakeWorld(fCount);
-            });
+        Tween.to(getCamera(), CameraAccessor.POSITION_XY, 0.05f).targetRelative(x, y).start(game.tweenManager).setCallback(new TweenCallback() {
+            @Override
+            public void onEvent(int type, BaseTween<?> source) {
+                Tween.to(getCamera(), CameraAccessor.POSITION_XY, 0.05f).targetRelative(-x, -y).start(game.tweenManager).setCallback(new TweenCallback() {
+                    @Override
+                    public void onEvent(int type, BaseTween<?> source) {
+                        shakeWorld(fCount);
+                    }
+                });
+            }
         });
     }
 
@@ -304,9 +348,9 @@ public class GameStage extends Stage {
         ColorType colorType = ColorType.RAINBOW;
         Enemy boss;
         if(MathUtils.randomBoolean()) {
-            boss = new ShootingBoss(this, WorldUtils.createBoss(), colorType, isTutorial);
+            boss = new ShootingBoss(this, colorType, isTutorial);
         } else {
-            boss = new MotherBoss(this, WorldUtils.createBoss(), colorType, isTutorial);
+            boss = new MotherBoss(this, colorType, isTutorial);
         }
         game.tutorialManager.isTutorialEnemyOnStage = isTutorial;
         collisionDetector.collisionListeners.add(boss);
@@ -327,19 +371,19 @@ public class GameStage extends Stage {
         if(colorIndices.size > 0) {
             int colorIndex = colorIndices.get(MathUtils.random(colorIndices.size - 1));
             colorType = ColorType.values()[colorIndex];
-            enemy = new WalkingEnemy(this, WorldUtils.createEnemy(), colorType, isTutorial);
+            enemy = new WalkingEnemy(this, colorType, isTutorial);
             colorIndices.removeValue(colorIndex, true);
         } else {
             colorType = ColorType.getRandomColor();
             int enemyProb = MathUtils.random(100);
             if(enemyProb <= SHOOTING_ENEMY_SPAWN_CHANCE) {
-                enemy = new ShootingEnemy(this, WorldUtils.createEnemy(), colorType);
+                enemy = new ShootingEnemy(this, colorType);
             } else if(enemyProb <= SHOOTING_ENEMY_SPAWN_CHANCE + ATTACKING_ENEMY_SPAWN_CHANCE) {
-                enemy = new AttackingEnemy(this, WorldUtils.createEnemy(), colorType);
+                enemy = new AttackingEnemy(this, colorType);
             } else if(enemyProb <= SHOOTING_ENEMY_SPAWN_CHANCE + ATTACKING_ENEMY_SPAWN_CHANCE + BOUNCING_ENEMY_SPAWN_CHANCE) {
-                enemy = new BouncingEnemy(this, WorldUtils.createEnemy(), colorType);
+                enemy = new BouncingEnemy(this, colorType);
             } else {
-                enemy = new WalkingEnemy(this, WorldUtils.createEnemy(), colorType);
+                enemy = new WalkingEnemy(this, colorType);
             }
         }
         enemy.isTutorialEnemy = isTutorial;
@@ -359,12 +403,12 @@ public class GameStage extends Stage {
 
     public void putSpell(float x, float y) {
         if(spellCandy == null) {
-            spellCandy = new Spell(this, new SpellUserData());
+            spellCandy = new Spell(this);
             spellCandy.setScale(0);
             spellCandy.setX(x);
             spellCandy.setY(y);
             addActor(spellCandy);
-            spellCandy.addAction(Actions.sequence(Actions.scaleTo(1, 1, 1.5f), Actions.run(spellCandyRunnable)));
+            spellCandy.addAction(Actions.sequence(Actions.scaleTo(1f, 1f, 1.5f), Actions.run(spellCandyRunnable)));
         }
     }
 
@@ -400,10 +444,10 @@ public class GameStage extends Stage {
         if(unicorn.colorType != null) {
             Bullet bullet;
             if(unicorn.unicornType == UnicornType.RHINO) {
-                bullet = new BezierBullet(this, WorldUtils.createCannonBullet(), x, y);
+                bullet = new BezierBullet(this, x, y);
                 bullet.damage = 1;
             } else {
-                bullet = new Bullet(this, WorldUtils.createBullet(), x, y);
+                bullet = new Bullet(this, x, y, ActorDataType.BULLET);
             }
             bullet.setColorType(unicorn.colorType);
             bullet.setX(unicorn.getFirePoint().x + unicorn.getX());
@@ -612,7 +656,7 @@ public class GameStage extends Stage {
                 for (int j = i + 1; j < collisionListeners.size; j++) {
                     GameActor a = collisionListeners.get(i);
                     GameActor b = collisionListeners.get(j);
-                    if (!a.equals(b) && Utils.intersects(a, b)) {
+                    if (!a.getClass().equals(b.getClass()) && Utils.intersects(a, b)) {
                         //bullet hit enemy
                         if (BodyUtils.bodyIsEnemy(a) && BodyUtils.bodyIsBullet(b)) {
                             final Enemy enemy = (Enemy) a;
@@ -754,35 +798,7 @@ public class GameStage extends Stage {
         Array<Actor> actors = this.getActors();
         try {
             long time = System.currentTimeMillis();
-            actors.sort((o1, o2) -> {
-                if (o1 instanceof Background || o2 instanceof Background ||
-                        o1 instanceof Bullet || o2 instanceof Bullet ||
-                        o1 instanceof Grid || o2 instanceof Grid ||
-                        o1 instanceof ProgressBar || o2 instanceof ProgressBar) {
-                    return 0;
-                }
-                if (o1.getY() < o2.getY()) {
-//                    Debug.Log("y smaller");
-                    return 1;
-                } else if (o1.getY() > o2.getY()) {
-                    return -1;
-                } else if (o1.getX() < o2.getX()) {
-//                    Debug.Log("x smaller");
-                    return 1;
-                } else if (o1.getX() > o2.getX()) {
-//                    Debug.Log("x greater");
-                    return -1;
-                } else if (o1.getZIndex() < o2.getZIndex()) {
-                    Debug.Log("z index smaller");
-                    return 1;
-                } else if (o1.getZIndex() > o2.getZIndex()) {
-                    Debug.Log("z index greater");
-                    return -1;
-                }
-
-                Debug.Log("LAYER STAGE 0");
-                return 0;
-            });
+            actors.sort(actorsComporator);
         } catch (IllegalArgumentException ex) {
             Gdx.app.error("", ex.getMessage(), ex);
         }
@@ -791,6 +807,9 @@ public class GameStage extends Stage {
     @Override
     public void addActor(Actor actor) {
         super.addActor(actor);
+        if(actor instanceof SpineActor) {
+            ((SpineActor)actor).actorAddedToStage();
+        }
         if(!(actor instanceof Bullet)) {
             layerStage();
         }

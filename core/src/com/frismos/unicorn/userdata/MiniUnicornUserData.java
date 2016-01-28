@@ -1,6 +1,6 @@
 package com.frismos.unicorn.userdata;
 
-import com.frismos.unicorn.enums.UserDataType;
+import com.frismos.unicorn.enums.ActorDataType;
 
 /**
  * Created by edgar on 11/28/2015.
@@ -9,6 +9,6 @@ public class MiniUnicornUserData extends UserData {
 
     public MiniUnicornUserData() {
         super();
-        userDataType = UserDataType.MINI_UNICORN;
+        actorDataType = ActorDataType.MINI_UNICORN;
     }
 }

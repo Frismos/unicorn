@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.esotericsoftware.spine.AnimationState;
 import com.esotericsoftware.spine.Event;
+import com.frismos.unicorn.enums.ActorDataType;
 import com.frismos.unicorn.userdata.BossUserData;
 import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.stage.GameStage;
@@ -22,9 +23,9 @@ public class MotherBoss extends Boss {
         public void event(int trackIndex, Event event) {
             final Enemy enemy;
             if(MathUtils.random(100) < 10 * gameStage.level) {
-                enemy = new ShootingEnemy(gameStage, WorldUtils.createEnemy(), ColorType.getRandomColor());
+                enemy = new ShootingEnemy(gameStage, ColorType.getRandomColor());
             } else {
-                enemy = new WalkingEnemy(gameStage, WorldUtils.createEnemy(), ColorType.getRandomColor());
+                enemy = new WalkingEnemy(gameStage, ColorType.getRandomColor());
             }
             enemy.isSonOfABoss = true;
             gameStage.addActor(enemy);
@@ -47,8 +48,8 @@ public class MotherBoss extends Boss {
 
         @Override
         public void complete(int trackIndex, int loopCount) {
-            animationState.removeListener(this);
-            animationState.setAnimation(0, "walk", true);
+            skeletonActor.getAnimationState().removeListener(this);
+            skeletonActor.getAnimationState().setAnimation(0, "walk", true);
         }
 
         @Override
@@ -62,12 +63,8 @@ public class MotherBoss extends Boss {
         }
     };
 
-    public MotherBoss(GameStage stage, BossUserData userData, ColorType colorType) {
-        this(stage, userData, colorType, false);
-    }
-
-    public MotherBoss(GameStage gameStage, BossUserData boss, ColorType colorType, boolean isTutorial) {
-        super(gameStage, boss, colorType, isTutorial);
+    public MotherBoss(GameStage gameStage, ColorType colorType, boolean isTutorial) {
+        super(gameStage, colorType, isTutorial);
         TIME_STEP = 2.0f;
         FIRE_CHANCE = 80;
         if(isTutorial) {
@@ -79,9 +76,9 @@ public class MotherBoss extends Boss {
 
     @Override
     public void attack() {
-        animationState.setAnimation(0, "attack", false);
-        animationState.clearListeners();
-        animationState.addListener(attackAnimationListener);
+        skeletonActor.getAnimationState().setAnimation(0, "attack", false);
+        skeletonActor.getAnimationState().clearListeners();
+        skeletonActor.getAnimationState().addListener(attackAnimationListener);
     }
 
 }

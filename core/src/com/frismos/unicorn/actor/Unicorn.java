@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.esotericsoftware.spine.AnimationState;
 import com.esotericsoftware.spine.Event;
+import com.frismos.unicorn.enums.ActorDataType;
 import com.frismos.unicorn.enums.TutorialStep;
 import com.frismos.unicorn.userdata.UnicornUserData;
 import com.frismos.unicorn.userdata.UserData;
@@ -32,10 +33,10 @@ public class Unicorn extends Creature {
     protected float touchX = Float.MIN_VALUE;
     protected float touchY = Float.MIN_VALUE;
     private float bulletAngle;
-    private int miniUnicornsIndex = 0;
 
+    private static int miniUnicornsIndex = 0;
     private static final float WAVE_TIME_STEP = 0.2f;
-    private float waveTimeCounter = 0.0f;
+    private static float waveTimeCounter = 0.0f;
 
     private static boolean rainbowMode = false;
     private static final float RAINBOW_TIME = 5.0f;
@@ -46,7 +47,7 @@ public class Unicorn extends Creature {
 
     public UnicornType unicornType;
 
-    private Array<Enemy> positionChangeListeners = new Array<Enemy>();
+    private static Array<Enemy> positionChangeListeners = new Array<Enemy>();
 
     protected AnimationState.AnimationStateListener fireAnimationListener = new AnimationState.AnimationStateListener() {
         @Override
@@ -61,8 +62,8 @@ public class Unicorn extends Creature {
 
         @Override
         public void complete(int trackIndex, int loopCount) {
-            animationState.removeListener(this);
-            animationState.setAnimation(0, "idle", true);
+            skeletonActor.getAnimationState().removeListener(this);
+            skeletonActor.getAnimationState().setAnimation(0, "idle", true);
             isFiring = false;
         }
 
@@ -79,7 +80,7 @@ public class Unicorn extends Creature {
 
     private Vector2 firePoint;
     protected Array<Integer> directions;
-    private Array<MiniUnicorn> miniUnicorns = new Array<MiniUnicorn>();
+    private static Array<MiniUnicorn> miniUnicorns = new Array<MiniUnicorn>();
     private Runnable changeEnemyDirection = new Runnable() {
         @Override
         public void run() {
@@ -88,24 +89,30 @@ public class Unicorn extends Creature {
             }
         }
     };
+
     private int maxHitPoints;
     public float attackSpeed;
 
-    public Unicorn(GameStage stage, UserData userData, UnicornType unicornType) {
-        super(stage, userData, ColorType.YELLOW);
+    public Unicorn(GameStage stage, UnicornType unicornType) {
+        super(stage, ColorType.YELLOW);
 
         setUnicornType(unicornType);
         setColorType(this.colorType);
 
         this.setY(gameStage.background.getZero().y);
-        animationState.setAnimation(0, "idle", true);
 
         for (int i = 0; i < MINI_UNICORNS_COUNT; i++) {
-            miniUnicorns.add(new MiniUnicorn(gameStage, WorldUtils.createMiniUnicorn()));
+            miniUnicorns.add(new MiniUnicorn(gameStage));
         }
         positionChanged();
         maxHitPoints = hitPoints = 3;
 //        enableRainbowMode();
+        setUserObject(ActorDataType.UNICORN);
+    }
+
+    @Override
+    protected void startDefaultAnimation() {
+        skeletonActor.getAnimationState().setAnimation(0, "idle", true);
     }
 
     public void setUnicornType(UnicornType unicornType) {
@@ -129,11 +136,6 @@ public class Unicorn extends Creature {
         positionChangeListeners.removeValue(enemy, false);
     }
 
-    @Override
-    public UnicornUserData getUserData() {
-        return (UnicornUserData)userData;
-    }
-
     public void playFireAnimation(float x, float y) {
 //        if(isFiring) {
         gameStage.fireBullet(x, y);
@@ -145,9 +147,9 @@ public class Unicorn extends Creature {
 //            this.touchX = x;
 //            this.touchY = y;
             this.directions = directions;
-        animationState.setAnimation(0, "fire", false);
-        animationState.clearListeners();
-        animationState.addListener(fireAnimationListener);
+        skeletonActor.getAnimationState().setAnimation(0, "fire", false);
+        skeletonActor.getAnimationState().clearListeners();
+        skeletonActor.getAnimationState().addListener(fireAnimationListener);
 //        }
     }
 
@@ -162,9 +164,9 @@ public class Unicorn extends Creature {
 //        }
 //        if(!isFiring) {
 //            isFiring = true;
-        animationState.setAnimation(0, "fire", false);
-        animationState.clearListeners();
-        animationState.addListener(fireAnimationListener);
+        skeletonActor.getAnimationState().setAnimation(0, "fire", false);
+        skeletonActor.getAnimationState().clearListeners();
+        skeletonActor.getAnimationState().addListener(fireAnimationListener);
 //        }
     }
 
@@ -299,7 +301,7 @@ public class Unicorn extends Creature {
 
     public Vector2 getFirePoint() {
         if(firePoint == null) {
-            firePoint = new Vector2(skeleton.findBone("center-spawn").getWorldX(), skeleton.findBone("center-spawn").getWorldY());
+            firePoint = new Vector2(skeletonActor.getSkeleton().findBone("center-spawn").getWorldX(), skeletonActor.getSkeleton().findBone("center-spawn").getWorldY());
         }
         return firePoint;
     }

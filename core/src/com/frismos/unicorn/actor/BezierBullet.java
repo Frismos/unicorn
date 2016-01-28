@@ -1,13 +1,12 @@
 package com.frismos.unicorn.actor;
 
 import com.badlogic.gdx.math.Vector2;
+import com.frismos.unicorn.enums.ActorDataType;
 import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.grid.Tile;
 import com.frismos.unicorn.stage.GameStage;
-import com.frismos.unicorn.userdata.UserData;
 
 import com.badlogic.gdx.utils.Array;
-import com.frismos.unicorn.util.Debug;
 import com.frismos.unicorn.util.Strings;
 
 /**
@@ -26,10 +25,10 @@ public class BezierBullet extends Bullet {
     private Vector2 p = new Vector2();
     private Tile tile;
 
-    private Array<Enemy> enemiesToHit = new Array<Enemy>();
+    private Array<Enemy> enemiesToHit = new Array<>();
 
-    public BezierBullet(GameStage stage, UserData userData, float x, float y) {
-        super(stage, userData, x, y);
+    public BezierBullet(GameStage stage, float x, float y) {
+        super(stage, x, y, ActorDataType.CANNON_BULLET);
     }
 
     @Override

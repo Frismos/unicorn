@@ -4,8 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.esotericsoftware.spine.AnimationStateData;
 import com.esotericsoftware.spine.SkeletonData;
 import com.esotericsoftware.spine.SkeletonJson;
+import com.esotericsoftware.spine.SkeletonMeshRenderer;
+import com.esotericsoftware.spine.SkeletonRenderer;
+import com.esotericsoftware.spine.utils.SkeletonActor;
+import com.esotericsoftware.spine.utils.SkeletonActorPool;
 import com.frismos.unicorn.util.Debug;
 
 /**
@@ -13,13 +18,18 @@ import com.frismos.unicorn.util.Debug;
  */
 public class AtlasManager {
 
-    private ObjectMap<Class, SkeletonData> skeletonDatas = new ObjectMap<Class, SkeletonData>();
-    private ObjectMap<Class, SkeletonJson> skeletonJsons = new ObjectMap<Class, SkeletonJson>();
+
+    private SkeletonRenderer skeletonRenderer;
+
+    private ObjectMap<Class, SkeletonData> skeletonDatas = new ObjectMap<>();
+    private ObjectMap<Class, SkeletonJson> skeletonJsons = new ObjectMap<>();
+    private ObjectMap<SkeletonData, SkeletonActorPool> skeletonActorPools = new ObjectMap<>();
 
     private AssetManager manager;
 
     public AtlasManager() {
         manager = new AssetManager();
+        skeletonRenderer = new SkeletonMeshRenderer();
     }
 
     public <T> T get(String fileName, Class<T> type) {
@@ -55,7 +65,22 @@ public class AtlasManager {
         return skeletonJson;
     }
 
+    public SkeletonActor getSkeletonActor(SkeletonData skeletonData, AnimationStateData stateData) {
+        SkeletonActor skeletonActor;
+        if(skeletonActorPools.containsKey(skeletonData)) {
+            skeletonActor = skeletonActorPools.get(skeletonData).obtain();
+        } else {
+            skeletonActorPools.put(skeletonData, new SkeletonActorPool(skeletonRenderer, skeletonData, stateData));
+            skeletonActor = skeletonActorPools.get(skeletonData).obtain();
+        }
+        return skeletonActor;
+    }
+
     public void unloadAsset(String fileName) {
         manager.unload(fileName);
+    }
+
+    public void freeSkeletonActor(SkeletonActor skeletonActor) {
+        skeletonActorPools.get(skeletonActor.getSkeleton().getData()).free(skeletonActor);
     }
 }

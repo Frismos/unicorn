@@ -3,6 +3,7 @@ package com.frismos.unicorn.actor;
 import com.badlogic.gdx.math.MathUtils;
 import com.esotericsoftware.spine.AnimationState;
 import com.esotericsoftware.spine.Event;
+import com.frismos.unicorn.enums.ActorDataType;
 import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.userdata.UserData;
@@ -21,8 +22,8 @@ public abstract class Boss extends ShootingEnemy {
 
         @Override
         public void complete(int trackIndex, int loopCount) {
-            animationState.removeListener(this);
-            animationState.setAnimation(0, "walk", true);
+            skeletonActor.getAnimationState().removeListener(this);
+            skeletonActor.getAnimationState().setAnimation(0, "walk", true);
         }
 
         @Override
@@ -36,21 +37,26 @@ public abstract class Boss extends ShootingEnemy {
         }
     };
 
-    public Boss(GameStage stage, UserData userData, ColorType colorType, boolean isTutorial) {
-        super(stage, userData, colorType, isTutorial);
+    public Boss(GameStage stage, ColorType colorType, boolean isTutorial) {
+        super(stage, colorType, isTutorial);
         setX(Constants.ENEMY_X);
         int positionY = MathUtils.random(GameStage.ROW_LENGTH - 2);
         this.setY(gameStage.background.getZero().y + positionY * gameStage.grid.tileHeight + gameStage.grid.tileHeight / 10);
         if(!isTutorial) {
             moveSpeed = GameStage._BOSS_MOVE_SPEED;
         }
-        animationState.getData().setMix("attack", "walk", 0.1f);
-        animationState.getData().setMix("attack", "hit", 0.1f);
-        animationState.getData().setMix("walk", "attack", 0.1f);
-        animationState.getData().setMix("hit", "attack", 0.1f);
-        animationState.getData().setMix("walk", "hit", 0.1f);
-        animationState.getData().setMix("hit", "walk", 0.1f);
-        animationState.setAnimation(0, "walk", true);
+        skeletonActor.getAnimationState().getData().setMix("attack", "walk", 0.1f);
+        skeletonActor.getAnimationState().getData().setMix("attack", "hit", 0.1f);
+        skeletonActor.getAnimationState().getData().setMix("walk", "attack", 0.1f);
+        skeletonActor.getAnimationState().getData().setMix("hit", "attack", 0.1f);
+        skeletonActor.getAnimationState().getData().setMix("walk", "hit", 0.1f);
+        skeletonActor.getAnimationState().getData().setMix("hit", "walk", 0.1f);
+        setUserObject(ActorDataType.BOSS);
+    }
+
+    @Override
+    protected void startDefaultAnimation() {
+        skeletonActor.getAnimationState().setAnimation(0, "walk", true);
     }
 
     @Override
@@ -74,9 +80,9 @@ public abstract class Boss extends ShootingEnemy {
     public void hit(int damage) {
         super.hit(damage);
         if(isAttacking) {
-            animationState.setAnimation(0, "hit", false);
-            animationState.clearListeners();
-            animationState.addListener(hitAnimationStateListener);
+            skeletonActor.getAnimationState().setAnimation(0, "hit", false);
+            skeletonActor.getAnimationState().clearListeners();
+            skeletonActor.getAnimationState().addListener(hitAnimationStateListener);
         }
     }
 }

@@ -19,8 +19,8 @@ public class Rhino extends Unicorn {
 
         @Override
         public void complete(int trackIndex, int loopCount) {
-            animationState.removeListener(this);
-            animationState.setAnimation(0, "idle", true);
+            skeletonActor.getAnimationState().removeListener(this);
+            skeletonActor.getAnimationState().setAnimation(0, "idle", true);
         }
 
         @Override
@@ -34,8 +34,8 @@ public class Rhino extends Unicorn {
         }
     };
 
-    public Rhino(GameStage stage, UserData userData, UnicornType unicornType) {
-        super(stage, userData, unicornType);
+    public Rhino(GameStage stage, UnicornType unicornType) {
+        super(stage, unicornType);
     }
 
     @Override
@@ -52,9 +52,9 @@ public class Rhino extends Unicorn {
     @Override
     public void hit(int damage) {
         super.hit(damage);
-        animationState.setAnimation(0, "hit", false);
-        animationState.clearListeners();
-        animationState.addListener(hitAnimationStateListener);
+        skeletonActor.getAnimationState().setAnimation(0, "hit", false);
+        skeletonActor.getAnimationState().clearListeners();
+        skeletonActor.getAnimationState().addListener(hitAnimationStateListener);
     }
 
 
@@ -67,9 +67,9 @@ public class Rhino extends Unicorn {
 //            isFiring = true;
         this.touchX = x;
         this.touchY = y;
-        animationState.setAnimation(0, "fire", false);
-        animationState.clearListeners();
-        animationState.addListener(fireAnimationListener);
+        skeletonActor.getAnimationState().setAnimation(0, "fire", false);
+        skeletonActor.getAnimationState().clearListeners();
+        skeletonActor.getAnimationState().addListener(fireAnimationListener);
 //        }
     }
 }

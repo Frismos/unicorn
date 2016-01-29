@@ -62,7 +62,7 @@ public abstract class Enemy extends Creature {
                 gameStage.putSpell(getX(), getY());
             }
             skeletonActor.getAnimationState().removeListener(this);
-            remove();
+            remove(true);
         }
 
         @Override
@@ -178,7 +178,6 @@ public abstract class Enemy extends Creature {
             }
 
             gameStage.collisionDetector.collisionListeners.removeValue(this, false);
-            dispose();
             gameStage.unicorn.removePositionChangeListener(this);
             if(gameStage.boss == null && !isTutorialEnemy) {
                 gameStage.deadEnemyCounter++;
@@ -254,11 +253,5 @@ public abstract class Enemy extends Creature {
         angle = 90 - angle;
         directionX = MathUtils.cosDeg(angle);
         directionY = MathUtils.sinDeg(angle);
-    }
-
-    @Override
-    public boolean remove() {
-        dispose();
-        return super.remove();
     }
 }

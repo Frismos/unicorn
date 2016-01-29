@@ -7,8 +7,6 @@ import com.esotericsoftware.spine.AnimationStateData;
 import com.esotericsoftware.spine.SkeletonBounds;
 import com.esotericsoftware.spine.SkeletonData;
 import com.esotericsoftware.spine.SkeletonJson;
-import com.esotericsoftware.spine.SkeletonMeshRenderer;
-import com.esotericsoftware.spine.SkeletonRenderer;
 import com.esotericsoftware.spine.utils.SkeletonActor;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.util.Constants;
@@ -96,11 +94,22 @@ public abstract class SpineActor extends Actor {
         skeletonActor.setPosition(getX(), getY());
     }
 
-    @Override
-    public boolean remove() {
+    public boolean remove(boolean dispose) {
+        if (dispose) {
+            dispose();
+        } else {
+            resetPosition();
+        }
+        return super.remove();
+    }
+
+    public void dispose() {
         gameStage.game.atlasManager.freeSkeletonActor(skeletonActor);
         skeletonActor.act(Gdx.graphics.getDeltaTime());
-        return super.remove();
+    }
+
+    protected void resetPosition() {
+
     }
 
     public void actorAddedToStage() {

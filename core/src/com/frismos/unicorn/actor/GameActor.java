@@ -41,12 +41,9 @@ public abstract class GameActor extends SpineActor implements Pool.Poolable {
     }
 
     @Override
-    public boolean remove() {
-        if(!this.hasParent()) {
-            return false;
-        }
+    public boolean remove(boolean dispose) {
         gameStage.collisionDetector.collisionListeners.removeValue(this, false);
-        return super.remove();
+        return super.remove(dispose);
     }
 
     @Override

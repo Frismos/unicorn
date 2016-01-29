@@ -4,8 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.frismos.unicorn.enums.ActorDataType;
-import com.frismos.unicorn.userdata.MiniUnicornUserData;
-import com.frismos.unicorn.userdata.UserData;
 import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.util.Constants;
@@ -69,14 +67,8 @@ public class MiniUnicorn extends GameActor {
         super.act(delta);
         moveBy(13 * delta, 0);
         if(getX() > Constants.VIEWPORT_WIDTH) {
-            remove();
+            remove(false);
         }
-    }
-
-    @Override
-    public boolean remove() {
-        resetPosition();
-        return super.remove();
     }
 
     public void resetPosition() {

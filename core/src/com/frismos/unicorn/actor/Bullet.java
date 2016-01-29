@@ -145,7 +145,7 @@ public class Bullet extends GameActor {
                 this.getX() > Constants.VIEWPORT_WIDTH + this.getWidth() || this.getX() < 0 ||
                 this.getY() > Constants.VIEWPORT_HEIGHT * 2 || this.getY() < -Constants.VIEWPORT_HEIGHT) {
             isDestroyed = false;
-            this.remove();
+            this.remove(getUserObject() == ActorDataType.ENEMY_BULLET);
         }
     }
 
@@ -166,9 +166,8 @@ public class Bullet extends GameActor {
     }
 
     @Override
-    public boolean remove() {
-        resetPosition();
-        return super.remove();
+    public boolean remove(boolean dispose) {
+        return super.remove(dispose);
     }
 
     public void resetPosition() {

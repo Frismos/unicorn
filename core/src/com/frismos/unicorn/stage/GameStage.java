@@ -1,9 +1,5 @@
 package com.frismos.unicorn.stage;
 
-import aurelienribon.tweenengine.BaseTween;
-import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenCallback;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
@@ -23,19 +19,44 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.Pool;
-import com.badlogic.gdx.utils.Pools;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.esotericsoftware.spine.utils.SkeletonActorPool;
 import com.frismos.TweenAccessor.CameraAccessor;
 import com.frismos.unicorn.UnicornGame;
-import com.frismos.unicorn.actor.*;
-import com.frismos.unicorn.enums.*;
+import com.frismos.unicorn.actor.AttackingEnemy;
+import com.frismos.unicorn.actor.Background;
+import com.frismos.unicorn.actor.BezierBullet;
+import com.frismos.unicorn.actor.Boss;
+import com.frismos.unicorn.actor.BouncingEnemy;
+import com.frismos.unicorn.actor.Bullet;
+import com.frismos.unicorn.actor.Enemy;
+import com.frismos.unicorn.actor.GameActor;
+import com.frismos.unicorn.actor.MiniUnicorn;
+import com.frismos.unicorn.actor.MotherBoss;
+import com.frismos.unicorn.actor.ProgressBar;
+import com.frismos.unicorn.actor.Rhino;
+import com.frismos.unicorn.actor.ShootingBoss;
+import com.frismos.unicorn.actor.ShootingEnemy;
+import com.frismos.unicorn.actor.Spell;
+import com.frismos.unicorn.actor.Unicorn;
+import com.frismos.unicorn.actor.WalkingEnemy;
+import com.frismos.unicorn.enums.ActorDataType;
+import com.frismos.unicorn.enums.ColorType;
+import com.frismos.unicorn.enums.SpellType;
+import com.frismos.unicorn.enums.TutorialStep;
+import com.frismos.unicorn.enums.UnicornType;
 import com.frismos.unicorn.grid.Grid;
 import com.frismos.unicorn.manager.TutorialManager;
 import com.frismos.unicorn.spine.SpineActor;
-import com.frismos.unicorn.util.*;
+import com.frismos.unicorn.util.BodyUtils;
+import com.frismos.unicorn.util.Constants;
+import com.frismos.unicorn.util.Debug;
+import com.frismos.unicorn.util.Utils;
 
 import java.util.Comparator;
+
+import aurelienribon.tweenengine.BaseTween;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
 
 /**
  * Created by edgaravanyan on 10/12/15.
@@ -205,13 +226,11 @@ public class GameStage extends Stage {
         unicorn = new Unicorn(this, UnicornType.UNICORN);
         unicorn.setX(background.getZero().x + grid.tileWidth / 2 - unicorn.getWidth() / 2);
         unicorn.setY(background.getZero().y + grid.tileHeight / 2 - unicorn.getHeight() / 2);
-        unicorn.showProgressBar();
         unicorns.put(unicorn.unicornType, unicorn);
 
         Rhino rhino = new Rhino(this, UnicornType.RHINO);
         rhino.setX(background.getZero().x + grid.tileWidth / 2 - rhino.getWidth() / 2);
         rhino.setY(background.getZero().y + grid.tileHeight / 2 - rhino.getHeight() / 2);
-        rhino.showProgressBar();
         unicorns.put(UnicornType.RHINO, rhino);
 
         InputMultiplexer multiplexer = new InputMultiplexer();
@@ -311,7 +330,7 @@ public class GameStage extends Stage {
         if(game.tutorialManager.isTutorialMode && game.tutorialManager.currentStep == TutorialStep.FOURTH) {
             game.tutorialManager.currentStep = TutorialStep.FINISH;
         }
-        unicorn.remove();
+        unicorn.remove(false);
         float y = unicorn.getY();
         ColorType colorType = unicorn.colorType;
         if(unicorn.unicornType == UnicornType.UNICORN) {
@@ -321,7 +340,6 @@ public class GameStage extends Stage {
         }
         unicorn.setUnicornType(unicorn.unicornType);
         unicorn.setY(y);
-        unicorn.showProgressBar();
         unicorn.setColorType(colorType);
         collisionDetector.collisionListeners.add(unicorn);
         addActor(unicorn);
@@ -356,7 +374,6 @@ public class GameStage extends Stage {
         collisionDetector.collisionListeners.add(boss);
         addActor(boss);
         boss.setZIndex(unicorn.getZIndex());
-        boss.showProgressBar();
         return (Boss)boss;
     }
 
@@ -719,9 +736,9 @@ public class GameStage extends Stage {
                             final MiniUnicorn miniUnicorn = (MiniUnicorn) b;
                             if (enemy.colorType == miniUnicorn.colorType && enemy.isAttacking()) {// && (enemy.tile.colorType == null || enemy.tile.colorType == enemy.colorType)) {
                                 enemy.die();
-                                miniUnicorn.remove();
+                                miniUnicorn.remove(false);
                             } else {
-                                miniUnicorn.remove();
+                                miniUnicorn.remove(false);
                             }
                             break;
                         }
@@ -730,9 +747,9 @@ public class GameStage extends Stage {
                             final MiniUnicorn miniUnicorn = (MiniUnicorn) a;
                             if (enemy.colorType == miniUnicorn.colorType && enemy.isAttacking()) {// && (enemy.tile.colorType == null || enemy.tile.colorType == enemy.colorType)) {
                                 enemy.die();
-                                miniUnicorn.remove();
+                                miniUnicorn.remove(false);
                             } else {
-                                miniUnicorn.remove();
+                                miniUnicorn.remove(false);
                             }
                             break;
                         }
@@ -740,13 +757,13 @@ public class GameStage extends Stage {
                             Enemy boss = (Enemy)a;
                             MiniUnicorn miniUnicorn = (MiniUnicorn)b;
                             boss.hit(miniUnicorn.damage);
-                            miniUnicorn.remove();
+                            miniUnicorn.remove(false);
                         }
                         if (BodyUtils.bodyIsBoss(b) && BodyUtils.bodyIsMiniUnicorn(a)) {
                             Enemy boss = (Enemy)b;
                             MiniUnicorn miniUnicorn = (MiniUnicorn)a;
                             boss.hit(miniUnicorn.damage);
-                            miniUnicorn.remove();
+                            miniUnicorn.remove(false);
                         }
 
                         //bullet hit unicorn
@@ -774,7 +791,7 @@ public class GameStage extends Stage {
                             } else if(spellCandy.spellType == SpellType.HEALTH) {
                                 unicorn.regenerate();
                             }
-                            b.remove();
+                            b.remove(true);
                             collisionListeners.removeValue(b, false);
                             spellCandy = null;
                         }
@@ -784,7 +801,7 @@ public class GameStage extends Stage {
                             } else {
                                 unicorn.enableRainbowMode();
                             }
-                            a.remove();
+                            a.remove(true);
                             collisionListeners.removeValue(a, false);
                             spellCandy = null;
                         }

@@ -2,6 +2,7 @@ package com.frismos.unicorn.grid;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Sort;
 import com.esotericsoftware.spine.AnimationState;
 import com.esotericsoftware.spine.Event;
@@ -13,8 +14,6 @@ import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.util.Constants;
 import com.frismos.unicorn.util.Strings;
 
-import com.badlogic.gdx.utils.Array;
-import java.util.Collections;
 import java.util.Comparator;
 
 /**
@@ -392,6 +391,11 @@ public class Tile extends SpineActor {
     @Override
     protected void startDefaultAnimation() {
         skeletonActor.getAnimationState().setAnimation(0, "idle", true);
+    }
+
+    @Override
+    protected void resetPosition() {
+
     }
 
     @Override

@@ -1,7 +1,5 @@
 package com.frismos.unicorn.actor;
 
-import com.frismos.unicorn.enums.ActorDataType;
-import com.frismos.unicorn.userdata.UserData;
 import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.util.Strings;
@@ -13,7 +11,6 @@ public class AttackingEnemy extends Enemy {
     public AttackingEnemy(GameStage stage, ColorType colorType) {
         super(stage, colorType);
         hitPoints = 15;
-        showProgressBar();
     }
 
     @Override

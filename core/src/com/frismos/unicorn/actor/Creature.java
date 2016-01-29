@@ -1,19 +1,10 @@
 package com.frismos.unicorn.actor;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.utils.Align;
-import com.frismos.unicorn.enums.TutorialStep;
-import com.frismos.unicorn.grid.Grid;
-import com.frismos.unicorn.userdata.UserData;
 import com.frismos.unicorn.enums.ColorType;
-import com.frismos.unicorn.manager.FontsManager;
+import com.frismos.unicorn.enums.TutorialStep;
 import com.frismos.unicorn.stage.GameStage;
-
-import com.badlogic.gdx.utils.Array;
-import com.frismos.unicorn.util.Debug;
 
 /**
  * Created by edgar on 12/9/2015.
@@ -32,25 +23,15 @@ public abstract class Creature extends GameActor {
         super(stage, colorType);
     }
 
-    public void showProgressBar() {
-        if(pb == null) {
-            pb = new ProgressBar(gameStage, 3, hitPoints);
+    protected void showProgressBar() {
+        if(hitPoints > 1) {
+            if (pb == null) {
+                pb = new ProgressBar(gameStage, 3, hitPoints);
+            }
+            gameStage.addActor(pb);
+            pb.setX(getX());
+            pb.setY(getY());
         }
-        gameStage.addActor(pb);
-        pb.setX(getX());
-        pb.setY(getY());
-
-//        BitmapFont font = gameStage.game.fontsManager.getFont(Color.DARK_GRAY, 15);
-//        Label.LabelStyle style = new Label.LabelStyle(font, Color.DARK_GRAY);
-//
-//        style.fontColor = Color.RED;
-//        for (int i = 0; i < 5; i++) {
-//            hitLabels.add(new Label("1", style));
-//            Label hitLabel = hitLabels.get(i);
-//            hitLabel.setFontScale(0.1f);
-//            hitLabel.setSize(getWidth() / 2, 1);
-//            hitLabel.setAlignment(Align.center);
-//        }
     }
 
     public void hit(int damage) {
@@ -58,7 +39,6 @@ public abstract class Creature extends GameActor {
 //            final Label hitLabel = hitLabels.get(hitLabelIndex);
 //            if (hitLabel.hasParent()) {
 //                hitLabel.clearActions();
-//                hitLabel.remove();
 //            }
 //            hitLabel.setText(damage + "");
 //            hitLabel.setPosition(pb.getX(), pb.getY());
@@ -67,7 +47,6 @@ public abstract class Creature extends GameActor {
 //                @Override
 //                public void run() {
 //                    hitLabel.setPosition(pb.getX(), pb.getY());
-//                    hitLabel.remove();
 //                }
 //            })));
 //            hitLabelIndex++;
@@ -101,10 +80,18 @@ public abstract class Creature extends GameActor {
         }
     }
 
-    public void dispose() {
+    @Override
+    public boolean remove(boolean dispose) {
         if(pb != null) {
-            pb.remove();
+            pb.remove(dispose);
         }
+        return super.remove(dispose);
+    }
+
+    @Override
+    public void actorAddedToStage() {
+        showProgressBar();
+        super.actorAddedToStage();
     }
 
     public abstract void die();

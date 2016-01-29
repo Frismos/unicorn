@@ -2,21 +2,17 @@ package com.frismos.unicorn.actor;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.utils.Array;
 import com.esotericsoftware.spine.AnimationState;
 import com.esotericsoftware.spine.Event;
 import com.frismos.unicorn.enums.ActorDataType;
-import com.frismos.unicorn.enums.TutorialStep;
-import com.frismos.unicorn.userdata.UnicornUserData;
-import com.frismos.unicorn.userdata.UserData;
 import com.frismos.unicorn.enums.ColorType;
+import com.frismos.unicorn.enums.TutorialStep;
 import com.frismos.unicorn.enums.UnicornType;
 import com.frismos.unicorn.grid.Tile;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.util.Strings;
 import com.frismos.unicorn.util.Utils;
-import com.frismos.unicorn.util.WorldUtils;
-
-import com.badlogic.gdx.utils.Array;
 
 /**
  * Created by edgaravanyan on 10/12/15.
@@ -168,12 +164,6 @@ public class Unicorn extends Creature {
         skeletonActor.getAnimationState().clearListeners();
         skeletonActor.getAnimationState().addListener(fireAnimationListener);
 //        }
-    }
-
-    @Override
-    public boolean remove() {
-        dispose();
-        return super.remove();
     }
 
     public void moveUp(float velocity) {
@@ -362,6 +352,11 @@ public class Unicorn extends Creature {
         if(hitPoints < maxHitPoints) {
             hitPoints++;
         }
+    }
+
+    @Override
+    public boolean remove(boolean dispose) {
+        return super.remove(dispose);
     }
 }
 

@@ -1,14 +1,14 @@
 package com.frismos.unicorn.actor;
 
-import com.badlogic.gdx.math.Bezier;
+import aurelienribon.tweenengine.Tween;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
-import com.frismos.unicorn.userdata.UserData;
+import com.badlogic.gdx.scenes.scene2d.actions.RotateByAction;
+import com.esotericsoftware.spine.Bone;
+import com.frismos.TweenAccessor.BoneAccessor;
+import com.frismos.unicorn.enums.ActorDataType;
 import com.frismos.unicorn.enums.ColorType;
-import com.frismos.unicorn.enums.UserDataType;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.util.Strings;
-import com.frismos.unicorn.util.WorldUtils;
 
 /**
  * Created by edgar on 12/10/2015.
@@ -18,42 +18,63 @@ public class ShootingEnemy extends Enemy {
     protected float TIME_STEP = 4f;
     protected float accumulator = TIME_STEP;
     protected float FIRE_CHANCE = 90;
+    private boolean fire = false;
+    private Bullet bullet;
 
-    public ShootingEnemy(GameStage stage, UserData userData, ColorType colorType) {
-        super(stage, userData, colorType);
-        if(userData.getUserDataType() != UserDataType.BOSS) {
-            if (MathUtils.randomBoolean()) {
-                animationState.setAnimation(0, "walk1", true);
-            } else {
-                animationState.setAnimation(0, "walk", true);
-            }
-        }
+    public ShootingEnemy(GameStage stage, ColorType colorType) {
+        this(stage, colorType, false);
+    }
+
+    public ShootingEnemy(GameStage stage, ColorType colorType, boolean isTutorial) {
+        super(stage, colorType, isTutorial);
         hitPoints = 1;
 //        showProgressBar();
     }
 
     @Override
-    public void attack() {
-        if(!(gameStage.boss != null && !isSonOfABoss) || getUserData().getUserDataType() == UserDataType.BOSS) {
-            if(!isSonOfABoss) {
-                spawnPoint.x = gameStage.unicorn.tile.getX() + gameStage.grid.tileWidth / 2;
-                spawnPoint.y = MathUtils.random(gameStage.unicorn.getY(), gameStage.unicorn.getY() + gameStage.unicorn.getHeight());
-                spawnPoint = gameStage.stageToScreenCoordinates(spawnPoint);
+    protected void startDefaultAnimation() {
+        if(!(this instanceof Boss)) {
+            if (MathUtils.randomBoolean()) {
+                skeletonActor.getAnimationState().setAnimation(0, "walk1", true);
+            } else {
+                skeletonActor.getAnimationState().setAnimation(0, "walk", true);
             }
-            if(!(this instanceof Boss))
-                animationState.setAnimation(1, "attack", false);
-            Bullet bullet = new Bullet(gameStage, WorldUtils.createEnemyBullet(), spawnPoint.x, spawnPoint.y);
-            bullet.fire();
-            gameStage.collisionDetector.collisionListeners.add(bullet);
-            gameStage.addActor(bullet);
-            bullet.setColorType(ColorType.RAINBOW);
-            bullet.setX(getX() + getWidth() * getScaleX() / 2);
-            bullet.setY(getY() + getHeight() * getScaleY() / 2);
-            bullet.calculateAngle();
+        }
+    }
+
+    @Override
+    public void attack() {
+        if(isAttacking) {
+            if (!(gameStage.boss != null && !isSonOfABoss) || this instanceof Boss) {
+                if (!isSonOfABoss) {
+                    spawnPoint.x = gameStage.unicorn.tile.getX() + gameStage.grid.tileWidth / 2;
+                    spawnPoint.y = MathUtils.random(gameStage.unicorn.getY(), gameStage.unicorn.getY() + gameStage.unicorn.getHeight());
+                }
+                if (!(this instanceof Boss)) {
+                    Bone gunBone = skeletonActor.getSkeleton().findBone("gun");
+                    skeletonActor.getAnimationState().setAnimation(1, "attack", false);
+                    float angle = (float) Math.toDegrees(Math.atan2(spawnPoint.x - gunBone.getWorldX() - getX(), spawnPoint.y - gunBone.getWorldY() - getY()));
+                    angle = 90 - angle;
+
+                    if (!isSonOfABoss) {
+                        RotateByAction rotateByAction = new RotateByAction();
+//                        rotateByAction.
+                        gunBone.setRotation(angle);
+                        Tween.to(gunBone, BoneAccessor.ROTATION, 0.5f).targetRelative(-angle + 180).start(gameStage.game.tweenManager);
+                    }
+                }
+                fire = true;
+                if (!isSonOfABoss) {
+                    spawnPoint = gameStage.stageToScreenCoordinates(spawnPoint);
+                }
+
+                bullet = new Bullet(gameStage, spawnPoint.x, spawnPoint.y, ActorDataType.ENEMY_BULLET);
+                bullet.setColorType(ColorType.RAINBOW);
 //            bullet.p0 = new Vector2(bullet.getX(), bullet.getY());
 //            bullet.p3 = new Vector2(bullet.destPoint.x, bullet.destPoint.y);
 //            bullet.p1 = new Vector2(bullet.getX() - 3, bullet.getY() + 10);
 //            bullet.p2 = new Vector2((bullet.getX() - bullet.destPoint.x) / 4 + bullet.destPoint.x, bullet.destPoint.y + 10);
+            }
         }
     }
 
@@ -71,14 +92,33 @@ public class ShootingEnemy extends Enemy {
     public void act(float delta) {
         super.act(delta);
         if(isAttacking) {
-            accumulator += delta;
-            if (accumulator >= TIME_STEP) {
-                accumulator = 0;
-                if (MathUtils.random(100) <= FIRE_CHANCE) {
-                    attack();
+            if(fire) {
+                fire = false;
+                bullet.fire();
+                gameStage.collisionDetector.collisionListeners.add(bullet);
+                gameStage.addActor(bullet);
+                float offsetX = getWidth() * getScaleX() / 2;
+                float offsetY = getHeight() * getScaleY() / 2;
+                if(!(this instanceof Boss)) {
+                    offsetX = skeletonActor.getSkeleton().findBone("bullet-spawn").getWorldX();
+                    offsetY = skeletonActor.getSkeleton().findBone("bullet-spawn").getWorldY();
                 }
-                if (FIRE_CHANCE < 50) {
-                    FIRE_CHANCE += 1;
+                bullet.setX(getX() + offsetX);
+                bullet.setY(getY() + offsetY);
+                bullet.calculateAngle();
+            }
+            if(getX() < gameStage.background.getWidth() + gameStage.background.getZero().x - gameStage.grid.tileWidth) {
+                if (!gameStage.game.tutorialManager.isTutorialMode || !gameStage.game.tutorialManager.pauseGame) {
+                    accumulator += delta;
+                    if (accumulator >= TIME_STEP) {
+                        accumulator = 0;
+                        if (MathUtils.random(100) <= FIRE_CHANCE) {
+                            attack();
+                        }
+                        if (FIRE_CHANCE < 50) {
+                            FIRE_CHANCE += 1;
+                        }
+                    }
                 }
             }
         }

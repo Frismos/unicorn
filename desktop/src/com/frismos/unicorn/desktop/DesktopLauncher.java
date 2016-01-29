@@ -10,6 +10,6 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = 800;
 		config.height = 480;
-		new LwjglApplication(new UnicornGame(), config);
+		new LwjglApplication(new UnicornGame(null), config);
 	}
 }

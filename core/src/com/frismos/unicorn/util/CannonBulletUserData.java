@@ -1,6 +1,6 @@
 package com.frismos.unicorn.util;
 
-import com.frismos.unicorn.enums.UserDataType;
+import com.frismos.unicorn.enums.ActorDataType;
 import com.frismos.unicorn.userdata.UserData;
 
 /**
@@ -9,6 +9,6 @@ import com.frismos.unicorn.userdata.UserData;
 public class CannonBulletUserData extends UserData{
 
     public CannonBulletUserData() {
-        userDataType = UserDataType.CANNON_BULLET;
+        actorDataType = ActorDataType.CANNON_BULLET;
     }
 }

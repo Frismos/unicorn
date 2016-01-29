@@ -14,7 +14,11 @@ public class Background extends SpineActor {
 
     public Background(GameStage stage) {
         super(stage);
-        animationState.setAnimation(0, "animation", true);
+    }
+
+    @Override
+    protected void startDefaultAnimation() {
+        skeletonActor.getAnimationState().setAnimation(0, "animation", true);
     }
 
     @Override
@@ -29,7 +33,7 @@ public class Background extends SpineActor {
 
     public Vector2 getZero() {
         if(zero == null) {
-            zero = new Vector2(skeleton.findBone("zero").getX(), skeleton.findBone("zero").getY());
+            zero = new Vector2(skeletonActor.getSkeleton().findBone("zero").getX(), skeletonActor.getSkeleton().findBone("zero").getY());
         }
         return zero;
     }

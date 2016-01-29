@@ -1,15 +1,15 @@
 /******************************************************************************
- * SpineActor Runtimes Software License
+ * Spine Runtimes Software License
  * Version 2.3
  * 
  * Copyright (c) 2013-2015, Esoteric Software
  * All rights reserved.
  * 
  * You are granted a perpetual, non-exclusive, non-sublicensable and
- * non-transferable license to use, install, execute and perform the SpineActor
+ * non-transferable license to use, install, execute and perform the Spine
  * Runtimes Software (the "Software") and derivative works solely for personal
  * or internal use. Without the written permission of Esoteric Software (see
- * Section 2 of the SpineActor Software License Agreement), you may not (a) modify,
+ * Section 2 of the Spine Software License Agreement), you may not (a) modify,
  * translate, adapt or otherwise create derivative works, improvements of the
  * Software or develop new applications using the Software or (b) remove,
  * delete, alter or obscure any trademarks or any copyright, trademark, patent
@@ -98,7 +98,8 @@ public class MeshAttachment extends Attachment {
 		}
 	}
 
-	public void updateWorldVertices (Slot slot, boolean premultipliedAlpha) {
+	/** @return The updated world vertices. */
+	public float[] updateWorldVertices (Slot slot, boolean premultipliedAlpha) {
 		Skeleton skeleton = slot.getSkeleton();
 		Color skeletonColor = skeleton.getColor();
 		Color slotColor = slot.getColor();
@@ -117,7 +118,7 @@ public class MeshAttachment extends Attachment {
 		if (slotVertices.size == vertices.length) vertices = slotVertices.items;
 		Bone bone = slot.getBone();
 		float x = skeleton.getX() + bone.getWorldX(), y = skeleton.getY() + bone.getWorldY();
-		float m00 = bone.getM00(), m01 = bone.getM01(), m10 = bone.getM10(), m11 = bone.getM11();
+		float m00 = bone.getA(), m01 = bone.getB(), m10 = bone.getC(), m11 = bone.getD();
 		for (int v = 0, w = 0, n = worldVertices.length; w < n; v += 2, w += 5) {
 			float vx = vertices[v];
 			float vy = vertices[v + 1];
@@ -125,6 +126,7 @@ public class MeshAttachment extends Attachment {
 			worldVertices[w + 1] = vx * m10 + vy * m11 + y;
 			worldVertices[w + 2] = color;
 		}
+		return worldVertices;
 	}
 
 	public float[] getWorldVertices () {

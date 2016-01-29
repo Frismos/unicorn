@@ -1,15 +1,15 @@
 /******************************************************************************
- * SpineActor Runtimes Software License
+ * Spine Runtimes Software License
  * Version 2.3
  * 
  * Copyright (c) 2013-2015, Esoteric Software
  * All rights reserved.
  * 
  * You are granted a perpetual, non-exclusive, non-sublicensable and
- * non-transferable license to use, install, execute and perform the SpineActor
+ * non-transferable license to use, install, execute and perform the Spine
  * Runtimes Software (the "Software") and derivative works solely for personal
  * or internal use. Without the written permission of Esoteric Software (see
- * Section 2 of the SpineActor Software License Agreement), you may not (a) modify,
+ * Section 2 of the Spine Software License Agreement), you may not (a) modify,
  * translate, adapt or otherwise create derivative works, improvements of the
  * Software or develop new applications using the Software or (b) remove,
  * delete, alter or obscure any trademarks or any copyright, trademark, patent
@@ -42,6 +42,7 @@ public class SkeletonData {
 	final Array<EventData> events = new Array();
 	final Array<Animation> animations = new Array();
 	final Array<IkConstraintData> ikConstraints = new Array();
+	final Array<TransformConstraintData> transformConstraints = new Array();
 	float width, height;
 	String version, hash, imagesPath;
 
@@ -153,19 +154,36 @@ public class SkeletonData {
 		return null;
 	}
 
-	// --- IK
+	// --- IK constraints
 
 	public Array<IkConstraintData> getIkConstraints () {
 		return ikConstraints;
 	}
 
 	/** @return May be null. */
-	public IkConstraintData findIkConstraint (String ikConstraintName) {
-		if (ikConstraintName == null) throw new IllegalArgumentException("ikConstraintName cannot be null.");
+	public IkConstraintData findIkConstraint (String constraintName) {
+		if (constraintName == null) throw new IllegalArgumentException("constraintName cannot be null.");
 		Array<IkConstraintData> ikConstraints = this.ikConstraints;
 		for (int i = 0, n = ikConstraints.size; i < n; i++) {
-			IkConstraintData ikConstraint = ikConstraints.get(i);
-			if (ikConstraint.name.equals(ikConstraintName)) return ikConstraint;
+			IkConstraintData constraint = ikConstraints.get(i);
+			if (constraint.name.equals(constraintName)) return constraint;
+		}
+		return null;
+	}
+
+	// --- Transform constraints
+
+	public Array<TransformConstraintData> getTransformConstraints () {
+		return transformConstraints;
+	}
+
+	/** @return May be null. */
+	public TransformConstraintData findTransformConstraint (String constraintName) {
+		if (constraintName == null) throw new IllegalArgumentException("constraintName cannot be null.");
+		Array<TransformConstraintData> transformConstraints = this.transformConstraints;
+		for (int i = 0, n = transformConstraints.size; i < n; i++) {
+			TransformConstraintData constraint = transformConstraints.get(i);
+			if (constraint.name.equals(constraintName)) return constraint;
 		}
 		return null;
 	}
@@ -198,7 +216,7 @@ public class SkeletonData {
 		this.height = height;
 	}
 
-	/** Returns the SpineActor version used to export this data, or null. */
+	/** Returns the Spine version used to export this data, or null. */
 	public String getVersion () {
 		return version;
 	}

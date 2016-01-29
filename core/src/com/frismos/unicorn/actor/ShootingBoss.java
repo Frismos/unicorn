@@ -1,6 +1,8 @@
 package com.frismos.unicorn.actor;
 
 import com.badlogic.gdx.math.MathUtils;
+import com.frismos.unicorn.enums.ActorDataType;
+import com.frismos.unicorn.userdata.BossUserData;
 import com.frismos.unicorn.userdata.UserData;
 import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.stage.GameStage;
@@ -13,16 +15,15 @@ import com.frismos.unicorn.util.Strings;
  */
 public class ShootingBoss extends Boss {
 
-    public ShootingBoss(GameStage stage, UserData userData, ColorType colorType) {
-        super(stage, userData, colorType);
+    public ShootingBoss(GameStage gameStage, ColorType colorType, boolean isTutorial) {
+        super(gameStage, colorType, isTutorial);
         TIME_STEP = 1.5f;
         FIRE_CHANCE = 100;
-        hitPoints = 75;
-    }
-
-    @Override
-    public UserData getUserData() {
-        return userData;
+        if(isTutorial) {
+            hitPoints = 30;
+        } else {
+            hitPoints = 75;
+        }
     }
 
     @Override

@@ -13,6 +13,7 @@ public class Strings {
     public static final String RED = "e74546";
 
     public static final String UNICORN = "unicorn";
+    public static final String RHINO = "rhino";
     public static final String MINI_UNICORN = "unicorn";
     public static final String BULLET = "bullet";
 
@@ -21,6 +22,7 @@ public class Strings {
     public static final String ENEMY = "walking-enemy";
     public static final String BOSS = "boss";
     public static final String BOUNCING_ENEMY = "bouncing-enemy";
+    public static final String BOMB = "bomb";
 
     private StringBuilder builder;
 

@@ -1,15 +1,15 @@
 /******************************************************************************
- * SpineActor Runtimes Software License
+ * Spine Runtimes Software License
  * Version 2.3
  * 
  * Copyright (c) 2013-2015, Esoteric Software
  * All rights reserved.
  * 
  * You are granted a perpetual, non-exclusive, non-sublicensable and
- * non-transferable license to use, install, execute and perform the SpineActor
+ * non-transferable license to use, install, execute and perform the Spine
  * Runtimes Software (the "Software") and derivative works solely for personal
  * or internal use. Without the written permission of Esoteric Software (see
- * Section 2 of the SpineActor Software License Agreement), you may not (a) modify,
+ * Section 2 of the Spine Software License Agreement), you may not (a) modify,
  * translate, adapt or otherwise create derivative works, improvements of the
  * Software or develop new applications using the Software or (b) remove,
  * delete, alter or obscure any trademarks or any copyright, trademark, patent
@@ -46,7 +46,7 @@ public class RegionSequenceAttachment extends RegionAttachment {
 		super(name);
 	}
 
-	public void updateWorldVertices (Slot slot, boolean premultipliedAlpha) {
+	public float[] updateWorldVertices (Slot slot, boolean premultipliedAlpha) {
 		if (regions == null) throw new IllegalStateException("Regions have not been set: " + this);
 
 		int frameIndex = (int)(slot.getAttachmentTime() / frameTime);
@@ -74,7 +74,7 @@ public class RegionSequenceAttachment extends RegionAttachment {
 		}
 		setRegion(regions[frameIndex]);
 
-		super.updateWorldVertices(slot, premultipliedAlpha);
+		return super.updateWorldVertices(slot, premultipliedAlpha);
 	}
 
 	public TextureRegion[] getRegions () {

@@ -1,15 +1,15 @@
 /******************************************************************************
- * SpineActor Runtimes Software License
+ * Spine Runtimes Software License
  * Version 2.3
  * 
  * Copyright (c) 2013-2015, Esoteric Software
  * All rights reserved.
  * 
  * You are granted a perpetual, non-exclusive, non-sublicensable and
- * non-transferable license to use, install, execute and perform the SpineActor
+ * non-transferable license to use, install, execute and perform the Spine
  * Runtimes Software (the "Software") and derivative works solely for personal
  * or internal use. Without the written permission of Esoteric Software (see
- * Section 2 of the SpineActor Software License Agreement), you may not (a) modify,
+ * Section 2 of the Spine Software License Agreement), you may not (a) modify,
  * translate, adapt or otherwise create derivative works, improvements of the
  * Software or develop new applications using the Software or (b) remove,
  * delete, alter or obscure any trademarks or any copyright, trademark, patent
@@ -71,7 +71,7 @@ public class Animation {
 
 		if (loop && duration != 0) {
 			time %= duration;
-			lastTime %= duration;
+			if (lastTime > 0) lastTime %= duration;
 		}
 
 		Array<Timeline> timelines = this.timelines;
@@ -88,7 +88,7 @@ public class Animation {
 
 		if (loop && duration != 0) {
 			time %= duration;
-			lastTime %= duration;
+			if (lastTime > 0) lastTime %= duration;
 		}
 
 		Array<Timeline> timelines = this.timelines;
@@ -516,8 +516,8 @@ public class Animation {
 			if (frames[frameIndex] < lastTime) return;
 
 			String attachmentName = attachmentNames[frameIndex];
-			skeleton.slots.get(slotIndex).setAttachment(
-				attachmentName == null ? null : skeleton.getAttachment(slotIndex, attachmentName));
+			skeleton.slots.get(slotIndex)
+				.setAttachment(attachmentName == null ? null : skeleton.getAttachment(slotIndex, attachmentName));
 		}
 	}
 
@@ -775,64 +775,6 @@ public class Animation {
 			float mix = prevFrameMix + (frames[frameIndex + FRAME_MIX] - prevFrameMix) * percent;
 			ikConstraint.mix += (mix - ikConstraint.mix) * alpha;
 			ikConstraint.bendDirection = (int)frames[frameIndex + PREV_FRAME_BEND_DIRECTION];
-		}
-	}
-
-	static public class FlipXTimeline implements Timeline {
-		int boneIndex;
-		final float[] frames; // time, flip, ...
-
-		public FlipXTimeline (int frameCount) {
-			frames = new float[frameCount << 1];
-		}
-
-		public void setBoneIndex (int boneIndex) {
-			this.boneIndex = boneIndex;
-		}
-
-		public int getBoneIndex () {
-			return boneIndex;
-		}
-
-		public int getFrameCount () {
-			return frames.length >> 1;
-		}
-
-		public float[] getFrames () {
-			return frames;
-		}
-
-		/** Sets the time and value of the specified keyframe. */
-		public void setFrame (int frameIndex, float time, boolean flip) {
-			frameIndex *= 2;
-			frames[frameIndex] = time;
-			frames[frameIndex + 1] = flip ? 1 : 0;
-		}
-
-		public void apply (Skeleton skeleton, float lastTime, float time, Array<Event> events, float alpha) {
-			float[] frames = this.frames;
-			if (time < frames[0]) {
-				if (lastTime > time) apply(skeleton, lastTime, Integer.MAX_VALUE, null, 0);
-				return;
-			} else if (lastTime > time) //
-				lastTime = -1;
-			int frameIndex = (time >= frames[frames.length - 2] ? frames.length : binarySearch(frames, time, 2)) - 2;
-			if (frames[frameIndex] < lastTime) return;
-			setFlip(skeleton.bones.get(boneIndex), frames[frameIndex + 1] != 0);
-		}
-
-		protected void setFlip (Bone bone, boolean flip) {
-			bone.setFlipX(flip);
-		}
-	}
-
-	static public class FlipYTimeline extends FlipXTimeline {
-		public FlipYTimeline (int frameCount) {
-			super(frameCount);
-		}
-
-		protected void setFlip (Bone bone, boolean flip) {
-			bone.setFlipY(flip);
 		}
 	}
 }

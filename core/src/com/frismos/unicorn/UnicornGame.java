@@ -1,12 +1,16 @@
 package com.frismos.unicorn;
 
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
-import com.frismos.unicorn.manager.AtlasManager;
-import com.frismos.unicorn.manager.FontsManager;
+import com.esotericsoftware.spine.Bone;
+import com.frismos.TweenAccessor.BoneAccessor;
+import com.frismos.TweenAccessor.CameraAccessor;
+import com.frismos.unicorn.manager.*;
 import com.frismos.unicorn.screen.GameScreen;
-import com.frismos.unicorn.util.Debug;
 import com.frismos.unicorn.util.Strings;
 
 public class UnicornGame extends Game {
@@ -14,20 +18,39 @@ public class UnicornGame extends Game {
 	public Strings strings;
     public AtlasManager atlasManager;
     public FontsManager fontsManager;
+	public DataManager dataManager;
+    public TutorialManager tutorialManager;
+
+	public GameCenterController gameCenterController;
+    public TweenManager tweenManager;
+
+    public UnicornGame(GameCenterController gameCenterController) {
+		this.gameCenterController = gameCenterController;
+	}
 
 	@Override
 	public void create () {
-		Debug.Log("CREATE");
+		if(this.gameCenterController != null) {
+			this.gameCenterController.setKeyWindowRootViewController(Gdx.app);
+			this.gameCenterController.login();
+		}
+
 		Gdx.input.setCatchBackKey(true);
         strings = new Strings();
         atlasManager = new AtlasManager();
         fontsManager = new FontsManager();
+		dataManager = new DataManager();
+        tutorialManager =new TutorialManager(this);
+        tweenManager = new TweenManager();
+        Tween.registerAccessor(Bone.class, new BoneAccessor());
+        Tween.registerAccessor(Camera.class, new CameraAccessor());
         setScreen(new GameScreen(this));
 	}
 
 	@Override
 	public void render () {
-		Gdx.gl.glClearColor(0, 0, 0, 1);
+        tweenManager.update(Gdx.graphics.getDeltaTime());
+		Gdx.gl.glClearColor(0.3f, 0.9f, 0.7f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         super.render();
 	}
@@ -35,5 +58,9 @@ public class UnicornGame extends Game {
 	@Override
 	public void pause() {
 		super.pause();
+	}
+
+	public void submitScore() {
+		//// TODO: 1/15/16 submit player score to game center here
 	}
 }

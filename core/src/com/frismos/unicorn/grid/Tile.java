@@ -30,7 +30,7 @@ public class Tile extends SpineActor {
     public int j;
 
     public ColorType colorType;
-    public Array<Enemy> enemies = new Array<Enemy>();
+    public Array<Enemy> enemies = new Array<>();
     public Unicorn unicorn;
 
     private String skinNumber;
@@ -38,7 +38,7 @@ public class Tile extends SpineActor {
 
     public Grid grid;
 
-    public Array<Tile> matchingTiles = new Array<Tile>();
+    public Array<Tile> matchingTiles = new Array<>();
 
     private Comparator<Tile> horizontalComp = new Comparator<Tile>() {
         @Override
@@ -61,7 +61,7 @@ public class Tile extends SpineActor {
 
         @Override
         public void complete(int trackIndex, int loopCount) {
-            animationState.removeListener(this);
+            skeletonActor.getAnimationState().removeListener(this);
             Color color = Color.valueOf(Strings.BLUE);//blue
             if (colorType == ColorType.GREEN) {
                 color = Color.valueOf(Strings.GREEN);
@@ -71,11 +71,11 @@ public class Tile extends SpineActor {
                 color = Color.valueOf(Strings.RED);
             }
 
-            for (int i = 0; i < skeleton.getSlots().size; i++) {
-                if (skeleton.getSlots().get(i).getData().getName().contains("color")) {
-                    skeleton.getSlots().get(i).getColor().r = color.r;
-                    skeleton.getSlots().get(i).getColor().g = color.g;
-                    skeleton.getSlots().get(i).getColor().b = color.b;
+            for (int i = 0; i < skeletonActor.getSkeleton().getSlots().size; i++) {
+                if (skeletonActor.getSkeleton().getSlots().get(i).getData().getName().contains("color")) {
+                    skeletonActor.getSkeleton().getSlots().get(i).getColor().r = color.r;
+                    skeletonActor.getSkeleton().getSlots().get(i).getColor().g = color.g;
+                    skeletonActor.getSkeleton().getSlots().get(i).getColor().b = color.b;
                 }
             }
             if(CHECK_TO_SEND_ON_ROW) {
@@ -367,27 +367,31 @@ public class Tile extends SpineActor {
 
     public Tile(GameStage stage, int x, int y) {
         super(stage);
-        animationState.setAnimation(0, "idle", true);
         int skin = MathUtils.random(3);
         skinNumber = skin + "";
-        skeleton.setSkin(skinNumber);
+        skeletonActor.getSkeleton().setSkin(skinNumber);
         tileColor = Color.valueOf(randomColors[MathUtils.random(randomColors.length - 1)]);
-        for (int i = 0; i < skeleton.getSlots().size; i++) {
-            if(skeleton.getSlots().get(i).getData().getName().contains("color")) {
-                skeleton.getSlots().get(i).getColor().r = tileColor.r;
-                skeleton.getSlots().get(i).getColor().g = tileColor.g;
-                skeleton.getSlots().get(i).getColor().b = tileColor.b;
+        for (int i = 0; i < skeletonActor.getSkeleton().getSlots().size; i++) {
+            if(skeletonActor.getSkeleton().getSlots().get(i).getData().getName().contains("color")) {
+                skeletonActor.getSkeleton().getSlots().get(i).getColor().r = tileColor.r;
+                skeletonActor.getSkeleton().getSlots().get(i).getColor().g = tileColor.g;
+                skeletonActor.getSkeleton().getSlots().get(i).getColor().b = tileColor.b;
             }
         }
         this.i = x;
         this.j = y;
 
-        skeleton.getRootBone().setScale(gameStage.background.getWidth() / GameStage.COLUMN_LENGTH / Constants.TILE_WIDTH,
+        skeletonActor.getSkeleton().getRootBone().setScale(gameStage.background.getWidth() / GameStage.COLUMN_LENGTH / Constants.TILE_WIDTH,
                 gameStage.background.getHeight() / GameStage.ROW_LENGTH / Constants.TILE_WIDTH);
 
 
         setSize(gameStage.background.getWidth() / GameStage.COLUMN_LENGTH,
                 gameStage.background.getHeight() / GameStage.ROW_LENGTH);
+    }
+
+    @Override
+    protected void startDefaultAnimation() {
+        skeletonActor.getAnimationState().setAnimation(0, "idle", true);
     }
 
     @Override
@@ -416,33 +420,33 @@ public class Tile extends SpineActor {
                 color = Color.valueOf(Strings.RED);
             }
 
-            for (int i = 0; i < skeleton.getSlots().size; i++) {
-                if(skeleton.getSlots().get(i).getData().getName().contains("color-destroy")) {
-                    skeleton.getSlots().get(i).getColor().r = color.r;
-                    skeleton.getSlots().get(i).getColor().g = color.g;
-                    skeleton.getSlots().get(i).getColor().b = color.b;
+            for (int i = 0; i < skeletonActor.getSkeleton().getSlots().size; i++) {
+                if(skeletonActor.getSkeleton().getSlots().get(i).getData().getName().contains("color-destroy")) {
+                    skeletonActor.getSkeleton().getSlots().get(i).getColor().r = color.r;
+                    skeletonActor.getSkeleton().getSlots().get(i).getColor().g = color.g;
+                    skeletonActor.getSkeleton().getSlots().get(i).getColor().b = color.b;
                 }
             }
-            animationState.setAnimation(0, "color", false);
-            animationState.removeListener(colorListener);
-            animationState.addListener(colorListener);
+            skeletonActor.getAnimationState().setAnimation(0, "color", false);
+            skeletonActor.getAnimationState().removeListener(colorListener);
+            skeletonActor.getAnimationState().addListener(colorListener);
         }
     }
 
     public void setDefaultSkin() {
         if(j != 0) {
-            animationState.setAnimation(0, "color", false);
+            skeletonActor.getAnimationState().setAnimation(0, "color", false);
 
             if (unicorn != null) {
                 unicorn.colorType = null;
             }
             colorType = null;
-            skeleton.setSkin(skinNumber);
-            for (int i = 0; i < skeleton.getSlots().size; i++) {
-                if(skeleton.getSlots().get(i).getData().getName().contains("color")) {
-                    skeleton.getSlots().get(i).getColor().r = tileColor.r;
-                    skeleton.getSlots().get(i).getColor().g = tileColor.g;
-                    skeleton.getSlots().get(i).getColor().b = tileColor.b;
+            skeletonActor.getSkeleton().setSkin(skinNumber);
+            for (int i = 0; i < skeletonActor.getSkeleton().getSlots().size; i++) {
+                if(skeletonActor.getSkeleton().getSlots().get(i).getData().getName().contains("color")) {
+                    skeletonActor.getSkeleton().getSlots().get(i).getColor().r = tileColor.r;
+                    skeletonActor.getSkeleton().getSlots().get(i).getColor().g = tileColor.g;
+                    skeletonActor.getSkeleton().getSlots().get(i).getColor().b = tileColor.b;
                 }
             }
         }

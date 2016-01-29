@@ -10,14 +10,22 @@ import com.frismos.unicorn.util.Strings;
  * Created by edgar on 12/14/2015.
  */
 public class WalkingEnemy extends Enemy {
-    public WalkingEnemy(GameStage stage, UserData userData, ColorType colorType) {
-        super(stage, userData, colorType);
-        if (MathUtils.randomBoolean()) {
-            animationState.setAnimation(0, "walk1", true);
-        } else {
-            animationState.setAnimation(0, "walk", true);
-        }
+    public WalkingEnemy(GameStage stage, ColorType colorType) {
+        this(stage, colorType, false);
+    }
+
+    public WalkingEnemy(GameStage stage, ColorType colorType, boolean isTutorial) {
+        super(stage, colorType, isTutorial);
         hitPoints = 1;
+    }
+
+    @Override
+    protected void startDefaultAnimation() {
+        if (MathUtils.randomBoolean()) {
+            skeletonActor.getAnimationState().setAnimation(0, "walk1", true);
+        } else {
+            skeletonActor.getAnimationState().setAnimation(0, "walk", true);
+        }
     }
 
     @Override

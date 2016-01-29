@@ -1,13 +1,13 @@
 package com.frismos.unicorn.actor;
 
 import com.badlogic.gdx.math.Vector2;
+import com.frismos.unicorn.enums.ActorDataType;
 import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.grid.Tile;
 import com.frismos.unicorn.stage.GameStage;
-import com.frismos.unicorn.userdata.UserData;
 
 import com.badlogic.gdx.utils.Array;
-import com.frismos.unicorn.util.Debug;
+import com.frismos.unicorn.util.Strings;
 
 /**
  * Created by edgar on 12/16/2015.
@@ -25,10 +25,10 @@ public class BezierBullet extends Bullet {
     private Vector2 p = new Vector2();
     private Tile tile;
 
-    private Array<Enemy> enemiesToHit = new Array<Enemy>();
+    private Array<Enemy> enemiesToHit = new Array<>();
 
-    public BezierBullet(GameStage stage, UserData userData, float x, float y) {
-        super(stage, userData, x, y);
+    public BezierBullet(GameStage stage, float x, float y) {
+        super(stage, x, y, ActorDataType.CANNON_BULLET);
     }
 
     @Override
@@ -46,9 +46,7 @@ public class BezierBullet extends Bullet {
     }
 
     private void explode() {
-        if (gameStage.grid.isPointInsideGrid(getX(), getY())) {
-            tile = gameStage.grid.getTileByPoint(getX() + getWidth() / 2, getY());
-        }
+        tile = gameStage.grid.getTileByPoint(getX() + getWidth() / 2, getY());
         this.destroy();
         if(getTile() != null) {
             Array<Tile> neighbours = gameStage.grid.getNeighbourTiles(getTile());
@@ -59,20 +57,14 @@ public class BezierBullet extends Bullet {
                     }
                 }
             }
-            for (int i = 0; i < getTile().enemies.size; i++) {
-                if(!(getTile().enemies.get(i) instanceof AttackingEnemy) && getTile().enemies.get(i) instanceof Boss || (this.colorType == getTile().enemies.get(i).colorType || this.colorType == ColorType.RAINBOW) && getTile().enemies.get(i).isAttacking()) {
-                    enemiesToHit.add(getTile().enemies.get(i));
-                }
-            }
         }
+        gameStage.shakeWorld(2);
     }
 
     @Override
     public void move(float delta) {
         t = index / (Math.abs(p3.x - p0.x) + 75) * 2;
         index += 60 * delta;
-        Debug.Log("t = " + t);
-        Debug.Log("delta = " + delta);
         Vector2 p = calculateBezierPoint();
         setPosition(p.x, p.y);
     }
@@ -106,5 +98,15 @@ public class BezierBullet extends Bullet {
         p2 = new Vector2(destPoint.x - (destPoint.x - getX()) / 2, getY() + 10);
 
         return super.calculateAngle();
+    }
+
+    @Override
+    protected void setResourcesPath() {
+        path = Strings.BOMB;
+    }
+
+    @Override
+    protected void setScaleRatio() {
+        scaleRatio = 0.7f;
     }
 }

@@ -1,40 +1,40 @@
 
 skeleton.png
-size: 237,275
+size: 512,256
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 achq
   rotate: false
-  xy: 134, 57
+  xy: 267, 185
   size: 76, 50
   orig: 76, 50
   offset: 0, 0
   index: -1
 deraj
-  rotate: true
-  xy: 2, 10
+  rotate: false
+  xy: 168, 171
   size: 97, 64
   orig: 97, 64
   offset: 0, 0
   index: -1
 derdax
-  rotate: true
-  xy: 68, 10
+  rotate: false
+  xy: 168, 105
   size: 97, 64
   orig: 97, 64
   offset: 0, 0
   index: -1
 katar
   rotate: false
-  xy: 134, 2
+  xy: 168, 50
   size: 41, 53
   orig: 41, 53
   offset: 0, 0
   index: -1
 marmin
-  rotate: true
-  xy: 2, 109
+  rotate: false
+  xy: 2, 2
   size: 164, 233
   orig: 164, 233
   offset: 0, 0

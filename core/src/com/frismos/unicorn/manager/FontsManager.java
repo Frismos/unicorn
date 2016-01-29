@@ -14,7 +14,7 @@ public class FontsManager {
     private BitmapFont font;
 
     public FontsManager() {
-        freeTypeFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("gfx/Open_Sans/OpenSans-Regular.ttf"));
+        freeTypeFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("gfx/RumRaisin-Regular.ttf"));
     }
 
     public BitmapFont getFont(Color color, int size) {
@@ -23,6 +23,7 @@ public class FontsManager {
             freeTypeFontParameter.color = color;
             freeTypeFontParameter.size = size;
             font = freeTypeFontGenerator.generateFont(freeTypeFontParameter);
+            font.setUseIntegerPositions(false);
         }
         font.setColor(color);
         return font;

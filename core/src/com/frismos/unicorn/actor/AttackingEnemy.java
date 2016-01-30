@@ -2,6 +2,7 @@ package com.frismos.unicorn.actor;
 
 import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.stage.GameStage;
+import com.frismos.unicorn.util.Constants;
 import com.frismos.unicorn.util.Strings;
 
 /**
@@ -35,7 +36,7 @@ public class AttackingEnemy extends Enemy {
 
     @Override
     protected void setScaleRatio() {
-        scaleRatio = 0.65f;
+        scaleRatio = Constants.ATTACKING_ENEMY_SCALE_RATIO;
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.frismos.unicorn.actor;
 import com.esotericsoftware.spine.Bone;
 import com.frismos.unicorn.spine.SpineActor;
 import com.frismos.unicorn.stage.GameStage;
+import com.frismos.unicorn.util.Constants;
 
 /**
  * Created by edgar on 12/9/2015.
@@ -57,6 +58,6 @@ public class ProgressBar extends SpineActor {
 
     @Override
     protected void setScaleRatio() {
-        scaleRatio = 0.2f;
+        scaleRatio = Constants.PROGRESS_BAR_SCALE_RATIO;
     }
 }

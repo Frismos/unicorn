@@ -5,6 +5,7 @@ import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.enums.SpellType;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.userdata.UserData;
+import com.frismos.unicorn.util.Constants;
 import com.frismos.unicorn.util.Strings;
 
 /**
@@ -27,12 +28,12 @@ public class Spell extends GameActor {
 
     @Override
     protected void setResourcesPath() {
-        path = Strings.BOSS;
+        path = Strings.MOTHER_BOSS;
     }
 
     @Override
     protected void setScaleRatio() {
-        scaleRatio = 0.1f;
+        scaleRatio = Constants.SPELL_SCALE_RATIO;
     }
 
     @Override

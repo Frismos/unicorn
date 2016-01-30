@@ -19,8 +19,9 @@ public class Strings {
 
     public static final String ATTACKING_ENEMY = "attacking-enemy";
     public static final String SHOOTING_ENEMY = "shooting-enemy";
-    public static final String ENEMY = "walking-enemy";
-    public static final String BOSS = "boss";
+    public static final String WALKING_ENEMY = "walking-enemy";
+    public static final String MOTHER_BOSS = "boss";
+    public static final String SHOOTING_BOSS = "boss";
     public static final String BOUNCING_ENEMY = "bouncing-enemy";
     public static final String BOMB = "bomb";
 

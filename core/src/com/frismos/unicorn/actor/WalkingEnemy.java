@@ -2,8 +2,8 @@ package com.frismos.unicorn.actor;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.frismos.unicorn.stage.GameStage;
-import com.frismos.unicorn.userdata.UserData;
 import com.frismos.unicorn.enums.ColorType;
+import com.frismos.unicorn.util.Constants;
 import com.frismos.unicorn.util.Strings;
 
 /**
@@ -35,11 +35,11 @@ public class WalkingEnemy extends Enemy {
 
     @Override
     protected void setResourcesPath() {
-        path = Strings.ENEMY;
+        path = Strings.WALKING_ENEMY;
     }
 
     @Override
     protected void setScaleRatio() {
-        scaleRatio = 0.55f;
+        scaleRatio = Constants.WALKING_ENEMY_SCALE_RATIO;
     }
 }

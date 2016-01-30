@@ -11,6 +11,7 @@ import com.frismos.unicorn.enums.TutorialStep;
 import com.frismos.unicorn.enums.UnicornType;
 import com.frismos.unicorn.grid.Tile;
 import com.frismos.unicorn.stage.GameStage;
+import com.frismos.unicorn.util.Constants;
 import com.frismos.unicorn.util.Strings;
 import com.frismos.unicorn.util.Utils;
 
@@ -286,7 +287,7 @@ public class Unicorn extends Creature {
 
     @Override
     protected void setScaleRatio() {
-        this.scaleRatio = 0.075f;
+        this.scaleRatio = Constants.UNICORN_SCALE_RATIO;
     }
 
     public Vector2 getFirePoint() {

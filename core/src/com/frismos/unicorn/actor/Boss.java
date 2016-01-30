@@ -68,12 +68,7 @@ public abstract class Boss extends ShootingEnemy {
 
     @Override
     protected void setScaleRatio() {
-        scaleRatio = 1f;
-    }
-
-    @Override
-    protected void setResourcesPath() {
-        path = Strings.BOSS;
+        scaleRatio = Constants.BOSS_SCALE_RATIO;
     }
 
     @Override

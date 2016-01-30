@@ -81,4 +81,9 @@ public class MotherBoss extends Boss {
         skeletonActor.getAnimationState().addListener(attackAnimationListener);
     }
 
+
+    @Override
+    protected void setResourcesPath() {
+        path = Strings.MOTHER_BOSS;
+    }
 }

@@ -5,6 +5,7 @@ import com.esotericsoftware.spine.Event;
 import com.frismos.unicorn.enums.UnicornType;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.userdata.UserData;
+import com.frismos.unicorn.util.Constants;
 import com.frismos.unicorn.util.Strings;
 
 /**
@@ -45,7 +46,7 @@ public class Rhino extends Unicorn {
 
     @Override
     protected void setScaleRatio() {
-        this.scaleRatio = 0.55f;
+        this.scaleRatio = Constants.RHINO_SCALE_RATIO;
         //0.075f;
     }
 

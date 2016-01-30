@@ -28,12 +28,12 @@ public class ShootingBoss extends Boss {
 
     @Override
     protected void setResourcesPath() {
-        path = Strings.BOSS;
+        path = Strings.SHOOTING_BOSS;
     }
 
     @Override
     protected void setScaleRatio() {
-        scaleRatio = 0.6f;
+        scaleRatio = Constants.SHOOTING_BOSS_SCALE_RATIO;
     }
 
     @Override

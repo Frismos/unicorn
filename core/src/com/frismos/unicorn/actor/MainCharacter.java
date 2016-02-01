@@ -19,7 +19,7 @@ import com.frismos.unicorn.util.Utils;
  * Created by edgaravanyan on 2/1/16.
  */
 public abstract class MainCharacter extends Creature {
-    public float AUTO_ATTACK_SPEED = 0.2f;
+    public float AUTO_ATTACK_SPEED = 0.05f;
     public float SINGLE_ATTACK_SPEED = 0.7f;
     public float CANNON_ATTACK_SPEED = 0.9f;
 
@@ -28,12 +28,14 @@ public abstract class MainCharacter extends Creature {
     private float touchDownX;
     protected float touchX = Float.MIN_VALUE;
     protected float touchY = Float.MIN_VALUE;
-    private float bulletAngle;
+    protected float bulletAngle;
 
     private float positionY;
     public boolean isFiring;
 
     public UnicornType unicornType;
+    public int nextBulletIndex = 0;
+    public Array<Bullet> gameBullets = new Array<>();
 
     private static Array<Enemy> positionChangeListeners = new Array<>();
 
@@ -307,4 +309,6 @@ public abstract class MainCharacter extends Creature {
             tile.character = this;
         }
     }
+
+    public abstract Bullet getNextBullet();
 }

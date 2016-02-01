@@ -4,14 +4,9 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.esotericsoftware.spine.AnimationState;
 import com.esotericsoftware.spine.Event;
-import com.frismos.unicorn.enums.ActorDataType;
-import com.frismos.unicorn.userdata.BossUserData;
 import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.stage.GameStage;
-import com.frismos.unicorn.util.Constants;
-import com.frismos.unicorn.util.Debug;
 import com.frismos.unicorn.util.Strings;
-import com.frismos.unicorn.util.WorldUtils;
 
 /**
  * Created by edgar on 12/14/2015.

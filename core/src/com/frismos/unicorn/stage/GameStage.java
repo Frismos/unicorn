@@ -124,9 +124,6 @@ public class GameStage extends Stage {
     private Array<Integer> directions = new Array<>();
     public Array<Integer> colorIndices = new Array<>();
 
-    public Array<Bullet> gameBullets = new Array<>();
-    public int nextBulletIndex = 0;
-
     public int score = 0;
     public Label scoreLabel;
 
@@ -281,10 +278,6 @@ public class GameStage extends Stage {
         addActor(changeUnicornType);
 
         initConstants();
-
-        for (int i = 0; i < 20; i++) {
-            gameBullets.add(new Bullet(this, ActorDataType.BULLET));
-        }
 
         Thread detector = new Thread(collisionDetector);
         detector.start();
@@ -453,19 +446,15 @@ public class GameStage extends Stage {
 
     public void fireBullet(float x, float y) {
         if(unicorn.colorType != null) {
-            Bullet bullet;
-            if(unicorn.unicornType == UnicornType.RHINO) {
-                bullet = new BezierBullet(this, x, y);
-                bullet.damage = Bullet.CANNON_BULLET_DAMAGE;
-            } else {
-                bullet = new Bullet(this, x, y, ActorDataType.BULLET);
-            }
+            Bullet bullet = getBullet();
+            bullet.destPoint.x = x;
+            bullet.destPoint.y = y;
+            bullet.destPoint = screenToStageCoordinates(bullet.destPoint);
             bullet.setColorType(unicorn.colorType);
             bullet.setX(unicorn.getFirePoint().x + unicorn.getX());
             bullet.setY(unicorn.getFirePoint().y + unicorn.getY());
             bullet.calculateAngle();
             bullet.fire();
-
             collisionDetector.collisionListeners.add(bullet);
             addActor(bullet);
         }
@@ -486,11 +475,7 @@ public class GameStage extends Stage {
     }
 
     public Bullet getBullet() {
-        Bullet bullet = gameBullets.get(nextBulletIndex);
-        nextBulletIndex++;
-        if(nextBulletIndex == gameBullets.size) {
-            nextBulletIndex = 0;
-        }
+        Bullet bullet = unicorn.getNextBullet();
         return bullet;
     }
 

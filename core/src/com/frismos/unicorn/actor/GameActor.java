@@ -15,7 +15,7 @@ public abstract class GameActor extends SpineActor implements Pool.Poolable {
     public GameActor(GameStage stage, ColorType colorType) {
         super(stage);
         this.colorType = colorType;
-        this.debug();
+//        this.debug();
 //        this.shapeRenderer.setAutoShapeType(true);
         this.bounds = new Polygon(new float[] {
                 getX(), getY(),

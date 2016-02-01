@@ -23,7 +23,7 @@ public class Constants {
     public static final float SPELL_SCALE_RATIO = 0.1f / SCALE_RATIO;
     public static final float UNICORN_SCALE_RATIO = 0.075f / SCALE_RATIO;
     public static final float TILE_SCALE_RATIO = 1.0f / SCALE_RATIO;
-    public static final float STAR_SCALE_RATIO = 0.0375f / SCALE_RATIO;
+    public static final float STAR_SCALE_RATIO = 0.4f / SCALE_RATIO;
 
     public static final float VIEWPORT_WIDTH = 60.0f;//49.18618, 27.964397
     public static final float VIEWPORT_HEIGHT = 33.75f;

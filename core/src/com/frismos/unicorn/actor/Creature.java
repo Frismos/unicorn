@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.enums.TutorialStep;
 import com.frismos.unicorn.stage.GameStage;
+import com.frismos.unicorn.util.Debug;
 
 /**
  * Created by edgar on 12/9/2015.
@@ -64,9 +65,6 @@ public abstract class Creature extends GameActor {
         hitPoints -= damage;
         if(hitPoints <= 0) {
             die();
-        } else {
-            Color color = getColor();
-            addAction(Actions.sequence(Actions.color(Color.BLACK, 0.2f), Actions.color(color, 0.2f)));
         }
     }
 

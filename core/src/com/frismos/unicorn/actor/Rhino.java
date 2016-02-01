@@ -2,6 +2,7 @@ package com.frismos.unicorn.actor;
 
 import com.esotericsoftware.spine.AnimationState;
 import com.esotericsoftware.spine.Event;
+import com.frismos.unicorn.enums.ActorDataType;
 import com.frismos.unicorn.enums.UnicornType;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.userdata.UserData;
@@ -37,6 +38,10 @@ public class Rhino extends MainCharacter {
 
     public Rhino(GameStage stage, UnicornType unicornType) {
         super(stage, unicornType);
+
+        for (int i = 0; i < 5; i++) {
+            gameBullets.add(new BezierBullet(stage));
+        }
     }
 
     @Override
@@ -77,5 +82,13 @@ public class Rhino extends MainCharacter {
     @Override
     public void useAbility() {
 
+    }
+
+    @Override
+    public BezierBullet getNextBullet() {
+        if(++nextBulletIndex >= gameBullets.size) {
+            nextBulletIndex = 0;
+        }
+        return (BezierBullet)gameBullets.get(nextBulletIndex);
     }
 }

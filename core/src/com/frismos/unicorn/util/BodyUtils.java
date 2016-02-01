@@ -25,7 +25,7 @@ public class BodyUtils {
 
     public static boolean bodyIsBullet(GameActor body) {
         ActorDataType actorDataType = (ActorDataType)body.getUserObject();
-        return actorDataType == ActorDataType.BULLET;
+        return actorDataType == ActorDataType.BULLET || actorDataType == ActorDataType.AUTO_BULLET;
     }
 
     public static boolean bodyIsCannonBullet(GameActor body) {

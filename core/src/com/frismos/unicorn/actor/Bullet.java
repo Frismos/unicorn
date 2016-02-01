@@ -20,7 +20,7 @@ public class Bullet extends GameActor {
     public static final float SINGLE_BULLET_DAMAGE = 5;
     public static final float ENEMY_BULLET_DAMAGE = 1;
     public static final float CANNON_BULLET_DAMAGE = 1;
-    public static final float AUTO_BULLET_DAMAGE = 0.5f;
+    public static final float AUTO_BULLET_DAMAGE = 0.2f;
 
     public static final int UP_DIAGONAL = 0;
     public static final int RIGHT = 1;
@@ -92,6 +92,8 @@ public class Bullet extends GameActor {
         } else if(actorDataType == ActorDataType.AUTO_BULLET) {
             speed = GameStage.BULLET_MOVE_SPEED;
             damage = AUTO_BULLET_DAMAGE;
+        } else if(actorDataType == ActorDataType.CANNON_BULLET) {
+            damage = CANNON_BULLET_DAMAGE;
         }
 
         setColorType(colorType);
@@ -179,6 +181,7 @@ public class Bullet extends GameActor {
     }
 
     public void resetPosition() {
+        isDestroyed = false;
         skeletonActor.getAnimationState().removeListener(bulletDestroyAnimationListener);
         skeletonActor.getAnimationState().setAnimation(0, "life", true);
         this.setX(Constants.VIEWPORT_WIDTH + 10);

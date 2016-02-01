@@ -8,6 +8,7 @@ import com.frismos.unicorn.stage.GameStage;
 
 import com.badlogic.gdx.utils.Array;
 import com.frismos.unicorn.util.Constants;
+import com.frismos.unicorn.util.Debug;
 import com.frismos.unicorn.util.Strings;
 
 /**
@@ -30,6 +31,10 @@ public class BezierBullet extends Bullet {
 
     public BezierBullet(GameStage stage, float x, float y) {
         super(stage, x, y, ActorDataType.CANNON_BULLET);
+    }
+
+    public BezierBullet(GameStage stage) {
+        super(stage, 0, ActorDataType.CANNON_BULLET);
     }
 
     @Override
@@ -109,5 +114,11 @@ public class BezierBullet extends Bullet {
     @Override
     protected void setScaleRatio() {
         scaleRatio = Constants.BEZIER_BULLET_SCALE_RATIO;
+    }
+
+    @Override
+    public void resetPosition() {
+        index = 0;
+        super.resetPosition();
     }
 }

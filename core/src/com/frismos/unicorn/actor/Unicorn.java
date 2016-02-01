@@ -1,5 +1,6 @@
 package com.frismos.unicorn.actor;
 
+import com.frismos.unicorn.enums.ActorDataType;
 import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.enums.UnicornType;
 import com.frismos.unicorn.stage.GameStage;
@@ -17,6 +18,10 @@ public class Unicorn extends MainCharacter {
 
     public Unicorn(GameStage stage, UnicornType unicornType) {
         super(stage, unicornType);
+
+        for (int i = 0; i < 30; i++) {
+            gameBullets.add(new Bullet(gameStage, ActorDataType.AUTO_BULLET));
+        }
     }
 
     @Override
@@ -42,7 +47,14 @@ public class Unicorn extends MainCharacter {
         setColorType(ColorType.RAINBOW);
         rainbowMode = true;
         rainbowTimer = 0.0f;
+    }
 
+    @Override
+    public Bullet getNextBullet() {
+        if(++nextBulletIndex >= gameBullets.size) {
+            nextBulletIndex = 0;
+        }
+        return gameBullets.get(nextBulletIndex);
     }
 
     @Override

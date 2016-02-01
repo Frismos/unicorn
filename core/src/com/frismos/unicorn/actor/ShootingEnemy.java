@@ -8,6 +8,7 @@ import com.frismos.TweenAccessor.BoneAccessor;
 import com.frismos.unicorn.enums.ActorDataType;
 import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.stage.GameStage;
+import com.frismos.unicorn.util.Constants;
 import com.frismos.unicorn.util.Strings;
 
 /**
@@ -80,7 +81,7 @@ public class ShootingEnemy extends Enemy {
 
     @Override
     protected void setScaleRatio() {
-        scaleRatio = 0.55f;
+        scaleRatio = Constants.SHOOTING_ENEMY_SCALE_RATIO;
     }
 
     @Override

@@ -405,7 +405,7 @@ public class Tile extends SpineActor {
 
     @Override
     protected void setScaleRatio() {
-        scaleRatio = 1.0f;
+        scaleRatio = Constants.TILE_SCALE_RATIO;
     }
 
     public void color(final ColorType colorType) {

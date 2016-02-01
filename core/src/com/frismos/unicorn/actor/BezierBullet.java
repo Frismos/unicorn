@@ -7,6 +7,7 @@ import com.frismos.unicorn.grid.Tile;
 import com.frismos.unicorn.stage.GameStage;
 
 import com.badlogic.gdx.utils.Array;
+import com.frismos.unicorn.util.Constants;
 import com.frismos.unicorn.util.Strings;
 
 /**
@@ -107,6 +108,6 @@ public class BezierBullet extends Bullet {
 
     @Override
     protected void setScaleRatio() {
-        scaleRatio = 0.7f;
+        scaleRatio = Constants.BEZIER_BULLET_SCALE_RATIO;
     }
 }

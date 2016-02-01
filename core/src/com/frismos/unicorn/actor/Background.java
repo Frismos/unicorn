@@ -3,6 +3,7 @@ package com.frismos.unicorn.actor;
 import com.badlogic.gdx.math.Vector2;
 import com.frismos.unicorn.spine.SpineActor;
 import com.frismos.unicorn.stage.GameStage;
+import com.frismos.unicorn.util.Constants;
 
 /**
  * Created by edgaravanyan on 10/19/15.
@@ -28,7 +29,7 @@ public class Background extends SpineActor {
 
     @Override
     protected void setScaleRatio() {
-        scaleRatio = 0.5f;
+        scaleRatio = Constants.BACKGROUND_SCALE_RATIO;
     }
 
     public Vector2 getZero() {

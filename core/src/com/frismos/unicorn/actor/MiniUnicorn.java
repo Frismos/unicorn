@@ -59,7 +59,7 @@ public class MiniUnicorn extends GameActor {
 
     @Override
     protected void setScaleRatio() {
-        this.scaleRatio = 0.033f;
+        this.scaleRatio = Constants.MINI_UNICORN_SCALE_RATIO;
     }
 
     @Override

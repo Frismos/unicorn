@@ -10,6 +10,8 @@ import com.esotericsoftware.spine.SkeletonJson;
 import com.esotericsoftware.spine.utils.SkeletonActor;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.util.Constants;
+import com.frismos.unicorn.util.Debug;
+import com.frismos.unicorn.util.Strings;
 
 /**
  * Created by edgar on 12/11/2015.
@@ -29,16 +31,12 @@ public abstract class SpineActor extends Actor {
         setResourcesPath();
         setScaleRatio();
 //        Class type = getType();
-        String filePath = gameStage.game.strings.addString("gfx/").addString(path).addString("/skeleton.atlas").toString();
-//        textureAtlas = gameStage.game.atlasManager.get(filePath, TextureAtlas.class);
+        String filePath = String.format("gfx/%s/skeleton.atlas", path);
         SkeletonJson skeletonJson = gameStage.game.atlasManager.getSkeletonJson(this.getClass(), filePath);
-        skeletonJson.setScale(scaleRatio / Constants.SCALE_RATIO);
-        filePath = filePath.replaceFirst("atlas", "json");
+        skeletonJson.setScale(scaleRatio);
+        filePath = String.format("gfx/%s/skeleton.json", path);
         SkeletonData skeletonData = gameStage.game.atlasManager.getSkeletonData(this.getClass(), filePath, skeletonJson);
-//        skeleton = new Skeleton(skeletonData);
-//        skeleton.setToSetupPose();
-
-        AnimationStateData animationStateData = new AnimationStateData(skeletonData);
+        AnimationStateData animationStateData = gameStage.game.atlasManager.getAnimationStateData(this.getClass(), skeletonData);
 
         skeletonActor = gameStage.game.atlasManager.getSkeletonActor(skeletonData, animationStateData);
 

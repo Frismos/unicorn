@@ -8,6 +8,21 @@ import com.badlogic.gdx.math.Vector2;
 public class Constants {
 
     public static final float SCALE_RATIO = 32.0f;
+    public static final float WALKING_ENEMY_SCALE_RATIO = 0.55f / SCALE_RATIO;
+    public static final float ATTACKING_ENEMY_SCALE_RATIO = 0.65f / SCALE_RATIO;
+    public static final float BACKGROUND_SCALE_RATIO = 0.5f / SCALE_RATIO;
+    public static final float BEZIER_BULLET_SCALE_RATIO = 0.7f / SCALE_RATIO;
+    public static final float BOSS_SCALE_RATIO = 1.0f / SCALE_RATIO;
+    public static final float BOUNCING_ENEMY_SCALE_RATIO = 0.6f / SCALE_RATIO;
+    public static final float BULLET_SCALE_RATIO = 0.75f / SCALE_RATIO;
+    public static final float MINI_UNICORN_SCALE_RATIO = 0.033f / SCALE_RATIO;
+    public static final float PROGRESS_BAR_SCALE_RATIO = 0.2f / SCALE_RATIO;
+    public static final float RHINO_SCALE_RATIO = 0.55f / SCALE_RATIO;
+    public static final float SHOOTING_BOSS_SCALE_RATIO = 0.6f / SCALE_RATIO;
+    public static final float SHOOTING_ENEMY_SCALE_RATIO = 0.55f / SCALE_RATIO;
+    public static final float SPELL_SCALE_RATIO = 0.1f / SCALE_RATIO;
+    public static final float UNICORN_SCALE_RATIO = 0.075f / SCALE_RATIO;
+    public static final float TILE_SCALE_RATIO = 1.0f / SCALE_RATIO;
 
     public static final float VIEWPORT_WIDTH = 60.0f;//49.18618, 27.964397
     public static final float VIEWPORT_HEIGHT = 33.75f;

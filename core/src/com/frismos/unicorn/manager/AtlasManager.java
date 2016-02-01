@@ -22,6 +22,7 @@ public class AtlasManager {
     private SkeletonRenderer skeletonRenderer;
 
     private ObjectMap<Class, SkeletonData> skeletonDatas = new ObjectMap<>();
+    private ObjectMap<Class, AnimationStateData> animationStateDatas = new ObjectMap<>();
     private ObjectMap<Class, SkeletonJson> skeletonJsons = new ObjectMap<>();
     private ObjectMap<SkeletonData, SkeletonActorPool> skeletonActorPools = new ObjectMap<>();
 
@@ -41,6 +42,16 @@ public class AtlasManager {
         return manager.get(fileName);
     }
 
+    public AnimationStateData getAnimationStateData(Class type, SkeletonData skeletonData) {
+        AnimationStateData animationStateData;
+        if(animationStateDatas.containsKey(type)) {
+            animationStateData = animationStateDatas.get(type);
+        } else {
+            animationStateData = new AnimationStateData(skeletonData);
+            animationStateDatas.put(type, animationStateData);
+        }
+        return animationStateData;
+    }
 
     public SkeletonData getSkeletonData(Class type, String filePath, SkeletonJson skeletonJson) {
         SkeletonData skeletonData;

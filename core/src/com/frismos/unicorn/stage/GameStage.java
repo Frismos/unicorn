@@ -200,11 +200,11 @@ public class GameStage extends Stage {
             } else if (o1.getX() > o2.getX()) {
                 //                    Debug.Log("x greater");
                 return -1;
-            } else if (o1.getZIndex() < o2.getZIndex()) {
-                Debug.Log("z index smaller");
-                return 1;
             } else if (o1.getZIndex() > o2.getZIndex()) {
-                Debug.Log("z index greater");
+//                Debug.Log("z index smaller");
+                return 1;
+            } else if (o1.getZIndex() < o2.getZIndex()) {
+//                Debug.Log("z index greater");
                 return -1;
             }
 
@@ -303,6 +303,9 @@ public class GameStage extends Stage {
         if(game.tutorialManager.isTutorialMode) {
             colorIndices.add(0);
         }
+
+        getCamera().viewportWidth -= 0.2f;
+        getCamera().viewportHeight -= 0.2f;
     }
 
     public void shakeWorld(int count) {

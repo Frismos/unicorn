@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.frismos.unicorn.userdata.UserData;
 import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.stage.GameStage;
+import com.frismos.unicorn.util.Constants;
 import com.frismos.unicorn.util.Strings;
 
 /**
@@ -66,6 +67,6 @@ public class BouncingEnemy extends ShootingEnemy {
 
     @Override
     protected void setScaleRatio() {
-        scaleRatio = 0.6f;
+        scaleRatio = Constants.BOUNCING_ENEMY_SCALE_RATIO;
     }
 }

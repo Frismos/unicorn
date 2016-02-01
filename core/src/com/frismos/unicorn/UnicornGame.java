@@ -6,11 +6,24 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.esotericsoftware.spine.Bone;
+import com.esotericsoftware.spine.SkeletonData;
+import com.esotericsoftware.spine.SkeletonJson;
 import com.frismos.TweenAccessor.BoneAccessor;
 import com.frismos.TweenAccessor.CameraAccessor;
+import com.frismos.unicorn.actor.AttackingEnemy;
+import com.frismos.unicorn.actor.Boss;
+import com.frismos.unicorn.actor.BouncingEnemy;
+import com.frismos.unicorn.actor.MotherBoss;
+import com.frismos.unicorn.actor.ShootingBoss;
+import com.frismos.unicorn.actor.ShootingEnemy;
+import com.frismos.unicorn.actor.Spell;
+import com.frismos.unicorn.actor.Unicorn;
+import com.frismos.unicorn.actor.WalkingEnemy;
 import com.frismos.unicorn.manager.*;
 import com.frismos.unicorn.screen.GameScreen;
+import com.frismos.unicorn.util.Constants;
 import com.frismos.unicorn.util.Strings;
 
 public class UnicornGame extends Game {
@@ -44,6 +57,8 @@ public class UnicornGame extends Game {
         tweenManager = new TweenManager();
         Tween.registerAccessor(Bone.class, new BoneAccessor());
         Tween.registerAccessor(Camera.class, new CameraAccessor());
+
+		preloadAssets();
         setScreen(new GameScreen(this));
 	}
 
@@ -62,5 +77,55 @@ public class UnicornGame extends Game {
 
 	public void submitScore() {
 		//// TODO: 1/15/16 submit player score to game center here
+	}
+
+	public void preloadAssets() {
+		atlasManager.get(String.format("gfx/%s/skeleton.atlas", Strings.SHOOTING_BOSS), TextureAtlas.class);
+		atlasManager.get(String.format("gfx/%s/skeleton.atlas", Strings.MOTHER_BOSS), TextureAtlas.class);
+		atlasManager.get(String.format("gfx/%s/skeleton.atlas", Strings.WALKING_ENEMY), TextureAtlas.class);
+		atlasManager.get(String.format("gfx/%s/skeleton.atlas", Strings.ATTACKING_ENEMY), TextureAtlas.class);
+		atlasManager.get(String.format("gfx/%s/skeleton.atlas", Strings.BOUNCING_ENEMY), TextureAtlas.class);
+		atlasManager.get(String.format("gfx/%s/skeleton.atlas", Strings.SHOOTING_ENEMY), TextureAtlas.class);
+		atlasManager.get(String.format("gfx/%s/skeleton.atlas", Strings.UNICORN), TextureAtlas.class);
+
+		SkeletonJson json = atlasManager.getSkeletonJson(ShootingBoss.class, String.format("gfx/%s/skeleton.atlas", Strings.SHOOTING_BOSS));
+		json.setScale(Constants.BOSS_SCALE_RATIO);
+		SkeletonData skeletonData = atlasManager.getSkeletonData(ShootingBoss.class, String.format("gfx/%s/skeleton.json", Strings.SHOOTING_BOSS), json);
+		atlasManager.getAnimationStateData(ShootingBoss.class, skeletonData);
+
+		json = atlasManager.getSkeletonJson(MotherBoss.class, String.format("gfx/%s/skeleton.atlas", Strings.MOTHER_BOSS));
+		json.setScale(Constants.BOSS_SCALE_RATIO);
+		skeletonData = atlasManager.getSkeletonData(MotherBoss.class, String.format("gfx/%s/skeleton.json", Strings.MOTHER_BOSS), json);
+		atlasManager.getAnimationStateData(MotherBoss.class, skeletonData);
+
+		json = atlasManager.getSkeletonJson(WalkingEnemy.class, String.format("gfx/%s/skeleton.atlas", Strings.WALKING_ENEMY));
+		json.setScale(Constants.WALKING_ENEMY_SCALE_RATIO);
+		skeletonData = atlasManager.getSkeletonData(WalkingEnemy.class, String.format("gfx/%s/skeleton.json", Strings.WALKING_ENEMY), json);
+		atlasManager.getAnimationStateData(WalkingEnemy.class, skeletonData);
+
+		json = atlasManager.getSkeletonJson(AttackingEnemy.class, String.format("gfx/%s/skeleton.atlas", Strings.ATTACKING_ENEMY));
+		json.setScale(Constants.ATTACKING_ENEMY_SCALE_RATIO);
+		skeletonData = atlasManager.getSkeletonData(AttackingEnemy.class, String.format("gfx/%s/skeleton.json", Strings.ATTACKING_ENEMY), json);
+		atlasManager.getAnimationStateData(AttackingEnemy.class, skeletonData);
+
+		json = atlasManager.getSkeletonJson(BouncingEnemy.class, String.format("gfx/%s/skeleton.atlas", Strings.BOUNCING_ENEMY));
+		json.setScale(Constants.BOUNCING_ENEMY_SCALE_RATIO);
+		skeletonData = atlasManager.getSkeletonData(BouncingEnemy.class, String.format("gfx/%s/skeleton.json", Strings.BOUNCING_ENEMY), json);
+		atlasManager.getAnimationStateData(BouncingEnemy.class, skeletonData);
+
+		json = atlasManager.getSkeletonJson(ShootingEnemy.class, String.format("gfx/%s/skeleton.atlas", Strings.SHOOTING_ENEMY));
+		json.setScale(Constants.SHOOTING_ENEMY_SCALE_RATIO);
+		skeletonData = atlasManager.getSkeletonData(ShootingEnemy.class, String.format("gfx/%s/skeleton.json", Strings.SHOOTING_ENEMY), json);
+		atlasManager.getAnimationStateData(ShootingEnemy.class, skeletonData);
+
+		json = atlasManager.getSkeletonJson(Unicorn.class, String.format("gfx/%s/skeleton.atlas", Strings.UNICORN));
+		json.setScale(Constants.UNICORN_SCALE_RATIO);
+		skeletonData = atlasManager.getSkeletonData(Unicorn.class, String.format("gfx/%s/skeleton.json", Strings.UNICORN), json);
+		atlasManager.getAnimationStateData(Unicorn.class, skeletonData);
+
+		json = atlasManager.getSkeletonJson(Spell.class, String.format("gfx/%s/skeleton.atlas", Strings.MOTHER_BOSS));
+		json.setScale(Constants.SPELL_SCALE_RATIO);
+		skeletonData = atlasManager.getSkeletonData(Spell.class, String.format("gfx/%s/skeleton.json", Strings.MOTHER_BOSS), json);
+		atlasManager.getAnimationStateData(Spell.class, skeletonData);
 	}
 }

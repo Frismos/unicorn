@@ -22,23 +22,7 @@ import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.frismos.TweenAccessor.CameraAccessor;
 import com.frismos.unicorn.UnicornGame;
-import com.frismos.unicorn.actor.AttackingEnemy;
-import com.frismos.unicorn.actor.Background;
-import com.frismos.unicorn.actor.BezierBullet;
-import com.frismos.unicorn.actor.Boss;
-import com.frismos.unicorn.actor.BouncingEnemy;
-import com.frismos.unicorn.actor.Bullet;
-import com.frismos.unicorn.actor.Enemy;
-import com.frismos.unicorn.actor.GameActor;
-import com.frismos.unicorn.actor.MiniUnicorn;
-import com.frismos.unicorn.actor.MotherBoss;
-import com.frismos.unicorn.actor.ProgressBar;
-import com.frismos.unicorn.actor.Rhino;
-import com.frismos.unicorn.actor.ShootingBoss;
-import com.frismos.unicorn.actor.ShootingEnemy;
-import com.frismos.unicorn.actor.Spell;
-import com.frismos.unicorn.actor.Unicorn;
-import com.frismos.unicorn.actor.WalkingEnemy;
+import com.frismos.unicorn.actor.*;
 import com.frismos.unicorn.enums.ActorDataType;
 import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.enums.SpellType;
@@ -69,9 +53,9 @@ public class GameStage extends Stage {
     public Grid grid;
     public static Texture blackPixel;
 
-    public Unicorn unicorn;
+    public MainCharacter unicorn;
 
-    private ObjectMap<UnicornType, Unicorn> unicorns = new ObjectMap<UnicornType, Unicorn>();
+    private ObjectMap<UnicornType, MainCharacter> unicorns = new ObjectMap<>();
 
     public Background background;
     public int deadEnemyCounter = 0;
@@ -233,6 +217,11 @@ public class GameStage extends Stage {
         rhino.setY(background.getZero().y + grid.tileHeight / 2 - rhino.getHeight() / 2);
         unicorns.put(UnicornType.RHINO, rhino);
 
+        Star star = new Star(this, UnicornType.STAR);
+        star.setX(background.getZero().x + grid.tileWidth / 2 - rhino.getWidth() / 2);
+        star.setY(background.getZero().y + grid.tileHeight / 2 - rhino.getHeight() / 2);
+        unicorns.put(UnicornType.STAR, star);
+
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(this);
         Gdx.input.setInputProcessor(multiplexer);
@@ -275,7 +264,7 @@ public class GameStage extends Stage {
 //        addActor(joystickArea);
 //        addActor(joystick);
 
-        changeUnicornType = new Image(game.atlasManager.get("gfx/unicorn.png", Texture.class));
+        changeUnicornType = new Image(game.atlasManager.get("gfx/joystick.png", Texture.class));
         changeUnicornType.setSize(3, 3);
         changeUnicornType.setX(background.getZero().x);//Constants.VIEWPORT_WIDTH - changeUnicornType.getWidth() * 20 * changeUnicornType.getScaleX());
         changeUnicornType.setY(1);
@@ -283,7 +272,7 @@ public class GameStage extends Stage {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 //                GameStage.this.game.gameCenterController.showLeaderboardView("");
-                unicorn.callUnicorns();
+//                character.callUnicorns();
                 changeUnicorn();
                 joystickTouched = false;
                 return super.touchDown(event, x, y, pointer, button);
@@ -336,10 +325,12 @@ public class GameStage extends Stage {
         unicorn.remove(false);
         float y = unicorn.getY();
         ColorType colorType = unicorn.colorType;
-        if(unicorn.unicornType == UnicornType.UNICORN) {
+        if(unicorn.unicornType == UnicornType.STAR) {
             unicorn = unicorns.get(UnicornType.RHINO);
         } else if(unicorn.unicornType == UnicornType.RHINO) {
             unicorn = unicorns.get(UnicornType.UNICORN);
+        } else if(unicorn.unicornType == UnicornType.UNICORN) {
+            unicorn = unicorns.get(UnicornType.STAR);
         }
         unicorn.setUnicornType(unicorn.unicornType);
         unicorn.setY(y);
@@ -448,11 +439,11 @@ public class GameStage extends Stage {
         void die();
     }
 
-    public void unicornFire(float angle) {
-        if(!stopGame) {
-            unicorn.playFireAnimation(angle);
-        }
-    }
+//    public void unicornFire(float angle) {
+//        if(!stopGame) {
+//            unicorn.playFireAnimation(angle);
+//        }
+//    }
 
     public void unicornFire(float x, float y) {
         if(!stopGame) {
@@ -465,7 +456,7 @@ public class GameStage extends Stage {
             Bullet bullet;
             if(unicorn.unicornType == UnicornType.RHINO) {
                 bullet = new BezierBullet(this, x, y);
-                bullet.damage = 1;
+                bullet.damage = Bullet.CANNON_BULLET_DAMAGE;
             } else {
                 bullet = new Bullet(this, x, y, ActorDataType.BULLET);
             }
@@ -528,7 +519,7 @@ public class GameStage extends Stage {
         } else {
             float stageX = screenX * Constants.VIEWPORT_WIDTH / Gdx.graphics.getWidth() - joystick.getWidth() * joystick.getScaleX() / 2;
             float stageY = (Gdx.graphics.getHeight() - screenY) * Constants.VIEWPORT_HEIGHT / Gdx.graphics.getHeight() - joystick.getHeight() * joystick.getScaleY() / 2;
-//            if(unicorn.unicornType == UnicornType.AUTOMATIC_ATTACK) {
+//            if(character.unicornType == UnicornType.UNICORN) {
                 if ((stageX - joystickX) * (stageX - joystickX) + (stageY - joystickY) * (stageY - joystickY) > joystickRadius * joystickRadius) {
                     float borderX = background.getZero().x + grid.tileWidth * (COLUMN_LENGTH - 1) + grid.tileWidth / 2;
                     float borderY = background.getZero().y + grid.tileHeight / 3;
@@ -547,7 +538,7 @@ public class GameStage extends Stage {
                     joystickArea.addAction(Actions.moveTo(joystickX - joystickRadius + joystick.getWidth() * joystick.getScaleX() / 2, joystickY - joystickRadius + joystick.getHeight() * joystick.getScaleY() / 2, 0.1f));
                 }
 //            }
-//            if(unicorn.unicornType == UnicornType.AUTOMATIC_ATTACK) {
+//            if(character.unicornType == UnicornType.UNICORN) {
             if(stageX < changeUnicornType.getX() ||
                     stageX > changeUnicornType.getX() + changeUnicornType.getWidth() ||
                     stageY < changeUnicornType.getY() ||
@@ -567,7 +558,7 @@ public class GameStage extends Stage {
                                 fireIndex = 0;
                             }
                         } else if(game.tutorialManager.currentStep == TutorialStep.FOURTH || game.tutorialManager.currentStep == TutorialStep.FINISH) {
-                            if(unicorn.unicornType == UnicornType.UNICORN) {
+                            if(unicorn.unicornType == UnicornType.STAR) {
                                 joystickTouched = true;
                                 fireIndex = 0;
                             }
@@ -651,7 +642,7 @@ public class GameStage extends Stage {
             isFingerDown = false;
             float fingerX = Constants.VIEWPORT_WIDTH / Gdx.graphics.getWidth() * screenX;
             float fingerY = Constants.VIEWPORT_HEIGHT - Constants.VIEWPORT_HEIGHT / Gdx.graphics.getHeight() * screenY;
-            if(unicorn.unicornType == UnicornType.AUTOMATIC_ATTACK) {
+            if(unicorn.unicornType == UnicornType.UNICORN) {
                 joystickTouched = false;
 //            } else if(fingerX < changeUnicornType.getX() ||
 //                    fingerX > changeUnicornType.getX() + changeUnicornType.getWidth() ||
@@ -719,7 +710,7 @@ public class GameStage extends Stage {
                             break;
                         }
 
-                        //enemy hit unicorn
+                        //enemy hit character
                         if (BodyUtils.bodyIsUnicorn(a) && BodyUtils.bodyIsEnemy(b)) {
                             unicorn.hit(1);
                             final Enemy enemy = (Enemy) b;
@@ -733,7 +724,7 @@ public class GameStage extends Stage {
                             break;
                         }
 
-                        //mini unicorn hit enemy
+                        //mini character hit enemy
                         if (BodyUtils.bodyIsEnemy(a) && BodyUtils.bodyIsMiniUnicorn(b)) {
                             final Enemy enemy = (Enemy) a;
                             final MiniUnicorn miniUnicorn = (MiniUnicorn) b;
@@ -769,29 +760,29 @@ public class GameStage extends Stage {
                             miniUnicorn.remove(false);
                         }
 
-                        //bullet hit unicorn
+                        //bullet hit character
                         if (BodyUtils.bodyIsUnicorn(a) && BodyUtils.bodyIsEnemyBullet(b)) {
-                            final Unicorn unicorn = (Unicorn) a;
+                            final MainCharacter unicorn = (MainCharacter) a;
                             final Bullet bullet = (Bullet) b;
                             unicorn.hit(bullet.damage);
                             bullet.destroy();
                             break;
                         }
                         if (BodyUtils.bodyIsUnicorn(b) && BodyUtils.bodyIsEnemyBullet(a)) {
-                            final Unicorn unicorn = (Unicorn) b;
+                            final MainCharacter unicorn = (MainCharacter) b;
                             final Bullet bullet = (Bullet) a;
                             unicorn.hit(bullet.damage);
                             bullet.destroy();
                             break;
                         }
 
+
+                        //TODO THIS IS TEMPORARY WAY
                         //bullet hit spell
                         if((BodyUtils.bodyIsBullet(a) || BodyUtils.bodyIsCannonBullet(a)) && BodyUtils.bodyIsSpell(b)) {
-                            if(spellCandy.spellType == SpellType.CALL_UNICORNS) {
-                                unicorn.callUnicorns();
-                            } else if(spellCandy.spellType == SpellType.RAINBOW_MODE){
-                                unicorn.enableRainbowMode();
-                            } else if(spellCandy.spellType == SpellType.HEALTH) {
+                            if(spellCandy.spellType != SpellType.HEALTH) {
+                                unicorn.useAbility();
+                            } else {
                                 unicorn.regenerate();
                             }
                             b.remove(true);
@@ -799,10 +790,10 @@ public class GameStage extends Stage {
                             spellCandy = null;
                         }
                         if((BodyUtils.bodyIsBullet(b) || BodyUtils.bodyIsCannonBullet(b)) && BodyUtils.bodyIsSpell(a)) {
-                            if(MathUtils.randomBoolean()) {
-                                unicorn.callUnicorns();
+                            if(spellCandy.spellType != SpellType.HEALTH) {
+                                unicorn.useAbility();
                             } else {
-                                unicorn.enableRainbowMode();
+                                unicorn.regenerate();
                             }
                             a.remove(true);
                             collisionListeners.removeValue(a, false);
@@ -975,8 +966,8 @@ public class GameStage extends Stage {
 //                        }
                     }
 //                    if(deltaX > minDelta || deltaY > minDelta || deltaX < -minDelta || deltaY < -minDelta) {
-//                        angle = (float) Math.toDegrees(Math.atan2(aimX - unicorn.getX() - unicorn.getFirePoint().x,
-//                                aimY - unicorn.getY() - unicorn.getFirePoint().y));
+//                        angle = (float) Math.toDegrees(Math.atan2(aimX - character.getX() - character.getFirePoint().x,
+//                                aimY - character.getY() - character.getFirePoint().y));
 //                            angle = 90 - angle;
 //                        if(angle > 0) {
 //                            angle = (int) angle % 10 < 5 ? (int) angle / 10 * 10 : (int) angle / 10 * 10 + 5;
@@ -985,7 +976,7 @@ public class GameStage extends Stage {
 //                        }
 //                    }
 
-//                    if(unicorn.unicornType == UnicornType.UNICORN) {
+//                    if(character.unicornType == UnicornType.STAR) {
 //                        unicornFire(angle);
 //                    } else {
                     unicornFire(fingerScreenX, fingerScreenY);
@@ -993,11 +984,11 @@ public class GameStage extends Stage {
                     fireTimer = 0.0f;
 
 //                    Unicorn unicornchik = null;
-//                    unicornchik.unicornType =UnicornType.UNICORN;
+//                    unicornchik.unicornType =UnicornType.STAR;
 
-                    if(unicorn.unicornType != UnicornType.AUTOMATIC_ATTACK) {
+                    if(unicorn.unicornType != UnicornType.UNICORN) {
                         joystickTouched = false;
-//                    } else if(unicorn.unicornType == UnicornType.UNICORN) {
+//                    } else if(character.unicornType == UnicornType.STAR) {
 //                        if(++fireIndex >= level / 2) {
 //                            fireIndex = 0;
 //                            joystickTouched = false;

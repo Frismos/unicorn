@@ -13,7 +13,7 @@ public abstract class Creature extends GameActor {
 
     protected float moveSpeed = 10.0f;
 
-    public int hitPoints;
+    public float hitPoints;
 //    protected Array<Label> hitLabels = new Array<Label>();
 
     private ProgressBar pb;
@@ -34,7 +34,7 @@ public abstract class Creature extends GameActor {
         }
     }
 
-    public void hit(int damage) {
+    public void hit(float damage) {
 //        if(hitLabels.size > 0) {
 //            final Label hitLabel = hitLabels.get(hitLabelIndex);
 //            if (hitLabel.hasParent()) {
@@ -61,7 +61,7 @@ public abstract class Creature extends GameActor {
         }
         gameStage.score++;
         gameStage.scoreLabel.setText(String.format("score: %s", String.valueOf(gameStage.score)));
-        hitPoints-= damage;
+        hitPoints -= damage;
         if(hitPoints <= 0) {
             die();
         } else {

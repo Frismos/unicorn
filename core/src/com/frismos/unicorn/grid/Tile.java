@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.Sort;
 import com.esotericsoftware.spine.AnimationState;
 import com.esotericsoftware.spine.Event;
 import com.frismos.unicorn.actor.Enemy;
-import com.frismos.unicorn.actor.Unicorn;
+import com.frismos.unicorn.actor.MainCharacter;
 import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.spine.SpineActor;
 import com.frismos.unicorn.stage.GameStage;
@@ -30,7 +30,7 @@ public class Tile extends SpineActor {
 
     public ColorType colorType;
     public Array<Enemy> enemies = new Array<>();
-    public Unicorn unicorn;
+    public MainCharacter character;
 
     private String skinNumber;
     private Color tileColor;
@@ -411,8 +411,8 @@ public class Tile extends SpineActor {
     public void color(final ColorType colorType) {
         if(colorType != ColorType.RAINBOW) {
             this.colorType = colorType;
-            if(this.unicorn != null) {
-                this.unicorn.colorType = colorType;
+            if(this.character != null) {
+                this.character.colorType = colorType;
             }
 
             Color color = Color.valueOf(Strings.BLUE);//blue
@@ -441,8 +441,8 @@ public class Tile extends SpineActor {
         if(j != 0) {
             skeletonActor.getAnimationState().setAnimation(0, "color", false);
 
-            if (unicorn != null) {
-                unicorn.colorType = null;
+            if (character != null) {
+                character.colorType = null;
             }
             colorType = null;
             skeletonActor.getSkeleton().setSkin(skinNumber);

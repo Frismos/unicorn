@@ -6,9 +6,7 @@ import com.esotericsoftware.spine.Event;
 import com.frismos.unicorn.enums.ActorDataType;
 import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.stage.GameStage;
-import com.frismos.unicorn.userdata.UserData;
 import com.frismos.unicorn.util.Constants;
-import com.frismos.unicorn.util.Strings;
 
 /**
  * Created by edgar on 12/14/2015.
@@ -72,7 +70,7 @@ public abstract class Boss extends ShootingEnemy {
     }
 
     @Override
-    public void hit(int damage) {
+    public void hit(float damage) {
         super.hit(damage);
         if(isAttacking) {
             skeletonActor.getAnimationState().setAnimation(0, "hit", false);

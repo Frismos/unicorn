@@ -1,8 +1,8 @@
-/android/android.iml
 /core/core.iml
-/unicorn.iml
 /desktop/desktop.iml
 /ios/ios.iml
+/unicorn.iml
+/android/android.iml
 /local.properties
 .gradle/2.4/
 .idea/

@@ -11,7 +11,7 @@ import com.frismos.unicorn.util.Strings;
 /**
  * Created by edgaravanyan on 1/26/16.
  */
-public class Rhino extends Unicorn {
+public class Rhino extends MainCharacter {
 
     private AnimationState.AnimationStateListener hitAnimationStateListener = new AnimationState.AnimationStateListener() {
         @Override
@@ -51,7 +51,7 @@ public class Rhino extends Unicorn {
     }
 
     @Override
-    public void hit(int damage) {
+    public void hit(float damage) {
         super.hit(damage);
         skeletonActor.getAnimationState().setAnimation(0, "hit", false);
         skeletonActor.getAnimationState().clearListeners();
@@ -72,5 +72,10 @@ public class Rhino extends Unicorn {
         skeletonActor.getAnimationState().clearListeners();
         skeletonActor.getAnimationState().addListener(fireAnimationListener);
 //        }
+    }
+
+    @Override
+    public void useAbility() {
+
     }
 }

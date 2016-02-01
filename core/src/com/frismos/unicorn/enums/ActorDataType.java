@@ -12,5 +12,7 @@ public enum ActorDataType {
     PLATFORM,
     ENEMY_BULLET,
     SPELL,
-    CANNON_BULLET, BOSS
+    CANNON_BULLET,
+    AUTO_BULLET,
+    BOSS
 }

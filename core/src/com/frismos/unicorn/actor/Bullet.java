@@ -17,6 +17,11 @@ import com.frismos.unicorn.util.Utils;
  */
 public class Bullet extends GameActor {
 
+    public static final float SINGLE_BULLET_DAMAGE = 5;
+    public static final float ENEMY_BULLET_DAMAGE = 1;
+    public static final float CANNON_BULLET_DAMAGE = 1;
+    public static final float AUTO_BULLET_DAMAGE = 0.5f;
+
     public static final int UP_DIAGONAL = 0;
     public static final int RIGHT = 1;
     public static final int DOWN_DIAGONAL = 2;
@@ -39,7 +44,7 @@ public class Bullet extends GameActor {
 
     protected boolean isDestroyed;
 
-    public int damage;
+    public float damage;
 
     private AnimationState.AnimationStateListener bulletDestroyAnimationListener = new AnimationState.AnimationStateListener() {
         @Override
@@ -80,10 +85,13 @@ public class Bullet extends GameActor {
 
         if(actorDataType == ActorDataType.BULLET) {
             speed = GameStage.BULLET_MOVE_SPEED;
-            damage = 5;
+            damage = SINGLE_BULLET_DAMAGE;
         } else if(actorDataType == ActorDataType.ENEMY_BULLET) {
             speed = GameStage.ENEMY_BULLET_MOVE_SPEED;
-            damage = 1;
+            damage = ENEMY_BULLET_DAMAGE;
+        } else if(actorDataType == ActorDataType.AUTO_BULLET) {
+            speed = GameStage.BULLET_MOVE_SPEED;
+            damage = AUTO_BULLET_DAMAGE;
         }
 
         setColorType(colorType);

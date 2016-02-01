@@ -20,7 +20,7 @@ public class AttackingEnemy extends Enemy {
     }
 
     @Override
-    public void hit(int damage) {
+    public void hit(float damage) {
         super.hit(damage);
         if(!isAttackingOnUnicorn) {
             attack();

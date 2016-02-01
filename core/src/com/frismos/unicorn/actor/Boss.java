@@ -70,7 +70,7 @@ public abstract class Boss extends ShootingEnemy {
     }
 
     @Override
-    public void hit(int damage) {
+    public void hit(float damage) {
         super.hit(damage);
         if(isAttacking) {
             skeletonActor.getAnimationState().setAnimation(0, "hit", false);

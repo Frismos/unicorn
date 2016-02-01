@@ -39,7 +39,7 @@ public class BouncingEnemy extends ShootingEnemy {
     }
 
     @Override
-    public void hit(int damage) {
+    public void hit(float damage) {
         if(!invulnerable) {
             super.hit(damage);
         }

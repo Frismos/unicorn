@@ -1,0 +1,132 @@
+
+skeleton.png
+size: 512,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+images/body2
+  rotate: false
+  xy: 2, 42
+  size: 112, 118
+  orig: 112, 118
+  offset: 0, 0
+  index: -1
+images/eye--half
+  rotate: false
+  xy: 77, 3
+  size: 60, 37
+  orig: 60, 37
+  offset: 0, 0
+  index: -1
+images/eye-close
+  rotate: true
+  xy: 256, 53
+  size: 58, 29
+  orig: 58, 29
+  offset: 0, 0
+  index: -1
+images/eye-open
+  rotate: false
+  xy: 139, 15
+  size: 60, 37
+  orig: 60, 37
+  offset: 0, 0
+  index: -1
+images/gun2
+  rotate: false
+  xy: 2, 162
+  size: 292, 86
+  orig: 307, 102
+  offset: 15, 11
+  index: -1
+images/hand
+  rotate: false
+  xy: 252, 22
+  size: 32, 29
+  orig: 32, 29
+  offset: 0, 0
+  index: -1
+images/head2
+  rotate: false
+  xy: 116, 54
+  size: 91, 106
+  orig: 91, 106
+  offset: 0, 0
+  index: -1
+images/leg-lower-left
+  rotate: false
+  xy: 209, 54
+  size: 45, 57
+  orig: 45, 57
+  offset: 0, 0
+  index: -1
+images/leg-lower-right
+  rotate: false
+  xy: 414, 169
+  size: 63, 39
+  orig: 63, 39
+  offset: 0, 0
+  index: -1
+images/leg-top-left
+  rotate: false
+  xy: 209, 113
+  size: 62, 47
+  orig: 62, 47
+  offset: 0, 0
+  index: -1
+images/leg-top-right
+  rotate: false
+  xy: 357, 194
+  size: 55, 54
+  orig: 55, 54
+  offset: 0, 0
+  index: -1
+images/lower-arm
+  rotate: false
+  xy: 2, 2
+  size: 73, 38
+  orig: 73, 38
+  offset: 0, 0
+  index: -1
+images/mouth
+  rotate: true
+  xy: 485, 192
+  size: 56, 25
+  orig: 56, 25
+  offset: 0, 0
+  index: -1
+images/mouth2
+  rotate: false
+  xy: 357, 170
+  size: 52, 22
+  orig: 52, 22
+  offset: 0, 0
+  index: -1
+images/ribbon1
+  rotate: false
+  xy: 201, 18
+  size: 49, 34
+  orig: 49, 34
+  offset: 0, 0
+  index: -1
+images/ribbon2
+  rotate: true
+  xy: 273, 120
+  size: 40, 29
+  orig: 40, 29
+  offset: 0, 0
+  index: -1
+images/ribbon3
+  rotate: false
+  xy: 414, 210
+  size: 69, 38
+  orig: 69, 38
+  offset: 0, 0
+  index: -1
+images/top-arm
+  rotate: false
+  xy: 296, 173
+  size: 59, 75
+  orig: 59, 75
+  offset: 0, 0
+  index: -1

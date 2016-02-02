@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.Array;
 import com.esotericsoftware.spine.AnimationState;
+import com.esotericsoftware.spine.Bone;
 import com.esotericsoftware.spine.Event;
 import com.frismos.unicorn.enums.ActorDataType;
 import com.frismos.unicorn.enums.ColorType;
@@ -11,15 +12,13 @@ import com.frismos.unicorn.enums.TutorialStep;
 import com.frismos.unicorn.enums.UnicornType;
 import com.frismos.unicorn.grid.Tile;
 import com.frismos.unicorn.stage.GameStage;
-import com.frismos.unicorn.util.Constants;
-import com.frismos.unicorn.util.Strings;
 import com.frismos.unicorn.util.Utils;
 
 /**
  * Created by edgaravanyan on 2/1/16.
  */
 public abstract class MainCharacter extends Creature {
-    public float AUTO_ATTACK_SPEED = 0.05f;
+    public float AUTO_ATTACK_SPEED = 0.1f;
     public float SINGLE_ATTACK_SPEED = 0.7f;
     public float CANNON_ATTACK_SPEED = 0.9f;
 
@@ -81,6 +80,7 @@ public abstract class MainCharacter extends Creature {
 
     private float maxHitPoints;
     public float attackSpeed;
+    private Bone fireBone;
 
     public MainCharacter(GameStage stage, UnicornType unicornType) {
         super(stage, ColorType.YELLOW);
@@ -93,6 +93,7 @@ public abstract class MainCharacter extends Creature {
         maxHitPoints = hitPoints = 3;
 //        enableRainbowMode();
         setUserObject(ActorDataType.UNICORN);
+        fireBone = skeletonActor.getSkeleton().findBone("center-spawn");
     }
 
     @Override
@@ -270,8 +271,10 @@ public abstract class MainCharacter extends Creature {
 
     public Vector2 getFirePoint() {
         if(firePoint == null) {
-            firePoint = new Vector2(skeletonActor.getSkeleton().findBone("center-spawn").getWorldX(), skeletonActor.getSkeleton().findBone("center-spawn").getWorldY());
+            firePoint = new Vector2();
         }
+        firePoint.x = fireBone.getWorldX();
+        firePoint.y = fireBone.getWorldY();
         return firePoint;
     }
 

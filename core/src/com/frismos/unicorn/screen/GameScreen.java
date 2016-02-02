@@ -1,9 +1,9 @@
 package com.frismos.unicorn.screen;
 
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
 import com.frismos.unicorn.UnicornGame;
 import com.frismos.unicorn.stage.GameStage;
+import com.frismos.unicorn.util.Debug;
 
 /**
  * Created by edgaravanyan on 10/12/15.
@@ -15,6 +15,7 @@ public class GameScreen extends ScreenAdapter {
 
     public GameScreen(UnicornGame game) {
         this.game = game;
+        this.game.restartGame = false;
     }
 
     @Override
@@ -26,9 +27,6 @@ public class GameScreen extends ScreenAdapter {
     public void render(float delta) {
         stage.act(delta);
         stage.draw();
-        if (stage.restartGame) {
-            game.setScreen(new GameScreen(game));
-        }
     }
 
     @Override

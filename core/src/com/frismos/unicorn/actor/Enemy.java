@@ -6,10 +6,12 @@ import com.esotericsoftware.spine.AnimationState;
 import com.esotericsoftware.spine.Event;
 import com.frismos.unicorn.enums.ActorDataType;
 import com.frismos.unicorn.enums.TutorialStep;
+import com.frismos.unicorn.enums.UnicornType;
 import com.frismos.unicorn.manager.TutorialManager;
 import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.grid.Tile;
 import com.frismos.unicorn.stage.GameStage;
+import com.frismos.unicorn.util.Debug;
 import com.frismos.unicorn.util.Utils;
 
 /**
@@ -176,6 +178,9 @@ public abstract class Enemy extends Creature {
                     }
                 }
             }
+            if(isTutorialEnemy) {
+                gameStage.game.tutorialManager.removeArrow();
+            }
 
             gameStage.collisionDetector.collisionListeners.removeValue(this, false);
             gameStage.unicorn.removePositionChangeListener(this);
@@ -202,6 +207,11 @@ public abstract class Enemy extends Creature {
     public abstract void attack();
 
     @Override
+    public boolean remove() {
+        return super.remove();
+    }
+
+    @Override
     public void act(float delta) {
         super.act(delta);
         if(isAttacking) {
@@ -225,7 +235,7 @@ public abstract class Enemy extends Creature {
 
                     @Override
                     public void complete(int trackIndex, int loopCount) {
-                        gameStage.restartGame();
+                        gameStage.restartGame = true;
                     }
 
                     @Override
@@ -243,6 +253,25 @@ public abstract class Enemy extends Creature {
             if(isTutorialEnemy && getX() < gameStage.background.getZero().x + gameStage.background.getWidth() - gameStage.grid.tileWidth) {
                 gameStage.game.tutorialManager.pauseGame = true;
                 moveSpeed = GameStage._ENEMY_MOVE_SPEED;
+                if(gameStage.game.tutorialManager.currentStep == TutorialStep.FIRST ||
+                        gameStage.game.tutorialManager.currentStep == TutorialStep.SECOND) {
+                    gameStage.game.tutorialManager.showArrowOnActor(this);
+                } else if(gameStage.game.tutorialManager.currentStep == TutorialStep.FOURTH ||
+                        gameStage.game.tutorialManager.currentStep == TutorialStep.FINISH) {
+                    if(this instanceof Boss) {
+                        if(gameStage.unicorn.unicornType != UnicornType.STAR) {
+                            gameStage.game.tutorialManager.showArrowOnActor(gameStage.changeUnicornType);
+                        } else {
+                            gameStage.game.tutorialManager.showArrowOnActor(this);
+                        }
+                    }
+                } else if(gameStage.game.tutorialManager.currentStep == TutorialStep.THIRD) {
+                    if(gameStage.unicorn.unicornType != UnicornType.RHINO) {
+                        gameStage.game.tutorialManager.showArrowOnActor(gameStage.changeUnicornType);
+                    } else {
+                        gameStage.game.tutorialManager.showArrowOnActor(gameStage.grid.grid[1][6]);
+                    }
+                }
             }
         }
     }

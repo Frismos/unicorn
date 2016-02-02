@@ -2,10 +2,8 @@ package com.frismos.unicorn.actor;
 
 import com.esotericsoftware.spine.AnimationState;
 import com.esotericsoftware.spine.Event;
-import com.frismos.unicorn.enums.ActorDataType;
 import com.frismos.unicorn.enums.UnicornType;
 import com.frismos.unicorn.stage.GameStage;
-import com.frismos.unicorn.userdata.UserData;
 import com.frismos.unicorn.util.Constants;
 import com.frismos.unicorn.util.Strings;
 

@@ -49,7 +49,7 @@ public class GameStage extends Stage {
 
     public UnicornGame game;
 
-    private Image changeUnicornType;
+    public Image changeUnicornType;
     public Grid grid;
     public static Texture blackPixel;
 
@@ -161,7 +161,7 @@ public class GameStage extends Stage {
             return new WalkingEnemy(GameStage.this, ColorType.GREEN);
         }
     };
-    private Comparator<? super Actor> actorsComporator = new Comparator<Actor>() {
+    private Comparator<? super Actor> actorsComparator = new Comparator<Actor>() {
         @Override
         public int compare(Actor o1, Actor o2) {
             if (o1 instanceof Background || o2 instanceof Background ||
@@ -204,20 +204,20 @@ public class GameStage extends Stage {
         grid = new Grid(this);
         addActor(grid);
 
-        unicorn = new Unicorn(this, UnicornType.UNICORN);
+        unicorn = new Star(this, UnicornType.STAR);
         unicorn.setX(background.getZero().x + grid.tileWidth / 2 - unicorn.getWidth() / 2);
         unicorn.setY(background.getZero().y + grid.tileHeight / 2 - unicorn.getHeight() / 2);
-        unicorns.put(unicorn.unicornType, unicorn);
+        unicorns.put(UnicornType.STAR, unicorn);
 
         Rhino rhino = new Rhino(this, UnicornType.RHINO);
         rhino.setX(background.getZero().x + grid.tileWidth / 2 - rhino.getWidth() / 2);
         rhino.setY(background.getZero().y + grid.tileHeight / 2 - rhino.getHeight() / 2);
         unicorns.put(UnicornType.RHINO, rhino);
 
-        Star star = new Star(this, UnicornType.STAR);
-        star.setX(background.getZero().x + grid.tileWidth / 2 - rhino.getWidth() / 2);
-        star.setY(background.getZero().y + grid.tileHeight / 2 - rhino.getHeight() / 2);
-        unicorns.put(UnicornType.STAR, star);
+        Unicorn star = new Unicorn(this, UnicornType.UNICORN);
+        star.setX(background.getZero().x + grid.tileWidth / 2 - star.getWidth() / 2);
+        star.setY(background.getZero().y + grid.tileHeight / 2 - star.getHeight() / 2);
+        unicorns.put(UnicornType.UNICORN, star);
 
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(this);
@@ -284,6 +284,7 @@ public class GameStage extends Stage {
 
         if(game.tutorialManager.isTutorialMode) {
             colorIndices.add(0);
+            game.tutorialManager.showSlideArrows(this);
         }
 
         getCamera().viewportWidth -= 0.2f;
@@ -312,9 +313,6 @@ public class GameStage extends Stage {
     }
 
     private void changeUnicorn() {
-        if(game.tutorialManager.isTutorialMode && game.tutorialManager.currentStep == TutorialStep.FOURTH) {
-            game.tutorialManager.currentStep = TutorialStep.FINISH;
-        }
         unicorn.remove(false);
         float y = unicorn.getY();
         ColorType colorType = unicorn.colorType;
@@ -330,6 +328,17 @@ public class GameStage extends Stage {
         unicorn.setColorType(colorType);
         collisionDetector.collisionListeners.add(unicorn);
         addActor(unicorn);
+
+        if(game.tutorialManager.isTutorialMode) {
+            if(game.tutorialManager.currentStep == TutorialStep.THIRD) {
+                if(unicorn.unicornType == UnicornType.RHINO) {
+                    game.tutorialManager.removeArrow();
+                }
+            } else if(unicorn.unicornType == UnicornType.STAR || game.tutorialManager.currentStep == TutorialStep.FOURTH) {
+                game.tutorialManager.removeArrow();
+                game.tutorialManager.currentStep = TutorialStep.FINISH;
+            }
+        }
     }
 
     private void initConstants() {
@@ -398,11 +407,21 @@ public class GameStage extends Stage {
         if(game.tutorialManager.isTutorialMode) {
             game.tutorialManager.enemies.add(enemy);
         }
+
+
+
     }
 
     public void restartGame() {
-        restartGame = true;
+        game.restartGame = true;
         initConstants();
+        game.timerManager.reset();
+        game.tutorialManager = new TutorialManager(game);
+        if(game.tutorialManager.isTutorialMode) {
+            colorIndices.add(0);
+            game.tutorialManager.showSlideArrows(this);
+        }
+        this.clear();
     }
 
     public void putSpell(float x, float y) {
@@ -482,7 +501,7 @@ public class GameStage extends Stage {
     @Override
     public boolean keyDown(int keyCode) {
         if (keyCode == Input.Keys.BACK) {
-            restartGame();
+            restartGame = true;
             return false;
         }else if(keyCode == Input.Keys.W || keyCode == Input.Keys.UP) {
             unicorn.moveUp(0);
@@ -794,7 +813,7 @@ public class GameStage extends Stage {
         Array<Actor> actors = this.getActors();
         try {
             long time = System.currentTimeMillis();
-            actors.sort(actorsComporator);
+            actors.sort(actorsComparator);
         } catch (IllegalArgumentException ex) {
             Gdx.app.error("", ex.getMessage(), ex);
         }
@@ -982,6 +1001,9 @@ public class GameStage extends Stage {
                 }
             }
             collisionDetector.run();
+        }
+        if(restartGame) {
+            restartGame();
         }
     }
 

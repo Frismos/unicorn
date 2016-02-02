@@ -20,7 +20,7 @@ public class Constants {
     public static final float RHINO_SCALE_RATIO = 0.55f / SCALE_RATIO;
     public static final float SHOOTING_BOSS_SCALE_RATIO = 0.6f / SCALE_RATIO;
     public static final float SHOOTING_ENEMY_SCALE_RATIO = 0.55f / SCALE_RATIO;
-    public static final float SPELL_SCALE_RATIO = 0.1f / SCALE_RATIO;
+    public static final float SPELL_SCALE_RATIO = 0.2f / SCALE_RATIO;
     public static final float UNICORN_SCALE_RATIO = 0.075f / SCALE_RATIO;
     public static final float TILE_SCALE_RATIO = 1.0f / SCALE_RATIO;
     public static final float STAR_SCALE_RATIO = 0.4f / SCALE_RATIO;

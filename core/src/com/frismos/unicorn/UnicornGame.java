@@ -23,6 +23,7 @@ import com.frismos.unicorn.actor.Unicorn;
 import com.frismos.unicorn.actor.WalkingEnemy;
 import com.frismos.unicorn.manager.*;
 import com.frismos.unicorn.screen.GameScreen;
+import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.util.Constants;
 import com.frismos.unicorn.util.Strings;
 
@@ -33,9 +34,12 @@ public class UnicornGame extends Game {
     public FontsManager fontsManager;
 	public DataManager dataManager;
     public TutorialManager tutorialManager;
+    public TimerManager timerManager;
 
 	public GameCenterController gameCenterController;
     public TweenManager tweenManager;
+
+	public boolean restartGame;
 
     public UnicornGame(GameCenterController gameCenterController) {
 		this.gameCenterController = gameCenterController;
@@ -53,7 +57,8 @@ public class UnicornGame extends Game {
         atlasManager = new AtlasManager();
         fontsManager = new FontsManager();
 		dataManager = new DataManager();
-        tutorialManager =new TutorialManager(this);
+        tutorialManager = new TutorialManager(this);
+        timerManager = new TimerManager();
         tweenManager = new TweenManager();
         Tween.registerAccessor(Bone.class, new BoneAccessor());
         Tween.registerAccessor(Camera.class, new CameraAccessor());
@@ -67,7 +72,13 @@ public class UnicornGame extends Game {
         tweenManager.update(Gdx.graphics.getDeltaTime());
 		Gdx.gl.glClearColor(0.3f, 0.9f, 0.7f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        timerManager.tick(Gdx.graphics.getDeltaTime());
         super.render();
+
+		if(restartGame) {
+            getScreen().dispose();
+			setScreen(new GameScreen(this));
+		}
 	}
 
 	@Override

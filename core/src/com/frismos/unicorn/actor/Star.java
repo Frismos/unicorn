@@ -69,7 +69,6 @@ public class Star extends MainCharacter {
 
     @Override
     public void playFireAnimation(float x, float y) {
-
         float stageX = Constants.VIEWPORT_WIDTH / Gdx.graphics.getWidth() * x;
         float stageY = Constants.VIEWPORT_HEIGHT - Constants.VIEWPORT_HEIGHT / Gdx.graphics.getHeight() * y;
 

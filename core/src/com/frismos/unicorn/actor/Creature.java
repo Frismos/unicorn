@@ -1,11 +1,8 @@
 package com.frismos.unicorn.actor;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.enums.TutorialStep;
 import com.frismos.unicorn.stage.GameStage;
-import com.frismos.unicorn.util.Debug;
 
 /**
  * Created by edgar on 12/9/2015.
@@ -57,6 +54,7 @@ public abstract class Creature extends GameActor {
 //        }
 
         if(gameStage.game.tutorialManager.isTutorialMode && gameStage.game.tutorialManager.currentStep == TutorialStep.FINISH) {
+            gameStage.game.tutorialManager.removeArrow();
             gameStage.game.tutorialManager.isTutorialMode = false;
             gameStage.game.tutorialManager.pauseGame = false;
         }

@@ -18,7 +18,6 @@ public class WalkingEnemy extends Enemy {
     public WalkingEnemy(GameStage stage, ColorType colorType, boolean isTutorial) {
         super(stage, colorType, isTutorial);
         hitPoints = 1;
-        Debug.Log("Walking Enemy ctr()");
     }
 
     @Override

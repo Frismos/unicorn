@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 /**
  * Created by edgaravanyan on 2/2/16.
  */
-public class TimerManager {
+public class TimerManager implements Updatable{
 
     private Array<Float> timeStepArray;
     private Array<Float> timerArray;
@@ -42,7 +42,8 @@ public class TimerManager {
 
     }
 
-    public void tick(float delta) {
+    @Override
+    public void update(float delta) {
         for (int i = 0; i < timerArray.size; i++) {
             if(timerArray.get(i) + delta >= timeStepArray.get(i)) {
                 runnableMap.get(timeStepArray.get(i)).run();

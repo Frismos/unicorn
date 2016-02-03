@@ -53,10 +53,15 @@ public abstract class Creature extends GameActor {
 //            }
 //        }
 
-        if(gameStage.game.tutorialManager.isTutorialMode && gameStage.game.tutorialManager.currentStep == TutorialStep.FINISH) {
-            gameStage.game.tutorialManager.removeArrow();
-            gameStage.game.tutorialManager.isTutorialMode = false;
-            gameStage.game.tutorialManager.pauseGame = false;
+        if(gameStage.game.tutorialManager.isTutorialMode) {
+            if(this instanceof MainCharacter) {
+                return;
+            }
+            if(gameStage.game.tutorialManager.currentStep == TutorialStep.FINISH) {
+                gameStage.game.tutorialManager.removeArrow();
+                gameStage.game.tutorialManager.isTutorialMode = false;
+                gameStage.game.tutorialManager.pauseGame = false;
+            }
         }
         gameStage.score++;
         gameStage.scoreLabel.setText(String.format("score: %s", String.valueOf(gameStage.score)));

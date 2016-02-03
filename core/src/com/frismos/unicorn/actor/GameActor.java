@@ -29,7 +29,7 @@ public abstract class GameActor extends SpineActor implements Pool.Poolable {
     protected void positionChanged() {
         super.positionChanged();
         if(bounds.getY() != getY() && !(this instanceof Bullet)) {
-            gameStage.layerStage();
+            gameStage.layerStage(null);
         }
         this.bounds.setPosition(getX(), getY());
     }

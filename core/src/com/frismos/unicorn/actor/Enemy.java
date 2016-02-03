@@ -4,15 +4,13 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.spine.AnimationState;
 import com.esotericsoftware.spine.Event;
-import com.frismos.unicorn.enums.ActorDataType;
-import com.frismos.unicorn.enums.TutorialStep;
-import com.frismos.unicorn.enums.UnicornType;
+import com.frismos.unicorn.enums.*;
 import com.frismos.unicorn.manager.TutorialManager;
-import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.grid.Tile;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.util.Debug;
 import com.frismos.unicorn.util.Utils;
+import sun.font.TrueTypeFont;
 
 /**
  * Created by edgaravanyan on 10/13/15.
@@ -50,18 +48,20 @@ public abstract class Enemy extends Creature {
 
         @Override
         public void complete(int trackIndex, int loopCount) {
-            int prob = 0;
-            if(Enemy.this instanceof Boss) {
-                prob = 100;
-            } else if(Enemy.this instanceof AttackingEnemy) {
-                prob = 25;
-            } else if(Enemy.this instanceof BouncingEnemy) {
-                prob = 7;
-            } else if(Enemy.this instanceof ShootingEnemy) {
-                prob = 3;
-            }
-            if(MathUtils.random(100) < prob) {
-                gameStage.putSpell(getX(), getY());
+            if(!gameStage.game.tutorialManager.isTutorialMode) {
+                int prob = 0;
+                if (Enemy.this instanceof Boss) {
+                    prob = 100;
+                } else if (Enemy.this instanceof AttackingEnemy) {
+                    prob = 25;
+                } else if (Enemy.this instanceof BouncingEnemy) {
+                    prob = 7;
+                } else if (Enemy.this instanceof ShootingEnemy) {
+                    prob = 3;
+                }
+                if (MathUtils.random(100) < prob) {
+                    gameStage.putSpell(getX(), getY());
+                }
             }
             skeletonActor.getAnimationState().removeListener(this);
             remove(true);
@@ -162,7 +162,7 @@ public abstract class Enemy extends Creature {
                 if(TutorialStep.values().length - 1 == gameStage.game.tutorialManager.currentStep.ordinal()) {
                     gameStage.game.tutorialManager.isTutorialMode = false;
                 } else {
-                    if(gameStage.game.tutorialManager.currentStep == TutorialStep.FIRST) {
+                    if(gameStage.game.tutorialManager.currentStep == TutorialStep.FIRST) {            //cul
                         gameStage.game.tutorialManager.currentStep = TutorialStep.SECOND;
                     } else if(TutorialStep.SECOND == gameStage.game.tutorialManager.currentStep) {    //kov
                         if(gameStage.game.tutorialManager.secondStepEnemies >= TutorialManager.SECOND_STEP_ENEMIES_COUNT) {
@@ -170,21 +170,29 @@ public abstract class Enemy extends Creature {
                                 gameStage.game.tutorialManager.currentStep = TutorialStep.THIRD;
                             }
                         }
-                    } else if(TutorialStep.THIRD == gameStage.game.tutorialManager.currentStep) {
-                        if(isTutorialEnemy) {
-                            gameStage.game.tutorialManager.isTutorialMode = false;
+                    } else if(TutorialStep.THIRD == gameStage.game.tutorialManager.currentStep) {     //ayc
+                        if(isTutorialEnemy && colorType == gameStage.game.tutorialManager.thirdStepColor) {
                             gameStage.game.tutorialManager.currentStep = TutorialStep.FOURTH;
+                            gameStage.game.tutorialManager.pauseGame = false;
+                            gameStage.changeUnicornType.remove();
+                        }
+                    } else if(TutorialStep.FOURTH == gameStage.game.tutorialManager.currentStep) {    //xoz
+                        if (gameStage.game.tutorialManager.fourthStepEnemies >= TutorialManager.FOURTH_STEP_ENEMIES_COUNT) {
+                            if (gameStage.game.tutorialManager.enemies.size == 0) {
+                                gameStage.boss = gameStage.sendBoss(true);
+                                gameStage.addActor(gameStage.changeUnicornType);
+                            }
                         }
                     }
                 }
-            }
-            if(isTutorialEnemy) {
+                gameStage.game.tutorialManager.removeArrow();
+            } else if(isTutorialEnemy) {
                 gameStage.game.tutorialManager.removeArrow();
             }
 
             gameStage.collisionDetector.collisionListeners.removeValue(this, false);
             gameStage.unicorn.removePositionChangeListener(this);
-            if(gameStage.boss == null && !isTutorialEnemy) {
+            if(gameStage.boss == null && !gameStage.game.tutorialManager.isTutorialMode) {
                 gameStage.deadEnemyCounter++;
             }
             if (Enemy.this.tile != null) {
@@ -255,7 +263,31 @@ public abstract class Enemy extends Creature {
                 moveSpeed = GameStage._ENEMY_MOVE_SPEED;
                 if(gameStage.game.tutorialManager.currentStep == TutorialStep.FIRST ||
                         gameStage.game.tutorialManager.currentStep == TutorialStep.SECOND) {
-                    gameStage.game.tutorialManager.showArrowOnActor(this);
+                    if(gameStage.unicorn.colorType != colorType) {
+                        Direction direction;
+                        if(colorType.ordinal() > gameStage.unicorn.colorType.ordinal()) {
+                            direction = Direction.UP;
+                        } else {
+                            direction = Direction.DOWN;
+                        }
+                        gameStage.game.tutorialManager.showSlideArrow(gameStage, direction);
+                    } else {
+                        gameStage.game.tutorialManager.showArrowOnActor(this);
+                    }
+                } else if(gameStage.game.tutorialManager.currentStep == TutorialStep.THIRD) {
+                    if(gameStage.unicorn.colorType != gameStage.game.tutorialManager.thirdStepColor) {
+                        Direction direction;
+                        if (gameStage.game.tutorialManager.thirdStepColor.ordinal() > gameStage.unicorn.colorType.ordinal()) {
+                            direction = Direction.UP;
+                        } else {
+                            direction = Direction.DOWN;
+                        }
+                        gameStage.game.tutorialManager.showSlideArrow(gameStage, direction);
+                    } else if(gameStage.unicorn.unicornType != UnicornType.RHINO) {
+                        gameStage.game.tutorialManager.showArrowOnActor(gameStage.changeUnicornType);
+                    } else {
+                        gameStage.game.tutorialManager.showArrowOnActor(gameStage.grid.grid[1][6]);
+                    }
                 } else if(gameStage.game.tutorialManager.currentStep == TutorialStep.FOURTH ||
                         gameStage.game.tutorialManager.currentStep == TutorialStep.FINISH) {
                     if(this instanceof Boss) {
@@ -264,12 +296,6 @@ public abstract class Enemy extends Creature {
                         } else {
                             gameStage.game.tutorialManager.showArrowOnActor(this);
                         }
-                    }
-                } else if(gameStage.game.tutorialManager.currentStep == TutorialStep.THIRD) {
-                    if(gameStage.unicorn.unicornType != UnicornType.RHINO) {
-                        gameStage.game.tutorialManager.showArrowOnActor(gameStage.changeUnicornType);
-                    } else {
-                        gameStage.game.tutorialManager.showArrowOnActor(gameStage.grid.grid[1][6]);
                     }
                 }
             }

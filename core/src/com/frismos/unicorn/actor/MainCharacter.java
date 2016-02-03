@@ -176,6 +176,7 @@ public abstract class MainCharacter extends Creature {
                         }
                     }
                 }
+                gameStage.game.tutorialManager.removeArrow();
             }
             tile.character = null;
             if (gameStage.grid.isTileInsideGrid(tile.i + 1, tile.j)) {
@@ -185,8 +186,9 @@ public abstract class MainCharacter extends Creature {
 
             setColorType(tile.colorType);
 
-            this.addAction(Actions.sequence(Actions.moveTo(tile.getX() + gameStage.grid.tileWidth / 2 - getWidth() / 2, tile.getY() + gameStage.grid.tileHeight / 2 - getHeight() / 2, 0.02f),
-                    Actions.run(changeEnemyDirection)));
+            //tile.getX() + gameStage.grid.tileWidth / 2 - getWidth() / 2, tile.getY() + gameStage.grid.tileHeight / 2 - getHeight() / 2, 0.02f),
+            updatePosition();
+            changeEnemyDirection.run();
         }
     }
 
@@ -208,6 +210,7 @@ public abstract class MainCharacter extends Creature {
                         }
                     }
                 }
+                gameStage.game.tutorialManager.removeArrow();
             }
             tile.character = null;
             if(gameStage.grid.isTileInsideGrid(tile.i - 1, tile.j)) {
@@ -217,8 +220,10 @@ public abstract class MainCharacter extends Creature {
 
             setColorType(tile.colorType);
 
-            this.addAction(Actions.sequence(Actions.moveTo(tile.getX() + gameStage.grid.tileWidth / 2 - getWidth() / 2, tile.getY() + gameStage.grid.tileHeight / 2 - getHeight() / 2, 0.02f),
-                    Actions.run(changeEnemyDirection)));
+//            this.addAction(Actions.sequence(Actions.moveTo(tile.getX() + gameStage.grid.tileWidth / 2 - getWidth() / 2, tile.getY() + gameStage.grid.tileHeight / 2 - getHeight() / 2, 0.02f),
+//                    Actions.run(changeEnemyDirection)));
+            updatePosition();
+            changeEnemyDirection.run();
         }
     }
 
@@ -265,6 +270,10 @@ public abstract class MainCharacter extends Creature {
         }
     }
 
+    public void updatePosition() {
+        setPosition(tile.getX() + gameStage.grid.tileWidth / 2 - getWidth() / 2, tile.getY() + gameStage.grid.tileHeight / 2 - getHeight() / 2);
+    }
+
     public void setColorType(ColorType colorType) {
         Utils.setActorColorType(this, colorType);
     }
@@ -283,7 +292,7 @@ public abstract class MainCharacter extends Creature {
         addAction(Actions.delay(0.3f, Actions.run(new Runnable() {
             @Override
             public void run() {
-                gameStage.restartGame();
+                gameStage.restartGame = true;
             }
         })));
     }
@@ -292,11 +301,6 @@ public abstract class MainCharacter extends Creature {
         if(hitPoints < maxHitPoints) {
             hitPoints++;
         }
-    }
-
-    @Override
-    public boolean remove(boolean dispose) {
-        return super.remove(dispose);
     }
 
     public abstract void useAbility();

@@ -7,9 +7,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.utils.Array;
 import com.esotericsoftware.spine.Bone;
 import com.esotericsoftware.spine.SkeletonData;
 import com.esotericsoftware.spine.SkeletonJson;
+import com.frismos.TweenAccessor.ActorAccessor;
 import com.frismos.TweenAccessor.BoneAccessor;
 import com.frismos.TweenAccessor.CameraAccessor;
 import com.frismos.unicorn.actor.AttackingEnemy;
@@ -41,6 +44,8 @@ public class UnicornGame extends Game {
 
 	public boolean restartGame;
 
+    public Array<Updatable> updatableArray = new Array<>();
+
     public UnicornGame(GameCenterController gameCenterController) {
 		this.gameCenterController = gameCenterController;
 	}
@@ -58,10 +63,13 @@ public class UnicornGame extends Game {
         fontsManager = new FontsManager();
 		dataManager = new DataManager();
         tutorialManager = new TutorialManager(this);
+        updatableArray.add(tutorialManager);
         timerManager = new TimerManager();
+        updatableArray.add(tutorialManager);
         tweenManager = new TweenManager();
         Tween.registerAccessor(Bone.class, new BoneAccessor());
         Tween.registerAccessor(Camera.class, new CameraAccessor());
+        Tween.registerAccessor(Actor.class, new ActorAccessor());
 
 		preloadAssets();
         setScreen(new GameScreen(this));
@@ -72,7 +80,10 @@ public class UnicornGame extends Game {
         tweenManager.update(Gdx.graphics.getDeltaTime());
 		Gdx.gl.glClearColor(0.3f, 0.9f, 0.7f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        timerManager.tick(Gdx.graphics.getDeltaTime());
+        for (int i= 0; i < updatableArray.size; i++) {
+            updatableArray.get(i).update(Gdx.graphics.getDeltaTime());
+        }
+
         super.render();
 
 		if(restartGame) {

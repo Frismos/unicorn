@@ -12,6 +12,8 @@ import com.frismos.unicorn.util.Strings;
  */
 public class Rhino extends MainCharacter {
 
+    public static final float ABILITY_TIME = 5f;
+
     private AnimationState.AnimationStateListener hitAnimationStateListener = new AnimationState.AnimationStateListener() {
         @Override
         public void event(int trackIndex, Event event) {
@@ -79,7 +81,13 @@ public class Rhino extends MainCharacter {
 
     @Override
     public void useAbility() {
-
+        attackSpeed = CANNON_ATTACK_SPEED * 0.1f;
+        gameStage.game.timerManager.run(ABILITY_TIME, new Runnable() {
+            @Override
+            public void run() {
+                attackSpeed = CANNON_ATTACK_SPEED;
+            }
+        });
     }
 
     @Override

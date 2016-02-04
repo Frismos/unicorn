@@ -38,6 +38,7 @@ import java.util.Comparator;
 import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
+import sun.font.TrueTypeFont;
 
 /**
  * Created by edgaravanyan on 10/12/15.
@@ -78,7 +79,7 @@ public class GameStage extends Stage {
     public static final int ENEMY_MATCH_CHANCE = 50;
     public static final float ENEMY_SPAWN_MIDDLE_CHANCE = 30;
 
-    public static final float BULLET_MOVE_SPEED = 60;
+    public static final float BULLET_MOVE_SPEED = 80;
     public static final float ENEMY_BULLET_MOVE_SPEED = 30;
 
     private int DEAD_ENEMIES_TILL_BOSS = 10;
@@ -172,6 +173,7 @@ public class GameStage extends Stage {
         }
     };
     private Array<Actor> actors = new Array<>();
+    public boolean isWorldShaking = false;
 
     public GameStage(final UnicornGame game) {
         super(new StretchViewport(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT), new PolygonSpriteBatch());
@@ -293,8 +295,10 @@ public class GameStage extends Stage {
 
     public void shakeWorld(int count) {
         if(count == 0) {
+            isWorldShaking = false;
             return;
         }
+        isWorldShaking = true;
         final float x = MathUtils.randomBoolean() ? -0.1f : 0.1f;
         final float y = MathUtils.randomBoolean() ? -0.1f : 0.1f;
 
@@ -497,11 +501,11 @@ public class GameStage extends Stage {
     }
 
     private float touchY = Float.MIN_VALUE;
-    private boolean isFingerDown = false;
+    private boolean isSwiped = false;
     private float fingerScreenX, fingerScreenY;
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if(screenX < Gdx.graphics.getWidth() / 6.0f) {
+        if(screenX <= Gdx.graphics.getWidth() / 6.0f) {
             this.touchY = screenY;
         } else {
             float stageX = screenX * Constants.VIEWPORT_WIDTH / Gdx.graphics.getWidth() - joystick.getWidth() * joystick.getScaleX() / 2;
@@ -557,17 +561,17 @@ public class GameStage extends Stage {
                 }
             }
 //            }
-            isFingerDown = true;
             fingerScreenX = screenX;
             fingerScreenY = screenY;
         }
+        isSwiped = false;
 
         return super.touchDown(screenX, screenY, pointer, button);
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        if(screenX >= Gdx.graphics.getWidth() / 6.0f) {
+        if(screenX > Gdx.graphics.getWidth() / 6.0f) {
             fingerScreenX = screenX;
             fingerScreenY = screenY;
             if (joystickTouched) {
@@ -615,33 +619,37 @@ public class GameStage extends Stage {
 
                 }
             }
+        } else {
+            if(!isSwiped) {
+                if (screenY - this.touchY > 23) {
+                    unicorn.moveDown(0);
+                    isSwiped = true;
+                } else if (this.touchY - screenY > 23) {
+                    unicorn.moveUp(0);
+                    isSwiped = true;
+                }
+            }
         }
         return super.touchDragged(screenX, screenY, pointer);
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        if(screenX < Gdx.graphics.getWidth() / 6.0f) {
-            if (screenY - this.touchY > 23) {
-                unicorn.moveDown(0);
-            } else if (this.touchY - screenY > 23) {
-                unicorn.moveUp(0);
-            }
-            this.touchY = Float.MIN_VALUE;
-        } else {
-            isFingerDown = false;
+        if(screenX > Gdx.graphics.getWidth() / 6.0f) {
             float fingerX = Constants.VIEWPORT_WIDTH / Gdx.graphics.getWidth() * screenX;
             float fingerY = Constants.VIEWPORT_HEIGHT - Constants.VIEWPORT_HEIGHT / Gdx.graphics.getHeight() * screenY;
-            if(unicorn.unicornType == UnicornType.UNICORN) {
+//            if(unicorn.unicornType == UnicornType.UNICORN) {
                 joystickTouched = false;
 //            } else if(fingerX < changeUnicornType.getX() ||
 //                    fingerX > changeUnicornType.getX() + changeUnicornType.getWidth() ||
 //                    fingerY < changeUnicornType.getY() ||
 //                    fingerY > changeUnicornType.getY() + changeUnicornType.getHeight()) {
 //                joystickTouched = true;
-            }
+//            }
 
             joystick.addAction(Actions.moveTo(joystickX, joystickY, 0.05f));
+        } else {
+            this.touchY = Float.MIN_VALUE;
         }
 
         return super.touchUp(screenX, screenY, pointer, button);
@@ -1009,7 +1017,7 @@ public class GameStage extends Stage {
 //                    unicornchik.unicornType =UnicornType.STAR;
 
                     if(unicorn.unicornType != UnicornType.UNICORN) {
-                        joystickTouched = false;
+//                        joystickTouched = false;
 //                    } else if(character.unicornType == UnicornType.STAR) {
 //                        if(++fireIndex >= level / 2) {
 //                            fireIndex = 0;

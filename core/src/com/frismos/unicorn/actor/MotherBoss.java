@@ -45,6 +45,7 @@ public class MotherBoss extends Boss {
         public void complete(int trackIndex, int loopCount) {
             skeletonActor.getAnimationState().removeListener(this);
             skeletonActor.getAnimationState().setAnimation(0, "walk", true);
+            isAttackAnimationPlaying = false;
         }
 
         @Override
@@ -74,6 +75,7 @@ public class MotherBoss extends Boss {
         skeletonActor.getAnimationState().setAnimation(0, "attack", false);
         skeletonActor.getAnimationState().clearListeners();
         skeletonActor.getAnimationState().addListener(attackAnimationListener);
+        isAttackAnimationPlaying = true;
     }
 
 

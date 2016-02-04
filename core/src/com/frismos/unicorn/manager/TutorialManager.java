@@ -59,7 +59,7 @@ public class TutorialManager implements Updatable {
 
     public TutorialManager(UnicornGame game) {
         this.game = game;
-        isTutorialMode = !game.dataManager.isTutorialPassed();
+        isTutorialMode = false;//!game.dataManager.isTutorialPassed();
         if(isTutorialMode) {
             currentStep = FIRST;
             enemies = new Array<>();

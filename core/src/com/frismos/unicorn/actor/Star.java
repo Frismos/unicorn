@@ -2,6 +2,7 @@ package com.frismos.unicorn.actor;
 
 import aurelienribon.tweenengine.Tween;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.esotericsoftware.spine.AnimationState;
 import com.esotericsoftware.spine.Bone;
@@ -77,7 +78,8 @@ public class Star extends MainCharacter {
         angle = 90 - angle;
 
         gunBone.setRotation(angle + 180);
-        Tween.to(gunBone, BoneAccessor.ROTATION, 0.5f).targetRelative(180 - angle).start(gameStage.game.tweenManager);
+        float rotateAngle = MathUtils.randomBoolean() ? 180 : -180;
+        Tween.to(gunBone, BoneAccessor.ROTATION, 0.5f).targetRelative(rotateAngle - angle).start(gameStage.game.tweenManager);
         super.playFireAnimation(x, y);
     }
 

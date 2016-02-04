@@ -65,7 +65,7 @@ public class UnicornGame extends Game {
         tutorialManager = new TutorialManager(this);
         updatableArray.add(tutorialManager);
         timerManager = new TimerManager();
-        updatableArray.add(tutorialManager);
+        updatableArray.add(timerManager);
         tweenManager = new TweenManager();
         Tween.registerAccessor(Bone.class, new BoneAccessor());
         Tween.registerAccessor(Camera.class, new CameraAccessor());

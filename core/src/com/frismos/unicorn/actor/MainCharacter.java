@@ -19,7 +19,7 @@ import com.frismos.unicorn.util.Utils;
  */
 public abstract class MainCharacter extends Creature {
     public float AUTO_ATTACK_SPEED = 0.1f;
-    public float SINGLE_ATTACK_SPEED = 0.7f;
+    public float SINGLE_ATTACK_SPEED = 0.9f;
     public float CANNON_ATTACK_SPEED = 0.9f;
 
     public Tile tile;
@@ -87,6 +87,13 @@ public abstract class MainCharacter extends Creature {
 
         setUnicornType(unicornType);
         setColorType(this.colorType);
+        if(unicornType == UnicornType.RHINO) {
+            attackSpeed = CANNON_ATTACK_SPEED;
+        } else if(unicornType == UnicornType.STAR) {
+            attackSpeed = SINGLE_ATTACK_SPEED;
+        } else if(unicornType == UnicornType.UNICORN) {
+            attackSpeed = AUTO_ATTACK_SPEED;
+        }
 
         this.setY(gameStage.background.getZero().y);
         positionChanged();
@@ -103,13 +110,6 @@ public abstract class MainCharacter extends Creature {
 
     public void setUnicornType(UnicornType unicornType) {
         this.unicornType = unicornType;
-        if(unicornType == UnicornType.RHINO) {
-            attackSpeed = CANNON_ATTACK_SPEED;
-        } else if(unicornType == UnicornType.STAR) {
-            attackSpeed = SINGLE_ATTACK_SPEED;
-        } else if(unicornType == UnicornType.UNICORN) {
-            attackSpeed = AUTO_ATTACK_SPEED;
-        }
     }
 
     public void addPositionChangeListener(final Enemy enemy) {

@@ -7,11 +7,13 @@ import com.frismos.unicorn.enums.ActorDataType;
 import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.util.Constants;
+import com.frismos.unicorn.util.Debug;
 
 /**
  * Created by edgar on 12/14/2015.
  */
 public abstract class Boss extends ShootingEnemy {
+    public boolean isAttackAnimationPlaying = false;
 
     private AnimationState.AnimationStateListener hitAnimationStateListener = new AnimationState.AnimationStateListener() {
         @Override
@@ -72,7 +74,7 @@ public abstract class Boss extends ShootingEnemy {
     @Override
     public void hit(float damage) {
         super.hit(damage);
-        if(isAttacking) {
+        if(isAttacking && !isAttackAnimationPlaying) {
             skeletonActor.getAnimationState().setAnimation(0, "hit", false);
             skeletonActor.getAnimationState().clearListeners();
             skeletonActor.getAnimationState().addListener(hitAnimationStateListener);

@@ -11,7 +11,7 @@ import com.frismos.unicorn.util.Strings;
 public class AttackingEnemy extends Enemy {
     public AttackingEnemy(GameStage stage, ColorType colorType) {
         super(stage, colorType);
-        hitPoints = 15;
+        hitPoints = 8;
     }
 
     @Override

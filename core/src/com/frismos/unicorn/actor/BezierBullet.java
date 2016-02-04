@@ -64,7 +64,9 @@ public class BezierBullet extends Bullet {
                 }
             }
         }
-        gameStage.shakeWorld(2);
+        if(!gameStage.isWorldShaking) {
+            gameStage.shakeWorld(2);
+        }
     }
 
     @Override

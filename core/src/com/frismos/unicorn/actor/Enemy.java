@@ -2,15 +2,17 @@ package com.frismos.unicorn.actor;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.esotericsoftware.spine.AnimationState;
 import com.esotericsoftware.spine.Event;
 import com.frismos.unicorn.enums.*;
-import com.frismos.unicorn.manager.TutorialManager;
 import com.frismos.unicorn.grid.Tile;
+import com.frismos.unicorn.manager.TutorialManager;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.util.Debug;
 import com.frismos.unicorn.util.Utils;
-import sun.font.TrueTypeFont;
+
+import java.time.Year;
 
 /**
  * Created by edgaravanyan on 10/13/15.
@@ -30,6 +32,8 @@ public abstract class Enemy extends Creature {
     public boolean isTutorialEnemy;
 
     public boolean isSonOfABoss = false; // :D
+
+    public Enemy waitingEnemy;
 
     private AnimationState.AnimationStateListener dieListener = new AnimationState.AnimationStateListener() {
 
@@ -89,30 +93,30 @@ public abstract class Enemy extends Creature {
 
         int positionX = GameStage.COLUMN_LENGTH;
         positionY = -1;
-        int percent = MathUtils.random(100);
-        if(percent <= GameStage.ENEMY_MATCH_CHANCE) {
-            if (colorType == ColorType.RED) {
-                if (gameStage.grid.nextRedRow != -1) {
-                    positionY = gameStage.grid.nextRedRow;
-                    gameStage.grid.nextRedRow = -1;
-                }
-            } else if (colorType == ColorType.GREEN) {
-                if (gameStage.grid.nextGreenRow != -1) {
-                    positionY = gameStage.grid.nextGreenRow;
-                    gameStage.grid.nextGreenRow = -1;
-                }
-            } else if (colorType == ColorType.BLUE) {
-                if (gameStage.grid.nextBlueRow != -1) {
-                    positionY = gameStage.grid.nextBlueRow;
-                    gameStage.grid.nextBlueRow = -1;
-                }
-            } else if (colorType == ColorType.YELLOW) {
-                if (gameStage.grid.nextYellowRow != -1) {
-                    positionY = gameStage.grid.nextYellowRow;
-                    gameStage.grid.nextYellowRow = -1;
-                }
-            }
-        }
+//        int percent = MathUtils.random(100);
+//        if(percent <= GameStage.ENEMY_MATCH_CHANCE) {
+//            if (colorType == ColorType.RED) {
+//                if (gameStage.grid.nextRedRow != -1) {
+//                    positionY = gameStage.grid.nextRedRow;
+//                    gameStage.grid.nextRedRow = -1;
+//                }
+//            } else if (colorType == ColorType.GREEN) {
+//                if (gameStage.grid.nextGreenRow != -1) {
+//                    positionY = gameStage.grid.nextGreenRow;
+//                    gameStage.grid.nextGreenRow = -1;
+//                }
+//            } else if (colorType == ColorType.BLUE) {
+//                if (gameStage.grid.nextBlueRow != -1) {
+//                    positionY = gameStage.grid.nextBlueRow;
+//                    gameStage.grid.nextBlueRow = -1;
+//                }
+//            } else if (colorType == ColorType.YELLOW) {
+//                if (gameStage.grid.nextYellowRow != -1) {
+//                    positionY = gameStage.grid.nextYellowRow;
+//                    gameStage.grid.nextYellowRow = -1;
+//                }
+//            }
+//        }
 
         if(positionY == -1) {
             int positionYOffset = isTutorialEnemy ? 2 : 1;
@@ -134,9 +138,19 @@ public abstract class Enemy extends Creature {
 //        }
         this.setX(gameStage.background.getZero().x + positionX * gameStage.grid.tileWidth + getWidth() / 2);
         this.setY(gameStage.background.getZero().y + positionY * gameStage.grid.tileHeight + getHeight() / 4);
+
+        tile = gameStage.grid.getTileByPoint(getX() + getWidth() / 2, getY());
+        tile.enemies.add(this);
+        for (int i = 0; i < tile.enemies.size; i++) {
+            if (!tile.enemies.get(i).equals(this) && tile.enemies.get(i).getRight() > getX()) {
+                isAttacking = false;
+                tile.enemies.get(i).addWaitingEnemy(this);
+                break;
+            }
+        }
+
         spawnPoint = new Vector2(0, getY() + getHeight() * getScaleY() / 2);
         spawnPoint = gameStage.stageToScreenCoordinates(spawnPoint);
-        isAttacking = true;
         this.isTutorialEnemy = isTutorialEnemy;
         if(!isTutorialEnemy) {
             moveSpeed = GameStage._ENEMY_MOVE_SPEED;
@@ -148,12 +162,24 @@ public abstract class Enemy extends Creature {
         Utils.setActorColorType(this, colorType);
     }
 
+    public void addWaitingEnemy(Enemy waitingEnemy) {
+        if(this.waitingEnemy == null) {
+            this.waitingEnemy = waitingEnemy;
+            return;
+        }
+        this.waitingEnemy.addWaitingEnemy(waitingEnemy);
+    }
+
     public boolean isAttacking() {
         return isAttacking;
     }
 
     public void die(AnimationState.AnimationStateListener dieListener) {
         if(isAttacking) {
+            if(waitingEnemy != null) {
+                waitingEnemy.start();
+                waitingEnemy = null;
+            }
             if(gameStage.game.tutorialManager.isTutorialMode) {
                 gameStage.game.tutorialManager.enemies.removeValue(this, false);
                 if(this.isTutorialEnemy) {
@@ -233,6 +259,12 @@ public abstract class Enemy extends Creature {
             if(!gameStage.game.tutorialManager.isTutorialMode || !gameStage.game.tutorialManager.pauseGame) {
                 moveBy(-directionX * moveSpeed * delta, -directionY * moveSpeed * delta);  //  23
             }
+            if(waitingEnemy != null) {
+                if (getRight() + getWidth() / 2 < waitingEnemy.getX()) {
+                    waitingEnemy.start();
+                    waitingEnemy = null;
+                }
+            }
 
             if(this.getX() < 7) {
                 die(new AnimationState.AnimationStateListener() {
@@ -308,5 +340,9 @@ public abstract class Enemy extends Creature {
         angle = 90 - angle;
         directionX = MathUtils.cosDeg(angle);
         directionY = MathUtils.sinDeg(angle);
+    }
+
+    public void start() {
+        isAttacking = true;
     }
 }

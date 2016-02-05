@@ -1,10 +1,12 @@
 package com.frismos.unicorn.actor;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.esotericsoftware.spine.AnimationState;
 import com.esotericsoftware.spine.Event;
 import com.frismos.unicorn.enums.UnicornType;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.util.Constants;
+import com.frismos.unicorn.util.Debug;
 import com.frismos.unicorn.util.Strings;
 
 /**
@@ -12,7 +14,11 @@ import com.frismos.unicorn.util.Strings;
  */
 public class Rhino extends MainCharacter {
 
-    public static final float ABILITY_TIME = 5f;
+    public static final float ABILITY_TIME = 2;
+
+    public boolean isAbilityMode = false;
+    private int bulletsIndex = 0;
+    private int bulletsCount;
 
     private AnimationState.AnimationStateListener hitAnimationStateListener = new AnimationState.AnimationStateListener() {
         @Override
@@ -39,7 +45,7 @@ public class Rhino extends MainCharacter {
     public Rhino(GameStage stage, UnicornType unicornType) {
         super(stage, unicornType);
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 10; i++) {
             gameBullets.add(new BezierBullet(stage));
         }
     }
@@ -71,6 +77,24 @@ public class Rhino extends MainCharacter {
 //        }
 //        if(!isFiring) {
 //            isFiring = true;
+        if(isAbilityMode) {
+            Debug.Log("bullets index = " + bulletsIndex);
+            Debug.Log("bullets count = " + bulletsCount);
+            bulletsIndex++;
+            if(bulletsIndex >= bulletsCount) {
+                bulletsIndex = 0;
+                attackSpeed = CANNON_ATTACK_SPEED;
+                gameStage.game.timerManager.run(CANNON_ATTACK_SPEED, new Runnable() {
+                    @Override
+                    public void run() {
+                        if(isAbilityMode) {
+                            bulletsCount = MathUtils.random(2, 3);
+                            attackSpeed = CANNON_ATTACK_SPEED * 0.1f;
+                        }
+                    }
+                });
+            }
+        }
         this.touchX = x;
         this.touchY = y;
         skeletonActor.getAnimationState().setAnimation(0, "fire", false);
@@ -81,13 +105,29 @@ public class Rhino extends MainCharacter {
 
     @Override
     public void useAbility() {
-        attackSpeed = CANNON_ATTACK_SPEED * 0.1f;
-        gameStage.game.timerManager.run(ABILITY_TIME, new Runnable() {
-            @Override
-            public void run() {
-                attackSpeed = CANNON_ATTACK_SPEED;
-            }
-        });
+        if(isAbilityMode) {
+            gameStage.game.timerManager.removeTimer(ABILITY_TIME);
+            gameStage.game.timerManager.run(ABILITY_TIME, new Runnable() {
+                @Override
+                public void run() {
+                    bulletsIndex = 0;
+                    isAbilityMode = false;
+                    attackSpeed = CANNON_ATTACK_SPEED;
+                }
+            });
+        } else {
+            bulletsCount = MathUtils.random(2, 3);
+            attackSpeed = CANNON_ATTACK_SPEED * 0.1f;
+            isAbilityMode = true;
+            gameStage.game.timerManager.run(ABILITY_TIME, new Runnable() {
+                @Override
+                public void run() {
+                    bulletsIndex = 0;
+                    isAbilityMode = false;
+                    attackSpeed = CANNON_ATTACK_SPEED;
+                }
+            });
+        }
     }
 
     @Override
@@ -96,5 +136,13 @@ public class Rhino extends MainCharacter {
             nextBulletIndex = 0;
         }
         return (BezierBullet)gameBullets.get(nextBulletIndex);
+    }
+
+    @Override
+    public void reset() {
+        if(isAbilityMode) {
+            gameStage.game.timerManager.removeTimer(ABILITY_TIME);
+            isAbilityMode = false;
+        }
     }
 }

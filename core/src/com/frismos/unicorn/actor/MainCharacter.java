@@ -19,7 +19,7 @@ import com.frismos.unicorn.util.Utils;
  */
 public abstract class MainCharacter extends Creature {
     public float AUTO_ATTACK_SPEED = 0.1f;
-    public float SINGLE_ATTACK_SPEED = 0.9f;
+    public float SINGLE_ATTACK_SPEED = 0.7f;
     public float CANNON_ATTACK_SPEED = 0.9f;
 
     public Tile tile;
@@ -318,4 +318,5 @@ public abstract class MainCharacter extends Creature {
     }
 
     public abstract Bullet getNextBullet();
+    public abstract void reset();
 }

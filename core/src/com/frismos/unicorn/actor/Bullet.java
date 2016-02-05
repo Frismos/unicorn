@@ -20,7 +20,7 @@ public class Bullet extends GameActor {
     public static final float SINGLE_BULLET_DAMAGE = 7f;
     public static final float ENEMY_BULLET_DAMAGE = 1;
     public static final float CANNON_BULLET_DAMAGE = 1;
-    public static final float AUTO_BULLET_DAMAGE = 0.4f;
+    public static final float AUTO_BULLET_DAMAGE = 0.5f;
 
     public static final int UP_DIAGONAL = 0;
     public static final int RIGHT = 1;
@@ -96,7 +96,7 @@ public class Bullet extends GameActor {
             damage = CANNON_BULLET_DAMAGE;
         }
 
-        setColorType(colorType);
+//        setColorType(colorType);
         setAngle(angle);
         setUserObject(actorDataType);
     }

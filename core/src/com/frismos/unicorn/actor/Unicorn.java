@@ -58,6 +58,11 @@ public class Unicorn extends MainCharacter {
     }
 
     @Override
+    public void reset() {
+        //todo implement method
+    }
+
+    @Override
     protected void setResourcesPath() {
         this.path = Strings.UNICORN;
     }

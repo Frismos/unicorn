@@ -53,7 +53,7 @@ public class GameStage extends Stage {
 
     public MainCharacter unicorn;
 
-    private ObjectMap<UnicornType, MainCharacter> unicorns = new ObjectMap<>();
+    public ObjectMap<UnicornType, MainCharacter> unicorns = new ObjectMap<>();
 
     public Background background;
     public int deadEnemyCounter = 0;
@@ -131,7 +131,7 @@ public class GameStage extends Stage {
 
     private Image joystick;
     private Image joystickArea;
-    private boolean joystickTouched = false;
+    public boolean joystickTouched = false;
     private float joystickX;
     private float joystickY;
     private float joystickRadius;
@@ -185,20 +185,20 @@ public class GameStage extends Stage {
         grid = new Grid(this);
         addActor(grid);
 
-        unicorn = new Star(this, UnicornType.STAR);
+        unicorn = new Unicorn(this, UnicornType.UNICORN);
         unicorn.setX(background.getZero().x + grid.tileWidth / 2 - unicorn.getWidth() / 2);
         unicorn.setY(background.getZero().y + grid.tileHeight / 2 - unicorn.getHeight() / 2);
-        unicorns.put(UnicornType.STAR, unicorn);
+        unicorns.put(unicorn.unicornType, unicorn);
 
         Rhino rhino = new Rhino(this, UnicornType.RHINO);
         rhino.setX(background.getZero().x + grid.tileWidth / 2 - rhino.getWidth() / 2);
         rhino.setY(background.getZero().y + grid.tileHeight / 2 - rhino.getHeight() / 2);
-        unicorns.put(UnicornType.RHINO, rhino);
+        unicorns.put(rhino.unicornType, rhino);
 
-        Unicorn star = new Unicorn(this, UnicornType.UNICORN);
+        Star star = new Star(this, UnicornType.STAR);
         star.setX(background.getZero().x + grid.tileWidth / 2 - star.getWidth() / 2);
         star.setY(background.getZero().y + grid.tileHeight / 2 - star.getHeight() / 2);
-        unicorns.put(UnicornType.UNICORN, star);
+        unicorns.put(star.unicornType, star);
 
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(this);
@@ -317,6 +317,7 @@ public class GameStage extends Stage {
     }
 
     private void changeUnicorn() {
+        unicorn.reset();
         unicorn.remove(false);
         Tile tile = unicorn.tile;
         ColorType colorType = unicorn.colorType;
@@ -337,6 +338,7 @@ public class GameStage extends Stage {
         unicorn.setColorType(colorType);
         collisionDetector.collisionListeners.add(unicorn);
         addActor(unicorn);
+        unicorn.useAbility();
 
         if(game.tutorialManager.isTutorialMode) {
             if(game.tutorialManager.currentStep == TutorialStep.THIRD) {

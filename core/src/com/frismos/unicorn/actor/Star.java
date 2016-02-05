@@ -78,7 +78,7 @@ public class Star extends MainCharacter {
         angle = 90 - angle;
 
         gunBone.setRotation(angle + 180);
-        float rotateAngle = MathUtils.randomBoolean() ? 180 : -180;
+        float rotateAngle = MathUtils.random(3) != 3 ? 180 : -180;
         Tween.to(gunBone, BoneAccessor.ROTATION, 0.5f).targetRelative(rotateAngle - angle).start(gameStage.game.tweenManager);
         super.playFireAnimation(x, y);
     }
@@ -130,5 +130,10 @@ public class Star extends MainCharacter {
             nextBulletIndex = 0;
         }
         return gameBullets.get(nextBulletIndex);
+    }
+
+    @Override
+    public void reset() {
+        //todo implement method
     }
 }

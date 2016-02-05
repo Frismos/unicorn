@@ -141,11 +141,13 @@ public abstract class Enemy extends Creature {
 
         tile = gameStage.grid.getTileByPoint(getX() + getWidth() / 2, getY());
         tile.enemies.add(this);
-        for (int i = 0; i < tile.enemies.size; i++) {
-            if (!tile.enemies.get(i).equals(this) && tile.enemies.get(i).getRight() > getX()) {
-                isAttacking = false;
-                tile.enemies.get(i).addWaitingEnemy(this);
-                break;
+        if(!gameStage.game.tutorialManager.isTutorialMode) {
+            for (int i = 0; i < tile.enemies.size; i++) {
+                if (!tile.enemies.get(i).equals(this) && tile.enemies.get(i).getRight() > getX()) {
+                    isAttacking = false;
+                    tile.enemies.get(i).addWaitingEnemy(this);
+                    break;
+                }
             }
         }
 
@@ -194,6 +196,7 @@ public abstract class Enemy extends Creature {
                         if(gameStage.game.tutorialManager.secondStepEnemies >= TutorialManager.SECOND_STEP_ENEMIES_COUNT) {
                             if(gameStage.game.tutorialManager.enemies.size == 0) {
                                 gameStage.game.tutorialManager.currentStep = TutorialStep.THIRD;
+                                gameStage.joystickTouched = false;
                             }
                         }
                     } else if(TutorialStep.THIRD == gameStage.game.tutorialManager.currentStep) {     //ayc

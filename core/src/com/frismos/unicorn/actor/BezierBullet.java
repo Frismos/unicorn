@@ -3,6 +3,7 @@ package com.frismos.unicorn.actor;
 import com.badlogic.gdx.math.Vector2;
 import com.frismos.unicorn.enums.ActorDataType;
 import com.frismos.unicorn.enums.ColorType;
+import com.frismos.unicorn.enums.UnicornType;
 import com.frismos.unicorn.grid.Tile;
 import com.frismos.unicorn.stage.GameStage;
 
@@ -122,5 +123,13 @@ public class BezierBullet extends Bullet {
     public void resetPosition() {
         index = 0;
         super.resetPosition();
+    }
+
+    @Override
+    public void setColorType(ColorType colorType) {
+        if(((Rhino)gameStage.unicorns.get(UnicornType.RHINO)).isAbilityMode) {
+            colorType = ColorType.getRandomColor();
+        }
+        super.setColorType(colorType);
     }
 }

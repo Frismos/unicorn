@@ -1,6 +1,5 @@
 package com.frismos.unicorn.enums;
 
-import com.frismos.unicorn.grid.Grid;
 import com.frismos.unicorn.stage.GameStage;
 
 /**

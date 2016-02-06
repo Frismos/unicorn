@@ -1,12 +1,12 @@
 
 skeleton.png
-size: 592,372
+size: 1923,1275
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 blik
   rotate: false
-  xy: 580, 360
+  xy: 1911, 1263
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
@@ -14,7 +14,7 @@ blik
 tem
   rotate: false
   xy: 2, 2
-  size: 576, 368
-  orig: 576, 368
+  size: 1907, 1271
+  orig: 1907, 1271
   offset: 0, 0
   index: -1

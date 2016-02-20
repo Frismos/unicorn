@@ -1,0 +1,27 @@
+
+skeleton.png
+size: 512,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+monsters/slime-jumper/body
+  rotate: false
+  xy: 2, 2
+  size: 166, 243
+  orig: 166, 243
+  offset: 0, 0
+  index: -1
+monsters/slime-jumper/eye
+  rotate: false
+  xy: 170, 55
+  size: 61, 35
+  orig: 61, 35
+  offset: 0, 0
+  index: -1
+monsters/slime-jumper/spring
+  rotate: false
+  xy: 170, 92
+  size: 136, 153
+  orig: 136, 153
+  offset: 0, 0
+  index: -1

@@ -6,7 +6,7 @@ filter: Linear,Linear
 repeat: none
 bullets/simple/bomb
   rotate: true
-  xy: 4010, 3007
+  xy: 4010, 3026
   size: 83, 84
   orig: 83, 84
   offset: 0, 0
@@ -19,71 +19,71 @@ effects/bomb-explosion/explosion-0001
   offset: 15, 12
   index: -1
 effects/bomb-explosion/explosion-0002
-  rotate: true
-  xy: 246, 18
+  rotate: false
+  xy: 3037, 1159
   size: 29, 31
   orig: 51, 48
   offset: 11, 6
   index: -1
 effects/bomb-explosion/explosion-0003
   rotate: false
-  xy: 1411, 1001
+  xy: 3204, 817
   size: 34, 35
   orig: 51, 48
   offset: 9, 4
   index: -1
 effects/bomb-explosion/explosion-0004
   rotate: false
-  xy: 1737, 836
+  xy: 3165, 808
   size: 37, 37
   orig: 51, 48
   offset: 8, 3
   index: -1
 effects/bomb-explosion/explosion-0005
   rotate: false
-  xy: 1941, 836
+  xy: 768, 245
   size: 38, 37
   orig: 51, 48
   offset: 8, 2
   index: -1
 effects/bomb-explosion/explosion-0006
   rotate: false
-  xy: 1776, 846
+  xy: 812, 498
   size: 40, 38
   orig: 51, 48
   offset: 5, 2
   index: -1
 effects/bomb-explosion/explosion-0007
-  rotate: false
-  xy: 1859, 845
+  rotate: true
+  xy: 812, 416
   size: 39, 37
   orig: 51, 48
   offset: 6, 4
   index: -1
 effects/bomb-explosion/explosion-0008
-  rotate: true
-  xy: 1818, 846
+  rotate: false
+  xy: 812, 457
   size: 38, 39
   orig: 51, 48
   offset: 7, 3
   index: -1
 effects/bomb-explosion/explosion-0009
   rotate: true
-  xy: 2416, 1236
+  xy: 559, 2
   size: 39, 40
   orig: 51, 48
   offset: 6, 3
   index: -1
 effects/bomb-explosion/explosion-0010
   rotate: true
-  xy: 4020, 1221
+  xy: 824, 538
   size: 41, 42
   orig: 51, 48
   offset: 6, 2
   index: -1
 effects/bomb-explosion/explosion-0011
   rotate: false
-  xy: 1900, 843
+  xy: 601, 2
   size: 39, 39
   orig: 51, 48
   offset: 5, 6
@@ -104,7 +104,7 @@ effects/fatality/F12
   index: -1
 effects/fatality/f1
   rotate: true
-  xy: 2106, 861
+  xy: 1526, 953
   size: 83, 53
   orig: 83, 53
   offset: 0, 0
@@ -118,7 +118,7 @@ effects/fatality/f10
   index: -1
 effects/fatality/f2
   rotate: false
-  xy: 362, 801
+  xy: 3800, 1219
   size: 201, 145
   orig: 201, 145
   offset: 0, 0
@@ -173,43 +173,43 @@ effects/fatality/f9
   offset: 0, 0
   index: -1
 effects/slime-explosion/destroy-0001
-  rotate: true
-  xy: 4064, 1234
+  rotate: false
+  xy: 268, 2
   size: 28, 30
   orig: 252, 255
   offset: 135, 32
   index: -1
 effects/slime-explosion/destroy-0002
   rotate: false
-  xy: 4022, 1264
+  xy: 3927, 1117
   size: 72, 100
   orig: 252, 255
   offset: 118, 32
   index: -1
 effects/slime-explosion/destroy-0003
   rotate: true
-  xy: 3513, 1140
+  xy: 3795, 1113
   size: 104, 130
   orig: 252, 255
   offset: 99, 29
   index: -1
 effects/slime-explosion/destroy-0004
-  rotate: true
-  xy: 3175, 1039
+  rotate: false
+  xy: 871, 583
   size: 121, 141
   orig: 252, 255
   offset: 90, 25
   index: -1
 effects/slime-explosion/destroy-0005
-  rotate: true
-  xy: 905, 635
+  rotate: false
+  xy: 679, 393
   size: 131, 145
   orig: 252, 255
   offset: 86, 22
   index: -1
 effects/slime-explosion/destroy-0006
   rotate: false
-  xy: 393, 186
+  xy: 724, 581
   size: 145, 143
   orig: 252, 255
   offset: 78, 20
@@ -223,14 +223,14 @@ effects/slime-explosion/destroy-0007
   index: -1
 effects/slime-explosion/destroy-0008
   rotate: true
-  xy: 952, 768
+  xy: 541, 356
   size: 182, 136
   orig: 252, 255
   offset: 57, 9
   index: -1
 effects/slime-explosion/destroy-0009
-  rotate: true
-  xy: 393, 331
+  rotate: false
+  xy: 774, 825
   size: 194, 125
   orig: 252, 255
   offset: 48, 8
@@ -251,7 +251,7 @@ effects/slime-explosion/destroy-0011
   index: -1
 effects/slime-explosion/destroy-0012
   rotate: false
-  xy: 3800, 1267
+  xy: 362, 849
   size: 220, 97
   orig: 252, 255
   offset: 29, 8
@@ -264,8 +264,8 @@ effects/slime-explosion/destroy-0013
   offset: 26, 10
   index: -1
 effects/slime-explosion/destroy-0014
-  rotate: true
-  xy: 3318, 1034
+  rotate: false
+  xy: 541, 305
   size: 126, 49
   orig: 252, 255
   offset: 86, 21
@@ -279,35 +279,35 @@ effects/slime-explosion/destroy-0015
   index: -1
 effects/slime-explosion/destroy-0016
   rotate: false
-  xy: 1455, 999
+  xy: 2317, 1238
   size: 124, 37
   orig: 252, 255
   offset: 84, 21
   index: -1
 effects/slime-explosion/destroy-0017
-  rotate: false
-  xy: 478, 2
+  rotate: true
+  xy: 3301, 879
   size: 87, 31
   orig: 252, 255
   offset: 85, 25
   index: -1
 left/Platform
-  rotate: true
-  xy: 565, 800
+  rotate: false
+  xy: 393, 316
   size: 146, 193
   orig: 232, 244
   offset: 48, 36
   index: -1
 left/ballbase
   rotate: false
-  xy: 3793, 1171
+  xy: 768, 284
   size: 42, 42
   orig: 42, 42
   offset: 0, 0
   index: -1
 left/ballcolor
-  rotate: true
-  xy: 569, 378
+  rotate: false
+  xy: 1377, 971
   size: 27, 28
   orig: 27, 28
   offset: 0, 0
@@ -321,35 +321,35 @@ left/base
   index: -1
 left/cannon
   rotate: true
-  xy: 2968, 835
+  xy: 3983, 3196
   size: 138, 103
   orig: 177, 134
   offset: 32, 24
   index: -1
 left/cannonbase
-  rotate: true
-  xy: 3983, 3092
+  rotate: false
+  xy: 3983, 3111
   size: 101, 83
   orig: 118, 83
   offset: 9, 0
   index: -1
 left/cannonbott
   rotate: false
-  xy: 3318, 963
+  xy: 1129, 825
   size: 49, 69
   orig: 57, 95
   offset: 1, 10
   index: -1
 left/cannonbottlight
   rotate: false
-  xy: 520, 378
+  xy: 1068, 742
   size: 47, 72
   orig: 47, 72
   offset: 0, 0
   index: -1
 left/cannonlight
   rotate: true
-  xy: 4010, 2871
+  xy: 4010, 2890
   size: 134, 75
   orig: 145, 102
   offset: 11, 27
@@ -384,14 +384,14 @@ left/color4tube
   index: -1
 left/colorball
   rotate: false
-  xy: 1945, 875
+  xy: 3795, 1042
   size: 79, 69
   orig: 98, 86
   offset: 11, 12
   index: -1
 left/connector
-  rotate: false
-  xy: 633, 482
+  rotate: true
+  xy: 3741, 1048
   size: 66, 52
   orig: 74, 52
   offset: 4, 0
@@ -404,15 +404,15 @@ left/floor
   offset: 74, 61
   index: -1
 left/light1tube
-  rotate: false
-  xy: 3695, 1250
+  rotate: true
+  xy: 3175, 1057
   size: 103, 162
   orig: 103, 162
   offset: 0, 0
   index: -1
 left/light2tube
   rotate: false
-  xy: 523, 637
+  xy: 342, 511
   size: 188, 161
   orig: 188, 161
   offset: 0, 0
@@ -426,7 +426,7 @@ left/light3tube
   index: -1
 left/light4tube
   rotate: false
-  xy: 478, 35
+  xy: 478, 34
   size: 79, 149
   orig: 79, 149
   offset: 0, 0
@@ -440,7 +440,7 @@ left/lightball
   index: -1
 left/liquid
   rotate: true
-  xy: 1229, 875
+  xy: 3520, 1120
   size: 124, 135
   orig: 136, 165
   offset: 6, 11
@@ -468,21 +468,21 @@ left/slider
   index: -1
 left/tube
   rotate: false
-  xy: 1455, 921
+  xy: 532, 227
   size: 119, 76
   orig: 152, 101
   offset: 17, 13
   index: -1
 left/tubelight
   rotate: false
-  xy: 3369, 968
+  xy: 3955, 1061
   size: 75, 54
   orig: 75, 54
   offset: 0, 0
   index: -1
 left/uniarm
   rotate: false
-  xy: 540, 271
+  xy: 679, 241
   size: 47, 63
   orig: 115, 175
   offset: 3, 17
@@ -495,8 +495,8 @@ left/unibody
   offset: 30, 10
   index: -1
 left/unihairback
-  rotate: false
-  xy: 520, 452
+  rotate: true
+  xy: 3582, 1072
   size: 46, 73
   orig: 55, 84
   offset: 9, 7
@@ -510,63 +510,63 @@ left/unihairtop
   index: -1
 left/unilegback
   rotate: true
-  xy: 2161, 850
+  xy: 1211, 956
   size: 43, 81
   orig: 59, 101
   offset: 16, 6
   index: -1
 left/unilegfront
-  rotate: true
-  xy: 2244, 839
+  rotate: false
+  xy: 1071, 874
   size: 53, 76
   orig: 64, 99
   offset: 9, 6
   index: -1
 left/unishadow
   rotate: false
-  xy: 2252, 894
+  xy: 1129, 952
   size: 80, 47
   orig: 80, 47
   offset: 0, 0
   index: -1
 left/unitail
-  rotate: false
-  xy: 3800, 1215
+  rotate: true
+  xy: 1064, 1000
   size: 62, 50
   orig: 73, 62
   offset: 8, 8
   index: -1
 left/uniwing
-  rotate: true
-  xy: 4058, 2788
+  rotate: false
+  xy: 1294, 963
   size: 81, 36
   orig: 96, 49
   offset: 9, 11
   index: -1
 monsters/boss1/achq
-  rotate: true
-  xy: 3250, 888
+  rotate: false
+  xy: 1126, 896
   size: 71, 54
   orig: 71, 54
   offset: 0, 0
   index: -1
 monsters/boss1/derq
   rotate: false
-  xy: 3710, 1146
+  xy: 4010, 2786
   size: 81, 102
   orig: 81, 102
   offset: 0, 0
   index: -1
 monsters/boss1/derq1
   rotate: true
-  xy: 1576, 906
+  xy: 679, 336
   size: 55, 95
   orig: 55, 95
   offset: 0, 0
   index: -1
 monsters/boss1/kop
   rotate: false
-  xy: 1861, 884
+  xy: 3657, 1054
   size: 82, 60
   orig: 82, 60
   offset: 0, 0
@@ -586,57 +586,57 @@ monsters/boss1/maz1
   offset: 0, 0
   index: -1
 monsters/boss1/maz2
-  rotate: true
-  xy: 541, 536
+  rotate: false
+  xy: 2968, 810
   size: 99, 163
   orig: 99, 163
   offset: 0, 0
   index: -1
 monsters/boss1/maz3
   rotate: true
-  xy: 342, 527
+  xy: 715, 726
   size: 97, 197
   orig: 97, 197
   offset: 0, 0
   index: -1
 monsters/boss1/maz4
-  rotate: true
-  xy: 1455, 851
+  rotate: false
+  xy: 994, 612
   size: 68, 117
   orig: 68, 117
   offset: 0, 0
   index: -1
 monsters/boss1/maz5
   rotate: true
-  xy: 1090, 767
+  xy: 3657, 1116
   size: 101, 136
   orig: 101, 136
   offset: 0, 0
   index: -1
 monsters/boss1/mouth 2
   rotate: false
-  xy: 3073, 883
+  xy: 559, 128
   size: 82, 97
   orig: 82, 97
   offset: 0, 0
   index: -1
 monsters/boss1/prosh
   rotate: true
-  xy: 3279, 961
+  xy: 3320, 979
   size: 76, 37
   orig: 76, 37
   offset: 0, 0
   index: -1
 monsters/boss2/Layer10
-  rotate: false
-  xy: 3379, 1135
+  rotate: true
+  xy: 970, 818
   size: 132, 99
   orig: 132, 99
   offset: 0, 0
   index: -1
 monsters/boss2/Layer11
-  rotate: true
-  xy: 1173, 640
+  rotate: false
+  xy: 3071, 975
   size: 125, 67
   orig: 141, 80
   offset: 7, 8
@@ -656,8 +656,8 @@ monsters/boss2/Layer13
   offset: 0, 0
   index: -1
 monsters/boss2/Layer14
-  rotate: true
-  xy: 3983, 3195
+  rotate: false
+  xy: 3379, 1136
   size: 139, 98
   orig: 139, 98
   offset: 0, 0
@@ -685,7 +685,7 @@ monsters/boss2/Layer17
   index: -1
 monsters/boss2/Layer18
   rotate: false
-  xy: 1090, 870
+  xy: 393, 185
   size: 137, 129
   orig: 137, 129
   offset: 0, 0
@@ -719,8 +719,8 @@ monsters/boss2/Layer6copy
   offset: 0, 0
   index: -1
 monsters/boss2/Layer7
-  rotate: true
-  xy: 2026, 867
+  rotate: false
+  xy: 3876, 1033
   size: 77, 78
   orig: 93, 90
   offset: 0, 6
@@ -741,49 +741,49 @@ monsters/boss2/Layer9
   index: -1
 monsters/boss2/boom1
   rotate: false
-  xy: 342, 626
+  xy: 342, 674
   size: 179, 173
   orig: 179, 173
   offset: 0, 0
   index: -1
 monsters/boss2/boom2
-  rotate: true
-  xy: 3369, 1024
+  rotate: false
+  xy: 3190, 854
   size: 109, 112
   orig: 109, 112
   offset: 0, 0
   index: -1
 monsters/boss2/eye1
-  rotate: false
-  xy: 3073, 806
+  rotate: true
+  xy: 991, 731
   size: 85, 75
   orig: 85, 75
   offset: 0, 0
   index: -1
 monsters/boss2/eye2
-  rotate: false
-  xy: 3160, 809
+  rotate: true
+  xy: 559, 43
   size: 83, 74
   orig: 83, 74
   offset: 0, 0
   index: -1
 monsters/boss2/headboom1
   rotate: false
-  xy: 3864, 1209
+  xy: 1071, 816
   size: 56, 56
   orig: 56, 56
   offset: 0, 0
   index: -1
 monsters/boss2/headboom2
   rotate: false
-  xy: 3157, 885
+  xy: 4003, 1277
   size: 91, 87
   orig: 91, 87
   offset: 0, 0
   index: -1
 monsters/slime-jumper/backbody
   rotate: false
-  xy: 1052, 639
+  xy: 3069, 847
   size: 119, 126
   orig: 123, 140
   offset: 0, 14
@@ -797,14 +797,14 @@ monsters/slime-jumper/body
   index: -1
 monsters/slime-jumper/da
   rotate: false
-  xy: 1574, 856
+  xy: 4001, 1165
   size: 93, 48
   orig: 117, 94
   offset: 15, 16
   index: -1
 monsters/slime-jumper/down
   rotate: true
-  xy: 760, 791
+  xy: 523, 686
   size: 159, 190
   orig: 185, 200
   offset: 12, 9
@@ -818,14 +818,14 @@ monsters/slime-jumper/eye
   index: -1
 monsters/slime-jumper/mough
   rotate: false
-  xy: 2317, 1247
+  xy: 669, 306
   size: 97, 28
   orig: 97, 28
   offset: 0, 0
   index: -1
 monsters/slime-jumper/wtf
   rotate: false
-  xy: 2161, 895
+  xy: 4001, 1117
   size: 89, 46
   orig: 100, 48
   offset: 0, 2
@@ -837,11 +837,25 @@ monsters/slime-leap/beran verevi
   orig: 211, 157
   offset: 0, 0
   index: -1
+monsters/slime-leap/beran verevi1
+  rotate: false
+  xy: 584, 847
+  size: 188, 99
+  orig: 188, 99
+  offset: 0, 0
+  index: -1
 monsters/slime-leap/berantaki
   rotate: true
   xy: 3037, 1192
   size: 255, 136
   orig: 255, 136
+  offset: 0, 0
+  index: -1
+monsters/slime-leap/berantaki1
+  rotate: true
+  xy: 3695, 1219
+  size: 193, 103
+  orig: 193, 103
   offset: 0, 0
   index: -1
 monsters/slime-leap/klor
@@ -852,22 +866,22 @@ monsters/slime-leap/klor
   offset: 0, 0
   index: -1
 monsters/slime-leap/koptaki
-  rotate: true
-  xy: 3483, 980
+  rotate: false
+  xy: 3955, 1013
   size: 70, 46
   orig: 70, 46
   offset: 0, 0
   index: -1
 monsters/slime-leap/kopverevi
   rotate: false
-  xy: 1673, 906
+  xy: 3069, 790
   size: 94, 55
   orig: 94, 55
   offset: 0, 0
   index: -1
 monsters/slime-leap/leyu
   rotate: false
-  xy: 713, 645
+  xy: 532, 540
   size: 190, 144
   orig: 190, 144
   offset: 0, 0
@@ -880,22 +894,22 @@ monsters/slime-leap/marmin
   offset: 14, 0
   index: -1
 monsters/slime-shooter/achq
-  rotate: false
-  xy: 1769, 886
+  rotate: true
+  xy: 914, 726
   size: 90, 75
   orig: 90, 75
   offset: 0, 0
   index: -1
 monsters/slime-shooter/derq
-  rotate: false
-  xy: 3645, 1131
+  rotate: true
+  xy: 3379, 1071
   size: 63, 113
   orig: 63, 113
   offset: 0, 0
   index: -1
 monsters/slime-shooter/derq1
   rotate: true
-  xy: 3164, 974
+  xy: 1411, 973
   size: 63, 113
   orig: 63, 113
   offset: 0, 0
@@ -909,7 +923,7 @@ monsters/slime-shooter/derqcak
   index: -1
 monsters/slime-shooter/kisapak
   rotate: false
-  xy: 3071, 982
+  xy: 4003, 1215
   size: 91, 60
   orig: 91, 60
   offset: 0, 0
@@ -922,15 +936,15 @@ monsters/slime-shooter/klor
   offset: 0, 0
   index: -1
 monsters/slime-shooter/koptaki
-  rotate: true
-  xy: 4010, 2783
+  rotate: false
+  xy: 3494, 1072
   size: 86, 46
   orig: 86, 46
   offset: 0, 0
   index: -1
 monsters/slime-shooter/kopverevi
-  rotate: false
-  xy: 2334, 903
+  rotate: true
+  xy: 3339, 1074
   size: 86, 38
   orig: 86, 38
   offset: 0, 0
@@ -958,7 +972,7 @@ monsters/slime-shooter/pak
   index: -1
 monsters/slime/ashk spitak
   rotate: true
-  xy: 3446, 959
+  xy: 776, 328
   size: 63, 35
   orig: 63, 35
   offset: 0, 0
@@ -978,64 +992,64 @@ monsters/slime/bib
   offset: 0, 0
   index: -1
 monsters/slime/closed mouth
-  rotate: true
-  xy: 3483, 1052
+  rotate: false
+  xy: 3922, 3413
   size: 81, 27
   orig: 81, 27
   offset: 0, 0
   index: -1
 monsters/slime/dzerq
   rotate: false
-  xy: 3922, 1227
+  xy: 219, 9
   size: 47, 38
   orig: 47, 38
   offset: 0, 0
   index: -1
 monsters/slime/dzerq1
-  rotate: false
-  xy: 3971, 1227
+  rotate: true
+  xy: 728, 257
   size: 47, 38
   orig: 47, 38
   offset: 0, 0
   index: -1
 monsters/slime/eye closed
-  rotate: true
-  xy: 569, 407
+  rotate: false
+  xy: 994, 562
   size: 68, 48
   orig: 68, 48
   offset: 0, 0
   index: -1
 monsters/slime/eye half close
   rotate: false
-  xy: 520, 336
+  xy: 4027, 1010
   size: 67, 40
   orig: 67, 40
   offset: 0, 0
   index: -1
 monsters/slime/eye half open
-  rotate: false
-  xy: 1669, 838
+  rotate: true
+  xy: 1180, 828
   size: 66, 35
   orig: 66, 35
   offset: 0, 0
   index: -1
 monsters/slime/eye open
   rotate: true
-  xy: 1064, 998
+  xy: 653, 239
   size: 64, 24
   orig: 64, 24
   offset: 0, 0
   index: -1
 monsters/slime/fff
-  rotate: true
-  xy: 540, 206
+  rotate: false
+  xy: 1064, 952
   size: 63, 46
   orig: 63, 46
   offset: 0, 0
   index: -1
 monsters/slime/fsdf
-  rotate: false
-  xy: 1366, 879
+  rotate: true
+  xy: 3198, 968
   size: 87, 120
   orig: 87, 123
   offset: 0, 0
@@ -1049,14 +1063,14 @@ monsters/slime/loz
   index: -1
 monsters/slime/loz1
   rotate: false
-  xy: 219, 2
+  xy: 3983, 3366
   size: 25, 45
   orig: 25, 45
   offset: 0, 0
   index: -1
 monsters/slime/loz2
   rotate: true
-  xy: 1669, 875
+  xy: 724, 550
   size: 29, 98
   orig: 29, 98
   offset: 0, 0
@@ -1069,8 +1083,8 @@ monsters/slime/marmin
   offset: 0, 0
   index: -1
 monsters/slime/tounge
-  rotate: false
-  xy: 568, 477
+  rotate: true
+  xy: 4032, 1052
   size: 63, 57
   orig: 63, 57
   offset: 0, 0

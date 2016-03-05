@@ -208,8 +208,8 @@ effects/fatality/f9
   offset: 0, 0
   index: -1
 effects/slime-explosion/destroy-0001
-  rotate: true
-  xy: 307, 2
+  rotate: false
+  xy: 341, 13
   size: 28, 30
   orig: 252, 255
   offset: 135, 32
@@ -352,6 +352,13 @@ left/base
   xy: 3844, 3407
   size: 76, 687
   orig: 76, 687
+  offset: 0, 0
+  index: -1
+left/bubble
+  rotate: false
+  xy: 307, 11
+  size: 32, 32
+  orig: 32, 32
   offset: 0, 0
   index: -1
 left/cannon

@@ -491,8 +491,8 @@ left/pool
   rotate: true
   xy: 279, 185
   size: 315, 112
-  orig: 381, 196
-  offset: 25, 53
+  orig: 315, 112
+  offset: 0, 0
   index: -1
 left/pooledge
   rotate: true

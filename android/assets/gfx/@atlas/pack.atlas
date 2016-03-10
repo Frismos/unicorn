@@ -1229,7 +1229,21 @@ worlds/2/tiles/0
   orig: 293, 288
   offset: 0, 0
   index: -1
+worlds/3/tiles/0
+  rotate: false
+  xy: 1116, 1291
+  size: 293, 288
+  orig: 293, 288
+  offset: 0, 0
+  index: -1
 worlds/2/tiles/1
+  rotate: true
+  xy: 2235, 943
+  size: 291, 287
+  orig: 293, 288
+  offset: 1, 1
+  index: -1
+worlds/3/tiles/1
   rotate: true
   xy: 2235, 943
   size: 291, 287
@@ -1243,7 +1257,21 @@ worlds/2/tiles/2
   orig: 293, 288
   offset: 0, 0
   index: -1
+worlds/3/tiles/2
+  rotate: false
+  xy: 1940, 946
+  size: 293, 288
+  orig: 293, 288
+  offset: 0, 0
+  index: -1
 worlds/2/tiles/3
+  rotate: false
+  xy: 2814, 1159
+  size: 293, 288
+  orig: 293, 288
+  offset: 0, 0
+  index: -1
+worlds/3/tiles/3
   rotate: false
   xy: 2814, 1159
   size: 293, 288
@@ -1257,6 +1285,19 @@ format: RGBA8888
 filter: Linear,Linear
 repeat: none
 worlds/2/bg/MainView
+  rotate: false
+  xy: 2, 2
+  size: 3840, 2430
+  orig: 3840, 2430
+  offset: 0, 0
+  index: -1
+
+pack3.png
+size: 3844,2434
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+worlds/3/bg/MainView
   rotate: false
   xy: 2, 2
   size: 3840, 2430

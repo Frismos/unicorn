@@ -753,6 +753,55 @@ left/water/07
   orig: 114, 129
   offset: 14, 9
   index: -1
+left/water/0700007
+  rotate: false
+  xy: 1240, 385
+  size: 149, 107
+  orig: 149, 107
+  offset: 0, 0
+  index: -1
+left/water/0700016
+  rotate: false
+  xy: 1238, 275
+  size: 152, 108
+  orig: 152, 108
+  offset: 0, 0
+  index: -1
+left/water/0700025
+  rotate: true
+  xy: 1907, 771
+  size: 130, 108
+  orig: 130, 108
+  offset: 0, 0
+  index: -1
+left/water/0700034
+  rotate: true
+  xy: 1907, 657
+  size: 112, 108
+  orig: 112, 108
+  offset: 0, 0
+  index: -1
+left/water/0700043
+  rotate: false
+  xy: 1392, 275
+  size: 108, 109
+  orig: 108, 109
+  offset: 0, 0
+  index: -1
+left/water/0700052
+  rotate: false
+  xy: 913, 138
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: -1
+left/water/0700061
+  rotate: false
+  xy: 1025, 137
+  size: 103, 111
+  orig: 103, 111
+  offset: 0, 0
+  index: -1
 left/water/07R
   rotate: false
   xy: 1074, 291
@@ -760,55 +809,6 @@ left/water/07R
   orig: 162, 38
   offset: 0, 0
   index: -1
-left/water/07_0000
-  rotate: false
-  xy: 1240, 385
-  size: 149, 107
-  orig: 149, 107
-  offset: 0, 0
-  index: 7
-left/water/07_0001
-  rotate: false
-  xy: 1238, 275
-  size: 152, 108
-  orig: 152, 108
-  offset: 0, 0
-  index: 6
-left/water/07_0002
-  rotate: true
-  xy: 1907, 771
-  size: 130, 108
-  orig: 130, 108
-  offset: 0, 0
-  index: 5
-left/water/07_0003
-  rotate: true
-  xy: 1907, 657
-  size: 112, 108
-  orig: 112, 108
-  offset: 0, 0
-  index: 4
-left/water/07_0004
-  rotate: false
-  xy: 1392, 275
-  size: 108, 109
-  orig: 108, 109
-  offset: 0, 0
-  index: 3
-left/water/07_0005
-  rotate: false
-  xy: 913, 138
-  size: 110, 110
-  orig: 110, 110
-  offset: 0, 0
-  index: 2
-left/water/07_0006
-  rotate: false
-  xy: 1025, 137
-  size: 103, 111
-  orig: 103, 111
-  offset: 0, 0
-  index: 1
 left/water/08
   rotate: false
   xy: 1457, 24

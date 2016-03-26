@@ -1,0 +1,20 @@
+
+top.png
+size: 1976,281
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+worlds/3/bg/shine
+  rotate: false
+  xy: 1924, 208
+  size: 50, 71
+  orig: 50, 71
+  offset: 0, 0
+  index: -1
+worlds/3/bg/top
+  rotate: false
+  xy: 2, 2
+  size: 1920, 277
+  orig: 1920, 277
+  offset: 0, 0
+  index: -1

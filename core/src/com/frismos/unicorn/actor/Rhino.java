@@ -4,10 +4,14 @@ import com.badlogic.gdx.math.MathUtils;
 import com.esotericsoftware.spine.AnimationState;
 import com.esotericsoftware.spine.Event;
 import com.frismos.unicorn.enums.UnicornType;
+import com.frismos.unicorn.manager.TimerRunnable;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.util.Constants;
 import com.frismos.unicorn.util.Debug;
 import com.frismos.unicorn.util.Strings;
+import com.frismos.unicorn.util.Timer;
+
+import java.util.Observable;
 
 /**
  * Created by edgaravanyan on 1/26/16.
@@ -15,6 +19,8 @@ import com.frismos.unicorn.util.Strings;
 public class Rhino extends MainCharacter {
 
     public static final float ABILITY_TIME = 2;
+
+    private Timer abilityTimer;
 
     public boolean isAbilityMode = false;
     private int bulletsIndex = 0;
@@ -62,8 +68,8 @@ public class Rhino extends MainCharacter {
     }
 
     @Override
-    public void hit(float damage) {
-        super.hit(damage);
+    public void hit(float damage, Bullet bullet) {
+        super.hit(damage, bullet);
         skeletonActor.getAnimationState().setAnimation(0, "hit", false);
         skeletonActor.getAnimationState().clearListeners();
         skeletonActor.getAnimationState().addListener(hitAnimationStateListener);
@@ -78,15 +84,13 @@ public class Rhino extends MainCharacter {
 //        if(!isFiring) {
 //            isFiring = true;
         if(isAbilityMode) {
-            Debug.Log("bullets index = " + bulletsIndex);
-            Debug.Log("bullets count = " + bulletsCount);
             bulletsIndex++;
             if(bulletsIndex >= bulletsCount) {
                 bulletsIndex = 0;
                 attackSpeed = CANNON_ATTACK_SPEED;
-                gameStage.game.timerManager.run(CANNON_ATTACK_SPEED, new Runnable() {
+                gameStage.game.timerManager.run(CANNON_ATTACK_SPEED, new TimerRunnable() {
                     @Override
-                    public void run() {
+                    public void run(Timer timer) {
                         if(isAbilityMode) {
                             bulletsCount = MathUtils.random(2, 3);
                             attackSpeed = CANNON_ATTACK_SPEED * 0.1f;
@@ -106,22 +110,21 @@ public class Rhino extends MainCharacter {
     @Override
     public void useAbility() {
         if(isAbilityMode) {
-            gameStage.game.timerManager.removeTimer(ABILITY_TIME);
-            gameStage.game.timerManager.run(ABILITY_TIME, new Runnable() {
+            gameStage.game.timerManager.removeTimer(abilityTimer);
+            abilityTimer = gameStage.game.timerManager.run(ABILITY_TIME, new TimerRunnable() {
                 @Override
-                public void run() {
+                public void run(Timer timer) {
                     bulletsIndex = 0;
                     isAbilityMode = false;
                     attackSpeed = CANNON_ATTACK_SPEED;
                 }
             });
         } else {
-            bulletsCount = MathUtils.random(2, 3);
-            attackSpeed = CANNON_ATTACK_SPEED * 0.1f;
+             attackSpeed = CANNON_ATTACK_SPEED * 0.1f;
             isAbilityMode = true;
-            gameStage.game.timerManager.run(ABILITY_TIME, new Runnable() {
+            abilityTimer = gameStage.game.timerManager.run(ABILITY_TIME, new TimerRunnable() {
                 @Override
-                public void run() {
+                public void run(Timer timer) {
                     bulletsIndex = 0;
                     isAbilityMode = false;
                     attackSpeed = CANNON_ATTACK_SPEED;
@@ -141,8 +144,13 @@ public class Rhino extends MainCharacter {
     @Override
     public void reset() {
         if(isAbilityMode) {
-            gameStage.game.timerManager.removeTimer(ABILITY_TIME);
+            gameStage.game.timerManager.removeTimer(abilityTimer);
             isAbilityMode = false;
         }
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+
     }
 }

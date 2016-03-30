@@ -3,6 +3,7 @@ package com.frismos.unicorn.gamecenter;
 
 import com.badlogic.gdx.backends.iosrobovm.IOSApplication;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplicationConfiguration;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.frismos.unicorn.UnicornGame;
 import org.robovm.apple.foundation.NSError;
 import org.robovm.apple.gamekit.GKAchievement;
@@ -112,7 +113,7 @@ public class Sample extends IOSApplication.Delegate {
         IOSApplicationConfiguration config = new IOSApplicationConfiguration();
         config.orientationLandscape = true;
         config.orientationPortrait = false;
-        game = new UnicornGame(gcManager);
+//        game = new UnicornGame(new ObjectMap<>());
 
         return new IOSApplication(game, config);
     }

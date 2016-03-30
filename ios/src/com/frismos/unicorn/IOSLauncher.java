@@ -1,38 +1,61 @@
 package com.frismos.unicorn;
 
-import com.badlogic.gdx.Gdx;
-import com.frismos.unicorn.gamecenter.GameCenterListener;
-import com.frismos.unicorn.gamecenter.GameCenterManager;
-import com.frismos.unicorn.gamecenter.Sample;
-import com.frismos.unicorn.manager.GameCenterController;
-import com.frismos.unicorn.util.Constants;
-import org.robovm.apple.foundation.NSAutoreleasePool;
-import org.robovm.apple.foundation.NSError;
-import org.robovm.apple.foundation.NSNumber;
-import org.robovm.apple.gamekit.GKAchievement;
-import org.robovm.apple.gamekit.GKLeaderboard;
-import org.robovm.apple.uikit.*;
-
 import com.badlogic.gdx.backends.iosrobovm.IOSApplication;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplicationConfiguration;
-import com.frismos.unicorn.UnicornGame;
+import com.badlogic.gdx.utils.ObjectMap;
+import com.frismos.unicorn.analytics.GoogleAnalytics;
+import com.frismos.unicorn.gamecenter.GameCenterListener;
+import com.frismos.unicorn.gamecenter.GameCenterManager;
+import com.frismos.unicorn.patterns.GameCenterController;
+
+import org.robovm.apple.foundation.NSAutoreleasePool;
+import org.robovm.apple.foundation.NSError;
+import org.robovm.apple.foundation.NSErrorException;
+import org.robovm.apple.gamekit.GKAchievement;
+import org.robovm.apple.gamekit.GKLeaderboard;
+import org.robovm.apple.uikit.UIApplication;
+import org.robovm.apple.uikit.UIApplicationLaunchOptions;
+import org.robovm.apple.uikit.UIScreen;
+import org.robovm.apple.uikit.UIView;
+import org.robovm.apple.uikit.UIViewController;
+import org.robovm.apple.uikit.UIWindow;
 import org.robovm.pods.flurry.analytics.Flurry;
-import org.robovm.pods.google.analytics.GAI;
-import org.robovm.pods.google.analytics.GAIDictionaryBuilder;
-import org.robovm.pods.google.analytics.GAITracker;
+import org.robovm.pods.flurry.analytics.FlurryLogLevel;
+import org.robovm.pods.google.GGLContextAnalytics;
 
 import java.util.ArrayList;
 
 public class IOSLauncher extends IOSApplication.Delegate {
+
+    private GoogleAnalytics googleAnalytics;
+
+    @Override
+    public boolean didFinishLaunching(UIApplication application, UIApplicationLaunchOptions options) {
+        try {
+            GGLContextAnalytics.getSharedInstance().configure();
+        } catch (NSErrorException e) {
+            e.printStackTrace();
+        }
+        googleAnalytics = new GoogleAnalytics();
+
+        Flurry.enableCrashReporting();
+        Flurry.setDebugLogEnabled(true);
+        Flurry.setLogLevel(FlurryLogLevel.All);
+        Flurry.startSession("CG69RNZHRCRXY9P3CJTY");
+
+        return super.didFinishLaunching(application, options);
+    }
+
     @Override
     protected IOSApplication createApplication() {
-
-        UIWindow uiWindow = new UIWindow(UIScreen.getMainScreen().getBounds());
-        uiWindow.makeKeyAndVisible();
+        UIWindow window = new UIWindow(UIScreen.getMainScreen().getBounds());
         UIViewController viewController = new UIViewController();
+
         UIView view = new UIView(UIScreen.getMainScreen().getBounds());
         viewController.setView(view);
-        uiWindow.setRootViewController(((IOSApplication) Gdx.app).getUIViewController());
+
+        window.setRootViewController(viewController);
+        window.makeKeyAndVisible();
         GameCenterController gameCenterController = new GameCenterManager(UIApplication.getSharedApplication().getKeyWindow(), new GameCenterListener() {
             @Override
             public void playerLoginCompleted() {
@@ -105,22 +128,20 @@ public class IOSLauncher extends IOSApplication.Delegate {
             }
         });
 
-        Flurry.setAppVersion(Constants.APP_VERSION);
-        Flurry.enableCrashReporting();
-        Flurry.startSession("CG69RNZHRCRXY9P3CJTY");
-
-        GAI gaiInstance = GAI.getSharedInstance();
-        gaiInstance.setTracksUncaughtExceptions(true);
-        GAITracker tracker = gaiInstance.getTracker("UA-72850710-1");
-        tracker.send(GAIDictionaryBuilder.createEvent("Game Started", "", "", NSNumber.valueOf(0)).build());
+        ObjectMap<String, Object> controllers = new ObjectMap<>();
+        controllers.put("game_center", gameCenterController);
+        controllers.put("google_analytics", googleAnalytics);
 
         IOSApplicationConfiguration config = new IOSApplicationConfiguration();
-        return new IOSApplication(new UnicornGame(gameCenterController), config);
+        config.orientationLandscape = true;
+        config.orientationPortrait = false;
+
+        return new IOSApplication(new UnicornGame(controllers), config);
     }
 
     public static void main(String[] argv) {
         NSAutoreleasePool pool = new NSAutoreleasePool();
-        UIApplication.main(argv, null, Sample.class);
+        UIApplication.main(argv, null, IOSLauncher.class);
         pool.close();
     }
 }

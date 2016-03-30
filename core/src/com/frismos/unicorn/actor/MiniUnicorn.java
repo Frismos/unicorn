@@ -38,8 +38,6 @@ public class MiniUnicorn extends GameActor {
         Color color = Color.valueOf(Strings.BLUE);//blue
         if (colorType == ColorType.GREEN) {
             color = Color.valueOf(Strings.GREEN);
-        } else if (colorType == ColorType.YELLOW) {
-            color = Color.valueOf(Strings.YELLOW);
         } else if (colorType == ColorType.RED) {
             color = Color.valueOf(Strings.RED);
         }

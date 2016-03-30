@@ -4,14 +4,12 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.utils.Array;
 import com.frismos.unicorn.actor.Bullet;
 import com.frismos.unicorn.actor.Enemy;
 import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.spine.SpineActor;
 import com.frismos.unicorn.stage.GameStage;
-
-import com.badlogic.gdx.utils.Array;
-import java.util.List;
 
 /**
  * Created by edgaravanyan on 10/16/15.
@@ -24,14 +22,14 @@ public class Grid extends Group {
 
     private Vector2 offset;
 
-    public Array<Tile> markedDiagonal = new Array<Tile>();
-    public Array<Tile> markedBackDiagonal = new Array<Tile>();
-    public Array<Tile> markedHorizontal = new Array<Tile>();
-    public Array<Tile> markedVertical = new Array<Tile>();
-    public Array<Tile> diagonal = new Array<Tile>();
-    public Array<Tile> backDiagonal = new Array<Tile>();
-    public Array<Tile> horizontal = new Array<Tile>();
-    public Array<Tile> vertical = new Array<Tile>();
+    public Array<Tile> markedDiagonal = new Array<>();
+    public Array<Tile> markedBackDiagonal = new Array<>();
+    public Array<Tile> markedHorizontal = new Array<>();
+    public Array<Tile> markedVertical = new Array<>();
+    public Array<Tile> diagonal = new Array<>();
+    public Array<Tile> backDiagonal = new Array<>();
+    public Array<Tile> horizontal = new Array<>();
+    public Array<Tile> vertical = new Array<>();
     public ColorType currentColor = null;
 
     public int nextRedRow = -1;
@@ -43,12 +41,9 @@ public class Grid extends Group {
 
     public Grid(GameStage stage) {
         gameStage = stage;
-        Array<Integer> prefilledColors = new Array<Integer>();
-        offset = gameStage.background.getZero();
-        Array<Tile> tiles = new Array<Tile>();
-//        for (int i = 0; i < GameStage.ROW_LENGTH; i++) {
-//            prefilledColors.add(i);
-//        }
+        Array<Integer> preFilledColors = new Array<>();
+        offset = new Vector2(gameStage.background.getZero().x - new Tile(gameStage, 0, 0).getWidth(), gameStage.background.getZero().y);
+        Array<Tile> tiles = new Array<>();
         for (int i = 0; i < GameStage.ROW_LENGTH; i++) {
             for (int j = 0; j < GameStage.COLUMN_LENGTH; j++) {
                 grid[i][j] = new Tile(gameStage, i, j);
@@ -58,20 +53,18 @@ public class Grid extends Group {
                 grid[i][j].setPosition(offset.x + j * (grid[i][j].getWidth()), offset.y + i * (grid[i][j].getHeight()));
                 if(j == 0) {
                     if(i == 0) {
-                        grid[i][j].color(ColorType.YELLOW);
-                    } else if(i == 1) {
                         grid[i][j].color(ColorType.RED);
-                    } else if(i == 2) {
+                    } else if(i == 1) {
                         grid[i][j].color(ColorType.GREEN);
-                    } else if(i == 3) {
+                    } else if(i == 2) {
                         grid[i][j].color(ColorType.BLUE);
                     }
-                } else if(prefilledColors.size > 0) {
-                    if(MathUtils.randomBoolean((i+1) * 0.1f)) {
-                        int index = prefilledColors.get(MathUtils.random(prefilledColors.size - 1));
-                        prefilledColors.removeValue(index, true);
-                        grid[i][j].color(ColorType.values()[index]);
-                    }
+//                } else if(preFilledColors.size > 0) {
+//                    if(MathUtils.randomBoolean((i+1) * 0.1f)) {
+//                        int index = preFilledColors.get(MathUtils.random(preFilledColors.size - 1));
+//                        preFilledColors.removeValue(index, true);
+//                        grid[i][j].color(ColorType.values()[index]);
+//                    }
                 }
             }
         }
@@ -184,7 +177,7 @@ public class Grid extends Group {
     }
 
     public Array<Tile> getNeighbourTiles(Tile tile) {
-        Array<Tile> neighbours = new Array<Tile>();
+        Array<Tile> neighbours = new Array<>();
         if(isTileInsideGrid(tile.i-1, tile.j)) {
             neighbours.add(grid[tile.i-1][tile.j]);
         }
@@ -214,7 +207,7 @@ public class Grid extends Group {
     }
     
     public Array<Tile> getNeighbourTiles(int i, int j) {
-        Array<Tile> neighbours = new Array<Tile>();
+        Array<Tile> neighbours = new Array<>();
         if(isTileInsideGrid(i-1, j)) {
             neighbours.add(grid[i-1][j]);
         }

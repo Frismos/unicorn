@@ -7,7 +7,6 @@ import com.frismos.unicorn.userdata.EnemyUserData;
 import com.frismos.unicorn.userdata.MiniUnicornUserData;
 import com.frismos.unicorn.userdata.UnicornUserData;
 import com.frismos.unicorn.enums.ColorType;
-import com.frismos.unicorn.userdata.UserData;
 
 /**
  * Created by edgaravanyan on 10/12/15.

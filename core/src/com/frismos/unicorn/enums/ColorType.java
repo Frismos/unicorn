@@ -6,11 +6,11 @@ import com.frismos.unicorn.stage.GameStage;
  * Created by edgaravanyan on 10/13/15.
  */
 public enum ColorType {
-    YELLOW,
     RED,
     GREEN,
     BLUE,
-    RAINBOW;
+    RAINBOW,
+    DEBUG;
 
     public static ColorType getRandomColor() {
         int length = GameStage.ROW_LENGTH > ColorType.values().length ? ColorType.values().length : GameStage.ROW_LENGTH;

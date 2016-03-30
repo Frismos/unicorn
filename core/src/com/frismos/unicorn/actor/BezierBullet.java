@@ -45,7 +45,7 @@ public class BezierBullet extends Bullet {
         }
         if(enemiesToHit.size > 0) {
             for (Enemy e : enemiesToHit) {
-                e.hit(damage);
+                e.hit(damage, this);
             }
             enemiesToHit.clear();
         }

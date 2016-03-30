@@ -7,14 +7,12 @@ import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.util.Constants;
 import com.frismos.unicorn.util.Strings;
 
+import java.util.Observable;
+
 /**
  * Created by edgaravanyan on 10/12/15.
  */
 public class Unicorn extends MainCharacter {
-
-    private static boolean rainbowMode = false;
-    private static final float RAINBOW_TIME = 5.0f;
-    private static float rainbowTimer = 0.0f;
 
     public Unicorn(GameStage stage, UnicornType unicornType) {
         super(stage, unicornType);
@@ -26,27 +24,18 @@ public class Unicorn extends MainCharacter {
 
     @Override
     public void setColorType(ColorType colorType) {
-        if(!rainbowMode || colorType == ColorType.RAINBOW) {
+//        if(!rainbowMode || colorType == ColorType.RAINBOW) {
             super.setColorType(colorType);
-        }
+//        }
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
-
-        rainbowTimer += delta;
-        if(rainbowMode && rainbowTimer >= RAINBOW_TIME) {
-            rainbowMode = false;
-            setColorType(tile.colorType);
-        }
     }
 
     @Override
     public void useAbility() {
-        setColorType(ColorType.RAINBOW);
-        rainbowMode = true;
-        rainbowTimer = 0.0f;
     }
 
     @Override
@@ -70,6 +59,11 @@ public class Unicorn extends MainCharacter {
     @Override
     protected void setScaleRatio() {
         this.scaleRatio = Constants.UNICORN_SCALE_RATIO;
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+
     }
 }
 

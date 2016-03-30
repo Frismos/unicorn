@@ -30,7 +30,7 @@ public class TutorialManager implements Updatable {
     public boolean isTutorialEnemyOnStage;
 
     public boolean isFirstEnemySend;
-    public ColorType firstStepColor = ColorType.YELLOW;
+    public ColorType firstStepColor = ColorType.RED;
 
     public boolean isSecondEnemySend;
     public int secondStepEnemies;

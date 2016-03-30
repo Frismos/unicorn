@@ -34,13 +34,16 @@ package com.esotericsoftware.spine;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pool.Poolable;
+import com.frismos.unicorn.util.Debug;
+
+import java.util.ArrayList;
 
 /** Stores state for an animation and automatically mixes between animations. */
 public class AnimationState {
 	private AnimationStateData data;
 	private Array<TrackEntry> tracks = new Array();
 	private final Array<Event> events = new Array();
-	private final Array<AnimationStateListener> listeners = new Array();
+	private final ArrayList<AnimationStateListener> listeners = new ArrayList<AnimationStateListener>();
 	private float timeScale = 1;
 
 	private Pool<TrackEntry> trackEntryPool = new Pool() {
@@ -92,7 +95,7 @@ public class AnimationState {
 
 	public void apply (Skeleton skeleton) {
 		Array<Event> events = this.events;
-		int listenerCount = listeners.size;
+		int listenerCount = listeners.size();
 
 		for (int i = 0; i < tracks.size; i++) {
 			TrackEntry current = tracks.get(i);
@@ -134,7 +137,7 @@ public class AnimationState {
 			if (loop ? (lastTime % endTime > time % endTime) : (lastTime < endTime && time >= endTime)) {
 				int count = (int)(time / endTime);
 				if (current.listener != null) current.listener.complete(i, count);
-				for (int ii = 0, nn = listeners.size; ii < nn; ii++)
+				for (int ii = 0, nn = listeners.size(); ii < nn; ii++)
 					listeners.get(ii).complete(i, count);
 			}
 
@@ -154,7 +157,7 @@ public class AnimationState {
 		if (current == null) return;
 
 		if (current.listener != null) current.listener.end(trackIndex);
-		for (int i = 0, n = listeners.size; i < n; i++)
+		for (int i = 0, n = listeners.size(); i < n; i++)
 			listeners.get(i).end(trackIndex);
 
 		tracks.set(trackIndex, null);
@@ -185,7 +188,7 @@ public class AnimationState {
 			current.previous = null;
 
 			if (current.listener != null) current.listener.end(index);
-			for (int i = 0, n = listeners.size; i < n; i++)
+			for (int i = 0, n = listeners.size(); i < n; i++)
 				listeners.get(i).end(index);
 
 			entry.mixDuration = data.getMix(current.animation, entry.animation);
@@ -206,12 +209,12 @@ public class AnimationState {
 		tracks.set(index, entry);
 
 		if (entry.listener != null) entry.listener.start(index);
-		for (int i = 0, n = listeners.size; i < n; i++)
+		for (int i = 0, n = listeners.size(); i < n; i++)
 			listeners.get(i).start(index);
 	}
-
 	/** @see #setAnimation(int, Animation, boolean) */
 	public TrackEntry setAnimation (int trackIndex, String animationName, boolean loop) {
+		setTimeScale(1.0f);
 		Animation animation = data.getSkeletonData().findAnimation(animationName);
 		if (animation == null) throw new IllegalArgumentException("Animation not found: " + animationName);
 		return setAnimation(trackIndex, animation, loop);
@@ -278,7 +281,7 @@ public class AnimationState {
 
 	/** Removes the listener added with {@link #addListener(AnimationStateListener)}. */
 	public void removeListener (AnimationStateListener listener) {
-		listeners.removeValue(listener, true);
+		listeners.remove(listener);
 	}
 
 	public void clearListeners () {
@@ -429,17 +432,17 @@ public class AnimationState {
 
 	static public interface AnimationStateListener {
 		/** Invoked when the current animation triggers an event. */
-		public void event(int trackIndex, Event event);
+		public void event (int trackIndex, Event event);
 
 		/** Invoked when the current animation has completed.
 		 * @param loopCount The number of times the animation reached the end. */
-		public void complete(int trackIndex, int loopCount);
+		public void complete (int trackIndex, int loopCount);
 
 		/** Invoked just after the current animation is set. */
-		public void start(int trackIndex);
+		public void start (int trackIndex);
 
 		/** Invoked just before the current animation is replaced. */
-		public void end(int trackIndex);
+		public void end (int trackIndex);
 	}
 
 	static public abstract class AnimationStateAdapter implements AnimationStateListener {

@@ -1,13 +1,10 @@
 package com.frismos.unicorn.actor;
 
 import com.badlogic.gdx.math.MathUtils;
-import com.frismos.unicorn.enums.ActorDataType;
-import com.frismos.unicorn.userdata.BossUserData;
-import com.frismos.unicorn.userdata.UserData;
+import com.esotericsoftware.spine.AnimationState;
 import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.util.Constants;
-import com.frismos.unicorn.util.Debug;
 import com.frismos.unicorn.util.Strings;
 
 /**
@@ -17,13 +14,10 @@ public class ShootingBoss extends Boss {
 
     public ShootingBoss(GameStage gameStage, ColorType colorType, boolean isTutorial) {
         super(gameStage, colorType, isTutorial);
-        TIME_STEP = 1.5f;
+        TIME_STEP = 1.0f;
         FIRE_CHANCE = 100;
-        if(isTutorial) {
-            hitPoints = 30;
-        } else {
-            hitPoints = 75;
-        }
+        maxHitPoints = hitPoints = 110;
+        showProgressBar();
     }
 
     @Override
@@ -37,10 +31,15 @@ public class ShootingBoss extends Boss {
     }
 
     @Override
-    public void attack() {
+    public void fireEvent() {
         spawnPoint.x = gameStage.unicorn.tile.getX() + gameStage.grid.tileWidth / 2;
         spawnPoint.y = MathUtils.random(gameStage.unicorn.getY(), gameStage.unicorn.getY() + gameStage.unicorn.getHeight());
         spawnPoint = gameStage.stageToScreenCoordinates(spawnPoint);
-        super.attack();
+        super.fireEvent();
+    }
+
+    @Override
+    public void die(AnimationState.AnimationStateListener dieListener) {
+        super.die(dieListener);
     }
 }

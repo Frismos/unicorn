@@ -15,6 +15,9 @@
     </resource>
     <resource>
       <directory>data</directory>
+      <includes>
+        <include>**</include>
+      </includes>
     </resource>
   </resources>
   <forceLinkClasses>

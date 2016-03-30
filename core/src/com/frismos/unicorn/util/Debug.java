@@ -8,7 +8,9 @@ import com.badlogic.gdx.Gdx;
 public class Debug {
     public static final String LOG_TAG = "eavanyan";
 
-    public static void Log(String message) {
+    public static void log(String message) {
         Gdx.app.log(LOG_TAG, message);
     }
 }
+
+

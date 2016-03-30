@@ -1,39 +1,60 @@
 package com.frismos.unicorn.actor;
 
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.esotericsoftware.spine.AnimationState;
+import com.esotericsoftware.spine.Bone;
 import com.esotericsoftware.spine.Event;
-import com.frismos.unicorn.enums.*;
+import com.frismos.unicorn.enums.ActorDataType;
+import com.frismos.unicorn.enums.ColorType;
+import com.frismos.unicorn.enums.Direction;
+import com.frismos.unicorn.enums.TutorialStep;
+import com.frismos.unicorn.enums.UnicornType;
 import com.frismos.unicorn.grid.Tile;
+import com.frismos.unicorn.manager.TimerRunnable;
 import com.frismos.unicorn.manager.TutorialManager;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.util.Debug;
+import com.frismos.unicorn.util.Timer;
 import com.frismos.unicorn.util.Utils;
-
-import java.time.Year;
+import com.sun.org.apache.xpath.internal.operations.String;
 
 /**
  * Created by edgaravanyan on 10/13/15.
  */
 public abstract class Enemy extends Creature {
 
+    public static float INITIAL_MOVE_SPEED = 10.0f;
+
+    private Bone liveBone;
+    private float maxLiveScale;
+    private float liveScale;
+
     public Tile tile;
 
+    protected float TIME_STEP = 4f;
     public boolean isAttackingOnUnicorn = false;
     public boolean isAttacking = true;
+    public boolean isEating = false;
     protected Vector2 spawnPoint;
 
     protected float directionX = 1, directionY = 0;
 
-    protected int positionY;
+    public int positionY;
 
     public boolean isTutorialEnemy;
 
     public boolean isSonOfABoss = false; // :D
 
     public Enemy waitingEnemy;
+    public Enemy enemyToWait;
+
+    public Shadow shadow;
+
+    private boolean hasWait;
 
     private AnimationState.AnimationStateListener dieListener = new AnimationState.AnimationStateListener() {
 
@@ -53,22 +74,23 @@ public abstract class Enemy extends Creature {
         @Override
         public void complete(int trackIndex, int loopCount) {
             if(!gameStage.game.tutorialManager.isTutorialMode) {
-                int prob = 0;
-                if (Enemy.this instanceof Boss) {
+                int prob = 1;
+                /*if (Enemy.this instanceof Boss) {
                     prob = 100;
-                } else if (Enemy.this instanceof AttackingEnemy) {
-                    prob = 25;
+                } else*/ if (Enemy.this instanceof AttackingEnemy) {
+                    prob = 40;
                 } else if (Enemy.this instanceof BouncingEnemy) {
-                    prob = 7;
+                    prob = 15;
                 } else if (Enemy.this instanceof ShootingEnemy) {
-                    prob = 3;
+                    prob = 25;
                 }
                 if (MathUtils.random(100) < prob) {
-                    gameStage.putSpell(getX(), getY());
+//                    gameStage.putSpell(getX(), getY());
                 }
             }
             skeletonActor.getAnimationState().removeListener(this);
             remove(true);
+            onDieComplete();
         }
 
         @Override
@@ -81,6 +103,9 @@ public abstract class Enemy extends Creature {
 
         }
     };
+    private Timer eatingTimer;
+    private boolean isDead = false;
+    protected boolean isWaiting = false;
 
     public Enemy(GameStage stage, ColorType colorType) {
         this(stage, colorType, false);
@@ -123,8 +148,8 @@ public abstract class Enemy extends Creature {
             positionY = MathUtils.random(GameStage.ROW_LENGTH - positionYOffset);
         }
         if(gameStage.colorIndices.size > 0) {
-            if(colorType == ColorType.YELLOW) {
-                positionY = 3;
+            if(colorType == ColorType.RED) {
+                positionY = 2;
 //            } else if(colorType == ColorType.RED) {
 //                positionY = 1;
             } else if(colorType == ColorType.GREEN) {
@@ -136,28 +161,82 @@ public abstract class Enemy extends Creature {
 //        if(MathUtils.random(100) <= GameStage.ENEMY_SPAWN_MIDDLE_CHANCE) {
 //            positionX = MathUtils.random(3, GameStage.COLUMN_LENGTH - 1);
 //        }
-        this.setX(gameStage.background.getZero().x + positionX * gameStage.grid.tileWidth + getWidth() / 2);
-        this.setY(gameStage.background.getZero().y + positionY * gameStage.grid.tileHeight + getHeight() / 4);
+        if(this instanceof Boss) {
+            this.setX(gameStage.background.getZero().x + (positionX - 2) * gameStage.grid.tileWidth + getWidth() / 2);
+        }else
+        this.setX(gameStage.background.getZero().x + (positionX - 1) * gameStage.grid.tileWidth + getWidth() / 2);
 
+        int prob = MathUtils.random(2);
+        float offsetY = prob == 2 ? getHeight() / 2 : prob == 1 ? getHeight() / 4 : getHeight() / 1.5f;
+        this.setY(gameStage.background.getZero().y + positionY * gameStage.grid.tileHeight + offsetY);
+        spawnPoint = new Vector2(0, getY() + getHeight() * getScaleY() / 2);
+        this.isTutorialEnemy = isTutorialEnemy;
+        if(isSonOfABoss) {
+            moveSpeed = GameStage._ENEMY_MOVE_SPEED;
+        }
+        moveSpeed = INITIAL_MOVE_SPEED + stage.unicorn.getCombo() / 10.0f;
+        skeletonActor.getAnimationState().setTimeScale(moveSpeed * 0.3f);
+        setUserObject(ActorDataType.ENEMY);
+        shadow = new Shadow(gameStage, this);
+        skeletonActor.getSkeleton().getRootBone().setScale(MathUtils.random(0.95f, 1.05f));
+
+        for(int i = 0; i < skeletonActor.getSkeleton().getBones().size; i++) {
+            if(skeletonActor.getSkeleton().getBones().get(i).getData().getName().contains("life-")) {
+                liveBone = skeletonActor.getSkeleton().getBones().get(i);
+                break;
+            }
+        }
+        maxLiveScale = Integer.valueOf(liveBone.getData().getName().substring(5));
+        liveScale = liveBone.getScaleX();
+    }
+
+    @Override
+    public void hit(float damage, Bullet bullet) {
+        super.hit(damage, bullet);
+        if(hitPoints > 0) {
+            Utils.colorActor(this, Color.WHITE);
+            addAction(Actions.sequence(Actions.delay(0.02f), Actions.run(new Runnable() {
+                @Override
+                public void run() {
+                    Utils.colorActor(Enemy.this, getColor());
+                }
+            })));
+        }
+        float scale = liveScale + (maxHitPoints - hitPoints) / maxHitPoints * (maxLiveScale - liveScale);
+        if(scale > maxLiveScale) {
+            scale = maxLiveScale;
+        }
+        liveBone.setScale(scale);
+    }
+
+    protected void onDieComplete() {
+
+    }
+
+    public boolean checkToWait() {
+        if(tile != null) {
+            tile.enemies.removeValue(this, false);
+        }
         tile = gameStage.grid.getTileByPoint(getX() + getWidth() / 2, getY());
         tile.enemies.add(this);
+        start();
         if(!gameStage.game.tutorialManager.isTutorialMode) {
             for (int i = 0; i < tile.enemies.size; i++) {
-                if (!tile.enemies.get(i).equals(this) && tile.enemies.get(i).getRight() > getX()) {
-                    isAttacking = false;
+                if (!tile.enemies.get(i).equals(this)
+                        && ((tile.enemies.get(i).getRight() > getX() && tile.enemies.get(i).getX() < getX())
+                        || (getRight() > tile.enemies.get(i).getX() && tile.enemies.get(i).getX() > getX()))
+                        && tile.enemies.get(i).getTop() > getY()
+                        && !this.equals(tile.enemies.get(i).waitingEnemy)
+                        && !tile.enemies.get(i).equals(waitingEnemy)
+                        && !tile.enemies.get(i).isWaiting
+                        && !tile.enemies.get(i).isDead) {
+                    isWaiting = true;
                     tile.enemies.get(i).addWaitingEnemy(this);
-                    break;
+                    return true;
                 }
             }
         }
-
-        spawnPoint = new Vector2(0, getY() + getHeight() * getScaleY() / 2);
-        spawnPoint = gameStage.stageToScreenCoordinates(spawnPoint);
-        this.isTutorialEnemy = isTutorialEnemy;
-        if(!isTutorialEnemy) {
-            moveSpeed = GameStage._ENEMY_MOVE_SPEED;
-        }
-        setUserObject(ActorDataType.ENEMY);
+        return false;
     }
 
     public void setColorType(ColorType colorType) {
@@ -167,6 +246,7 @@ public abstract class Enemy extends Creature {
     public void addWaitingEnemy(Enemy waitingEnemy) {
         if(this.waitingEnemy == null) {
             this.waitingEnemy = waitingEnemy;
+            waitingEnemy.enemyToWait = this;
             return;
         }
         this.waitingEnemy.addWaitingEnemy(waitingEnemy);
@@ -177,10 +257,37 @@ public abstract class Enemy extends Creature {
     }
 
     public void die(AnimationState.AnimationStateListener dieListener) {
-        if(isAttacking) {
+        if(!isDead) {
+            gameStage.score++;
+            gameStage.scoreLabel.setText(java.lang.String.format("score: %d", gameStage.score));
+            if(gameStage.game.aiManager.enemies.size == 0) {
+                if(!(this instanceof Boss) && !(this instanceof BossSon) && gameStage.boss == null) {
+                    gameStage.game.aiManager.sendEnemy(gameStage.game.aiManager.currentIndex);
+                }
+            }
+            if(shadow != null) {
+                shadow.remove();
+            }
+            hideProgressBar();
+
             if(waitingEnemy != null) {
-                waitingEnemy.start();
+                boolean wait = false;
+                if(enemyToWait != null) {
+                    enemyToWait.waitingEnemy = waitingEnemy;
+                    waitingEnemy.enemyToWait = enemyToWait;
+                    wait = true;
+//                if(waitingEnemy.enemyToWait == null) {
+//                }
+                }
+                if(!wait) {
+                    waitingEnemy.start();
+                }
                 waitingEnemy = null;
+            } else if(enemyToWait != null) {
+                enemyToWait.waitingEnemy = null;
+            }
+            if(eatingTimer != null) {
+                gameStage.game.timerManager.removeTimer(eatingTimer);
             }
             if(gameStage.game.tutorialManager.isTutorialMode) {
                 gameStage.game.tutorialManager.enemies.removeValue(this, false);
@@ -190,22 +297,22 @@ public abstract class Enemy extends Creature {
                 if(TutorialStep.values().length - 1 == gameStage.game.tutorialManager.currentStep.ordinal()) {
                     gameStage.game.tutorialManager.isTutorialMode = false;
                 } else {
-                    if(gameStage.game.tutorialManager.currentStep == TutorialStep.FIRST) {            //cul
+                    if(gameStage.game.tutorialManager.currentStep == TutorialStep.FIRST) {          //cul
                         gameStage.game.tutorialManager.currentStep = TutorialStep.SECOND;
-                    } else if(TutorialStep.SECOND == gameStage.game.tutorialManager.currentStep) {    //kov
+                    } else if(TutorialStep.SECOND == gameStage.game.tutorialManager.currentStep) {  //kov
                         if(gameStage.game.tutorialManager.secondStepEnemies >= TutorialManager.SECOND_STEP_ENEMIES_COUNT) {
                             if(gameStage.game.tutorialManager.enemies.size == 0) {
                                 gameStage.game.tutorialManager.currentStep = TutorialStep.THIRD;
                                 gameStage.joystickTouched = false;
                             }
                         }
-                    } else if(TutorialStep.THIRD == gameStage.game.tutorialManager.currentStep) {     //ayc
+                    } else if(TutorialStep.THIRD == gameStage.game.tutorialManager.currentStep) {   //ayc
                         if(isTutorialEnemy && colorType == gameStage.game.tutorialManager.thirdStepColor) {
                             gameStage.game.tutorialManager.currentStep = TutorialStep.FOURTH;
                             gameStage.game.tutorialManager.pauseGame = false;
                             gameStage.changeUnicornType.remove();
                         }
-                    } else if(TutorialStep.FOURTH == gameStage.game.tutorialManager.currentStep) {    //xoz
+                    } else if(TutorialStep.FOURTH == gameStage.game.tutorialManager.currentStep) {  //xoz
                         if (gameStage.game.tutorialManager.fourthStepEnemies >= TutorialManager.FOURTH_STEP_ENEMIES_COUNT) {
                             if (gameStage.game.tutorialManager.enemies.size == 0) {
                                 gameStage.boss = gameStage.sendBoss(true);
@@ -218,8 +325,7 @@ public abstract class Enemy extends Creature {
             } else if(isTutorialEnemy) {
                 gameStage.game.tutorialManager.removeArrow();
             }
-
-            gameStage.collisionDetector.collisionListeners.removeValue(this, false);
+            gameStage.collisionDetector.removeListenerActor(this);
             gameStage.unicorn.removePositionChangeListener(this);
             if(gameStage.boss == null && !gameStage.game.tutorialManager.isTutorialMode) {
                 gameStage.deadEnemyCounter++;
@@ -228,6 +334,7 @@ public abstract class Enemy extends Creature {
                 tile.enemies.removeValue(Enemy.this, false);
             }
             isAttacking = false;
+            isDead = true;
             skeletonActor.getAnimationState().setAnimation(0, "die", false);
             if(dieListener == null) {
                 dieListener = this.dieListener;
@@ -237,21 +344,35 @@ public abstract class Enemy extends Creature {
         }
     }
 
+    @Override
     public void die() {
         die(null);
     }
 
-    public abstract void attack();
-
     @Override
-    public boolean remove() {
-        return super.remove();
+    protected void positionChanged() {
+        super.positionChanged();
+        if (shadow != null) {
+            shadow.setPosition(getX(), getY() - shadow.getHeight() / 3);
+        }
+    }
+
+    public abstract void attack();
+    public abstract void wallAttackingAnimation();
+    public void startAttackingWall() {
+        eatingTimer = gameStage.game.timerManager.loop(0.5f, new TimerRunnable() {
+            @Override
+            public void run(Timer timer) {
+                gameStage.unicorn.hit(0.1f);
+            }
+        });
+        wallAttackingAnimation();
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
-        if(isAttacking) {
+        if(isAttacking && !isEating && !isWaiting) {
             if(gameStage.grid.isPointInsideGrid(getX(), getY())) {
                 if(tile != null) {
                     tile.enemies.removeValue(this, false);
@@ -259,9 +380,9 @@ public abstract class Enemy extends Creature {
                 tile = gameStage.grid.getTileByPoint(getX() + getWidth() / 2, getY());
                 tile.enemies.add(this);
             }
-            if(!gameStage.game.tutorialManager.isTutorialMode || !gameStage.game.tutorialManager.pauseGame) {
+//            if(!gameStage.game.tutorialManager.isTutorialMode || !gameStage.game.tutorialManager.pauseGame) {
                 moveBy(-directionX * moveSpeed * delta, -directionY * moveSpeed * delta);  //  23
-            }
+//            }
             if(waitingEnemy != null) {
                 if (getRight() + getWidth() / 2 < waitingEnemy.getX()) {
                     waitingEnemy.start();
@@ -269,28 +390,25 @@ public abstract class Enemy extends Creature {
                 }
             }
 
-            if(this.getX() < 7) {
-                die(new AnimationState.AnimationStateListener() {
-                    @Override
-                    public void event(int trackIndex, Event event) {
-
-                    }
-
-                    @Override
-                    public void complete(int trackIndex, int loopCount) {
-                        gameStage.restartGame = true;
-                    }
-
-                    @Override
-                    public void start(int trackIndex) {
-
-                    }
-
-                    @Override
-                    public void end(int trackIndex) {
-
-                    }
-                });
+            if(!hasWait && this.getX() <= gameStage.colorsPlatform.getRight() + gameStage.grid.tileWidth / 6) {
+                hasWait = true;
+                isWaiting = checkToWait();
+                if(isWaiting) {
+                    wallAttackingAnimation();
+                }
+            }
+            if(this.getX() <= gameStage.colorsPlatform.getRight()) {
+                isEating = true;
+                gameStage.unicorn.hit(0.1f);
+                startAttackingWall();
+            }
+            if(moveSpeed > GameStage._ENEMY_MOVE_SPEED
+                    && getX() < gameStage.background.getZero().x + gameStage.background.getWidth() - gameStage.grid.tileWidth
+                    && getX() > gameStage.colorsPlatform.getRight() + gameStage.grid.tileWidth) {
+                moveSpeed -= 0.02f;
+                if(skeletonActor.getAnimationState().getCurrent(0).getAnimation().getName().contains("walk")) {
+                    skeletonActor.getAnimationState().setTimeScale(moveSpeed * 0.3f);
+                }
             }
 
             if(isTutorialEnemy && getX() < gameStage.background.getZero().x + gameStage.background.getWidth() - gameStage.grid.tileWidth) {
@@ -347,5 +465,7 @@ public abstract class Enemy extends Creature {
 
     public void start() {
         isAttacking = true;
+        isWaiting = false;
+        enemyToWait = null;
     }
 }

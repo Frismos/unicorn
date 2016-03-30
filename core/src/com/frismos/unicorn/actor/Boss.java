@@ -5,15 +5,39 @@ import com.esotericsoftware.spine.AnimationState;
 import com.esotericsoftware.spine.Event;
 import com.frismos.unicorn.enums.ActorDataType;
 import com.frismos.unicorn.enums.ColorType;
+import com.frismos.unicorn.enums.WaveType;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.util.Constants;
-import com.frismos.unicorn.util.Debug;
 
 /**
  * Created by edgar on 12/14/2015.
  */
 public abstract class Boss extends ShootingEnemy {
     public boolean isAttackAnimationPlaying = false;
+
+    private AnimationState.AnimationStateListener attackAnimationListener = new AnimationState.AnimationStateListener() {
+        @Override
+        public void event(int trackIndex, Event event) {
+            fireEvent();
+        }
+
+        @Override
+        public void complete(int trackIndex, int loopCount) {
+            skeletonActor.getAnimationState().removeListener(this);
+            skeletonActor.getAnimationState().setAnimation(0, "walk", true);
+            isAttackAnimationPlaying = false;
+        }
+
+        @Override
+        public void start(int trackIndex) {
+
+        }
+
+        @Override
+        public void end(int trackIndex) {
+
+        }
+    };
 
     private AnimationState.AnimationStateListener hitAnimationStateListener = new AnimationState.AnimationStateListener() {
         @Override
@@ -22,7 +46,7 @@ public abstract class Boss extends ShootingEnemy {
 
         @Override
         public void complete(int trackIndex, int loopCount) {
-            skeletonActor.getAnimationState().removeListener(this);
+            skeletonActor.getAnimationState().clearListeners();
             skeletonActor.getAnimationState().setAnimation(0, "walk", true);
         }
 
@@ -39,7 +63,6 @@ public abstract class Boss extends ShootingEnemy {
 
     public Boss(GameStage stage, ColorType colorType, boolean isTutorial) {
         super(stage, colorType, isTutorial);
-        setX(Constants.ENEMY_X);
         int positionY = MathUtils.random(GameStage.ROW_LENGTH - 2);
         this.setY(gameStage.background.getZero().y + positionY * gameStage.grid.tileHeight + gameStage.grid.tileHeight / 10);
         if(!isTutorial) {
@@ -61,9 +84,13 @@ public abstract class Boss extends ShootingEnemy {
 
     @Override
     public void die() {
-        gameStage.nextLevel();
         gameStage.boss = null;
         super.die();
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
     }
 
     @Override
@@ -72,12 +99,33 @@ public abstract class Boss extends ShootingEnemy {
     }
 
     @Override
-    public void hit(float damage) {
-        super.hit(damage);
+    public void hit(float damage, Bullet bullet) {
+        super.hit(damage, bullet);
         if(isAttacking && !isAttackAnimationPlaying) {
             skeletonActor.getAnimationState().setAnimation(0, "hit", false);
             skeletonActor.getAnimationState().clearListeners();
             skeletonActor.getAnimationState().addListener(hitAnimationStateListener);
         }
+    }
+
+    public void fireEvent() {
+        super.attack();
+    }
+
+    public void setSpawnEnemyType(WaveType type) {
+
+    }
+
+    @Override
+    public void attack() {
+        skeletonActor.getAnimationState().setAnimation(0, "attack", false);
+        skeletonActor.getAnimationState().clearListeners();
+        skeletonActor.getAnimationState().addListener(attackAnimationListener);
+        isAttackAnimationPlaying = true;
+    }
+
+    @Override
+    protected void onDieComplete() {
+        gameStage.nextLevel();
     }
 }

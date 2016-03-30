@@ -1,9 +1,13 @@
 package com.frismos.unicorn.actor;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.frismos.unicorn.enums.ColorType;
+import com.frismos.unicorn.manager.AIManager;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.util.Constants;
 import com.frismos.unicorn.util.Strings;
+import com.frismos.unicorn.util.Utils;
 
 /**
  * Created by edgar on 12/10/2015.
@@ -11,7 +15,8 @@ import com.frismos.unicorn.util.Strings;
 public class AttackingEnemy extends Enemy {
     public AttackingEnemy(GameStage stage, ColorType colorType) {
         super(stage, colorType);
-        hitPoints = 7.5f;
+        maxHitPoints = hitPoints = AIManager.ATTACKING_ENEMY_HP;
+        showProgressBar();
     }
 
     @Override
@@ -20,9 +25,20 @@ public class AttackingEnemy extends Enemy {
     }
 
     @Override
-    public void hit(float damage) {
-        super.hit(damage);
-        if(!isAttackingOnUnicorn) {
+    public void hit(float damage, Bullet bullet) {
+        if(isAttackingOnUnicorn) {
+            super.hit(damage, bullet);
+        } else {
+            if(hitPoints > 0) {
+                Utils.colorActor(this, Color.WHITE);
+                addAction(Actions.sequence(Actions.delay(0.02f), Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        Utils.colorActor(AttackingEnemy.this, getColor());
+                    }
+                })));
+            }
+            bullet.isHit = true;
             attack();
         }
     }
@@ -30,8 +46,16 @@ public class AttackingEnemy extends Enemy {
     @Override
     public void attack() {
         isAttackingOnUnicorn = true;
-        skeletonActor.getAnimationState().setTimeScale(1.5f);
+        moveSpeed = 7.5f;
+
+        skeletonActor.getAnimationState().setTimeScale(2.0f);
+        skeletonActor.getAnimationState().setAnimation(1, "attack", true);
         gameStage.unicorn.addPositionChangeListener(this);
+    }
+
+    @Override
+    public void wallAttackingAnimation() {
+
     }
 
     @Override
@@ -44,4 +68,9 @@ public class AttackingEnemy extends Enemy {
         path = Strings.ATTACKING_ENEMY;
     }
 
+    @Override
+    public void die() {
+        skeletonActor.getAnimationState().clearTrack(1);
+        super.die();
+    }
 }

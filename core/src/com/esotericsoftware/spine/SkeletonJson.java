@@ -58,7 +58,7 @@ import com.esotericsoftware.spine.attachments.AttachmentType;
 import com.esotericsoftware.spine.attachments.BoundingBoxAttachment;
 import com.esotericsoftware.spine.attachments.MeshAttachment;
 import com.esotericsoftware.spine.attachments.RegionAttachment;
-import com.esotericsoftware.spine.attachments.SkinnedMeshAttachment;
+import com.esotericsoftware.spine.attachments.WeightedMeshAttachment;
 
 public class SkeletonJson {
 	private final AttachmentLoader attachmentLoader;
@@ -116,6 +116,8 @@ public class SkeletonJson {
 			boneData.rotation = boneMap.getFloat("rotation", 0);
 			boneData.scaleX = boneMap.getFloat("scaleX", 1);
 			boneData.scaleY = boneMap.getFloat("scaleY", 1);
+			boneData.inheritScale = boneMap.getBoolean("inheritScale", true);
+			boneData.inheritRotation = boneMap.getBoolean("inheritRotation", true);
 
 			String color = boneMap.getString("color", null);
 			if (color != null) boneData.getColor().set(Color.valueOf(color));
@@ -142,6 +144,25 @@ public class SkeletonJson {
 			ikConstraintData.mix = ikMap.getFloat("mix", 1);
 
 			skeletonData.ikConstraints.add(ikConstraintData);
+		}
+
+		// Transform constraints.
+		for (JsonValue transformMap = root.getChild("transform"); transformMap != null; transformMap = transformMap.next) {
+			TransformConstraintData transformConstraintData = new TransformConstraintData(transformMap.getString("name"));
+
+			String boneName = transformMap.getString("bone");
+			transformConstraintData.bone = skeletonData.findBone(boneName);
+			if (transformConstraintData.bone == null) throw new SerializationException("Bone not found: " + boneName);
+
+			String targetName = transformMap.getString("target");
+			transformConstraintData.target = skeletonData.findBone(targetName);
+			if (transformConstraintData.target == null) throw new SerializationException("Target bone not found: " + targetName);
+
+			transformConstraintData.translateMix = transformMap.getFloat("translateMix", 1);
+			transformConstraintData.x = transformMap.getFloat("x", 0) * scale;
+			transformConstraintData.y = transformMap.getFloat("y", 0) * scale;
+
+			skeletonData.transformConstraints.add(transformConstraintData);
 		}
 
 		// Slots.
@@ -202,7 +223,9 @@ public class SkeletonJson {
 		name = map.getString("name", name);
 		String path = map.getString("path", name);
 
-		switch (AttachmentType.valueOf(map.getString("type", AttachmentType.region.name()))) {
+		String type = map.getString("type", AttachmentType.region.name());
+		if (type.equals("skinnedmesh")) type = "weightedmesh";
+		switch (AttachmentType.valueOf(type)) {
 		case region: {
 			RegionAttachment region = attachmentLoader.newRegionAttachment(skin, name, path);
 			if (region == null) return null;
@@ -255,8 +278,8 @@ public class SkeletonJson {
 			mesh.setHeight(map.getFloat("height", 0) * scale);
 			return mesh;
 		}
-		case skinnedmesh: {
-			SkinnedMeshAttachment mesh = attachmentLoader.newSkinnedMeshAttachment(skin, name, path);
+		case weightedmesh: {
+			WeightedMeshAttachment mesh = attachmentLoader.newWeightedMeshAttachment(skin, name, path);
 			if (mesh == null) return null;
 			mesh.setPath(path);
 			float[] uvs = map.require("uvs").asFloatArray();
@@ -422,7 +445,7 @@ public class SkeletonJson {
 					if (attachment instanceof MeshAttachment)
 						vertexCount = ((MeshAttachment)attachment).getVertices().length;
 					else
-						vertexCount = ((SkinnedMeshAttachment)attachment).getWeights().length / 3 * 2;
+						vertexCount = ((WeightedMeshAttachment)attachment).getWeights().length / 3 * 2;
 
 					int frameIndex = 0;
 					for (JsonValue valueMap = meshMap.child; valueMap != null; valueMap = valueMap.next) {
@@ -504,11 +527,11 @@ public class SkeletonJson {
 			for (JsonValue eventMap = eventsMap.child; eventMap != null; eventMap = eventMap.next) {
 				EventData eventData = skeletonData.findEvent(eventMap.getString("name"));
 				if (eventData == null) throw new SerializationException("Event not found: " + eventMap.getString("name"));
-				Event event = new Event(eventData);
+				Event event = new Event(eventMap.getFloat("time"), eventData);
 				event.intValue = eventMap.getInt("int", eventData.getInt());
 				event.floatValue = eventMap.getFloat("float", eventData.getFloat());
 				event.stringValue = eventMap.getString("string", eventData.getString());
-				timeline.setFrame(frameIndex++, eventMap.getFloat("time"), event);
+				timeline.setFrame(frameIndex++, event);
 			}
 			timelines.add(timeline);
 			duration = Math.max(duration, timeline.getFrames()[timeline.getFrameCount() - 1]);

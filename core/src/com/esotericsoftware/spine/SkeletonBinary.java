@@ -59,7 +59,7 @@ import com.esotericsoftware.spine.attachments.AttachmentType;
 import com.esotericsoftware.spine.attachments.BoundingBoxAttachment;
 import com.esotericsoftware.spine.attachments.MeshAttachment;
 import com.esotericsoftware.spine.attachments.RegionAttachment;
-import com.esotericsoftware.spine.attachments.SkinnedMeshAttachment;
+import com.esotericsoftware.spine.attachments.WeightedMeshAttachment;
 
 public class SkeletonBinary {
 	static public final int TIMELINE_SCALE = 0;
@@ -131,6 +131,8 @@ public class SkeletonBinary {
 				boneData.scaleY = input.readFloat();
 				boneData.rotation = input.readFloat();
 				boneData.length = input.readFloat() * scale;
+				boneData.inheritScale = input.readBoolean();
+				boneData.inheritRotation = input.readBoolean();
 				if (nonessential) Color.rgba8888ToColor(boneData.color, input.readInt());
 				skeletonData.bones.add(boneData);
 			}
@@ -144,6 +146,17 @@ public class SkeletonBinary {
 				ikConstraintData.mix = input.readFloat();
 				ikConstraintData.bendDirection = input.readByte();
 				skeletonData.ikConstraints.add(ikConstraintData);
+			}
+
+			// Transform constraints.
+			for (int i = 0, n = input.readInt(true); i < n; i++) {
+				TransformConstraintData transformConstraintData = new TransformConstraintData(input.readString());
+				transformConstraintData.bone = skeletonData.bones.get(input.readInt(true));
+				transformConstraintData.target = skeletonData.bones.get(input.readInt(true));
+				transformConstraintData.translateMix = input.readFloat();
+				transformConstraintData.x = input.readFloat();
+				transformConstraintData.y = input.readFloat();
+				skeletonData.transformConstraints.add(transformConstraintData);
 			}
 
 			// Slots.
@@ -214,7 +227,8 @@ public class SkeletonBinary {
 		return skin;
 	}
 
-	private Attachment readAttachment (DataInput input, Skin skin, String attachmentName, boolean nonessential) throws IOException {
+	private Attachment readAttachment (DataInput input, Skin skin, String attachmentName, boolean nonessential)
+		throws IOException {
 		float scale = this.scale;
 
 		String name = input.readString();
@@ -266,10 +280,10 @@ public class SkeletonBinary {
 			}
 			return mesh;
 		}
-		case skinnedmesh: {
+		case weightedmesh: {
 			String path = input.readString();
 			if (path == null) path = name;
-			SkinnedMeshAttachment mesh = attachmentLoader.newSkinnedMeshAttachment(skin, name, path);
+			WeightedMeshAttachment mesh = attachmentLoader.newWeightedMeshAttachment(skin, name, path);
 			if (mesh == null) return null;
 			mesh.setPath(path);
 			float[] uvs = readFloatArray(input, 1);
@@ -403,8 +417,8 @@ public class SkeletonBinary {
 						}
 						timeline.boneIndex = boneIndex;
 						for (int frameIndex = 0; frameIndex < frameCount; frameIndex++) {
-							timeline.setFrame(frameIndex, input.readFloat(), input.readFloat() * timelineScale, input.readFloat()
-								* timelineScale);
+							timeline.setFrame(frameIndex, input.readFloat(), input.readFloat() * timelineScale,
+								input.readFloat() * timelineScale);
 							if (frameIndex < frameCount - 1) readCurve(input, frameIndex, timeline);
 						}
 						timelines.add(timeline);
@@ -448,7 +462,7 @@ public class SkeletonBinary {
 							if (attachment instanceof MeshAttachment)
 								vertexCount = ((MeshAttachment)attachment).getVertices().length;
 							else
-								vertexCount = ((SkinnedMeshAttachment)attachment).getWeights().length / 3 * 2;
+								vertexCount = ((WeightedMeshAttachment)attachment).getWeights().length / 3 * 2;
 
 							int end = input.readInt(true);
 							if (end == 0) {
@@ -522,11 +536,11 @@ public class SkeletonBinary {
 				for (int i = 0; i < eventCount; i++) {
 					float time = input.readFloat();
 					EventData eventData = skeletonData.events.get(input.readInt(true));
-					Event event = new Event(eventData);
+					Event event = new Event(time, eventData);
 					event.intValue = input.readInt(false);
 					event.floatValue = input.readFloat();
 					event.stringValue = input.readBoolean() ? input.readString() : eventData.stringValue;
-					timeline.setFrame(i, time, event);
+					timeline.setFrame(i, event);
 				}
 				timelines.add(timeline);
 				duration = Math.max(duration, timeline.getFrames()[eventCount - 1]);

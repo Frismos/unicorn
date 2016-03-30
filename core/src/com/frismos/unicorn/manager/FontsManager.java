@@ -22,6 +22,9 @@ public class FontsManager {
             FreeTypeFontGenerator.FreeTypeFontParameter freeTypeFontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
             freeTypeFontParameter.color = color;
             freeTypeFontParameter.size = size;
+            freeTypeFontParameter.borderColor = Color.BLACK;
+            freeTypeFontParameter.borderWidth = 3;
+            freeTypeFontParameter.shadowColor = new Color(0, 0, 0, 0.25f);
             font = freeTypeFontGenerator.generateFont(freeTypeFontParameter);
             font.setUseIntegerPositions(false);
         }

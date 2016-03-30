@@ -7,26 +7,32 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class Constants {
 
+    //0:0 point is 4.6875:2
+
     public static final float SCALE_RATIO = 32.0f;
-    public static final float WALKING_ENEMY_SCALE_RATIO = 0.55f / SCALE_RATIO;
+    public static final float WALKING_ENEMY_SCALE_RATIO = 0.65f / SCALE_RATIO;
     public static final float ATTACKING_ENEMY_SCALE_RATIO = 0.65f / SCALE_RATIO;
-    public static final float BACKGROUND_SCALE_RATIO = 0.5f / SCALE_RATIO;
+    public static final float BACKGROUND_SCALE_RATIO = 0.5f / Constants.SCALE_RATIO;
     public static final float BEZIER_BULLET_SCALE_RATIO = 0.7f / SCALE_RATIO;
     public static final float BOSS_SCALE_RATIO = 1.0f / SCALE_RATIO;
-    public static final float BOUNCING_ENEMY_SCALE_RATIO = 0.6f / SCALE_RATIO;
-    public static final float BULLET_SCALE_RATIO = 0.75f / SCALE_RATIO;
+    public static final float BOUNCING_ENEMY_SCALE_RATIO = 0.5f / SCALE_RATIO;
+    public static final float BULLET_SCALE_RATIO = 1.4f / SCALE_RATIO;
     public static final float MINI_UNICORN_SCALE_RATIO = 0.033f / SCALE_RATIO;
     public static final float PROGRESS_BAR_SCALE_RATIO = 0.2f / SCALE_RATIO;
     public static final float RHINO_SCALE_RATIO = 0.55f / SCALE_RATIO;
-    public static final float SHOOTING_BOSS_SCALE_RATIO = 0.6f / SCALE_RATIO;
+    public static final float SHOOTING_BOSS_SCALE_RATIO = 0.5f / SCALE_RATIO;
     public static final float SHOOTING_ENEMY_SCALE_RATIO = 0.55f / SCALE_RATIO;
-    public static final float SPELL_SCALE_RATIO = 0.2f / SCALE_RATIO;
-    public static final float UNICORN_SCALE_RATIO = 0.075f / SCALE_RATIO;
-    public static final float TILE_SCALE_RATIO = 1.0f / SCALE_RATIO;
+    public static final float SPELL_SCALE_RATIO = 0.4f / SCALE_RATIO;
+    public static final float UNICORN_SCALE_RATIO = 0.5f / SCALE_RATIO;
     public static final float STAR_SCALE_RATIO = 0.4f / SCALE_RATIO;
+    public static final float COLORS_PLATFORM_SCALE_RATIO = 0.5f / SCALE_RATIO;
+    public static final float RUNNING_ENEMY_SCALE_RATIO = 0.4f / SCALE_RATIO;
+    public static final float MOTHER_ENEMY_SCALE_RATIO = 0.6f / SCALE_RATIO;
 
+
+    public static final float TILE_SCALE_RATIO = 1.0f / SCALE_RATIO;
     public static final float VIEWPORT_WIDTH = 60.0f;//49.18618, 27.964397
-    public static final float VIEWPORT_HEIGHT = 33.75f;
+    public static final float VIEWPORT_HEIGHT = 37.96875f;
 
     public static final float SCALE_RATIO_X = 800.0f / VIEWPORT_WIDTH;
     public static final float SCALE_RATIO_Y = 480.0f / VIEWPORT_HEIGHT;
@@ -42,7 +48,7 @@ public class Constants {
 
     public static final float ENEMY_WIDTH = 3f;
     public static final float ENEMY_HEIGHT = 4.5f;
-    public static final float ENEMY_X = VIEWPORT_WIDTH - ENEMY_WIDTH;
+    public static final float ENEMY_X = VIEWPORT_WIDTH / 2 - ENEMY_WIDTH;
     public static final float ENEMY_Y = 10.0f;
     public static final float ENEMY_DENSITY = 5.0f;
     public static final float ENEMY_GRAVITY_SCALE = 0.0f;

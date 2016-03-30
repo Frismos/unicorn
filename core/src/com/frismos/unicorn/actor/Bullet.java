@@ -7,9 +7,13 @@ import com.esotericsoftware.spine.AnimationState;
 import com.esotericsoftware.spine.Event;
 import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.enums.ActorDataType;
+import com.frismos.unicorn.manager.TimerRunnable;
+import com.frismos.unicorn.patterns.Subject;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.util.Constants;
+import com.frismos.unicorn.util.Debug;
 import com.frismos.unicorn.util.Strings;
+import com.frismos.unicorn.util.Timer;
 import com.frismos.unicorn.util.Utils;
 
 /**
@@ -17,8 +21,8 @@ import com.frismos.unicorn.util.Utils;
  */
 public class Bullet extends GameActor {
 
-    public static final float SINGLE_BULLET_DAMAGE = 7f;
-    public static final float ENEMY_BULLET_DAMAGE = 1;
+    public static final float SINGLE_BULLET_DAMAGE = 0.5f;
+    public static final float ENEMY_BULLET_DAMAGE = 0.5f;
     public static final float CANNON_BULLET_DAMAGE = 1;
     public static final float AUTO_BULLET_DAMAGE = 0.5f;
 
@@ -35,7 +39,7 @@ public class Bullet extends GameActor {
     protected float directionY = 0.1f;
     public Vector2 destPoint = new Vector2();
 
-    protected boolean isFiring;
+    public boolean isFiring;
     private float changeColorTimer = 0.0f;
     private static final float CHANGE_COLOR_TIME = 0.1f;
     private int nextIndex = 0;
@@ -45,6 +49,11 @@ public class Bullet extends GameActor {
     protected boolean isDestroyed;
 
     public float damage;
+
+    public boolean isHit;
+    public boolean isSubBullet;
+
+    public Subject subject;
 
     private AnimationState.AnimationStateListener bulletDestroyAnimationListener = new AnimationState.AnimationStateListener() {
         @Override
@@ -67,6 +76,7 @@ public class Bullet extends GameActor {
 
         }
     };
+    public boolean mark;
 
     public Bullet(GameStage stage, ActorDataType actorDataType) {
         this(stage, 0, actorDataType);
@@ -76,7 +86,6 @@ public class Bullet extends GameActor {
         this(stage, 0, actorDataType);
         destPoint.x = x;
         destPoint.y = y;
-        destPoint = gameStage.screenToStageCoordinates(destPoint);
         calculateAngle();
     }
 
@@ -99,6 +108,7 @@ public class Bullet extends GameActor {
 //        setColorType(colorType);
         setAngle(angle);
         setUserObject(actorDataType);
+        subject = new Subject();
     }
 
     @Override
@@ -151,10 +161,15 @@ public class Bullet extends GameActor {
         if(isFiring) {
             move(delta);
         }
-        if(isDestroyed ||
-                this.getX() > Constants.VIEWPORT_WIDTH + this.getWidth() || this.getX() < 0 ||
-                this.getY() > Constants.VIEWPORT_HEIGHT * 2 || this.getY() < -Constants.VIEWPORT_HEIGHT) {
+
+        if (this.getX() > Constants.VIEWPORT_WIDTH + this.getWidth() || this.getX() < 0 ||
+                this.getY() > Constants.VIEWPORT_HEIGHT || this.getY() < 0) {
+            isDestroyed = true;
+//            gameStage.unicorn.reset();
+        }
+        if(isDestroyed) {
             isDestroyed = false;
+            isHit = false;
             this.remove(getUserObject() == ActorDataType.ENEMY_BULLET);
         }
     }
@@ -164,7 +179,10 @@ public class Bullet extends GameActor {
     }
 
     public void destroy() {
-        gameStage.collisionDetector.collisionListeners.removeValue(this, false);
+        subject.notifyObservers(Bullet.this);
+        isHit = false;
+        isSubBullet = false;
+        gameStage.collisionDetector.removeListenerActor(Bullet.this);
         isFiring = false;
         skeletonActor.getAnimationState().setAnimation(0, "destroy", false);
         skeletonActor.getAnimationState().removeListener(bulletDestroyAnimationListener);

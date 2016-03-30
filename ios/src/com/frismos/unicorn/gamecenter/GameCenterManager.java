@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplication;
-import com.frismos.unicorn.manager.GameCenterController;
+import com.frismos.unicorn.patterns.GameCenterController;
 import org.robovm.apple.foundation.NSArray;
 import org.robovm.apple.foundation.NSError;
 import org.robovm.apple.foundation.NSErrorUserInfo;

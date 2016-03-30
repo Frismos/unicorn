@@ -7,6 +7,7 @@ import com.esotericsoftware.spine.Bone;
 import com.frismos.TweenAccessor.BoneAccessor;
 import com.frismos.unicorn.enums.ActorDataType;
 import com.frismos.unicorn.enums.ColorType;
+import com.frismos.unicorn.manager.AIManager;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.util.Constants;
 import com.frismos.unicorn.util.Strings;
@@ -16,9 +17,8 @@ import com.frismos.unicorn.util.Strings;
  */
 public class ShootingEnemy extends Enemy {
 
-    protected float TIME_STEP = 4f;
-    protected float accumulator = TIME_STEP;
-    protected float FIRE_CHANCE = 90;
+    protected float accumulator = 2;
+    protected float FIRE_CHANCE = 80;
     private boolean fire = false;
     private Bullet bullet;
 
@@ -28,8 +28,9 @@ public class ShootingEnemy extends Enemy {
 
     public ShootingEnemy(GameStage stage, ColorType colorType, boolean isTutorial) {
         super(stage, colorType, isTutorial);
-        hitPoints = 1;
-//        showProgressBar();
+        maxHitPoints = hitPoints = AIManager.SHOOTING_ENEMY_HP;
+        showProgressBar();
+        TIME_STEP = 2.0f;
     }
 
     @Override
@@ -47,36 +48,30 @@ public class ShootingEnemy extends Enemy {
     public void attack() {
         if(isAttacking) {
             if (!(gameStage.boss != null && !isSonOfABoss) || this instanceof Boss) {
-                if (!isSonOfABoss) {
-                    spawnPoint.x = gameStage.unicorn.tile.getX() + gameStage.grid.tileWidth / 2;
-                    spawnPoint.y = MathUtils.random(gameStage.unicorn.getY(), gameStage.unicorn.getY() + gameStage.unicorn.getHeight());
-                }
+                spawnPoint.x = gameStage.unicorn.getX();
+                spawnPoint.y = MathUtils.random(gameStage.unicorn.getY(), gameStage.unicorn.getY() + gameStage.unicorn.getHeight());
+
                 if (!(this instanceof Boss)) {
-                    Bone gunBone = skeletonActor.getSkeleton().findBone("gun");
+                    Bone gunBone = skeletonActor.getSkeleton().findBone("iron-man");
                     skeletonActor.getAnimationState().setAnimation(1, "attack", false);
                     float angle = (float) Math.toDegrees(Math.atan2(spawnPoint.x - gunBone.getWorldX() - getX(), spawnPoint.y - gunBone.getWorldY() - getY()));
                     angle = 90 - angle;
 
-                    if (!isSonOfABoss) {
-                        RotateByAction rotateByAction = new RotateByAction();
-//                        rotateByAction.
-                        gunBone.setRotation(angle);
-                        Tween.to(gunBone, BoneAccessor.ROTATION, 0.5f).targetRelative(-angle + 180).start(gameStage.game.tweenManager);
-                    }
+                    gunBone.setRotation(angle);
+                    Tween.to(gunBone, BoneAccessor.ROTATION, 0.5f).targetRelative(-angle + 180).start(gameStage.game.tweenManager);
+
                 }
                 fire = true;
-                if (!isSonOfABoss) {
-                    spawnPoint = gameStage.stageToScreenCoordinates(spawnPoint);
-                }
 
                 bullet = new Bullet(gameStage, spawnPoint.x, spawnPoint.y, ActorDataType.ENEMY_BULLET);
                 bullet.setColorType(ColorType.RAINBOW);
-//            bullet.p0 = new Vector2(bullet.getX(), bullet.getY());
-//            bullet.p3 = new Vector2(bullet.destPoint.x, bullet.destPoint.y);
-//            bullet.p1 = new Vector2(bullet.getX() - 3, bullet.getY() + 10);
-//            bullet.p2 = new Vector2((bullet.getX() - bullet.destPoint.x) / 4 + bullet.destPoint.x, bullet.destPoint.y + 10);
             }
         }
+    }
+
+    @Override
+    public void wallAttackingAnimation() {
+
     }
 
     @Override
@@ -92,23 +87,21 @@ public class ShootingEnemy extends Enemy {
     @Override
     public void act(float delta) {
         super.act(delta);
-        if(isAttacking) {
+        if(isAttacking && !isEating && !isWaiting) {
             if(fire) {
                 fire = false;
                 bullet.fire();
-                gameStage.collisionDetector.collisionListeners.add(bullet);
+                gameStage.collisionDetector.addListener(bullet);
                 gameStage.addActor(bullet);
-                float offsetX = getWidth() * getScaleX() / 2;
-                float offsetY = getHeight() * getScaleY() / 2;
-                if(!(this instanceof Boss)) {
-                    offsetX = skeletonActor.getSkeleton().findBone("bullet-spawn").getWorldX();
-                    offsetY = skeletonActor.getSkeleton().findBone("bullet-spawn").getWorldY();
-                }
+                float offsetX = skeletonActor.getSkeleton().findBone("center-spawn").getWorldX();
+                float offsetY = skeletonActor.getSkeleton().findBone("center-spawn").getWorldY();
+
                 bullet.setX(getX() + offsetX);
                 bullet.setY(getY() + offsetY);
                 bullet.calculateAngle();
             }
-            if(getX() < gameStage.background.getWidth() + gameStage.background.getZero().x - gameStage.grid.tileWidth) {
+            float startX = this instanceof Boss ? getX() : getX() + getWidth();
+            if(startX < gameStage.background.getWidth() + gameStage.background.getZero().x) {
                 if (!gameStage.game.tutorialManager.isTutorialMode || !gameStage.game.tutorialManager.pauseGame) {
                     accumulator += delta;
                     if (accumulator >= TIME_STEP) {

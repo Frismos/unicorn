@@ -1,77 +1,50 @@
 package com.frismos.unicorn.manager;
 
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ObjectMap;
-import com.frismos.unicorn.util.Debug;
+import com.frismos.unicorn.util.Timer;
 
 /**
  * Created by edgaravanyan on 2/2/16.
  */
 public class TimerManager implements Updatable{
 
-    private Array<Float> timeStepArray;
-    private Array<Float> timerArray;
-    private Array<Integer> removeIndexArray;
-    private Array<Integer> removeIndexes;
-    private ObjectMap<Float, Runnable> runnableMap;
+    private Array<Timer> timers = new Array<>();
+    private Array<Timer> removeTimers = new Array<>();
 
     public TimerManager() {
-        timeStepArray = new Array<>();
-        timerArray = new Array<>();
-        runnableMap = new ObjectMap<>();
-        removeIndexArray = new Array<>();
-        removeIndexes = new Array<>();
+
     }
 
     public void reset() {
-        timeStepArray.clear();
-        timerArray.clear();
-        runnableMap.clear();
+        timers.clear();
     }
 
-    public void run(float timeStep, Runnable runnable) {
-        timerArray.add(0.0f);
-        timeStepArray.add(timeStep);
-        runnableMap.put(timeStep, runnable);
-        removeIndexArray.add(timeStepArray.size - 1);
-        Debug.Log("timer run method: " + timerArray.size);
+    public Timer run(float timeStep, TimerRunnable runnable) {
+        timers.add(new Timer(timeStep, runnable, false));
+        return timers.get(timers.size - 1);
     }
 
-    public void loop(float timeStep, Runnable runnable) {
-        timerArray.add(0.0f);
-        timeStepArray.add(timeStep);
-        runnableMap.put(timeStep, runnable);
+    public Timer loop(float timeStep, TimerRunnable runnable) {
+        timers.add(new Timer(timeStep, runnable, true));
+        return timers.get(timers.size - 1);
     }
 
-    public void removeTimer(float timeStep) {
-        removeIndexArray.removeIndex(timeStepArray.indexOf(timeStep, true));
-        runnableMap.remove(timeStep);
-        timerArray.removeIndex(timeStepArray.indexOf(timeStep, true));
-        timeStepArray.removeValue(timeStep, true);
+    public void removeTimer(Timer timer) {
+        timers.removeValue(timer, false);
     }
 
     @Override
     public void update(float delta) {
-        for (int i = 0; i < timerArray.size; i++) {
-            if(timerArray.get(i) + delta >= timeStepArray.get(i)) {
-                runnableMap.get(timeStepArray.get(i)).run();
-                if(removeIndexArray.contains(i, true)) {
-                    removeIndexes.add(i);
-                    removeIndexArray.removeValue(i, true);
-                } else {
-                    timerArray.set(i, 0.0f);
-                }
+        for(int i = 0; i < timers.size; i++) {
+            if(timers.get(i).isCompleted) {
+                removeTimers.add(timers.get(i));
             } else {
-                timerArray.set(i, timerArray.get(i) + delta);
+                timers.get(i).update(delta);
             }
         }
-        for (int i = 0; i < removeIndexes.size; i++) {
-            Debug.Log("removed timer time step: " + timeStepArray.get(removeIndexes.get(i)));
-            Debug.Log("timers size: " + timeStepArray.size);
-            runnableMap.remove(timeStepArray.get(removeIndexes.get(i)));
-            timerArray.removeIndex(removeIndexes.get(i));
-            timeStepArray.removeIndex(removeIndexes.get(i));
+        for (int i = 0; i < removeTimers.size; i++) {
+            timers.removeValue(removeTimers.get(i), false);
         }
-        removeIndexes.clear();
+        removeTimers.clear();
     }
 }

@@ -18,7 +18,6 @@ import com.frismos.unicorn.util.Debug;
  */
 public class AtlasManager {
 
-
     private SkeletonRenderer skeletonRenderer;
 
     private ObjectMap<Class, SkeletonData> skeletonDatas = new ObjectMap<>();

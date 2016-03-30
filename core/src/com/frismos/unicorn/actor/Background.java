@@ -1,5 +1,6 @@
 package com.frismos.unicorn.actor;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.frismos.unicorn.spine.SpineActor;
 import com.frismos.unicorn.stage.GameStage;
@@ -9,22 +10,25 @@ import com.frismos.unicorn.util.Constants;
  * Created by edgaravanyan on 10/19/15.
  */
 
-public class Background extends SpineActor {
+public abstract class Background extends SpineActor {
 
     private Vector2 zero;
 
+    private TopLayer topLayer;
+
     public Background(GameStage stage) {
         super(stage);
+        String filePath = String.format("gfx/%s/top.atlas", path);
+        if(Gdx.files.internal(filePath).exists()) {
+            topLayer = new TopLayer(gameStage, path, scaleRatio);
+            topLayer.skeletonActor.getAnimationState().setAnimation(0, "animation", true);
+            gameStage.addActor(topLayer);
+        }
     }
 
     @Override
     protected void startDefaultAnimation() {
         skeletonActor.getAnimationState().setAnimation(0, "animation", true);
-    }
-
-    @Override
-    protected void setResourcesPath() {
-        path = "background";
     }
 
     @Override

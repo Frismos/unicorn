@@ -32,6 +32,7 @@ public class Strings {
     public static final String RAINBOW_SPELL = "@powers/rainbow";
     public static final String UNICORN_SPELL = "@powers/unicorn";
     public static final String HEALTH_SPELL = "@powers/heal";
+    public static final String COMPLETE_DIALOG = "@dialog";
 
     private StringBuilder builder;
 

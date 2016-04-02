@@ -259,7 +259,7 @@ public abstract class Enemy extends Creature {
     public void die(AnimationState.AnimationStateListener dieListener) {
         if(!isDead) {
             gameStage.score++;
-            gameStage.game.uiScreen.stage.scoreLabel.setText(java.lang.String.format("score: %d", gameStage.score));
+            gameStage.scoreLabel.setText(java.lang.String.format("score: %d", gameStage.score));
             if(gameStage.game.aiManager.enemies.size == 0) {
                 if(!(this instanceof Boss) && !(this instanceof BossSon) && gameStage.boss == null) {
                     gameStage.game.aiManager.sendEnemy(gameStage.game.aiManager.currentIndex);
@@ -325,12 +325,7 @@ public abstract class Enemy extends Creature {
             } else if(isTutorialEnemy) {
                 gameStage.game.tutorialManager.removeArrow();
             }
-            gameStage.game.timerManager.run(0.3f, new TimerRunnable() {
-                @Override
-                public void run(Timer timer) {
-                    gameStage.collisionDetector.removeListenerActor(Enemy.this);
-                }
-            });
+            gameStage.collisionDetector.removeListenerActor(this);
             gameStage.unicorn.removePositionChangeListener(this);
             if(gameStage.boss == null && !gameStage.game.tutorialManager.isTutorialMode) {
                 gameStage.deadEnemyCounter++;

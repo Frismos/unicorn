@@ -3,7 +3,6 @@ package com.frismos.unicorn.stage;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -62,7 +61,6 @@ import com.frismos.unicorn.patterns.AttackCommand;
 import com.frismos.unicorn.spine.SpineActor;
 import com.frismos.unicorn.util.BodyUtils;
 import com.frismos.unicorn.util.Constants;
-import com.frismos.unicorn.util.Debug;
 import com.frismos.unicorn.util.Strings;
 import com.frismos.unicorn.util.Timer;
 import com.frismos.unicorn.util.Utils;
@@ -76,9 +74,11 @@ import aurelienribon.tweenengine.TweenCallback;
 /**
  * Created by edgaravanyan on 10/12/15.
  */
-public class GameStage extends SimpleStage {
+public class GameStage extends Stage {
 
+    public Label scoreLabel;
     public ColorsPlatform colorsPlatform;
+    public UnicornGame game;
 
     public Image changeUnicornType;
     public Grid grid;
@@ -158,6 +158,7 @@ public class GameStage extends SimpleStage {
     public Array<Integer> colorIndices = new Array<>();
 
     public int score = 0;
+    public Label comboLabel;
 
     private int colorRowsLength;
 
@@ -260,6 +261,21 @@ public class GameStage extends SimpleStage {
 //            colorIndices.add(i);
 //        }
 
+        BitmapFont font = game.fontsManager.getFont(20);
+        Label.LabelStyle style = new Label.LabelStyle(font, Color.WHITE);
+
+        comboLabel = new Label("combo: 0", style);
+        comboLabel.setFontScale(0.2f);
+        comboLabel.setSize(14, 3);
+        comboLabel.setPosition(Constants.VIEWPORT_WIDTH / 2 - 7, background.getZero().y + background.getHeight() - comboLabel.getHeight() / 3);
+        addActor(comboLabel);
+
+        scoreLabel = new Label("score: 0", style);
+        scoreLabel.setFontScale(0.1f);
+        scoreLabel.setSize(14, 3);
+        scoreLabel.setPosition(4.6875f, background.getZero().y + background.getHeight());
+        addActor(scoreLabel);
+
         joystick = new Image(game.atlasManager.get("gfx/joystick.png", Texture.class));
         joystick.setScale(0.0075f);
         joystickX = getWidth() - joystick.getWidth() * joystick.getScaleX() * 4;
@@ -309,19 +325,22 @@ public class GameStage extends SimpleStage {
 //        getCamera().viewportHeight -= 0.2f;
 
         game.aiManager.setGameStage(this);
+//        sendWave(WaveType.WALKING);
         game.aiManager.sendWaves(0);
-        game.soundManager.playMusic();
+
+        game.music.play();
+//        addActor(game.pic);
     }
 
     public void restartGame() {
-        game.soundManager.reset();
-        game.soundManager.sounds.get(game.soundManager.currentSoundId).stop(game.soundManager.currentSoundId);
+        game.music.stop();
         game.restartGame = true;
         initConstants();
         game.timerManager.reset();
         game.tutorialManager = new TutorialManager(game);
         this.clear();
         game.aiManager.reset();
+        game.create();
     }
 
     private void initConstants() {
@@ -807,9 +826,6 @@ public class GameStage extends SimpleStage {
         public void hitEnemy(final Bullet bullet, Enemy enemy) {
             if ((enemy.colorType == bullet.colorType || bullet.colorType == ColorType.RAINBOW) && enemy.isAttacking() && !bullet.isHit) {
                 enemy.hit(bullet.damage + unicorn.combo, bullet);
-            }
-            if(!enemy.isAttacking()) {
-                bullet.isHit = true;
             }
             if(!bullet.mark) {
                 bullet.mark = true;

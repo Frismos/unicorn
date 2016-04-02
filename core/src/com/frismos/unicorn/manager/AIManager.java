@@ -1,25 +1,15 @@
 package com.frismos.unicorn.manager;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.AudioDevice;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
-import com.frismos.TweenAccessor.MusicAccessor;
 import com.frismos.unicorn.actor.Enemy;
 import com.frismos.unicorn.enums.BossType;
 import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.enums.WaveType;
 import com.frismos.unicorn.stage.GameStage;
-import com.frismos.unicorn.util.Debug;
 import com.frismos.unicorn.util.SendingPattern;
 import com.frismos.unicorn.util.Timer;
-
-import aurelienribon.tweenengine.BaseTween;
-import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenCallback;
 
 /**
  * Created by eavanyan on 2/9/16.
@@ -83,7 +73,6 @@ public class AIManager {
         patternIndex = patterns.size;
         isPattern = false;
         sentEnemiesCount = 0;
-        enemyTypeIndex = 0;
 
         WALKING_ENEMY_HP += level * 0.5f;
         RUNNING_ENEMY_HP += level * 0.5f;
@@ -243,8 +232,9 @@ public class AIManager {
                 int sendIndex = index;
                 if(globalWaveIndex % 2 == 0) {
                     enemyTypeIndex--;
+                    sendIndex--;
                 }
-                sendIndex--;
+                globalWaveIndex++;
                 addWaveType(sendIndex);
             }
         });
@@ -257,7 +247,7 @@ public class AIManager {
     }
 
     public void nextLevel() {
-        if(timeArray.size == 0 && globalWaveIndex % 2 == 0) {
+        if(timeArray.size == 0) {
             gameStage.sendBoss(BossType.SHOOTING);
             init(++level);
         } else {
@@ -265,52 +255,15 @@ public class AIManager {
                 sendTimeArray.set(sendTimeArray.size - 1, 2f);
                 sendTimeArray.set(0, sendTimeArray.get(0) - 3.5f);
             }
-            if(globalWaveIndex % 2 == 0) {
-                sendTimeArray.add(timeArray.removeIndex(0));
-                timeStepArray.add(timeArray.removeIndex(0));
-            }
-            globalWaveIndex++;
-//            if(globalWaveIndex == 3) {//making music transition from slow to medium
-//                final Music slowMusic = gameStage.game.soundManager.currentPlayingMusic;
-//                gameStage.game.soundManager.playMusic("Music_Transition", Sound.class, true);
-//                gameStage.game.soundManager.playMusic("Color_Pony_Game_Music_Medium_", Music.class, true);
-//                gameStage.game.soundManager.currentPlayingMusic.setVolume(0);
-//                gameStage.game.soundManager.addActionToMusic(slowMusic, 0, 1.5f, new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        slowMusic.stop();
-//                    }
-//                });
-//                gameStage.game.soundManager.addActionToMusic(gameStage.game.soundManager.currentPlayingMusic, 1.0f, 1.5f, new Runnable() {
-//                    @Override
-//                    public void run() {
-//                    }
-//                });
-//            } else if(globalWaveIndex == 5) {//making music transition from medium to fast
-//                final Music mediumMusic = gameStage.game.soundManager.currentPlayingMusic;
-//                gameStage.game.soundManager.playMusic("Music_Transition", Sound.class, true);
-//                gameStage.game.soundManager.playMusic("Color_Pony_Game_Music_Fast_", Music.class, true);
-//                gameStage.game.soundManager.currentPlayingMusic.setVolume(0);
-//                gameStage.game.soundManager.addActionToMusic(mediumMusic, 0, 1.5f, new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        mediumMusic.stop();
-//                    }
-//                });
-//                gameStage.game.soundManager.addActionToMusic(gameStage.game.soundManager.currentPlayingMusic, 1.0f, 1.5f, new Runnable() {
-//                    @Override
-//                    public void run() {
-//                    }
-//                });
-//
-//            }
+            sendTimeArray.add(timeArray.removeIndex(0));
+            timeStepArray.add(timeArray.removeIndex(0));
+
             enemyTypeIndex = timeStepArray.size - 1;
             sendWaves(enemyTypeIndex);
         }
     }
 
     public void reset() {
-        globalWaveIndex = 0;
         sendTimeArray.clear();
         timeStepArray.clear();
         timers.clear();

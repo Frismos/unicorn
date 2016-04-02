@@ -1,6 +1,7 @@
 package com.frismos.unicorn.actor;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.Array;
@@ -14,6 +15,7 @@ import com.frismos.unicorn.enums.UnicornType;
 import com.frismos.unicorn.grid.Tile;
 import com.frismos.unicorn.manager.TimerRunnable;
 import com.frismos.unicorn.stage.GameStage;
+import com.frismos.unicorn.ui.CompleteDialog;
 import com.frismos.unicorn.util.Timer;
 import com.frismos.unicorn.util.Utils;
 
@@ -128,7 +130,7 @@ public abstract class MainCharacter extends Creature implements Observer {
 
     @Override
     protected void startDefaultAnimation() {
-//        skeletonActor.getAnimationState().setAnimation(0, "idle", true); TODO uncomment this when animation is ready
+        skeletonActor.getAnimationState().setAnimation(0, "idle", true);
     }
 
     public void setUnicornType(UnicornType unicornType) {
@@ -285,13 +287,16 @@ public abstract class MainCharacter extends Creature implements Observer {
     }
 
     public void die() {
-        gameStage.stopGame = true;
-        addAction(Actions.delay(0.3f, Actions.run(new Runnable() {
-            @Override
-            public void run() {
-                gameStage.restartGame = true;
-            }
-        })));
+        if(!gameStage.stopGame) {
+            gameStage.stopGame = true;
+//            addAction(Actions.delay(0.3f, Actions.run(new Runnable() {
+//                @Override
+//                public void run() {
+                    CompleteDialog dialog = new CompleteDialog(gameStage.game.uiScreen.stage);
+                    gameStage.game.uiScreen.stage.addActor(dialog);
+//                }
+//            })));
+        }
     }
 
     public void regenerate() {
@@ -343,7 +348,7 @@ public abstract class MainCharacter extends Creature implements Observer {
         if(combo < 50) {
             this.combo += COMBO_VALUE;
             combo = (int)(this.combo / COMBO_VALUE);
-            gameStage.comboLabel.setText(String.format("combo x%d", combo));
+            gameStage.game.uiScreen.stage.comboLabel.setText(String.format("combo x%d", combo));
             if (combo >= 50) {
                 bulletsToShootCount = 3;
 //            } else if (combo >= 50) {
@@ -377,7 +382,7 @@ public abstract class MainCharacter extends Creature implements Observer {
             this.combo = COMBO_VALUE;
         }
         combo = (int)(this.combo / COMBO_VALUE);
-        gameStage.comboLabel.setText(String.format("combo x%d", combo));
+        gameStage.game.uiScreen.stage.comboLabel.setText(String.format("combo x%d", combo));
         if(combo >= 50) {
             bulletsToShootCount = 3;
 //        } else if(combo >= 40) {

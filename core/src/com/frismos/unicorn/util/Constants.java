@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class Constants {
 
-    //0:0 point is 4.6875:2
+    //0:0 point is 4.6875:2    1924x1219
 
     public static final float SCALE_RATIO = 32.0f;
     public static final float WALKING_ENEMY_SCALE_RATIO = 0.65f / SCALE_RATIO;
@@ -23,7 +23,7 @@ public class Constants {
     public static final float SHOOTING_BOSS_SCALE_RATIO = 0.5f / SCALE_RATIO;
     public static final float SHOOTING_ENEMY_SCALE_RATIO = 0.55f / SCALE_RATIO;
     public static final float SPELL_SCALE_RATIO = 0.4f / SCALE_RATIO;
-    public static final float UNICORN_SCALE_RATIO = 0.5f / SCALE_RATIO;
+    public static final float UNICORN_SCALE_RATIO = 0.7f / SCALE_RATIO;
     public static final float STAR_SCALE_RATIO = 0.4f / SCALE_RATIO;
     public static final float COLORS_PLATFORM_SCALE_RATIO = 0.5f / SCALE_RATIO;
     public static final float RUNNING_ENEMY_SCALE_RATIO = 0.4f / SCALE_RATIO;

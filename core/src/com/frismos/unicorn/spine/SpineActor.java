@@ -1,9 +1,11 @@
 package com.frismos.unicorn.spine;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.esotericsoftware.spine.AnimationStateData;
 import com.esotericsoftware.spine.SkeletonBounds;
 import com.esotericsoftware.spine.SkeletonData;
@@ -11,7 +13,11 @@ import com.esotericsoftware.spine.SkeletonJson;
 import com.esotericsoftware.spine.utils.SkeletonActor;
 import com.frismos.unicorn.actor.Background;
 import com.frismos.unicorn.actor.MainCharacter;
+import com.frismos.unicorn.manager.AtlasManager;
 import com.frismos.unicorn.stage.GameStage;
+import com.frismos.unicorn.stage.SimpleStage;
+import com.frismos.unicorn.stage.UIStage;
+import com.frismos.unicorn.ui.CompleteDialog;
 import com.frismos.unicorn.util.Debug;
 
 /**
@@ -28,20 +34,22 @@ public abstract class SpineActor extends Actor {
 
     public Polygon bounds;
 
-    public SpineActor(GameStage stage) {
-        gameStage = stage;
+    public SpineActor(SimpleStage stage) {
+        if(stage instanceof GameStage) {
+            gameStage = (GameStage)stage;
+        }
 
         setResourcesPath();
         setScaleRatio();
 //        Class type = getType();
         String filePath = String.format("gfx/%s.atlas", path.contains("@") ? "@atlas/pack" : path.contains("bg") ? String.format("%s/bot", path) : String.format("%s/skeleton", path));
-        SkeletonJson skeletonJson = gameStage.game.atlasManager.getSkeletonJson(this.getClass(), filePath);
+        SkeletonJson skeletonJson = stage.game.atlasManager.getSkeletonJson(this.getClass(), filePath);
         skeletonJson.setScale(scaleRatio);
         filePath = path.contains("bg") ? String.format("gfx/%s/bot.json", path) : String.format("gfx/%s/skeleton.json", path);
-        SkeletonData skeletonData = gameStage.game.atlasManager.getSkeletonData(this.getClass(), filePath, skeletonJson);
-        AnimationStateData animationStateData = gameStage.game.atlasManager.getAnimationStateData(this.getClass(), skeletonData);
+        SkeletonData skeletonData = stage.game.atlasManager.getSkeletonData(this.getClass(), filePath, skeletonJson);
+        AnimationStateData animationStateData = stage.game.atlasManager.getAnimationStateData(this.getClass(), skeletonData);
 
-        skeletonActor = gameStage.game.atlasManager.getSkeletonActor(skeletonData, animationStateData);
+        skeletonActor = stage.game.atlasManager.getSkeletonActor(skeletonData, animationStateData);
         calculateSize();
 //        animationState.setTimeScale(MathUtils.random(.4f,.8f));
     }
@@ -51,22 +59,29 @@ public abstract class SpineActor extends Actor {
         skeletonBounds.update(skeletonActor.getSkeleton(), true);
         if(skeletonBounds.getBoundingBoxes().size > 0) {
 
+            int index = 0;
+            if(this instanceof CompleteDialog) {
+                index = 1;
+                for (int i = 0; i < skeletonBounds.getBoundingBoxes().size; i ++) {
+                    Debug.log("name = " + skeletonBounds.getBoundingBoxes().get(i).getName());
+                }
+            }
             float maxX = Float.MIN_VALUE;
             float maxY = Float.MIN_VALUE;
             float minX = Float.MAX_VALUE;
             float minY = Float.MAX_VALUE;
-            for (int i = 0; i < skeletonBounds.getBoundingBoxes().get(0).getVertices().length; i += 2) {
-                if (maxX < skeletonBounds.getBoundingBoxes().get(0).getVertices()[i]) {
-                    maxX = skeletonBounds.getBoundingBoxes().get(0).getVertices()[i];
+            for (int i = 0; i < skeletonBounds.getBoundingBoxes().get(index).getVertices().length; i += 2) {
+                if (maxX < skeletonBounds.getBoundingBoxes().get(index).getVertices()[i]) {
+                    maxX = skeletonBounds.getBoundingBoxes().get(index).getVertices()[i];
                 }
-                if (maxY < skeletonBounds.getBoundingBoxes().get(0).getVertices()[i + 1]) {
-                    maxY = skeletonBounds.getBoundingBoxes().get(0).getVertices()[i + 1];
+                if (maxY < skeletonBounds.getBoundingBoxes().get(index).getVertices()[i + 1]) {
+                    maxY = skeletonBounds.getBoundingBoxes().get(index).getVertices()[i + 1];
                 }
-                if (minX > skeletonBounds.getBoundingBoxes().get(0).getVertices()[i]) {
-                    minX = skeletonBounds.getBoundingBoxes().get(0).getVertices()[i];
+                if (minX > skeletonBounds.getBoundingBoxes().get(index).getVertices()[i]) {
+                    minX = skeletonBounds.getBoundingBoxes().get(index).getVertices()[i];
                 }
-                if (minY > skeletonBounds.getBoundingBoxes().get(0).getVertices()[i + 1]) {
-                    minY = skeletonBounds.getBoundingBoxes().get(0).getVertices()[i + 1];
+                if (minY > skeletonBounds.getBoundingBoxes().get(index).getVertices()[i + 1]) {
+                    minY = skeletonBounds.getBoundingBoxes().get(index).getVertices()[i + 1];
                 }
 
             }

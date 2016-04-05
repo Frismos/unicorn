@@ -24,6 +24,7 @@ public class ColorsPlatform extends SpineActor {
 
     public ColorsPlatform(GameStage stage) {
         super(stage);
+        skeletonActor.getSkeleton().setSkin("1");
         skeletonActor.getSkeleton().getRootBone().setScale(gameStage.background.getHeight() / getHeight());
         setSize(getWidth() * skeletonActor.getSkeleton().getRootBone().getScaleX(), getHeight() * skeletonActor.getSkeleton().getRootBone().getScaleY());
         positions = new Array<>();
@@ -32,16 +33,16 @@ public class ColorsPlatform extends SpineActor {
         skeletonActor.getSkeleton().updateWorldTransform();
         for (int i = 0; i < 3; i++) {
             Bone positionBone = skeletonActor.getSkeleton().findBone("pose" + i);
-            positions.add(new Vector2(getWidth() / 2 - 1 + getX(), positionBone.getWorldY() + getY()));
+            positions.add(new Vector2(positionBone.getWorldX() + getX(), positionBone.getWorldY() + getY()));
 
             Array<Slot> tubeArray = new Array<>();
             tubeArray.add(skeletonActor.getSkeleton().findSlot(String.format("shine%d", i)));
-            tubeArray.add(skeletonActor.getSkeleton().findSlot(String.format("shine%dbot", i)));
+//            tubeArray.add(skeletonActor.getSkeleton().findSlot(String.format("shine%dbot", i)));
             tubes.put(ColorType.values()[i], tubeArray);
             Utils.colorSlot(tubeArray.get(0), ColorType.values()[i]);
-            Utils.colorSlot(tubeArray.get(1), ColorType.values()[i]);
+//            Utils.colorSlot(tubeArray.get(1), ColorType.values()[i]);
             tubes.get(ColorType.values()[i]).get(0).getColor().a = 0;
-            tubes.get(ColorType.values()[i]).get(1).getColor().a = 0;
+//            tubes.get(ColorType.values()[i]).get(1).getColor().a = 0;
         }
 
         Utils.colorPlatform(this);
@@ -65,10 +66,10 @@ public class ColorsPlatform extends SpineActor {
     public void setColorType(ColorType colorType) {
         if(currentTubes.size > 0) {
             currentTubes.get(0).getColor().a = 0;
-            currentTubes.get(1).getColor().a = 0;
+//            currentTubes.get(1).getColor().a = 0;
         }
         currentTubes = tubes.get(colorType);
         currentTubes.get(0).getColor().a = 1;
-        currentTubes.get(1).getColor().a = 1;
+//        currentTubes.get(1).getColor().a = 1;
     }
 }

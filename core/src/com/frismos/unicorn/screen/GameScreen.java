@@ -10,7 +10,7 @@ import com.frismos.unicorn.util.Debug;
  */
 public class GameScreen extends ScreenAdapter {
 
-    private GameStage stage;
+    public GameStage stage;
     public UnicornGame game;
 
     public GameScreen(UnicornGame game) {

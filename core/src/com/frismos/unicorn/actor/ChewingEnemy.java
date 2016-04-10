@@ -1,5 +1,6 @@
 package com.frismos.unicorn.actor;
 
+import com.esotericsoftware.spine.AnimationState;
 import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.util.Constants;
@@ -40,5 +41,15 @@ public class ChewingEnemy extends WalkingEnemy {
         bullet.isHit = true;
         bullet.remove(false);
         skeletonActor.getAnimationState().setAnimation(1, "chewing", false);
+        skeletonActor.getAnimationState().addListener(new AnimationState.AnimationStateAdapter() {
+            @Override
+            public void complete(int trackIndex, int loopCount) {
+                if(trackIndex==1) {
+                    skeletonActor.getAnimationState().setAnimation(1, "free", false);
+                    skeletonActor.getAnimationState().removeListener(this);
+                }
+                super.complete(trackIndex, loopCount);
+            }
+        });
     }
 }

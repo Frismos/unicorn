@@ -20,6 +20,7 @@ import com.frismos.unicorn.manager.TimerRunnable;
 import com.frismos.unicorn.manager.TutorialManager;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.util.Debug;
+import com.frismos.unicorn.util.Strings;
 import com.frismos.unicorn.util.Timer;
 import com.frismos.unicorn.util.Utils;
 
@@ -175,10 +176,13 @@ public abstract class Enemy extends Creature {
         if(isSonOfABoss) {
             moveSpeed = GameStage._ENEMY_MOVE_SPEED;
         }
-        moveSpeed = 1;//INITIAL_MOVE_SPEED + stage.unicorn.getCombo() / 10.0f;//// TODO: 4/10/16  
+        moveSpeed = INITIAL_MOVE_SPEED + stage.unicorn.getCombo() / 10.0f;
         skeletonActor.getAnimationState().setTimeScale(moveSpeed * 0.3f);
         setUserObject(ActorDataType.ENEMY);
+
+
         shadow = new Shadow(gameStage, this);
+
         skeletonActor.getSkeleton().getRootBone().setScale(MathUtils.random(0.95f, 1.05f));
 
         for(int i = 0; i < skeletonActor.getSkeleton().getBones().size; i++) {
@@ -369,7 +373,7 @@ public abstract class Enemy extends Creature {
     protected void positionChanged() {
         super.positionChanged();
         if (shadow != null) {
-            shadow.setPosition(getX(), getY() - shadow.getHeight() / 3);
+            shadow.setPosition(getX()-getWidth()*.6f/2, getY() - shadow.getHeight() / 3);
         }
     }
 

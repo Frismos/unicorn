@@ -89,15 +89,15 @@ bullets/simple/1
   offset: 1, 9
   index: -1
 bullets/simple/2
-  rotate: false
-  xy: 2742, 125
+  rotate: true
+  xy: 3679, 164
   size: 74, 68
   orig: 74, 68
   offset: 0, 0
   index: -1
 bullets/simple/3
   rotate: false
-  xy: 3821, 126
+  xy: 3742, 80
   size: 72, 59
   orig: 74, 68
   offset: 0, 8
@@ -110,8 +110,8 @@ effects/bomb-explosion/explosion-0001
   offset: 15, 12
   index: -1
 effects/bomb-explosion/explosion-0002
-  rotate: false
-  xy: 3714, 77
+  rotate: true
+  xy: 3522, 19
   size: 29, 31
   orig: 51, 48
   offset: 11, 6
@@ -125,14 +125,14 @@ effects/bomb-explosion/explosion-0003
   index: -1
 effects/bomb-explosion/explosion-0004
   rotate: false
-  xy: 3977, 127
+  xy: 3899, 49
   size: 37, 37
   orig: 51, 48
   offset: 8, 3
   index: -1
 effects/bomb-explosion/explosion-0005
   rotate: true
-  xy: 3919, 86
+  xy: 3977, 91
   size: 38, 37
   orig: 51, 48
   offset: 8, 2
@@ -145,15 +145,15 @@ effects/bomb-explosion/explosion-0006
   offset: 5, 2
   index: -1
 effects/bomb-explosion/explosion-0007
-  rotate: false
-  xy: 3936, 127
+  rotate: true
+  xy: 3993, 173
   size: 39, 37
   orig: 51, 48
   offset: 6, 4
   index: -1
 effects/bomb-explosion/explosion-0008
   rotate: true
-  xy: 3895, 126
+  xy: 3947, 131
   size: 38, 39
   orig: 51, 48
   offset: 7, 3
@@ -167,14 +167,14 @@ effects/bomb-explosion/explosion-0009
   index: -1
 effects/bomb-explosion/explosion-0010
   rotate: true
-  xy: 3934, 292
+  xy: 3949, 171
   size: 41, 42
   orig: 51, 48
   offset: 6, 2
   index: -1
 effects/bomb-explosion/explosion-0011
   rotate: false
-  xy: 3878, 85
+  xy: 3936, 90
   size: 39, 39
   orig: 51, 48
   offset: 5, 6
@@ -188,21 +188,21 @@ effects/bullet-explosion/1
   index: -1
 effects/bullet-explosion/2
   rotate: false
-  xy: 3714, 12
+  xy: 3958, 291
   size: 53, 54
   orig: 61, 66
   offset: 2, 0
   index: -1
 effects/bullet-explosion/3
   rotate: true
-  xy: 3745, 68
+  xy: 3555, 2
   size: 62, 67
   orig: 66, 71
   offset: 0, 0
   index: -1
 effects/bullet-explosion/4
-  rotate: true
-  xy: 3492, 4
+  rotate: false
+  xy: 3679, 240
   size: 68, 81
   orig: 73, 82
   offset: 0, 1
@@ -258,7 +258,7 @@ effects/fatality/F12
   index: -1
 effects/fatality/f1
   rotate: false
-  xy: 3562, 177
+  xy: 3111, 5
   size: 83, 53
   orig: 83, 53
   offset: 0, 0
@@ -362,8 +362,8 @@ effects/slime-explosion/destroy-0001
   offset: 135, 32
   index: -1
 effects/slime-explosion/destroy-0002
-  rotate: false
-  xy: 3488, 173
+  rotate: true
+  xy: 3111, 60
   size: 72, 100
   orig: 252, 255
   offset: 118, 32
@@ -467,8 +467,8 @@ effects/slime-explosion/destroy-0016
   offset: 84, 21
   index: -1
 effects/slime-explosion/destroy-0017
-  rotate: true
-  xy: 3651, 236
+  rotate: false
+  xy: 3285, 14
   size: 87, 31
   orig: 252, 255
   offset: 85, 25
@@ -502,8 +502,8 @@ left/Unicornimages/Body
   offset: 0, 0
   index: -1
 left/Unicornimages/Corn
-  rotate: true
-  xy: 2281, 2
+  rotate: false
+  xy: 3816, 80
   size: 22, 59
   orig: 22, 59
   offset: 0, 0
@@ -524,28 +524,28 @@ left/Unicornimages/FrontRightLeg
   index: -1
 left/Unicornimages/Head
   rotate: false
-  xy: 2852, 174
+  xy: 3874, 347
   size: 120, 71
   orig: 120, 71
   offset: 0, 0
   index: -1
 left/Unicornimages/HeadHair
-  rotate: true
-  xy: 3745, 132
+  rotate: false
+  xy: 3639, 88
   size: 72, 74
   orig: 72, 74
   offset: 0, 0
   index: -1
 left/Unicornimages/Headopenmouth
   rotate: false
-  xy: 2218, 150
+  xy: 2852, 175
   size: 119, 70
   orig: 120, 71
   offset: 0, 1
   index: -1
 left/Unicornimages/NeckHair
   rotate: false
-  xy: 3344, 123
+  xy: 3996, 368
   size: 51, 100
   orig: 51, 100
   offset: 0, 0
@@ -558,15 +558,15 @@ left/Unicornimages/Ooo
   offset: 0, 0
   index: -1
 left/Unicornimages/Tail1
-  rotate: true
-  xy: 3654, 327
+  rotate: false
+  xy: 3383, 51
   size: 86, 96
   orig: 86, 96
   offset: 0, 0
   index: -1
 left/Unicornimages/Tail2
-  rotate: true
-  xy: 3814, 69
+  rotate: false
+  xy: 3624, 2
   size: 55, 62
   orig: 55, 62
   offset: 0, 0
@@ -601,21 +601,21 @@ left/Unicornimages/smile2
   index: -1
 left/Unicornimages/tongue
   rotate: true
-  xy: 3024, 65
+  xy: 3003, 158
   size: 89, 106
   orig: 89, 106
   offset: 0, 0
   index: -1
 left/ballbase
   rotate: false
-  xy: 3769, 24
+  xy: 2579, 180
   size: 42, 42
   orig: 42, 42
   offset: 0, 0
   index: -1
 left/ballcolor
   rotate: true
-  xy: 2369, 1272
+  xy: 2973, 218
   size: 27, 28
   orig: 27, 28
   offset: 0, 0
@@ -629,7 +629,7 @@ left/base
   index: -1
 left/bubble
   rotate: false
-  xy: 2818, 176
+  xy: 3295, 1177
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
@@ -643,21 +643,21 @@ left/cannon
   index: -1
 left/cannonbase
   rotate: false
-  xy: 3132, 62
+  xy: 2659, 3
   size: 101, 83
   orig: 118, 83
   offset: 9, 0
   index: -1
 left/cannonbott
   rotate: false
-  xy: 2572, 153
+  xy: 3592, 165
   size: 49, 69
   orig: 57, 95
   offset: 1, 10
   index: -1
 left/cannonbottlight
-  rotate: false
-  xy: 3344, 49
+  rotate: true
+  xy: 3383, 2
   size: 47, 72
   orig: 47, 72
   offset: 0, 0
@@ -748,7 +748,7 @@ left/light4tube
   index: -1
 left/lightball
   rotate: true
-  xy: 3763, 510
+  xy: 3978, 2662
   size: 8, 9
   orig: 8, 9
   offset: 0, 0
@@ -832,7 +832,7 @@ left/rainbow/jaq2
   index: -1
 left/rainbow/lightik
   rotate: false
-  xy: 3746, 206
+  xy: 3592, 236
   size: 85, 85
   orig: 85, 85
   offset: 0, 0
@@ -944,21 +944,21 @@ left/slider
   index: -1
 left/tube
   rotate: false
-  xy: 2339, 141
+  xy: 2218, 144
   size: 119, 76
   orig: 152, 101
   offset: 17, 13
   index: -1
 left/tubelight
-  rotate: true
-  xy: 3658, 11
+  rotate: false
+  xy: 3881, 291
   size: 75, 54
   orig: 75, 54
   offset: 0, 0
   index: -1
 left/uniarm
-  rotate: false
-  xy: 2891, 2
+  rotate: true
+  xy: 3833, 142
   size: 47, 63
   orig: 115, 175
   offset: 3, 17
@@ -979,42 +979,42 @@ left/unihairback
   index: -1
 left/unihairtop
   rotate: false
-  xy: 3961, 352
+  xy: 3839, 338
   size: 29, 65
   orig: 35, 70
   offset: 4, 3
   index: -1
 left/unilegback
   rotate: false
-  xy: 3575, 2
+  xy: 4004, 470
   size: 43, 81
   orig: 59, 101
   offset: 16, 6
   index: -1
 left/unilegfront
   rotate: false
-  xy: 3649, 88
+  xy: 3681, 2
   size: 53, 76
   orig: 64, 99
   offset: 9, 6
   index: -1
 left/unishadow
-  rotate: false
-  xy: 3916, 166
+  rotate: true
+  xy: 3062, 76
   size: 80, 47
   orig: 80, 47
   offset: 0, 0
   index: -1
 left/unitail
-  rotate: false
-  xy: 3232, 2
+  rotate: true
+  xy: 3840, 13
   size: 62, 50
   orig: 73, 62
   offset: 8, 8
   index: -1
 left/uniwing
-  rotate: true
-  xy: 3620, 2
+  rotate: false
+  xy: 3881, 253
   size: 81, 36
   orig: 96, 49
   offset: 9, 11
@@ -1049,7 +1049,7 @@ left/water/01R
   index: -1
 left/water/02
   rotate: false
-  xy: 3653, 415
+  xy: 3764, 405
   size: 108, 103
   orig: 129, 128
   offset: 16, 15
@@ -1063,7 +1063,7 @@ left/water/02R
   index: -1
 left/water/03
   rotate: false
-  xy: 2212, 44
+  xy: 2212, 38
   size: 104, 104
   orig: 122, 128
   offset: 11, 14
@@ -1077,7 +1077,7 @@ left/water/03R
   index: -1
 left/water/04
   rotate: false
-  xy: 2425, 30
+  xy: 2318, 33
   size: 81, 109
   orig: 101, 128
   offset: 14, 9
@@ -1105,7 +1105,7 @@ left/water/05R
   index: -1
 left/water/06
   rotate: false
-  xy: 2573, 19
+  xy: 3395, 149
   size: 104, 104
   orig: 131, 130
   offset: 16, 15
@@ -1119,7 +1119,7 @@ left/water/06R
   index: -1
 left/water/07
   rotate: false
-  xy: 2679, 15
+  xy: 3501, 165
   size: 89, 108
   orig: 114, 129
   offset: 14, 9
@@ -1153,8 +1153,8 @@ left/water/0700034
   offset: 0, 0
   index: -1
 left/water/0700043
-  rotate: false
-  xy: 3885, 517
+  rotate: true
+  xy: 3653, 410
   size: 108, 109
   orig: 108, 109
   offset: 0, 0
@@ -1181,8 +1181,8 @@ left/water/07R
   offset: 0, 0
   index: -1
 left/water/08
-  rotate: true
-  xy: 3885, 419
+  rotate: false
+  xy: 2658, 88
   size: 96, 105
   orig: 114, 129
   offset: 8, 12
@@ -1195,8 +1195,8 @@ left/water/08R
   offset: 0, 0
   index: -1
 left/water/08aa
-  rotate: false
-  xy: 2832, 67
+  rotate: true
+  xy: 3111, 134
   size: 96, 105
   orig: 114, 129
   offset: 8, 12
@@ -1224,7 +1224,7 @@ left/water/09aa
   index: -1
 left/water/10
   rotate: false
-  xy: 2318, 38
+  xy: 2466, 59
   size: 105, 101
   orig: 130, 129
   offset: 13, 16
@@ -1280,35 +1280,35 @@ left/water/pool2
   index: -1
 left/water/shine/01-copy
   rotate: false
-  xy: 3030, 156
+  xy: 2850, 82
   size: 107, 91
   orig: 110, 101
   offset: 3, 1
   index: -1
 left/water/shine/02-copy
   rotate: false
-  xy: 2988, 2
+  xy: 3749, 203
   size: 86, 61
   orig: 94, 92
   offset: 5, 0
   index: -1
 left/water/shine/03-copy
-  rotate: false
-  xy: 3139, 147
+  rotate: true
+  xy: 2573, 59
   size: 101, 83
   orig: 106, 97
   offset: 4, 0
   index: -1
 left/water/shine/04-copy
   rotate: false
-  xy: 3918, 215
+  xy: 3213, 56
   size: 77, 75
   orig: 83, 103
   offset: 5, 1
   index: -1
 left/water/shine/05-copy
-  rotate: true
-  xy: 3397, 157
+  rotate: false
+  xy: 3284, 134
   size: 96, 89
   orig: 96, 103
   offset: 0, 1
@@ -1322,56 +1322,56 @@ left/water/shine/06-copy
   index: -1
 left/water/shine/07-copy
   rotate: false
-  xy: 3397, 70
+  xy: 3292, 47
   size: 89, 85
   orig: 95, 108
   offset: 2, 1
   index: -1
 left/water/shine/08-copy
   rotate: false
-  xy: 3559, 325
+  xy: 3652, 323
   size: 93, 85
   orig: 97, 102
   offset: 2, 2
   index: -1
 left/water/shine/09-copy
   rotate: false
-  xy: 3235, 54
+  xy: 2847, 13
   size: 107, 67
   orig: 120, 98
   offset: 4, 0
   index: -1
 left/water/shine/10-copy
   rotate: true
-  xy: 2930, 67
+  xy: 2756, 88
   size: 105, 92
   orig: 115, 112
   offset: 7, 5
   index: -1
 monsters/boss1/achq
   rotate: true
-  xy: 2974, 174
+  xy: 2956, 2
   size: 71, 54
   orig: 71, 54
   offset: 0, 0
   index: -1
 monsters/boss1/ddd
   rotate: false
-  xy: 3488, 74
+  xy: 3471, 50
   size: 82, 97
   orig: 82, 97
   offset: 0, 0
   index: -1
 monsters/boss1/derq
   rotate: true
-  xy: 2469, 141
+  xy: 2959, 75
   size: 81, 101
   orig: 81, 102
   offset: 0, 0
   index: -1
 monsters/boss1/derq1
-  rotate: false
-  xy: 3992, 420
+  rotate: true
+  xy: 2466, 2
   size: 55, 95
   orig: 55, 95
   offset: 0, 0
@@ -1384,8 +1384,8 @@ monsters/boss1/kiss
   offset: 0, 0
   index: -1
 monsters/boss1/kop
-  rotate: true
-  xy: 3684, 243
+  rotate: false
+  xy: 3749, 141
   size: 82, 60
   orig: 82, 60
   offset: 0, 0
@@ -1420,7 +1420,7 @@ monsters/boss1/maz3
   index: -1
 monsters/boss1/maz4
   rotate: true
-  xy: 2623, 125
+  xy: 2339, 149
   size: 68, 117
   orig: 68, 117
   offset: 0, 0
@@ -1433,15 +1433,15 @@ monsters/boss1/maz5
   offset: 0, 0
   index: -1
 monsters/boss1/mouth 2
-  rotate: true
-  xy: 3862, 335
+  rotate: false
+  xy: 3555, 66
   size: 82, 97
   orig: 82, 97
   offset: 0, 0
   index: -1
 monsters/boss1/prosh
   rotate: true
-  xy: 3997, 246
+  xy: 3842, 260
   size: 76, 37
   orig: 76, 37
   offset: 0, 0
@@ -1489,8 +1489,8 @@ monsters/boss2/Layer15
   offset: 1, 0
   index: -1
 monsters/boss2/Layer16
-  rotate: false
-  xy: 3302, 2242
+  rotate: true
+  xy: 2579, 162
   size: 16, 17
   orig: 16, 17
   offset: 0, 0
@@ -1581,7 +1581,7 @@ monsters/boss2/eye1
   index: -1
 monsters/boss2/eye2
   rotate: false
-  xy: 3833, 216
+  xy: 2762, 12
   size: 83, 74
   orig: 83, 74
   offset: 0, 0
@@ -1594,29 +1594,29 @@ monsters/boss2/headboom1
   offset: 0, 0
   index: -1
 monsters/boss2/headboom2
-  rotate: true
-  xy: 3562, 232
+  rotate: false
+  xy: 3559, 323
   size: 91, 87
   orig: 91, 87
   offset: 0, 0
   index: -1
 monsters/footer/achq
-  rotate: false
-  xy: 3076, 2
+  rotate: true
+  xy: 3736, 2
   size: 76, 50
   orig: 76, 50
   offset: 0, 0
   index: -1
 monsters/footer/deraj
-  rotate: false
-  xy: 3393, 4
+  rotate: true
+  xy: 3218, 133
   size: 97, 64
   orig: 97, 64
   offset: 0, 0
   index: -1
 monsters/footer/derdax
   rotate: false
-  xy: 3763, 355
+  xy: 3012, 9
   size: 97, 64
   orig: 97, 64
   offset: 0, 0
@@ -1727,8 +1727,8 @@ monsters/slime-leap/koptaki
   offset: 0, 0
   index: -1
 monsters/slime-leap/kopverevi
-  rotate: true
-  xy: 3992, 324
+  rotate: false
+  xy: 2563, 2
   size: 94, 55
   orig: 94, 55
   offset: 0, 0
@@ -1748,8 +1748,8 @@ monsters/slime-leap/marmin
   offset: 14, 0
   index: -1
 monsters/slime-shooter/achq
-  rotate: true
-  xy: 3572, 85
+  rotate: false
+  xy: 3747, 328
   size: 90, 75
   orig: 90, 75
   offset: 0, 0
@@ -1763,7 +1763,7 @@ monsters/slime-shooter/derq
   index: -1
 monsters/slime-shooter/derq1
   rotate: false
-  xy: 2508, 26
+  xy: 2401, 34
   size: 63, 113
   orig: 63, 113
   offset: 0, 0
@@ -1777,14 +1777,14 @@ monsters/slime-shooter/derqcak
   index: -1
 monsters/slime-shooter/kisapak
   rotate: false
-  xy: 3752, 293
+  xy: 3749, 266
   size: 91, 60
   orig: 91, 60
   offset: 0, 0
   index: -1
 monsters/slime-shooter/klor
-  rotate: false
-  xy: 3154, 2
+  rotate: true
+  xy: 3788, 2
   size: 76, 50
   orig: 76, 50
   offset: 0, 0
@@ -1819,14 +1819,14 @@ monsters/slime-shooter/marmin1
   index: -1
 monsters/slime-shooter/pak
   rotate: false
-  xy: 3845, 292
+  xy: 3196, 13
   size: 87, 41
   orig: 87, 41
   offset: 0, 0
   index: -1
 monsters/slime/ashk spitak
-  rotate: true
-  xy: 3708, 110
+  rotate: false
+  xy: 3949, 214
   size: 63, 35
   orig: 63, 35
   offset: 0, 0
@@ -1860,43 +1860,43 @@ monsters/slime/box
   offset: 0, 0
   index: -1
 monsters/slime/closed mouth
-  rotate: false
-  xy: 3833, 187
+  rotate: true
+  xy: 3713, 81
   size: 81, 27
   orig: 81, 27
   offset: 0, 0
   index: -1
 monsters/slime/dzerq
-  rotate: true
-  xy: 3296, 5
+  rotate: false
+  xy: 3964, 251
   size: 47, 38
   orig: 47, 38
   offset: 0, 0
   index: -1
 monsters/slime/dzerq1
   rotate: false
-  xy: 3336, 9
+  xy: 3898, 156
   size: 47, 38
   orig: 47, 38
   offset: 0, 0
   index: -1
 monsters/slime/eye closed
-  rotate: true
-  xy: 3651, 166
+  rotate: false
+  xy: 3879, 196
   size: 68, 55
   orig: 68, 62
   offset: 0, 0
   index: -1
 monsters/slime/eye half close
-  rotate: false
-  xy: 2212, 2
+  rotate: true
+  xy: 3837, 191
   size: 67, 40
   orig: 67, 40
   offset: 0, 0
   index: -1
 monsters/slime/eye half open
   rotate: true
-  xy: 3708, 175
+  xy: 3899, 88
   size: 66, 35
   orig: 66, 35
   offset: 0, 0
@@ -1909,15 +1909,15 @@ monsters/slime/eye open
   offset: 0, 0
   index: -1
 monsters/slime/fff
-  rotate: true
-  xy: 2940, 2
+  rotate: false
+  xy: 3457, 2
   size: 63, 46
   orig: 63, 46
   offset: 0, 0
   index: -1
 monsters/slime/fsdf
   rotate: true
-  xy: 3763, 421
+  xy: 3874, 420
   size: 87, 120
   orig: 87, 123
   offset: 0, 0
@@ -1944,8 +1944,8 @@ monsters/slime/hetq2
   offset: 0, 0
   index: -1
 monsters/slime/hetqmas
-  rotate: true
-  xy: 2770, 15
+  rotate: false
+  xy: 2469, 162
   size: 108, 60
   orig: 108, 60
   offset: 0, 0
@@ -1994,15 +1994,15 @@ monsters/slime/moutheat2
   index: -1
 monsters/slime/tounge
   rotate: true
-  xy: 2832, 2
+  xy: 3840, 77
   size: 63, 57
   orig: 63, 57
   offset: 0, 0
   index: -1
 shadow
   rotate: false
-  xy: 3242, 123
-  size: 100, 100
-  orig: 100, 100
-  offset: 0, 0
+  xy: 3885, 509
+  size: 117, 117
+  orig: 120, 120
+  offset: 3, 0
   index: -1

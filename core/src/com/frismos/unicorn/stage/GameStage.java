@@ -435,25 +435,25 @@ public class GameStage extends SimpleStage {
     public Enemy sendWave(WaveType waveType) {
         ColorType colorType = ColorType.getRandomColor();
         Enemy enemy = null;
-        switch (waveType) {
-            case WALKING:
-                enemy = MathUtils.randomBoolean() ? new WalkingEnemy(this, colorType) : new MotherEnemy(this, colorType);
-                break;
-            case RUNNING:
-                enemy = new RunningEnemy(this, colorType);
-                break;
-            case CHEWING:
+//        switch (waveType) {
+//            case WALKING:
+//                enemy = MathUtils.randomBoolean() ? new WalkingEnemy(this, colorType) : new MotherEnemy(this, colorType);
+//                break;
+//            case RUNNING:
+//                enemy = new RunningEnemy(this, colorType);
+//                break;
+//            case CHEWING:
                 enemy = new ChewingEnemy(this, colorType);
-                break;
-            case BOUNCING:
-                enemy = new BouncingEnemy(this, colorType);
-                break;
-            case ATTACKING:
-                enemy = new AttackingEnemy(this, colorType);
-                break;
-            case SHOOTING:
-                enemy = new ShootingEnemy(this, colorType);
-        }
+//                break;
+//            case BOUNCING:
+//                enemy = new BouncingEnemy(this, colorType);
+//                break;
+//            case ATTACKING:
+//                enemy = new AttackingEnemy(this, colorType);
+//                break;
+//            case SHOOTING:
+//                enemy = new ShootingEnemy(this, colorType);
+//        }
         addActor(enemy);
         collisionDetector.addListener(enemy);
         return enemy;

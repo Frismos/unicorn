@@ -175,7 +175,7 @@ public abstract class Enemy extends Creature {
         if(isSonOfABoss) {
             moveSpeed = GameStage._ENEMY_MOVE_SPEED;
         }
-        moveSpeed = INITIAL_MOVE_SPEED + stage.unicorn.getCombo() / 10.0f;
+        moveSpeed = 1;//INITIAL_MOVE_SPEED + stage.unicorn.getCombo() / 10.0f;//// TODO: 4/10/16  
         skeletonActor.getAnimationState().setTimeScale(moveSpeed * 0.3f);
         setUserObject(ActorDataType.ENEMY);
         shadow = new Shadow(gameStage, this);

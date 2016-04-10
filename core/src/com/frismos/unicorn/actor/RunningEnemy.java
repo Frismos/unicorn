@@ -1,5 +1,6 @@
 package com.frismos.unicorn.actor;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -8,6 +9,7 @@ import com.esotericsoftware.spine.AnimationState;
 import com.esotericsoftware.spine.Event;
 import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.manager.AIManager;
+import com.frismos.unicorn.manager.SoundManager;
 import com.frismos.unicorn.manager.TimerRunnable;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.util.Constants;
@@ -29,9 +31,14 @@ public class RunningEnemy extends WalkingEnemy {
         showProgressBar();
     }
 
+    public void playDieSound() {
+        gameStage.game.soundManager.playMusic(SoundManager.RUNNING_DIE, Sound.class, true);
+    }
+
     @Override
     public void attack() {
         super.attack();
+        gameStage.game.soundManager.playMusic(SoundManager.TEETH_CHATTER, Sound.class, true, false);
         float destX = getX() - 7.5f;
         skeletonActor.getAnimationState().setAnimation(0, "attack", false);
         skeletonActor.getAnimationState().removeListener(attackListener);
@@ -61,6 +68,7 @@ public class RunningEnemy extends WalkingEnemy {
     @Override
     public void wallAttackingAnimation() {
         skeletonActor.getAnimationState().setAnimation(0, "attack", true);
+        super.wallAttackingAnimation();
     }
 
     @Override
@@ -82,5 +90,11 @@ public class RunningEnemy extends WalkingEnemy {
     @Override
     protected void startDefaultAnimation() {
         skeletonActor.getAnimationState().setAnimation(0, "walk", true);
+    }
+
+    @Override
+    public void eatWall() {
+        gameStage.game.soundManager.playMusic(SoundManager.TEETH_CHATTER, Sound.class, true);
+        super.eatWall();
     }
 }

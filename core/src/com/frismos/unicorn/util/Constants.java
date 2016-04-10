@@ -28,7 +28,7 @@ public class Constants {
     public static final float COLORS_PLATFORM_SCALE_RATIO = 0.5f / SCALE_RATIO;
     public static final float RUNNING_ENEMY_SCALE_RATIO = 0.4f / SCALE_RATIO;
     public static final float MOTHER_ENEMY_SCALE_RATIO = 0.6f / SCALE_RATIO;
-
+    public static final float HEALTHY_ENEMY_SCALE_RATIO = 0.6f / SCALE_RATIO;
 
     public static final float TILE_SCALE_RATIO = 1.0f / SCALE_RATIO;
     public static final float VIEWPORT_WIDTH = 60.0f;//49.18618, 27.964397

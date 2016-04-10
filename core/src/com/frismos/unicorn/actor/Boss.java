@@ -118,6 +118,7 @@ public abstract class Boss extends ShootingEnemy {
 
     @Override
     public void attack() {
+        skeletonActor.getAnimationState().setTimeScale(1.0f);
         skeletonActor.getAnimationState().setAnimation(0, "attack", false);
         skeletonActor.getAnimationState().clearListeners();
         skeletonActor.getAnimationState().addListener(attackAnimationListener);

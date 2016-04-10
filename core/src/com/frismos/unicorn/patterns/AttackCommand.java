@@ -5,6 +5,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.frismos.unicorn.actor.Bullet;
 import com.frismos.unicorn.actor.MainCharacter;
 import com.frismos.unicorn.enums.ColorType;
+import com.frismos.unicorn.manager.SoundManager;
 
 /**
  * Created by eavanyan on 3/14/16.
@@ -29,7 +30,7 @@ public class AttackCommand implements Command {
 
     public void fireBullet(float x, float y) {
         if(character.colorType != null) {
-            character.gameStage.game.soundManager.playMusic("krakelx1", Sound.class, true, false);
+            character.gameStage.game.soundManager.playMusic(SoundManager.UNICORN_FIRE, Sound.class, true, false);
             Bullet bullet = character.getNextBullet();
             bullet.destPoint.x = x;
             bullet.destPoint.y = y;

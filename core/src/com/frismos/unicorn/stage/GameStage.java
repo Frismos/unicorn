@@ -27,6 +27,7 @@ import com.frismos.unicorn.actor.Background;
 import com.frismos.unicorn.actor.Boss;
 import com.frismos.unicorn.actor.BouncingEnemy;
 import com.frismos.unicorn.actor.Bullet;
+import com.frismos.unicorn.actor.ChewingEnemy;
 import com.frismos.unicorn.actor.ColorsPlatform;
 import com.frismos.unicorn.actor.Enemy;
 import com.frismos.unicorn.actor.MotherEnemy;
@@ -59,6 +60,7 @@ import com.frismos.unicorn.grid.Tile;
 import com.frismos.unicorn.manager.TimerRunnable;
 import com.frismos.unicorn.manager.TutorialManager;
 import com.frismos.unicorn.patterns.AttackCommand;
+import com.frismos.unicorn.screen.GameScreen;
 import com.frismos.unicorn.spine.SpineActor;
 import com.frismos.unicorn.util.BodyUtils;
 import com.frismos.unicorn.util.Constants;
@@ -158,6 +160,10 @@ public class GameStage extends SimpleStage {
     public Array<Integer> colorIndices = new Array<>();
 
     public int score = 0;
+    public float timeMillis;
+
+    private float timeTimer = 0;
+    private static final int TIME_TIME_STEP = 1;
 
     private int colorRowsLength;
 
@@ -310,18 +316,20 @@ public class GameStage extends SimpleStage {
 
         game.aiManager.setGameStage(this);
         game.aiManager.sendWaves(0);
-//        game.soundManager.playMusic();
+//        sendBoss(BossType.SHOOTING);
+        game.soundManager.playMusic();
     }
 
     public void restartGame() {
-//        game.soundManager.reset();
-//        game.soundManager.sounds.get(game.soundManager.currentSoundId).stop(game.soundManager.currentSoundId);
+        game.soundManager.reset();
+        game.soundManager.sounds.get(game.soundManager.currentSoundId).stop(game.soundManager.currentSoundId);
         game.restartGame = true;
         initConstants();
         game.timerManager.reset();
         game.tutorialManager = new TutorialManager(game);
         this.clear();
         game.aiManager.reset();
+        game.uiScreen.stage.addLabels();
     }
 
     private void initConstants() {
@@ -433,6 +441,9 @@ public class GameStage extends SimpleStage {
                 break;
             case RUNNING:
                 enemy = new RunningEnemy(this, colorType);
+                break;
+            case CHEWING:
+                enemy = new ChewingEnemy(this, colorType);
                 break;
             case BOUNCING:
                 enemy = new BouncingEnemy(this, colorType);
@@ -993,6 +1004,14 @@ public class GameStage extends SimpleStage {
     public void act(float delta) {
         super.act(delta);
         if(!stopGame) {
+            timeMillis += delta;
+            timeTimer += delta;
+            if(timeTimer >= TIME_TIME_STEP) {
+                int seconds = (int)((GameScreen)game.getScreen()).stage.timeMillis;
+                int minutes = seconds / 60;
+                seconds %= 60;
+                game.uiScreen.stage.timeLabel.setText(String.format("%s:%s", minutes, seconds >= 10 ? seconds : String.format("0%s", seconds)));
+            }
             enemySendCounter += delta;
             enemySendTimer += delta;
             enemyMoveTimer += delta;

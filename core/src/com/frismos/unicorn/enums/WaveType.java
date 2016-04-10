@@ -6,6 +6,7 @@ package com.frismos.unicorn.enums;
 public enum WaveType {
     WALKING,
     RUNNING,
+    CHEWING,
     BOUNCING,
     ATTACKING,
     SHOOTING

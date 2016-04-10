@@ -39,17 +39,20 @@ public class AIManager {
     private static final float THIRD_WAVE_SEND_TIME = 6;
     private static final float FOURTH_WAVE_SEND_TIME = 6;
     private static final float FIFTH_WAVE_SEND_TIME = 6;
-    private static final float SIXTH_WAVE_SEND_TIME = 1;
+    private static final float SIXTH_WAVE_SEND_TIME = 6;
+    private static final float SEVENTH_WAVE_SEND_TIME = 2;
 
     private static final float WALKING_ENEMY_SEND_TIME_STEP = 1.4f;
     private static final float RUNNING_ENEMY_SEND_TIME_STEP = 0.9f;
+    private static final float CHEWING_ENEMY_SEND_TIME_STEP = 1.3f;
     private static final float BOUNCING_ENEMY_SEND_TIME_STEP = 1.0f;
     private static final float ATTACKING_ENEMY_SEND_TIME_STEP = 1.1f;
     private static final float SHOOTING_ENEMY_SEND_TIME_STEP = 1.2f;
 
     public static float MOTHER_ENEMY_HP = 2.5f;
-    public static float WALKING_ENEMY_HP = 2.1f;
+    public static float WALKING_ENEMY_HP = 1.9f;
     public static float RUNNING_ENEMY_HP = 1.1f;
+    public static float CHEWING_ENEMY_HP = 1.0f;
     public static float BOUNCING_ENEMY_HP = 1.5f;
     public static float ATTACKING_ENEMY_HP = 3.5f;
     public static float SHOOTING_ENEMY_HP = 2.6f;
@@ -86,7 +89,9 @@ public class AIManager {
         enemyTypeIndex = 0;
 
         WALKING_ENEMY_HP += level * 0.5f;
+        MOTHER_ENEMY_HP += level * 0.5f;
         RUNNING_ENEMY_HP += level * 0.5f;
+        CHEWING_ENEMY_HP += level * 0.5f;
         BOUNCING_ENEMY_HP += level * 0.5f;
         ATTACKING_ENEMY_HP += level * 0.5f;
         SHOOTING_ENEMY_HP += level * 0.5f;
@@ -98,10 +103,12 @@ public class AIManager {
         timeArray.addAll(THIRD_WAVE_SEND_TIME,
                 RUNNING_ENEMY_SEND_TIME_STEP - 0.7f * level,
                 FOURTH_WAVE_SEND_TIME,
-                BOUNCING_ENEMY_SEND_TIME_STEP - 0.5f * level,
+                CHEWING_ENEMY_SEND_TIME_STEP - 0.4f * level,
                 FIFTH_WAVE_SEND_TIME,
-                ATTACKING_ENEMY_SEND_TIME_STEP - 0.5f * level,
+                BOUNCING_ENEMY_SEND_TIME_STEP - 0.5f * level,
                 SIXTH_WAVE_SEND_TIME,
+                ATTACKING_ENEMY_SEND_TIME_STEP - 0.5f * level,
+                SEVENTH_WAVE_SEND_TIME,
                 SHOOTING_ENEMY_SEND_TIME_STEP - 0.5f * level);
         sendTimeArray.add(SECOND_WAVE_SEND_TIME);
         timeStepArray.add(WALKING_ENEMY_SEND_TIME_STEP - 0.5f * level);

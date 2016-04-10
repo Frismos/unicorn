@@ -1,12 +1,16 @@
 package com.frismos.unicorn.actor;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.esotericsoftware.spine.AnimationState;
 import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.manager.AIManager;
+import com.frismos.unicorn.manager.TimerRunnable;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.util.Constants;
 import com.frismos.unicorn.util.Strings;
+import com.frismos.unicorn.util.Timer;
 import com.frismos.unicorn.util.Utils;
 
 /**
@@ -45,6 +49,8 @@ public class AttackingEnemy extends Enemy {
 
     @Override
     public void attack() {
+        skeletonActor.getAnimationState().setTimeScale(1.0f);
+        gameStage.game.soundManager.playMusic("vazogh", Sound.class, true);
         isAttackingOnUnicorn = true;
         moveSpeed = 7.5f;
 
@@ -55,7 +61,7 @@ public class AttackingEnemy extends Enemy {
 
     @Override
     public void wallAttackingAnimation() {
-
+        super.wallAttackingAnimation();
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.frismos.unicorn.manager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
@@ -14,7 +15,7 @@ public class FontsManager {
     private BitmapFont font;
 
     public FontsManager() {
-        freeTypeFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("gfx/RumRaisin-Regular.ttf"));
+        freeTypeFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("gfx/PossumSaltareNF.ttf"));
     }
 
     public BitmapFont getFont(Color color, int size) {
@@ -25,6 +26,8 @@ public class FontsManager {
             freeTypeFontParameter.borderColor = Color.BLACK;
             freeTypeFontParameter.borderWidth = 3;
             freeTypeFontParameter.shadowColor = new Color(0, 0, 0, 0.25f);
+            freeTypeFontParameter.minFilter = Texture.TextureFilter.Linear;
+            freeTypeFontParameter.magFilter = Texture.TextureFilter.Linear;
             font = freeTypeFontGenerator.generateFont(freeTypeFontParameter);
             font.setUseIntegerPositions(false);
         }

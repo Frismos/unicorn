@@ -17,6 +17,22 @@ import java.util.Iterator;
  */
 public class SoundManager implements Updatable {
 
+    public static final String ERROR = "error";
+    public static final String CHANGE_COLOR = "guyn@ pokhel";
+    public static final String KNOCK = "knock";
+    public static final String UNICORN_FIRE = "krakel glkhavor";
+    public static final String FIRE = "krakel";
+    public static final String BOSS_FALL = "monster @nknel";
+    public static final String BOSS_HIT = "monster poch";
+    public static final String BOSS_VOICE = "monster dzayn";
+    public static final String BOSS_EXPLODE = "monster paytel";
+    public static final String BOSS_TAIL = "monster astghik";
+    public static final String EXPLODE = "paytel";
+    public static final String TEETH_CHATTER = "tetth chatter";
+    public static final String JUMP = "trnel";
+    public static final String FIRING_LAUGH = "paytel cicagh";
+    public static final String RUNNING_DIE = "paytel kosht";
+
     public UnicornGame game;
 
     private ObjectMap<Music, Actor> actionActors = new ObjectMap<>();
@@ -34,11 +50,17 @@ public class SoundManager implements Updatable {
     }
 
     public <T> void playMusic(String path, Class<T> type, boolean play) {
-        playMusic(path, type, play, false);
+        playMusic(path, type, play, false, 0.5f);
     }
 
     public <T> void playMusic(String path, Class<T> type, boolean play, boolean loop) {
-        String filePath = Gdx.files.internal(String.format("%s.wav", path)).exists() ? String.format("%s.wav", path) : String.format("%s.ogg", path);
+        float volume = loop ? 1 : 0.5f;
+        playMusic(path, type, play, loop, volume);
+    }
+
+    public <T> void playMusic(String path, Class<T> type, boolean play, boolean loop, float volume) {
+        String filePath = Gdx.files.internal(String.format("sounds/%s.wav", path)).exists() ? String.format("sounds/%s.wav", path) :
+                Gdx.files.internal(String.format("sounds/%s.mp3", path)).exists() ? String.format("sounds/%s.mp3", path) : String.format("sounds/%s.ogg", path);
         T music = game.atlasManager.get(filePath, type);
         if(music instanceof Music) {
             if(play) {
@@ -54,7 +76,8 @@ public class SoundManager implements Updatable {
                     ((Sound) music).setLooping(currentSoundId, true);
                     sounds.put(currentSoundId, (Sound)music);
                 } else {
-                    ((Sound)music).play();
+                    long id = ((Sound)music).play();
+                    ((Sound)music).setVolume(id, volume);
                 }
             }
         }

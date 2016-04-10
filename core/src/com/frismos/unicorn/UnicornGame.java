@@ -21,6 +21,7 @@ import com.frismos.TweenAccessor.MusicAccessor;
 import com.frismos.unicorn.actor.AttackingEnemy;
 import com.frismos.unicorn.actor.BouncingEnemy;
 import com.frismos.unicorn.actor.MotherBoss;
+import com.frismos.unicorn.actor.MotherEnemy;
 import com.frismos.unicorn.actor.ShootingBoss;
 import com.frismos.unicorn.actor.ShootingEnemy;
 import com.frismos.unicorn.actor.Spell;
@@ -66,7 +67,7 @@ public class UnicornGame extends Game {
 
     public Array<Updatable> updatableArray = new Array<>();
 	public SoundManager soundManager;
-	private InputMultiplexer multiplexer;
+	public InputMultiplexer multiplexer;
 
 	public UnicornGame(ObjectMap<String, Object> controllers) {
 		if(controllers != null) {
@@ -172,6 +173,11 @@ public class UnicornGame extends Game {
 		skeletonData = atlasManager.getSkeletonData(MotherBoss.class, String.format("gfx/%s/skeleton.json", Strings.MOTHER_BOSS), json);
 		atlasManager.getAnimationStateData(MotherBoss.class, skeletonData);
 
+		json = atlasManager.getSkeletonJson(MotherEnemy.class, "gfx/@atlas/pack.atlas");
+		json.setScale(Constants.HEALTHY_ENEMY_SCALE_RATIO);
+		skeletonData = atlasManager.getSkeletonData(MotherEnemy.class, String.format("gfx/%s/skeleton.json", Strings.HEALTHY_ENEMY), json);
+		atlasManager.getAnimationStateData(MotherEnemy.class, skeletonData);
+
 		json = atlasManager.getSkeletonJson(WalkingEnemy.class, "gfx/@atlas/pack.atlas");
 		json.setScale(Constants.WALKING_ENEMY_SCALE_RATIO);
 		skeletonData = atlasManager.getSkeletonData(WalkingEnemy.class, String.format("gfx/%s/skeleton.json", Strings.WALKING_ENEMY), json);
@@ -203,9 +209,18 @@ public class UnicornGame extends Game {
 		atlasManager.getAnimationStateData(Spell.class, skeletonData);
 
 		soundManager.playMusic("Color_Pony_Game_Music_Slow_", Sound.class, false);
-		soundManager.playMusic("krakelx1", Sound.class, false);
-//		soundManager.playMusic("Color_Pony_Game_Music_Medium_", Sound.class, false);
-//		soundManager.playMusic("Color_Pony_Game_Music_Fast_", Sound.class, false);
-		soundManager.playMusic("Music_Transition", Sound.class, false);
+		soundManager.playMusic(SoundManager.ERROR, Sound.class, false);
+		soundManager.playMusic(SoundManager.CHANGE_COLOR, Sound.class, false);
+		soundManager.playMusic(SoundManager.KNOCK, Sound.class, false);
+		soundManager.playMusic(SoundManager.UNICORN_FIRE, Sound.class, false);
+		soundManager.playMusic(SoundManager.FIRE, Sound.class, false);
+		soundManager.playMusic(SoundManager.BOSS_FALL, Sound.class, false);
+		soundManager.playMusic(SoundManager.BOSS_HIT, Sound.class, false);
+		soundManager.playMusic(SoundManager.BOSS_VOICE, Sound.class, false);
+		soundManager.playMusic(SoundManager.BOSS_TAIL, Sound.class, false);
+		soundManager.playMusic(SoundManager.BOSS_EXPLODE, Sound.class, false);
+		soundManager.playMusic(SoundManager.EXPLODE, Sound.class, false);
+		soundManager.playMusic(SoundManager.TEETH_CHATTER, Sound.class, false);
+		soundManager.playMusic(SoundManager.JUMP, Sound.class, false);
 	}
 }

@@ -1,9 +1,11 @@
 package com.frismos.unicorn.actor;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.MathUtils;
 import com.esotericsoftware.spine.AnimationState;
 import com.esotericsoftware.spine.Event;
 import com.frismos.unicorn.manager.AIManager;
+import com.frismos.unicorn.manager.SoundManager;
 import com.frismos.unicorn.manager.TimerRunnable;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.enums.ColorType;
@@ -82,10 +84,12 @@ public class WalkingEnemy extends Enemy {
                 skeletonActor.getAnimationState().setAnimation(0, "attack", true);
             }
         }
+        super.wallAttackingAnimation();
     }
 
     @Override
     protected void startDefaultAnimation() {
+//        gameStage.game.soundManager.playMusic("arajin kerpari dzayn", Sound.class, true);
         if (MathUtils.randomBoolean()) {
             skeletonActor.getAnimationState().setAnimation(0, "walk1", true);
         } else {
@@ -95,7 +99,17 @@ public class WalkingEnemy extends Enemy {
 
     @Override
     public void attack() {
+        skeletonActor.getAnimationState().setTimeScale(1.0f);
+    }
 
+    @Override
+    public void eatWall() {
+//        if(skeletonActor.getAnimationState().getCurrent(0).getAnimation().getName().equals("attack")) {
+            gameStage.game.soundManager.playMusic(SoundManager.KNOCK, Sound.class, true);
+//        } else if(skeletonActor.getAnimationState().getCurrent(0).getAnimation().getName().equals("attack")) {
+//
+//        }
+        super.eatWall();
     }
 
     @Override

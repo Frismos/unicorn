@@ -22,18 +22,12 @@ public class MotherEnemy extends WalkingEnemy {
     @Override
     public void wallAttackingAnimation() {
         skeletonActor.getAnimationState().setAnimation(0, "attack", true);
-    }
-
-    @Override
-    public void attack() {
-        skeletonActor.getAnimationState().setAnimation(0, "attack", false);
-        skeletonActor.getAnimationState().clearListeners();
-        skeletonActor.getAnimationState().addListener(attackListener);
+        super.wallAttackingAnimation();
     }
 
     @Override
     protected void setResourcesPath() {
-        path = Strings.MOTHER_BOSS;
+        path = Strings.HEALTHY_ENEMY;
     }
 
     @Override

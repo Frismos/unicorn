@@ -2,6 +2,7 @@ package com.frismos.unicorn.manager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.esotericsoftware.spine.AnimationStateData;
@@ -12,6 +13,8 @@ import com.esotericsoftware.spine.SkeletonRenderer;
 import com.esotericsoftware.spine.utils.SkeletonActor;
 import com.esotericsoftware.spine.utils.SkeletonActorPool;
 import com.frismos.unicorn.util.Debug;
+
+import java.util.Iterator;
 
 /**
  * Created by edgar on 11/28/2015.
@@ -38,6 +41,16 @@ public class AtlasManager {
         }
         manager.load(fileName, type);
         manager.finishLoading();
+        if(type.equals(Texture.class)) {
+            ((Texture)manager.get(fileName)).setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        }
+        if(type.equals(TextureAtlas.class)) {
+            TextureAtlas atlas = ((TextureAtlas)manager.get(fileName));
+            Iterator<Texture> iterator = atlas.getTextures().iterator();
+            while (iterator.hasNext()) {
+                iterator.next().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+            }
+        }
         return manager.get(fileName);
     }
 

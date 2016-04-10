@@ -60,34 +60,19 @@ public abstract class SpineActor extends Actor {
         if(skeletonBounds.getBoundingBoxes().size > 0) {
 
             int index = 0;
-            if(this instanceof CompleteDialog) {
-                index = 1;
-                for (int i = 0; i < skeletonBounds.getBoundingBoxes().size; i ++) {
-                    Debug.log("name = " + skeletonBounds.getBoundingBoxes().get(i).getName());
+            for (int i = 0; i < skeletonBounds.getBoundingBoxes().size; i ++) {
+                if (skeletonBounds.getBoundingBoxes().get(i).getName().equals("bounds")) {
+                    index = i;
                 }
             }
-            float maxX = Float.MIN_VALUE;
-            float maxY = Float.MIN_VALUE;
-            float minX = Float.MAX_VALUE;
-            float minY = Float.MAX_VALUE;
-            for (int i = 0; i < skeletonBounds.getBoundingBoxes().get(index).getVertices().length; i += 2) {
-                if (maxX < skeletonBounds.getBoundingBoxes().get(index).getVertices()[i]) {
-                    maxX = skeletonBounds.getBoundingBoxes().get(index).getVertices()[i];
-                }
-                if (maxY < skeletonBounds.getBoundingBoxes().get(index).getVertices()[i + 1]) {
-                    maxY = skeletonBounds.getBoundingBoxes().get(index).getVertices()[i + 1];
-                }
-                if (minX > skeletonBounds.getBoundingBoxes().get(index).getVertices()[i]) {
-                    minX = skeletonBounds.getBoundingBoxes().get(index).getVertices()[i];
-                }
-                if (minY > skeletonBounds.getBoundingBoxes().get(index).getVertices()[i + 1]) {
-                    minY = skeletonBounds.getBoundingBoxes().get(index).getVertices()[i + 1];
-                }
-
+            float rotation = 0;
+            if (this instanceof CompleteDialog) {
+                rotation = skeletonActor.getSkeleton().findSlot(skeletonBounds.getBoundingBoxes().get(index).getName()).getBone().getRotation();
             }
-            setSize(maxX - minX, maxY - minY);
 
-            this.bounds = new Polygon(skeletonBounds.getBoundingBoxes().get(0).getVertices());
+            this.bounds = new Polygon(skeletonBounds.getBoundingBoxes().get(index).getVertices());
+            this.bounds.rotate(-rotation);
+            setSize(this.bounds.getBoundingRectangle().width, this.bounds.getBoundingRectangle().height);
         } else {
             this.bounds = new Polygon(new float[] {
                     getX(), getY(),

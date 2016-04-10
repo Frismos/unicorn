@@ -1,11 +1,13 @@
 package com.frismos.unicorn.actor;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.esotericsoftware.spine.AnimationState;
 import com.esotericsoftware.spine.Event;
 import com.frismos.unicorn.manager.AIManager;
+import com.frismos.unicorn.manager.SoundManager;
 import com.frismos.unicorn.userdata.UserData;
 import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.stage.GameStage;
@@ -81,8 +83,10 @@ public class BouncingEnemy extends ShootingEnemy {
 
     @Override
     public void attack() {
+        skeletonActor.getAnimationState().setTimeScale(1.0f);
         int positionY = MathUtils.random(GameStage.ROW_LENGTH - 1);
         if(this.positionY != positionY) {
+            gameStage.game.soundManager.playMusic(SoundManager.JUMP, Sound.class, true, false);
             this.positionY = positionY;
 //        invulnerable = true;
             int prob = MathUtils.random(2);

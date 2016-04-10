@@ -1,6 +1,6 @@
 package com.frismos.unicorn.actor;
 
-import com.badlogic.gdx.Game;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -14,13 +14,14 @@ import com.frismos.unicorn.enums.Direction;
 import com.frismos.unicorn.enums.TutorialStep;
 import com.frismos.unicorn.enums.UnicornType;
 import com.frismos.unicorn.grid.Tile;
+import com.frismos.unicorn.manager.AIManager;
+import com.frismos.unicorn.manager.SoundManager;
 import com.frismos.unicorn.manager.TimerRunnable;
 import com.frismos.unicorn.manager.TutorialManager;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.util.Debug;
 import com.frismos.unicorn.util.Timer;
 import com.frismos.unicorn.util.Utils;
-import com.sun.org.apache.xpath.internal.operations.String;
 
 /**
  * Created by edgaravanyan on 10/13/15.
@@ -256,8 +257,13 @@ public abstract class Enemy extends Creature {
         return isAttacking;
     }
 
+    public void playDieSound() {
+        gameStage.game.soundManager.playMusic(SoundManager.EXPLODE, Sound.class, true);
+    }
+
     public void die(AnimationState.AnimationStateListener dieListener) {
         if(!isDead) {
+            playDieSound();
             gameStage.score++;
             gameStage.game.uiScreen.stage.scoreLabel.setText(java.lang.String.format("score: %d", gameStage.score));
             if(gameStage.game.aiManager.enemies.size == 0) {
@@ -325,12 +331,17 @@ public abstract class Enemy extends Creature {
             } else if(isTutorialEnemy) {
                 gameStage.game.tutorialManager.removeArrow();
             }
-            gameStage.game.timerManager.run(0.3f, new TimerRunnable() {
-                @Override
-                public void run(Timer timer) {
-                    gameStage.collisionDetector.removeListenerActor(Enemy.this);
-                }
-            });
+            if(gameStage.unicorn.combo + Bullet.SINGLE_BULLET_DAMAGE < maxHitPoints + MainCharacter.COMBO_VALUE) {
+                gameStage.game.timerManager.run(0.3f, new TimerRunnable() {
+                    @Override
+                    public void run(Timer timer) {
+                        gameStage.collisionDetector.removeListenerActor(Enemy.this);
+                    }
+                });
+            } else {
+                gameStage.collisionDetector.removeListenerActor(Enemy.this);
+            }
+
             gameStage.unicorn.removePositionChangeListener(this);
             if(gameStage.boss == null && !gameStage.game.tutorialManager.isTutorialMode) {
                 gameStage.deadEnemyCounter++;
@@ -363,15 +374,20 @@ public abstract class Enemy extends Creature {
     }
 
     public abstract void attack();
-    public abstract void wallAttackingAnimation();
+    public void wallAttackingAnimation() {
+        skeletonActor.getAnimationState().setTimeScale(1.0f);
+    }
     public void startAttackingWall() {
         eatingTimer = gameStage.game.timerManager.loop(0.5f, new TimerRunnable() {
             @Override
             public void run(Timer timer) {
-                gameStage.unicorn.hit(0.1f);
+                eatWall();
             }
         });
         wallAttackingAnimation();
+    }
+    public void eatWall() {
+        gameStage.unicorn.hit(0.1f);
     }
 
     @Override
@@ -408,7 +424,7 @@ public abstract class Enemy extends Creature {
                 startAttackingWall();
             }
             if(moveSpeed > GameStage._ENEMY_MOVE_SPEED
-                    && getX() < gameStage.background.getZero().x + gameStage.background.getWidth() - gameStage.grid.tileWidth
+//                    && getX() < gameStage.background.getZero().x + gameStage.background.getWidth() - gameStage.grid.tileWidth
                     && getX() > gameStage.colorsPlatform.getRight() + gameStage.grid.tileWidth) {
                 moveSpeed -= 0.02f;
                 if(skeletonActor.getAnimationState().getCurrent(0).getAnimation().getName().contains("walk")) {

@@ -13,6 +13,7 @@ import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.enums.TutorialStep;
 import com.frismos.unicorn.enums.UnicornType;
 import com.frismos.unicorn.grid.Tile;
+import com.frismos.unicorn.manager.SoundManager;
 import com.frismos.unicorn.manager.TimerRunnable;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.ui.CompleteDialog;
@@ -267,7 +268,11 @@ public abstract class MainCharacter extends Creature implements Observer {
     }
 
     public void updatePosition() {
+        float oldY = getY();
         setY(gameStage.colorsPlatform.positions.get(positionY).y);
+        if(oldY != getY()) {
+            gameStage.game.soundManager.playMusic(SoundManager.CHANGE_COLOR, Sound.class, true, false);
+        }
         changeEnemyDirection.run();
         gameStage.attackCommand.cancelTask();
         gameStage.colorsPlatform.setColorType(colorType);
@@ -367,6 +372,7 @@ public abstract class MainCharacter extends Creature implements Observer {
     }
 
     public void resetCombo() {
+        gameStage.game.soundManager.playMusic(SoundManager.ERROR, Sound.class, true, false, 1.5f);
         Gdx.input.vibrate(100);
         int combo = (int)(this.combo / COMBO_VALUE);
         if(combo < 10) {

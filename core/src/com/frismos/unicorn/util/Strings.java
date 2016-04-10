@@ -17,8 +17,10 @@ public class Strings {
     public static final String ATTACKING_ENEMY = "@monsters/slime-footer";
     public static final String SHOOTING_ENEMY = "@monsters/slime-shooter";
     public static final String WALKING_ENEMY = "@monsters/slime";
+    public static final String CHEWING_ENEMY = "@monsters/slime-chewer";
     public static final String RUNNING_ENEMY = "@monsters/slime-leap";
     public static final String MOTHER_BOSS = "@monsters/boss1";
+    public static final String HEALTHY_ENEMY = "@monsters/slime-healthy";
     public static final String SHOOTING_BOSS = "@monsters/boss2";
     public static final String BOUNCING_ENEMY = "@monsters/slime-jumper";
     public static final String BOMB = "bomb";

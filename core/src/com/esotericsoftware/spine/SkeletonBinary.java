@@ -32,6 +32,7 @@
 package com.esotericsoftware.spine;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
@@ -104,7 +105,24 @@ public class SkeletonBinary {
 		SkeletonData skeletonData = new SkeletonData();
 		skeletonData.name = file.nameWithoutExtension();
 
-		DataInput input = new DataInput(file.read(512));
+		final Charset utf8 = Charset.forName("UTF-8");
+		DataInput input = new DataInput(file.read(512)) {
+			private byte[] bytes = new byte[32];
+
+			public String readString () throws IOException {
+				int byteCount = readInt(true);
+				switch (byteCount) {
+				case 0:
+					return null;
+				case 1:
+					return "";
+				}
+				byteCount--;
+				if (bytes.length < byteCount) bytes = new byte[byteCount];
+				readFully(bytes, 0, byteCount);
+				return new String(bytes, 0, byteCount, utf8);
+			}
+		};
 		try {
 			skeletonData.hash = input.readString();
 			if (skeletonData.hash.isEmpty()) skeletonData.hash = null;
@@ -123,9 +141,7 @@ public class SkeletonBinary {
 			// Bones.
 			for (int i = 0, n = input.readInt(true); i < n; i++) {
 				String name = input.readString();
-				BoneData parent = null;
-				int parentIndex = input.readInt(true) - 1;
-				if (parentIndex != -1) parent = skeletonData.bones.get(parentIndex);
+				BoneData parent = i == 0 ? null : skeletonData.bones.get(input.readInt(true));
 				BoneData boneData = new BoneData(name, parent);
 				boneData.x = input.readFloat() * scale;
 				boneData.y = input.readFloat() * scale;
@@ -284,7 +300,7 @@ public class SkeletonBinary {
 			return region;
 		}
 		case boundingbox: {
-			float[] vertices = readFloatArray(input, scale);
+			float[] vertices = readFloatArray(input, input.readInt(true) * 2, scale);
 			BoundingBoxAttachment box = attachmentLoader.newBoundingBoxAttachment(skin, name);
 			if (box == null) return null;
 			box.setVertices(vertices);
@@ -294,14 +310,15 @@ public class SkeletonBinary {
 			String path = input.readString();
 			int color = input.readInt();
 			int hullLength = 0;
-			float[] uvs = readFloatArray(input, 1);
+			int verticesLength = input.readInt(true) * 2;
+			float[] uvs = readFloatArray(input, verticesLength, 1);
 			short[] triangles = readShortArray(input);
-			float[] vertices = readFloatArray(input, scale);
+			float[] vertices = readFloatArray(input, verticesLength, scale);
 			hullLength = input.readInt(true);
-			int[] edges = null;
+			short[] edges = null;
 			float width = 0, height = 0;
 			if (nonessential) {
-				edges = readIntArray(input);
+				edges = readShortArray(input);
 				width = input.readFloat();
 				height = input.readFloat();
 			}
@@ -351,15 +368,15 @@ public class SkeletonBinary {
 		case weightedmesh: {
 			String path = input.readString();
 			int color = input.readInt();
-			float[] uvs = readFloatArray(input, 1);
-			short[] triangles = readShortArray(input);
 			int vertexCount = input.readInt(true);
+			float[] uvs = readFloatArray(input, vertexCount * 2, 1);
+			short[] triangles = readShortArray(input);
 			FloatArray weights = new FloatArray(uvs.length * 3 * 3);
 			IntArray bones = new IntArray(uvs.length * 3);
 			for (int i = 0; i < vertexCount; i++) {
 				int boneCount = (int)input.readFloat();
 				bones.add(boneCount);
-				for (int nn = i + boneCount * 4; i < nn; i += 4) {
+				for (int ii = 0, nn = boneCount; ii < nn; ii++) {
 					bones.add((int)input.readFloat());
 					weights.add(input.readFloat() * scale);
 					weights.add(input.readFloat() * scale);
@@ -367,10 +384,10 @@ public class SkeletonBinary {
 				}
 			}
 			int hullLength = input.readInt(true);
-			int[] edges = null;
+			short[] edges = null;
 			float width = 0, height = 0;
 			if (nonessential) {
-				edges = readIntArray(input);
+				edges = readShortArray(input);
 				width = input.readFloat();
 				height = input.readFloat();
 			}
@@ -422,8 +439,7 @@ public class SkeletonBinary {
 		return null;
 	}
 
-	private float[] readFloatArray (DataInput input, float scale) throws IOException {
-		int n = input.readInt(true);
+	private float[] readFloatArray (DataInput input, int n, float scale) throws IOException {
 		float[] array = new float[n];
 		if (scale == 1) {
 			for (int i = 0; i < n; i++)
@@ -440,14 +456,6 @@ public class SkeletonBinary {
 		short[] array = new short[n];
 		for (int i = 0; i < n; i++)
 			array[i] = input.readShort();
-		return array;
-	}
-
-	private int[] readIntArray (DataInput input) throws IOException {
-		int n = input.readInt(true);
-		int[] array = new int[n];
-		for (int i = 0; i < n; i++)
-			array[i] = input.readInt(true);
 		return array;
 	}
 

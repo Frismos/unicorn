@@ -12,6 +12,7 @@ import com.frismos.unicorn.userdata.UserData;
 import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.util.Constants;
+import com.frismos.unicorn.util.Debug;
 import com.frismos.unicorn.util.Strings;
 
 /**
@@ -23,11 +24,13 @@ public class BouncingEnemy extends ShootingEnemy {
     private AnimationState.AnimationStateListener jumpListener = new AnimationState.AnimationStateListener() {
         @Override
         public void event(int trackIndex, Event event) {
+            gameStage.game.soundManager.playMusic(SoundManager.JUMP, Sound.class, true, false);
             addAction(Actions.sequence(Actions.moveTo(getX(), destY, 0.6f, Interpolation.swingOut), Actions.run(moveListener)));
         }
 
         @Override
         public void complete(int trackIndex, int loopCount) {
+            Debug.log("jump animation listener complete");
             skeletonActor.getAnimationState().clearListeners();
             skeletonActor.getAnimationState().setAnimation(0, "walk", true);
         }
@@ -47,6 +50,8 @@ public class BouncingEnemy extends ShootingEnemy {
         @Override
         public void run() {
             if(isAttacking) {
+                Debug.log("jump move listener");
+
                 invulnerable = false;
 //            animationState.setTimeScale(1.0f);
                 skeletonActor.getAnimationState().setAnimation(0, "walk", true);
@@ -86,7 +91,6 @@ public class BouncingEnemy extends ShootingEnemy {
         skeletonActor.getAnimationState().setTimeScale(1.0f);
         int positionY = MathUtils.random(GameStage.ROW_LENGTH - 1);
         if(this.positionY != positionY) {
-            gameStage.game.soundManager.playMusic(SoundManager.JUMP, Sound.class, true, false);
             this.positionY = positionY;
 //        invulnerable = true;
             int prob = MathUtils.random(2);
@@ -101,7 +105,14 @@ public class BouncingEnemy extends ShootingEnemy {
             }
             skeletonActor.getAnimationState().clearListeners();
             skeletonActor.getAnimationState().addListener(jumpListener);
+
         }
+    }
+
+    @Override
+    public void wallAttackingAnimation() {
+        skeletonActor.getAnimationState().setTimeScale(1.0f);
+        skeletonActor.getAnimationState().setAnimation(0, "attack", true);
     }
 
     @Override

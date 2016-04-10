@@ -67,7 +67,7 @@ public class RunningEnemy extends WalkingEnemy {
 
     @Override
     public void wallAttackingAnimation() {
-        skeletonActor.getAnimationState().setAnimation(0, "attack", true);
+        skeletonActor.getAnimationState().setAnimation(0, "attack1", true);
         super.wallAttackingAnimation();
     }
 

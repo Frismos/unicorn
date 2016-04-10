@@ -6,6 +6,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.utils.Array;
 import com.frismos.TweenAccessor.MusicAccessor;
 import com.frismos.unicorn.actor.Enemy;
@@ -165,7 +166,7 @@ public class AIManager {
                         }
                         do {
                             int type = enemyTypeIndex;
-                            if (enemyTypeIndex == 2) {
+                            if (enemyTypeIndex == WaveType.BOUNCING.ordinal()) {
                                 type--;
                             }
                             patterns.get(sendingPatternIndex).enemyType = WaveType.values()[MathUtils.random(type, index)];

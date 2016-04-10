@@ -14,7 +14,7 @@ public class Shadow extends Image {
         setSize(enemy.getWidth(), enemy.getWidth() / 2);
         setColor(0, 0, 0, 0.25f);
         gameStage.addActor(this);
-        setZIndex(gameStage.colorsPlatform.getZIndex() + 1);
+        setZIndex(gameStage.background.getZIndex() + 1);
         setPosition(enemy.getX(), enemy.getY());
     }
 }

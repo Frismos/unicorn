@@ -60,6 +60,7 @@ public class AttackingEnemy extends Enemy {
 
     @Override
     public void wallAttackingAnimation() {
+        isAttackingOnUnicorn = true;
         skeletonActor.getAnimationState().setAnimation(0, "attack", true);
         super.wallAttackingAnimation();
     }

@@ -54,13 +54,13 @@ public class AttackingEnemy extends Enemy {
         isAttackingOnUnicorn = true;
         moveSpeed = 7.5f;
 
-        skeletonActor.getAnimationState().setTimeScale(2.0f);
-        skeletonActor.getAnimationState().setAnimation(1, "attack", true);
+        skeletonActor.getAnimationState().setAnimation(0, "run", true);
         gameStage.unicorn.addPositionChangeListener(this);
     }
 
     @Override
     public void wallAttackingAnimation() {
+        skeletonActor.getAnimationState().setAnimation(0, "attack", true);
         super.wallAttackingAnimation();
     }
 

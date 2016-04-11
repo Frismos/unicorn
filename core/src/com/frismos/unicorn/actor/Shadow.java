@@ -10,7 +10,7 @@ import com.frismos.unicorn.stage.GameStage;
 public class Shadow extends Image {
     public Shadow(GameStage gameStage, Enemy enemy) {
         super(gameStage.game.atlasManager.get("gfx/@atlas/pack.atlas", TextureAtlas.class).findRegion("shadow"));
-        setSize(enemy.getWidth()*1.6f, enemy.getWidth() / 2);
+        setSize(enemy.getWidth() * 1.6f, enemy.getWidth() / 2);
         setColor(enemy.getColor().r, enemy.getColor().g, enemy.getColor().b, .7f);
         gameStage.addActor(this);
         setZIndex(gameStage.background.getZIndex() + 1);

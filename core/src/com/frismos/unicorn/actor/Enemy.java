@@ -246,6 +246,9 @@ public abstract class Enemy extends Creature {
 
     public void setColorType(ColorType colorType) {
         Utils.setActorColorType(this, colorType);
+        if(shadow != null) {
+            shadow.setColor(getColor().r, getColor().g, getColor().b, 0.7f);
+        }
     }
 
     public void addWaitingEnemy(Enemy waitingEnemy) {

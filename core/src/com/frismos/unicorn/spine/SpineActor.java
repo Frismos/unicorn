@@ -1,24 +1,17 @@
 package com.frismos.unicorn.spine;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.esotericsoftware.spine.AnimationStateData;
 import com.esotericsoftware.spine.SkeletonBounds;
 import com.esotericsoftware.spine.SkeletonData;
 import com.esotericsoftware.spine.SkeletonJson;
 import com.esotericsoftware.spine.utils.SkeletonActor;
-import com.frismos.unicorn.actor.Background;
-import com.frismos.unicorn.actor.MainCharacter;
-import com.frismos.unicorn.manager.AtlasManager;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.stage.SimpleStage;
-import com.frismos.unicorn.stage.UIStage;
 import com.frismos.unicorn.ui.CompleteDialog;
-import com.frismos.unicorn.util.Debug;
 
 /**
  * Created by edgar on 12/11/2015.
@@ -26,6 +19,7 @@ import com.frismos.unicorn.util.Debug;
 public abstract class SpineActor extends Actor {
 
     public GameStage gameStage;
+    public SimpleStage stage;
 
     protected String path = "";
     protected float scaleRatio;
@@ -38,7 +32,7 @@ public abstract class SpineActor extends Actor {
         if(stage instanceof GameStage) {
             gameStage = (GameStage)stage;
         }
-
+        this.stage = stage;
         setResourcesPath();
         setScaleRatio();
 //        Class type = getType();
@@ -122,7 +116,7 @@ public abstract class SpineActor extends Actor {
     }
 
     public void dispose() {
-        gameStage.game.atlasManager.freeSkeletonActor(skeletonActor);
+        stage.game.atlasManager.freeSkeletonActor(skeletonActor);
         skeletonActor.act(Gdx.graphics.getDeltaTime());
     }
 

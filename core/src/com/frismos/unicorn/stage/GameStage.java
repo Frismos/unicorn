@@ -57,6 +57,7 @@ import com.frismos.unicorn.screen.GameScreen;
 import com.frismos.unicorn.spine.SpineActor;
 import com.frismos.unicorn.util.BodyUtils;
 import com.frismos.unicorn.util.Constants;
+import com.frismos.unicorn.util.Debug;
 import com.frismos.unicorn.util.Timer;
 import com.frismos.unicorn.util.Utils;
 
@@ -212,7 +213,7 @@ public class GameStage extends SimpleStage {
     public GameStage(final UnicornGame game) {
         super(new FillViewport(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT), new PolygonSpriteBatch());
         this.game = game;
-
+        Debug.log("gamestage constructor");
         blackPixel = new Texture("blackPixel.png");
         Image pixel = new Image(blackPixel);
         pixel.setSize(1, 1);
@@ -312,9 +313,15 @@ public class GameStage extends SimpleStage {
     }
 
     public void restartGame() {
+        game.restartGame = true;
+        dispose();
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
         game.soundManager.reset();
         game.soundManager.sounds.get(game.soundManager.currentSoundId).stop(game.soundManager.currentSoundId);
-        game.restartGame = true;
         initConstants();
         game.timerManager.reset();
         game.tutorialManager = new TutorialManager(game);

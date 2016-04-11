@@ -38,6 +38,7 @@ import com.frismos.unicorn.manager.TutorialManager;
 import com.frismos.unicorn.manager.Updatable;
 import com.frismos.unicorn.patterns.GoogleAnalyticsController;
 import com.frismos.unicorn.screen.GameScreen;
+import com.frismos.unicorn.screen.SplashScreen;
 import com.frismos.unicorn.screen.UIScreen;
 import com.frismos.unicorn.stage.UIStage;
 import com.frismos.unicorn.util.Constants;
@@ -63,7 +64,7 @@ public class UnicornGame extends Game {
 	public GoogleAnalyticsController googleAnalyticsController;
     public TweenManager tweenManager;
 
-	public boolean restartGame = true;
+	public boolean restartGame = false;
 
     public Array<Updatable> updatableArray = new Array<>();
 	public SoundManager soundManager;
@@ -114,11 +115,10 @@ public class UnicornGame extends Game {
 			uiScreen.show();
 			uiScreen.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-			setScreen(new GameScreen(this));
+			setScreen(new SplashScreen(this));
 
 			multiplexer = new InputMultiplexer();
 			multiplexer.addProcessor(uiScreen.stage);
-			multiplexer.addProcessor(((GameScreen)getScreen()).stage);
 			Gdx.input.setInputProcessor(multiplexer);
 		}
 	}
@@ -222,5 +222,7 @@ public class UnicornGame extends Game {
 		soundManager.playMusic(SoundManager.EXPLODE, Sound.class, false);
 		soundManager.playMusic(SoundManager.TEETH_CHATTER, Sound.class, false);
 		soundManager.playMusic(SoundManager.JUMP, Sound.class, false);
+		soundManager.playMusic(SoundManager.BUTTON, Sound.class, false);
+
 	}
 }

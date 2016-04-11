@@ -35,6 +35,7 @@ public class Strings {
     public static final String UNICORN_SPELL = "@powers/unicorn";
     public static final String HEALTH_SPELL = "@powers/heal";
     public static final String COMPLETE_DIALOG = "@dialog";
+    public static final String SPLASH_SCREEN = "menuscreen";
 
     private StringBuilder builder;
 

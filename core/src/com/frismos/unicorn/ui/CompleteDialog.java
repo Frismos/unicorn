@@ -22,7 +22,9 @@ import com.esotericsoftware.spine.Bone;
 import com.esotericsoftware.spine.Skeleton;
 import com.esotericsoftware.spine.SkeletonBounds;
 import com.esotericsoftware.spine.attachments.BoundingBoxAttachment;
+import com.frismos.unicorn.manager.SoundManager;
 import com.frismos.unicorn.screen.GameScreen;
+import com.frismos.unicorn.screen.SplashScreen;
 import com.frismos.unicorn.spine.SpineActor;
 import com.frismos.unicorn.stage.UIStage;
 import com.frismos.unicorn.util.Debug;
@@ -68,6 +70,7 @@ public class CompleteDialog extends SpineActor {
                         img.addListener(new ClickListener() {
                             @Override
                             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                stage.game.soundManager.playMusic(SoundManager.BUTTON, Sound.class, true, false, 1.0f);
                                 skeletonActor.getSkeleton().findSlot("green-normal").getColor().a = 0;
                                 return super.touchDown(event, x, y, pointer, button);
                             }
@@ -94,20 +97,21 @@ public class CompleteDialog extends SpineActor {
                         img.addListener(new ClickListener() {
                             @Override
                             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                stage.game.soundManager.playMusic(SoundManager.BUTTON, Sound.class, true, false, 1.0f);
                                 skeletonActor.getSkeleton().findSlot("red-normal").getColor().a = 0;
                                 return super.touchDown(event, x, y, pointer, button);
                             }
 
                             @Override
                             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                                Gdx.app.exit();
                                 CompleteDialog.this.skeletonActor.getAnimationState().setAnimation(0, "hide", false);
                                 CompleteDialog.this.skeletonActor.getAnimationState().clearListeners();
                                 CompleteDialog.this.skeletonActor.getAnimationState().addListener(new AnimationState.AnimationStateAdapter() {
                                     @Override
                                     public void complete(int trackIndex, int loopCount) {
                                         CompleteDialog.this.remove(false);
-                                        ((GameScreen) stage.game.getScreen()).stage.restartGame();
+                                        stage.game.getScreen().dispose();;
+                                        stage.game.setScreen(new SplashScreen(stage.game));
                                         CompleteDialog.this.skeletonActor.getAnimationState().removeListener(this);
 
                                         super.complete(trackIndex, loopCount);

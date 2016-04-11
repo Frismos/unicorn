@@ -1,5 +1,6 @@
 package com.frismos.unicorn.screen;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.frismos.unicorn.UnicornGame;
 import com.frismos.unicorn.stage.GameStage;
@@ -21,6 +22,8 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void show() {
         stage = new GameStage(game);
+        game.multiplexer.addProcessor(stage);
+        Gdx.input.setInputProcessor(game.multiplexer);
     }
 
     @Override

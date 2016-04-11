@@ -30,6 +30,7 @@ public class SoundManager implements Updatable {
     public static final String EXPLODE = "paytel";
     public static final String TEETH_CHATTER = "tetth chatter";
     public static final String JUMP = "trnel";
+    public static final String BUTTON = "button";
     public static final String FIRING_LAUGH = "paytel cicagh";
     public static final String RUNNING_DIE = "paytel kosht";
 
@@ -40,6 +41,7 @@ public class SoundManager implements Updatable {
     public LongMap<Sound> sounds = new LongMap<>();
     public long currentSoundId = -1;
     private float musicPitch = 1.0f;
+    public Music currentMusic;
 
     public SoundManager(UnicornGame game) {
         this.game = game;
@@ -64,6 +66,7 @@ public class SoundManager implements Updatable {
         T music = game.atlasManager.get(filePath, type);
         if(music instanceof Music) {
             if(play) {
+                currentMusic = (Music)music;
                 ((Music) music).play();
             }
             ((Music) music).setLooping(true);
@@ -116,5 +119,15 @@ public class SoundManager implements Updatable {
 
     public void reset() {
         musicPitch = 1.0f;
+    }
+
+    public void stop() {
+        LongMap.Keys keys = sounds.keys();
+        while (keys.hasNext) {
+            sounds.get(keys.next()).stop();
+        }
+        if(currentMusic != null) {
+            currentMusic.stop();
+        }
     }
 }

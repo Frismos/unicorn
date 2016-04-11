@@ -71,9 +71,9 @@ public abstract class Enemy extends Creature {
                 gameStage.game.tutorialManager.pauseGame = false;
             }
             if (Enemy.this.tile != null) {
-                if(Enemy.this.tile.j != 0){
-//                    tile.color(colorType);
-                }
+//                if(Enemy.this.tile.j != 0){
+////                    tile.color(colorType);
+//                }
                 tile = null;
             }
         }

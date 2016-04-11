@@ -270,6 +270,7 @@ public abstract class Enemy extends Creature {
 
     public void die(AnimationState.AnimationStateListener dieListener) {
         if(!isDead) {
+            skeletonActor.getAnimationState().setTimeScale(1.0f);
             playDieSound();
             gameStage.score++;
             gameStage.game.uiScreen.stage.scoreLabel.setText(java.lang.String.format("score: %d", gameStage.score));

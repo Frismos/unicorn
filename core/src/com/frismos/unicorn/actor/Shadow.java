@@ -2,9 +2,7 @@ package com.frismos.unicorn.actor;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.utils.Align;
 import com.frismos.unicorn.stage.GameStage;
-import com.frismos.unicorn.util.Debug;
 
 /**
  * Created by eavanyan on 3/3/16.

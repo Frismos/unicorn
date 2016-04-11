@@ -62,6 +62,11 @@ public abstract class Enemy extends Creature {
 
         @Override
         public void event(int trackIndex, Event event) {
+            if(event.getData().getName().equals("die")) {
+                if(shadow != null) {
+                    shadow.remove();
+                }
+            }
             if(isTutorialEnemy) {
                 gameStage.game.tutorialManager.pauseGame = false;
             }
@@ -278,9 +283,6 @@ public abstract class Enemy extends Creature {
                 if(!(this instanceof Boss) && !(this instanceof BossSon) && gameStage.boss == null) {
                     gameStage.game.aiManager.sendEnemy(gameStage.game.aiManager.currentIndex);
                 }
-            }
-            if(shadow != null) {
-                shadow.remove();
             }
             hideProgressBar();
 

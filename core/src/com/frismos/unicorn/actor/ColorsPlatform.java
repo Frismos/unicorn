@@ -60,7 +60,7 @@ public class ColorsPlatform extends SpineActor {
 
     @Override
     protected void startDefaultAnimation() {
-        skeletonActor.getAnimationState().setAnimation(0, "idle0", true);
+        skeletonActor.getAnimationState().setAnimation(0, "idle", true);
     }
 
     public void setColorType(ColorType colorType) {

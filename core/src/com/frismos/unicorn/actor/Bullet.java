@@ -114,6 +114,7 @@ public class Bullet extends GameActor {
     @Override
     protected void startDefaultAnimation() {
         skeletonActor.getAnimationState().setAnimation(0, "life", true);
+        skeletonActor.getAnimationState().setAnimation(1, "life1", false);
     }
 
     public float calculateAngle() {

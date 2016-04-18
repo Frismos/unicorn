@@ -30,6 +30,7 @@ import com.frismos.unicorn.util.Utils;
 public abstract class Enemy extends Creature {
 
     public static float INITIAL_MOVE_SPEED = 10.0f;
+    private final Trail trail;
 
     private Bone liveBone;
     private float maxLiveScale;
@@ -198,6 +199,9 @@ public abstract class Enemy extends Creature {
         }
         maxLiveScale = Integer.valueOf(liveBone.getData().getName().substring(5));
         liveScale = liveBone.getScaleX();
+        trail = new Trail(gameStage, colorType);
+        //gameStage.addActor(trail);
+
     }
 
     @Override
@@ -253,6 +257,10 @@ public abstract class Enemy extends Creature {
         Utils.setActorColorType(this, colorType);
         if(shadow != null) {
             shadow.setColor(getColor().r, getColor().g, getColor().b, 0.7f);
+        }
+        if(trail != null) {
+            trail.setColor(getColor().r, getColor().g, getColor().b, 0.7f);
+            Utils.setActorColorType(trail, colorType);
         }
     }
 
@@ -380,6 +388,8 @@ public abstract class Enemy extends Creature {
         super.positionChanged();
         if (shadow != null) {
             shadow.setPosition(getX()-getWidth()*.6f/2, getY() - shadow.getHeight() / 3);
+            trail.setPosition(getX()-getWidth()*.6f/2, getY() - shadow.getHeight() / 3);
+            trail.skeletonActor.getAnimationState().setTimeScale(skeletonActor.getAnimationState().getTimeScale());
         }
     }
 

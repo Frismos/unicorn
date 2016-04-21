@@ -1,0 +1,69 @@
+
+top.png
+size: 3879,1285
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+worlds/2/bg/bubles
+  rotate: false
+  xy: 2359, 158
+  size: 1265, 379
+  orig: 1265, 379
+  offset: 0, 0
+  index: -1
+worlds/2/bg/fall
+  rotate: true
+  xy: 3626, 255
+  size: 1028, 251
+  orig: 1028, 251
+  offset: 0, 0
+  index: -1
+worlds/2/bg/greens
+  rotate: false
+  xy: 2, 368
+  size: 2318, 98
+  orig: 2318, 98
+  offset: 0, 0
+  index: -1
+worlds/2/bg/left
+  rotate: false
+  xy: 2, 468
+  size: 1995, 509
+  orig: 1995, 509
+  offset: 0, 0
+  index: -1
+worlds/2/bg/pool
+  rotate: false
+  xy: 2, 979
+  size: 3411, 304
+  orig: 3411, 304
+  offset: 0, 0
+  index: -1
+worlds/2/bg/prpur1
+  rotate: false
+  xy: 1191, 2
+  size: 1166, 364
+  orig: 1166, 364
+  offset: 0, 0
+  index: -1
+worlds/2/bg/prpur2
+  rotate: false
+  xy: 2, 2
+  size: 1187, 364
+  orig: 1187, 364
+  offset: 0, 0
+  index: -1
+worlds/2/bg/right
+  rotate: false
+  xy: 1999, 539
+  size: 1565, 438
+  orig: 1565, 438
+  offset: 0, 0
+  index: -1
+worlds/2/bg/wave
+  rotate: false
+  xy: 2359, 17
+  size: 693, 139
+  orig: 700, 139
+  offset: 7, 0
+  index: -1

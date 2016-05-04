@@ -10,14 +10,13 @@ import com.esotericsoftware.spine.Bone;
 import com.esotericsoftware.spine.Event;
 import com.frismos.unicorn.enums.ActorDataType;
 import com.frismos.unicorn.enums.ColorType;
-import com.frismos.unicorn.enums.TutorialStep;
+import com.frismos.unicorn.enums.TutorialAction;
 import com.frismos.unicorn.enums.UnicornType;
 import com.frismos.unicorn.grid.Tile;
 import com.frismos.unicorn.manager.SoundManager;
-import com.frismos.unicorn.manager.TimerRunnable;
+import com.frismos.unicorn.manager.TutorialManager;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.ui.CompleteDialog;
-import com.frismos.unicorn.util.Timer;
 import com.frismos.unicorn.util.Utils;
 
 import java.util.Observer;
@@ -29,6 +28,7 @@ public abstract class MainCharacter extends Creature implements Observer {
 
     public static final float MAX_HIT_POINTS = 3;
     public static final float COMBO_VALUE = 0.12f;
+    private PowerBar powerBar;
     public float AUTO_ATTACK_SPEED = 0.2f;
     public float SINGLE_ATTACK_SPEED = 0.1f;
     public float CANNON_ATTACK_SPEED = 0.9f;
@@ -48,12 +48,9 @@ public abstract class MainCharacter extends Creature implements Observer {
     public Array<Bullet> gameBullets = new Array<>();
 
     public float combo = COMBO_VALUE;
-    public ColorType currentComboColor;
-    public final static float COMBO_TIME = 4f;
 
     private static Array<Enemy> positionChangeListeners = new Array<>();
-
-    private Timer comboTimer;
+    private TutorialManager.EventListener listener;
 
     protected AnimationState.AnimationStateListener fireAnimationListener = new AnimationState.AnimationStateListener() {
         @Override
@@ -87,6 +84,10 @@ public abstract class MainCharacter extends Creature implements Observer {
             for (int i = 0; i < positionChangeListeners.size; i++) {
                 positionChangeListeners.get(i).changeDirection();
             }
+            if(listener != null) {
+                listener.eventFire();
+                removePositionChangeListener();
+            }
         }
     };
 
@@ -107,6 +108,11 @@ public abstract class MainCharacter extends Creature implements Observer {
             attackSpeed = AUTO_ATTACK_SPEED;
         }
 
+//        powerBar = new PowerBar(gameStage);
+//        powerBar.setPosition(getX() - powerBar.getWidth() / 2, getY());
+//        gameStage.addActor(powerBar);
+//        powerBar.setZIndex(getZIndex() + 1);
+
         positionY = 0;
         tile = gameStage.grid.grid[0][0];
         this.setPosition(gameStage.colorsPlatform.positions.get(positionY).x, gameStage.colorsPlatform.positions.get(positionY).y);
@@ -116,17 +122,28 @@ public abstract class MainCharacter extends Creature implements Observer {
 //        enableRainbowMode();
         setUserObject(ActorDataType.UNICORN);
         fireBone = skeletonActor.getSkeleton().findBone("center-spawn");
+    }
 
-        comboTimer = gameStage.game.timerManager.loop(COMBO_TIME, new TimerRunnable() {
-            @Override
-            public void run(Timer timer) {
-//                if(combo > 0) {
-//                    combo -= COMBO_VALUE;
-//                }
-//                int combo = (int)(MainCharacter.this.combo / COMBO_VALUE);
-//                gameStage.comboLabel.setText(String.format("combo x%d", combo));
+    @Override
+    public void hit(float damage) {
+        super.hit(damage);
+        if(gameStage.colorsPlatform.skeletonActor.getAnimationState().getTracks().get(0) == null ||
+                !gameStage.colorsPlatform.skeletonActor.getAnimationState().getTracks().get(0).getAnimation().getName().equals("hit")) {
+            gameStage.colorsPlatform.skeletonActor.getAnimationState().setAnimation(0, "hit", false);
+        }
+        if(hitPoints < maxHitPoints / 2) {
+            if(!gameStage.colorsPlatform.skeletonActor.getSkeleton().getSkin().equals("1")) {
+                gameStage.colorsPlatform.skeletonActor.getSkeleton().setSkin("1");
             }
-        });
+        }
+    }
+
+    @Override
+    protected void positionChanged() {
+        super.positionChanged();
+        if(powerBar != null) {
+            powerBar.setPosition(getX() - powerBar.getWidth() / 2, getY() - powerBar.getHeight());
+        }
     }
 
     @Override
@@ -146,6 +163,14 @@ public abstract class MainCharacter extends Creature implements Observer {
         }
     }
 
+    public void addPositionChangeListener(final TutorialManager.EventListener listener) {
+        this.listener = listener;
+    }
+
+    public void removePositionChangeListener() {
+        this.listener = null;
+    }
+
     public void removePositionChangeListener(Enemy enemy) {
         positionChangeListeners.removeValue(enemy, false);
     }
@@ -159,24 +184,6 @@ public abstract class MainCharacter extends Creature implements Observer {
 
     public void moveUp(float velocity) {
         if(tile != null) {
-            if(gameStage.game.tutorialManager.isTutorialMode) {
-                if(gameStage.game.tutorialManager.isTutorialEnemyOnStage) {
-                    if (gameStage.game.tutorialManager.currentStep == TutorialStep.FIRST) {
-                        if (colorType == gameStage.game.tutorialManager.firstStepColor) {
-                            return;
-                        }
-                    } else if (gameStage.game.tutorialManager.currentStep == TutorialStep.SECOND) {
-                        if (colorType == gameStage.game.tutorialManager.enemies.get(0).colorType) {
-                            return;
-                        }
-                    } else if (gameStage.game.tutorialManager.currentStep == TutorialStep.THIRD) {
-                        if (colorType == gameStage.game.tutorialManager.thirdStepColor) {
-                            return;
-                        }
-                    }
-                }
-                gameStage.game.tutorialManager.removeArrow();
-            }
             tile.character = null;
 //            Debug.log("position y = " + positionY);
             if (gameStage.grid.isTileInsideGrid(tile.i + 1, tile.j)) {
@@ -194,24 +201,6 @@ public abstract class MainCharacter extends Creature implements Observer {
 
     public void moveDown(float velocity) {
         if(tile != null) {
-            if(gameStage.game.tutorialManager.isTutorialMode) {
-                if(gameStage.game.tutorialManager.isTutorialEnemyOnStage) {
-                    if (gameStage.game.tutorialManager.currentStep == TutorialStep.FIRST) {
-                        if (colorType == gameStage.game.tutorialManager.firstStepColor) {
-                            return;
-                        }
-                    } else if (gameStage.game.tutorialManager.currentStep == TutorialStep.SECOND) {
-                        if (colorType == gameStage.game.tutorialManager.enemies.get(0).colorType) {
-                            return;
-                        }
-                    } else if (gameStage.game.tutorialManager.currentStep == TutorialStep.THIRD) {
-                        if (colorType == gameStage.game.tutorialManager.thirdStepColor) {
-                            return;
-                        }
-                    }
-                }
-                gameStage.game.tutorialManager.removeArrow();
-            }
             tile.character = null;
 //            Debug.log("position y = " + positionY);
             if(gameStage.grid.isTileInsideGrid(tile.i - 1, tile.j)) {
@@ -294,6 +283,8 @@ public abstract class MainCharacter extends Creature implements Observer {
     public void die() {
         if(!gameStage.stopGame) {
             gameStage.stopGame = true;
+            gameStage.colorsPlatform.skeletonActor.getSkeleton().setSkin("2");
+            skeletonActor.getAnimationState().setAnimation(0, "die", false);
 //            addAction(Actions.delay(0.3f, Actions.run(new Runnable() {
 //                @Override
 //                public void run() {
@@ -316,24 +307,6 @@ public abstract class MainCharacter extends Creature implements Observer {
 
     public void moveTo(Tile tile) {
         if(this.tile != null) {
-            if(gameStage.game.tutorialManager.isTutorialMode) {
-                if(gameStage.game.tutorialManager.isTutorialEnemyOnStage) {
-                    if (gameStage.game.tutorialManager.currentStep == TutorialStep.FIRST) {
-                        if (colorType == gameStage.game.tutorialManager.firstStepColor) {
-                            return;
-                        }
-                    } else if (gameStage.game.tutorialManager.currentStep == TutorialStep.SECOND) {
-                        if (colorType == gameStage.game.tutorialManager.enemies.get(0).colorType) {
-                            return;
-                        }
-                    } else if (gameStage.game.tutorialManager.currentStep == TutorialStep.THIRD) {
-                        if (colorType == gameStage.game.tutorialManager.thirdStepColor) {
-                            return;
-                        }
-                    }
-                }
-                gameStage.game.tutorialManager.removeArrow();
-            }
             this.tile.character = null;
             this.tile = tile;
 
@@ -363,15 +336,21 @@ public abstract class MainCharacter extends Creature implements Observer {
             } else {
                 bulletsToShootCount = 1;
             }
+            if(combo / 5 > 0) {
+                gameStage.game.uiScreen.stage.powerBar.setProgress(combo / 5 - 1, false);
+            }
         }
-        comboTimer.reset();
     }
 
     private void activateDoubleBullet() {
         bulletsToShootCount = 2;
     }
 
+    boolean tutorialHintShown = false;
     public void resetCombo() {
+        if(!tutorialHintShown) {
+            gameStage.game.tutorialManager.fireAction(TutorialAction.WRONG_COLOR, null);
+        }
         gameStage.game.soundManager.playMusic(SoundManager.ERROR, Sound.class, true, false, 1.5f);
         Gdx.input.vibrate(100);
         int combo = (int)(this.combo / COMBO_VALUE);
@@ -388,6 +367,11 @@ public abstract class MainCharacter extends Creature implements Observer {
             this.combo = COMBO_VALUE;
         }
         combo = (int)(this.combo / COMBO_VALUE);
+        if(combo / 5 >= 0) {
+            gameStage.game.uiScreen.stage.powerBar.setProgress(combo / 5, true);
+        } else {
+            gameStage.game.uiScreen.stage.powerBar.setProgress(0, true);
+        }
         gameStage.game.uiScreen.stage.comboLabel.setText(String.format("combo x%d", combo));
         if(combo >= 50) {
             bulletsToShootCount = 3;

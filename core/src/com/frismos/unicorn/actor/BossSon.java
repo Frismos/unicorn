@@ -1,6 +1,5 @@
 package com.frismos.unicorn.actor;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.util.Constants;
@@ -16,7 +15,6 @@ public class BossSon extends WalkingEnemy {
         showProgressBar();
     }
 
-
     @Override
     protected void startDefaultAnimation() {
         skeletonActor.getAnimationState().setAnimation(0, "walk", true);
@@ -24,11 +22,11 @@ public class BossSon extends WalkingEnemy {
 
     @Override
     protected void setResourcesPath() {
-        path = Strings.MOTHER_BOSS;
+        path = Strings.WALKING_ENEMY;
     }
 
     @Override
     protected void setScaleRatio() {
-        scaleRatio = Constants.SPELL_SCALE_RATIO;
+        scaleRatio = Constants.WALKING_ENEMY_SCALE_RATIO / 1.2f;
     }
 }

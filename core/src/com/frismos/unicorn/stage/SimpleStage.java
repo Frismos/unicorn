@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.frismos.unicorn.UnicornGame;
 
 /**
@@ -12,11 +13,7 @@ import com.frismos.unicorn.UnicornGame;
 public class SimpleStage extends Stage {
     public UnicornGame game;
 
-    public SimpleStage(FillViewport fillViewport, PolygonSpriteBatch polygonSpriteBatch) {
+    public SimpleStage(Viewport fillViewport, PolygonSpriteBatch polygonSpriteBatch) {
         super(fillViewport, polygonSpriteBatch);
-    }
-
-    public SimpleStage(FitViewport fitViewport, PolygonSpriteBatch polygonSpriteBatch) {
-        super(fitViewport, polygonSpriteBatch);
     }
 }

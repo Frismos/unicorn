@@ -53,11 +53,11 @@ public class Grid extends Group {
                 grid[i][j].setPosition(offset.x + j * (grid[i][j].getWidth()), offset.y + i * (grid[i][j].getHeight()));
                 if(j == 0) {
                     if(i == 0) {
-                        grid[i][j].color(ColorType.RED);
+                        grid[i][j].color(ColorType.values()[0]);
                     } else if(i == 1) {
-                        grid[i][j].color(ColorType.GREEN);
+                        grid[i][j].color(ColorType.values()[1]);
                     } else if(i == 2) {
-                        grid[i][j].color(ColorType.BLUE);
+                        grid[i][j].color(ColorType.values()[2]);
                     }
 //                } else if(preFilledColors.size > 0) {
 //                    if(MathUtils.randomBoolean((i+1) * 0.1f)) {

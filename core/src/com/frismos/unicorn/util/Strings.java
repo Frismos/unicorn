@@ -36,6 +36,7 @@ public class Strings {
     public static final String HEALTH_SPELL = "@powers/heal";
     public static final String COMPLETE_DIALOG = "@dialog";
     public static final String SPLASH_SCREEN = "menuscreen";
+    public static final String POWER_BAR = "@powers";
 
     private StringBuilder builder;
 

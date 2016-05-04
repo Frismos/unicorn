@@ -45,6 +45,8 @@ public class CompleteDialog extends SpineActor {
     public CompleteDialog(final UIStage stage) {
         super(stage);
         this.stage = stage;
+        stage.game.soundManager.stop();
+        stage.game.aiManager.pauseGame();
         stage.comboLabel.remove();
         setPosition(stage.getWidth() / 2 - getWidth() / 2, stage.getHeight() / 2 - getHeight() / 2);
 

@@ -30,7 +30,6 @@ public class BouncingEnemy extends ShootingEnemy {
 
         @Override
         public void complete(int trackIndex, int loopCount) {
-            Debug.log("jump animation listener complete");
             skeletonActor.getAnimationState().clearListeners();
             skeletonActor.getAnimationState().setAnimation(0, "walk", true);
         }
@@ -50,8 +49,6 @@ public class BouncingEnemy extends ShootingEnemy {
         @Override
         public void run() {
             if(isAttacking) {
-                Debug.log("jump move listener");
-
                 invulnerable = false;
 //            animationState.setTimeScale(1.0f);
                 skeletonActor.getAnimationState().setAnimation(0, "walk", true);
@@ -105,8 +102,12 @@ public class BouncingEnemy extends ShootingEnemy {
             }
             skeletonActor.getAnimationState().clearListeners();
             skeletonActor.getAnimationState().addListener(jumpListener);
-
         }
+    }
+
+    @Override
+    public void eatWall() {
+        gameStage.game.soundManager.playMusic(SoundManager.KNOCK_BOUNCE, Sound.class, true);
     }
 
     @Override

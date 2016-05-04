@@ -6,9 +6,9 @@ import com.frismos.unicorn.stage.GameStage;
  * Created by edgaravanyan on 10/13/15.
  */
 public enum ColorType {
-    RED,
-    GREEN,
     BLUE,
+    GREEN,
+    RED,
     RAINBOW,
     DEBUG;
 

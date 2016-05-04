@@ -18,6 +18,7 @@ public class AttackCommand implements Command {
     private float fireTimer;
     private boolean fire;
     private int bulletsShoot = 0;
+    private boolean pause;
 
     public AttackCommand(MainCharacter character) {
         this.character = character;
@@ -83,21 +84,23 @@ public class AttackCommand implements Command {
     }
 
     public void update() {
-        fireTimer += Gdx.graphics.getDeltaTime();
-        if(fire) {
-            if (fireTimer >= character.attackSpeed) {
-                ++bulletsShoot;
-                character.playFireAnimation(x, y);
-                fireBullet(x, y);
-                if (character.bulletsToShootCount == 1) {
-                    fireTimer = 0.0f;
-                } else if (character.bulletsToShootCount == 2) {
-                    fireTimer = character.attackSpeed - 0.05f;
-                }
-                if (bulletsShoot >= character.bulletsToShootCount) {
-                    fire = false;
-                    bulletsShoot = 0;
-                    fireTimer = 0.0f;
+        if(!pause) {
+            fireTimer += Gdx.graphics.getDeltaTime();
+            if (fire) {
+                if (fireTimer >= character.attackSpeed) {
+                    ++bulletsShoot;
+                    character.playFireAnimation(x, y);
+                    fireBullet(x, y);
+                    if (character.bulletsToShootCount == 1) {
+                        fireTimer = 0.0f;
+                    } else if (character.bulletsToShootCount == 2) {
+                        fireTimer = character.attackSpeed - 0.05f;
+                    }
+                    if (bulletsShoot >= character.bulletsToShootCount) {
+                        fire = false;
+                        bulletsShoot = 0;
+                        fireTimer = 0.0f;
+                    }
                 }
             }
         }
@@ -110,5 +113,14 @@ public class AttackCommand implements Command {
 
     public void cancelTask() {
         fire = false;
+    }
+
+    public void pause() {
+        pause = true;
+    }
+
+    public void resume() {
+        pause = false;
+        cancelTask();
     }
 }

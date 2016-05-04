@@ -44,6 +44,11 @@ public class WalkingEnemy extends Enemy {
         }
     };
 
+    @Override
+    public void playDieSound() {
+        gameStage.game.soundManager.playMusic(SoundManager.MOTHER_ENEMY_DIE, Sound.class, true);
+    }
+
     public WalkingEnemy(GameStage stage, ColorType colorType) {
         this(stage, colorType, false);
     }
@@ -71,17 +76,22 @@ public class WalkingEnemy extends Enemy {
         super.die();
     }
 
+    protected boolean attackAnim = false;
+
     @Override
     public void wallAttackingAnimation() {
         if(!skeletonActor.getAnimationState().getCurrent(0).getAnimation().getName().contains("attack")) {
             if (MathUtils.randomBoolean()) {
                 if (skeletonActor.getAnimationState().getData().getSkeletonData().findAnimation("attack1") != null) {
                     skeletonActor.getAnimationState().setAnimation(0, "attack1", true);
+                    attackAnim = false;
                 } else {
                     skeletonActor.getAnimationState().setAnimation(0, "attack", true);
+                    attackAnim = true;
                 }
             } else {
                 skeletonActor.getAnimationState().setAnimation(0, "attack", true);
+                attackAnim = true;
             }
         }
         super.wallAttackingAnimation();
@@ -105,7 +115,7 @@ public class WalkingEnemy extends Enemy {
     @Override
     public void eatWall() {
 //        if(skeletonActor.getAnimationState().getCurrent(0).getAnimation().getName().equals("attack")) {
-            gameStage.game.soundManager.playMusic(SoundManager.KNOCK, Sound.class, true);
+            gameStage.game.soundManager.playMusic(SoundManager.WALKING_ENEMY_HIT, Sound.class, true);
 //        } else if(skeletonActor.getAnimationState().getCurrent(0).getAnimation().getName().equals("attack")) {
 //
 //        }

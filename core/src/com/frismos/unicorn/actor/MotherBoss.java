@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.Array;
 import com.esotericsoftware.spine.AnimationState;
 import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.enums.WaveType;
+import com.frismos.unicorn.manager.AIManager;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.util.Strings;
 

@@ -15,6 +15,7 @@ import org.robovm.apple.gamekit.GKAchievement;
 import org.robovm.apple.gamekit.GKLeaderboard;
 import org.robovm.apple.uikit.UIApplication;
 import org.robovm.apple.uikit.UIApplicationLaunchOptions;
+import org.robovm.apple.uikit.UIInterfaceOrientationMask;
 import org.robovm.apple.uikit.UIScreen;
 import org.robovm.apple.uikit.UIView;
 import org.robovm.apple.uikit.UIViewController;
@@ -28,6 +29,11 @@ import java.util.ArrayList;
 public class IOSLauncher extends IOSApplication.Delegate {
 
     private GoogleAnalytics googleAnalytics;
+
+    @Override
+    public UIInterfaceOrientationMask getSupportedInterfaceOrientations(UIApplication application, UIWindow window) {
+        return UIInterfaceOrientationMask.LandscapeLeft;
+    }
 
     @Override
     public boolean didFinishLaunching(UIApplication application, UIApplicationLaunchOptions options) {

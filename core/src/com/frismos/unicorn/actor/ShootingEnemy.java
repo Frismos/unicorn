@@ -108,16 +108,14 @@ public class ShootingEnemy extends Enemy {
             }
             float startX = this instanceof Boss ? getX() : getX() + getWidth();
             if(startX < gameStage.background.getWidth() + gameStage.background.getZero().x) {
-                if (!gameStage.game.tutorialManager.isTutorialMode || !gameStage.game.tutorialManager.pauseGame) {
-                    accumulator += delta;
-                    if (accumulator >= TIME_STEP) {
-                        accumulator = 0;
-                        if (MathUtils.random(100) <= FIRE_CHANCE) {
-                            attack();
-                        }
-                        if (FIRE_CHANCE < 50) {
-                            FIRE_CHANCE += 1;
-                        }
+                accumulator += delta;
+                if (accumulator >= TIME_STEP) {
+                    accumulator = 0;
+                    if (MathUtils.random(100) <= FIRE_CHANCE) {
+                        attack();
+                    }
+                    if (FIRE_CHANCE < 50) {
+                        FIRE_CHANCE += 1;
                     }
                 }
             }

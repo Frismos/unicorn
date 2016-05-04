@@ -40,9 +40,7 @@ import com.frismos.unicorn.patterns.GoogleAnalyticsController;
 import com.frismos.unicorn.screen.GameScreen;
 import com.frismos.unicorn.screen.SplashScreen;
 import com.frismos.unicorn.screen.UIScreen;
-import com.frismos.unicorn.stage.UIStage;
 import com.frismos.unicorn.util.Constants;
-import com.frismos.unicorn.util.Debug;
 import com.frismos.unicorn.util.Strings;
 
 import aurelienribon.tweenengine.Tween;
@@ -92,12 +90,17 @@ public class UnicornGame extends Game {
 				googleAnalyticsController.sendEvent("Game Started", "Rainbow Defender", "UnicornGame.class", 0);
 			}
 			Gdx.input.setCatchBackKey(true);
+
 			strings = new Strings();
 			atlasManager = new AtlasManager();
 			fontsManager = new FontsManager();
 			dataManager = new DataManager();
+
+			uiScreen = new UIScreen(this);
+			uiScreen.show();
+			uiScreen.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
 			tutorialManager = new TutorialManager(this);
-			updatableArray.add(tutorialManager);
 			soundManager = new SoundManager(this);
 			updatableArray.add(soundManager);
 			timerManager = new TimerManager();
@@ -110,10 +113,6 @@ public class UnicornGame extends Game {
 			Tween.registerAccessor(Actor.class, new ActorAccessor());
 
 			preloadAssets();
-
-			uiScreen = new UIScreen(this);
-			uiScreen.show();
-			uiScreen.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
 			setScreen(new SplashScreen(this));
 
@@ -129,10 +128,10 @@ public class UnicornGame extends Game {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         tweenManager.update(Gdx.graphics.getDeltaTime());
-        for (int i= 0; i < updatableArray.size; i++) {
-            updatableArray.get(i).update(Gdx.graphics.getDeltaTime());
-        }
 		super.render();
+		for (int i= 0; i < updatableArray.size; i++) {
+			updatableArray.get(i).update(Gdx.graphics.getDeltaTime());
+		}
 		uiScreen.render(Gdx.graphics.getDeltaTime());
 
 		if(restartGame) {
@@ -223,6 +222,15 @@ public class UnicornGame extends Game {
 		soundManager.playMusic(SoundManager.TEETH_CHATTER, Sound.class, false);
 		soundManager.playMusic(SoundManager.JUMP, Sound.class, false);
 		soundManager.playMusic(SoundManager.BUTTON, Sound.class, false);
-
+		soundManager.playMusic(SoundManager.ATTACKING_ENEMY_ATTACK, Sound.class, false);
+		soundManager.playMusic(SoundManager.ATTACKING_ENEMY_DIE, Sound.class, false);
+		soundManager.playMusic(SoundManager.MOTHER_BOSS_SCREAM, Sound.class, false);
+		soundManager.playMusic(SoundManager.CHEWING_ENEMY, Sound.class, false);
+		soundManager.playMusic(SoundManager.MOTHER_ENEMY_DIE, Sound.class, false);
+		soundManager.playMusic(SoundManager.MOTHER_ENEMY_HIT, Sound.class, false);
+		soundManager.playMusic(SoundManager.COIN, Sound.class, false);
+		soundManager.playMusic(SoundManager.EYE_BEAT, Sound.class, false);
+		soundManager.playMusic(SoundManager.CRUNCH, Sound.class, false);
+		soundManager.playMusic(SoundManager.KNOCK_BOUNCE, Sound.class, false);
 	}
 }

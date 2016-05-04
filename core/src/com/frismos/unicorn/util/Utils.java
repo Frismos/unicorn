@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.esotericsoftware.spine.Bone;
 import com.esotericsoftware.spine.Slot;
 import com.frismos.unicorn.actor.Bullet;
@@ -17,10 +18,16 @@ import com.frismos.unicorn.enums.ColorType;
 public class Utils {
 
     public static Array<Color> colors = new Array<>();
+    public static ObjectMap<ColorType, Color> colorMap = new ObjectMap<>();
+
     static {
         colors.add(Color.valueOf(Strings.BLUE));
-        colors.add(Color.valueOf(Strings.RED));
         colors.add(Color.valueOf(Strings.GREEN));
+        colors.add(Color.valueOf(Strings.RED));
+
+        colorMap.put(ColorType.BLUE, Color.valueOf(Strings.BLUE));
+        colorMap.put(ColorType.RED, Color.valueOf(Strings.RED));
+        colorMap.put(ColorType.GREEN, Color.valueOf(Strings.GREEN));
     }
 
     public static void setActorColorType(GameActor actor, ColorType colorType) {
@@ -69,7 +76,7 @@ public class Utils {
     public static void colorPlatform(ColorsPlatform actor) {
         Color color = Color.valueOf(Strings.BLUE);
         for (int i = 0; i < actor.skeletonActor.getSkeleton().getSlots().size; i++) {
-            if(actor.skeletonActor.getSkeleton().getSlots().get(i).getData().getName().contains("color2")) {
+            if(actor.skeletonActor.getSkeleton().getSlots().get(i).getData().getName().contains("color0")) {
                 actor.skeletonActor.getSkeleton().getSlots().get(i).getColor().r = color.r;
                 actor.skeletonActor.getSkeleton().getSlots().get(i).getColor().g = color.g;
                 actor.skeletonActor.getSkeleton().getSlots().get(i).getColor().b = color.b;
@@ -87,7 +94,7 @@ public class Utils {
 
         color = Color.valueOf(Strings.RED);
         for (int i = 0; i < actor.skeletonActor.getSkeleton().getSlots().size; i++) {
-            if(actor.skeletonActor.getSkeleton().getSlots().get(i).getData().getName().contains("color0")) {
+            if(actor.skeletonActor.getSkeleton().getSlots().get(i).getData().getName().contains("color2")) {
                 actor.skeletonActor.getSkeleton().getSlots().get(i).getColor().r = color.r;
                 actor.skeletonActor.getSkeleton().getSlots().get(i).getColor().g = color.g;
                 actor.skeletonActor.getSkeleton().getSlots().get(i).getColor().b = color.b;

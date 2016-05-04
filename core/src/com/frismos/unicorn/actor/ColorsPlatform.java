@@ -24,7 +24,7 @@ public class ColorsPlatform extends SpineActor {
 
     public ColorsPlatform(GameStage stage) {
         super(stage);
-        skeletonActor.getSkeleton().setSkin("1");
+        skeletonActor.getSkeleton().setSkin("0");
         skeletonActor.getSkeleton().getRootBone().setScale(gameStage.background.getHeight() / getHeight());
         setSize(getWidth() * skeletonActor.getSkeleton().getRootBone().getScaleX(), getHeight() * skeletonActor.getSkeleton().getRootBone().getScaleY());
         positions = new Array<>();
@@ -46,6 +46,10 @@ public class ColorsPlatform extends SpineActor {
         }
 
         Utils.colorPlatform(this);
+    }
+
+    public Bone getTube(ColorType colorType) {
+        return tubes.get(colorType).get(0).getBone();
     }
 
     @Override

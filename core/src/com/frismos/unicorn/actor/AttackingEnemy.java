@@ -1,11 +1,13 @@
 package com.frismos.unicorn.actor;
 
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.esotericsoftware.spine.AnimationState;
 import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.manager.AIManager;
+import com.frismos.unicorn.manager.SoundManager;
 import com.frismos.unicorn.manager.TimerRunnable;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.util.Constants;
@@ -29,6 +31,11 @@ public class AttackingEnemy extends Enemy {
     }
 
     @Override
+    public void playDieSound() {
+        gameStage.game.soundManager.playMusic(SoundManager.ATTACKING_ENEMY_DIE, Sound.class, true);
+    }
+
+    @Override
     public void hit(float damage, Bullet bullet) {
         if(isAttackingOnUnicorn) {
             super.hit(damage, bullet);
@@ -45,6 +52,12 @@ public class AttackingEnemy extends Enemy {
             bullet.isHit = true;
             attack();
         }
+    }
+
+    @Override
+    public void eatWall() {
+        gameStage.game.soundManager.playMusic(SoundManager.ATTACKING_ENEMY_ATTACK, Sound.class, true);
+        super.eatWall();
     }
 
     @Override

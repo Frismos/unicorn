@@ -2,6 +2,7 @@ package com.frismos.unicorn.stage;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
@@ -31,6 +32,7 @@ import com.frismos.unicorn.actor.MainCharacter;
 import com.frismos.unicorn.actor.MiniUnicorn;
 import com.frismos.unicorn.actor.MotherBoss;
 import com.frismos.unicorn.actor.MotherEnemy;
+import com.frismos.unicorn.actor.PowerBar;
 import com.frismos.unicorn.actor.RainbowSpell;
 import com.frismos.unicorn.actor.RunningEnemy;
 import com.frismos.unicorn.actor.ShootingBoss;
@@ -43,22 +45,19 @@ import com.frismos.unicorn.actor.UnicornSpell;
 import com.frismos.unicorn.actor.WalkingEnemy;
 import com.frismos.unicorn.enums.BossType;
 import com.frismos.unicorn.enums.ColorType;
-import com.frismos.unicorn.enums.Direction;
 import com.frismos.unicorn.enums.SpellType;
-import com.frismos.unicorn.enums.TutorialStep;
+import com.frismos.unicorn.enums.TutorialAction;
 import com.frismos.unicorn.enums.UnicornType;
 import com.frismos.unicorn.enums.WaveType;
 import com.frismos.unicorn.grid.Grid;
 import com.frismos.unicorn.grid.Tile;
-import com.frismos.unicorn.manager.TimerRunnable;
+import com.frismos.unicorn.manager.SoundManager;
 import com.frismos.unicorn.manager.TutorialManager;
 import com.frismos.unicorn.patterns.AttackCommand;
 import com.frismos.unicorn.screen.GameScreen;
 import com.frismos.unicorn.spine.SpineActor;
 import com.frismos.unicorn.util.BodyUtils;
 import com.frismos.unicorn.util.Constants;
-import com.frismos.unicorn.util.Debug;
-import com.frismos.unicorn.util.Timer;
 import com.frismos.unicorn.util.Utils;
 
 import java.util.Comparator;
@@ -210,11 +209,14 @@ public class GameStage extends SimpleStage {
     private long time;
     private int touchDownCount;
 
+    static {
+        blackPixel = new Texture("blackPixel.png");
+    }
+
     public GameStage(final UnicornGame game) {
         super(new FillViewport(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT), new PolygonSpriteBatch());
         this.game = game;
-        Debug.log("gamestage constructor");
-        blackPixel = new Texture("blackPixel.png");
+
         Image pixel = new Image(blackPixel);
         pixel.setSize(1, 1);
 
@@ -298,18 +300,16 @@ public class GameStage extends SimpleStage {
         Thread detector = new Thread(collisionDetector);
         detector.start();
 
-        if(game.tutorialManager.isTutorialMode) {
-            colorIndices.add(0);
-            changeUnicornType.remove();
-        }
-
 //        getCamera().viewportWidth -= 0.2f;
 //        getCamera().viewportHeight -= 0.2f;
 
         game.aiManager.setGameStage(this);
-        game.aiManager.sendWaves(0);
-//        sendBoss(BossType.SHOOTING);
+        game.aiManager.sendWaves(game.aiManager.timeStepArray.size - 1);
+//        sendBoss(BossType.MOTHER);
         game.soundManager.playMusic();
+
+        game.tutorialManager.fireAction(TutorialAction.GAME_STARTED, null);
+
     }
 
     public void restartGame() {
@@ -320,6 +320,7 @@ public class GameStage extends SimpleStage {
     @Override
     public void dispose() {
         super.dispose();
+        game.aiManager.resumeGame();
         game.soundManager.reset();
         game.soundManager.sounds.get(game.soundManager.currentSoundId).stop(game.soundManager.currentSoundId);
         initConstants();
@@ -388,18 +389,6 @@ public class GameStage extends SimpleStage {
 //        unicorn.setColorType(colorType);
         collisionDetector.addListener(unicorn);
         addActor(unicorn);
-
-        if(game.tutorialManager.isTutorialMode) {
-            if(game.tutorialManager.currentStep == TutorialStep.THIRD) {
-                if(unicorn.unicornType == UnicornType.RHINO) {
-                    game.tutorialManager.removeArrow();
-                }
-            } else if(unicorn.unicornType == UnicornType.STAR || game.tutorialManager.currentStep == TutorialStep.FOURTH) {
-                game.tutorialManager.removeArrow();
-                game.tutorialManager.currentStep = TutorialStep.FINISH;
-                game.dataManager.setTutorialPassed(true);
-            }
-        }
     }
 
     public Boss sendBoss() {
@@ -423,7 +412,6 @@ public class GameStage extends SimpleStage {
         } else {
             boss = new MotherBoss(this, colorType, isTutorial);
         }
-        game.tutorialManager.isTutorialEnemyOnStage = isTutorial;
         collisionDetector.addListener(boss);
         addActor(boss);
         this.boss = boss;
@@ -468,10 +456,6 @@ public class GameStage extends SimpleStage {
         if(colorIndices.size > 0) {
             int colorIndex = colorIndices.get(MathUtils.random(colorIndices.size - 1));
             colorType = ColorType.values()[colorIndex];
-            if(game.tutorialManager.currentStep == TutorialStep.THIRD &&
-                    game.tutorialManager.thirdStepColor != colorType) {
-                isTutorial = false;
-            }
             enemy = new WalkingEnemy(this, colorType, isTutorial);
             colorIndices.removeValue(colorIndex, true);
         } else {
@@ -487,13 +471,8 @@ public class GameStage extends SimpleStage {
                 enemy = new WalkingEnemy(this, colorType);
             }
         }
-        enemy.isTutorialEnemy = isTutorial;
-        game.tutorialManager.isTutorialEnemyOnStage = isTutorial;
         addActor(enemy);
         collisionDetector.addListener(enemy);
-        if(game.tutorialManager.isTutorialMode) {
-            game.tutorialManager.enemies.add(enemy);
-        }
 
         return enemy;
     }
@@ -537,7 +516,7 @@ public class GameStage extends SimpleStage {
 //                GameStage.this.background = background;
 //            }
 //        })));
-        game.aiManager.sendWaves(0);
+        game.aiManager.sendWaves(game.aiManager.timeStepArray.size - 1);
     }
 
     public void runOnGameThread(Runnable runnable) {
@@ -602,12 +581,18 @@ public class GameStage extends SimpleStage {
     private float fingerScreenX, fingerScreenY;
     private float deltaY;
     private boolean touchUp = true;
+    private Vector2 coordinates = new Vector2();
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if(screenX <= Gdx.graphics.getWidth() / 6.0f) {
+        coordinates.x = screenX;
+        coordinates.y = screenY;
+        coordinates = screenToStageCoordinates(coordinates);
+        float touchX = screenX * Constants.VIEWPORT_WIDTH / Gdx.graphics.getWidth();
+        if(coordinates.x <= colorsPlatform.getRight()) {
             this.touchY = screenY;
             this.deltaY = 0;
             float fingerY = Constants.VIEWPORT_HEIGHT - Constants.VIEWPORT_HEIGHT / Gdx.graphics.getHeight() * screenY;
+
             if(fingerY < background.getZero().y + grid.tileHeight) {
                 unicorn.moveTo(grid.grid[0][0]);
             } else if(fingerY < background.getZero().y + 2 * grid.tileHeight) {
@@ -637,40 +622,16 @@ public class GameStage extends SimpleStage {
                     joystick.addAction(Actions.moveTo(joystickX, joystickY, 0.1f));
                     joystickArea.addAction(Actions.moveTo(joystickX - joystickRadius + joystick.getWidth() * joystick.getScaleX() / 2, joystickY - joystickRadius + joystick.getHeight() * joystick.getScaleY() / 2, 0.1f));
                 }
-//            }
-//            if(character.unicornType == UnicornType.UNICORN) {
+
             if(stageX < changeUnicornType.getX() ||
                     stageX > changeUnicornType.getX() + changeUnicornType.getWidth() ||
                     stageY < changeUnicornType.getY() ||
                     stageY > changeUnicornType.getY() + changeUnicornType.getHeight()) {
-                if(!game.tutorialManager.isTutorialMode) {
-                    attackCommand.setTouchCoordinates(screenX, screenY);
-                    attackCommand.execute();
-                    fireIndex = 0;
-                } else {
-                    if(!game.tutorialManager.isTutorialEnemyOnStage || game.tutorialManager.pauseGame) {
-                        if(game.tutorialManager.currentStep == TutorialStep.FIRST ||
-                                game.tutorialManager.currentStep == TutorialStep.SECOND) {
-                            joystickTouched = true;
-                            fireIndex = 0;
-                        } else if(game.tutorialManager.currentStep == TutorialStep.THIRD) {
-                            if(unicorn.unicornType == UnicornType.RHINO && unicorn.colorType == game.tutorialManager.thirdStepColor) {
-                                joystickTouched = true;
-                                fireIndex = 0;
-                            }
-                        } else if(game.tutorialManager.currentStep == TutorialStep.FOURTH) {
-                            joystickTouched = true;
-                            fireIndex = 0;
-                        } else if(game.tutorialManager.currentStep == TutorialStep.FINISH) {
-                            if(unicorn.unicornType == UnicornType.STAR) {
-                                joystickTouched = true;
-                                fireIndex = 0;
-                            }
-                        }
-                    }
-                }
+
+                attackCommand.setTouchCoordinates(screenX, screenY);
+                attackCommand.execute();
+                fireIndex = 0;
             }
-//            }
 
             fingerScreenX = screenX;
             fingerScreenY = screenY;
@@ -685,7 +646,10 @@ public class GameStage extends SimpleStage {
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        if(screenX > Gdx.graphics.getWidth() / 6.0f) {
+        coordinates.x = screenX;
+        coordinates.y = screenY;
+        coordinates = screenToStageCoordinates(coordinates);
+        if(coordinates.x > colorsPlatform.getRight()) {
             fingerScreenX = screenX;
             fingerScreenY = screenY;
             if (joystickTouched) {
@@ -763,7 +727,10 @@ public class GameStage extends SimpleStage {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        if(screenX > Gdx.graphics.getWidth() / 6.0f) {
+        coordinates.x = screenX;
+        coordinates.y = screenY;
+        coordinates = screenToStageCoordinates(coordinates);
+        if(coordinates.x > colorsPlatform.getRight()) {
 //            if(unicorn.unicornType == UnicornType.UNICORN) {
 //            joystickTouched = false;
             touchUp = true;
@@ -822,12 +789,17 @@ public class GameStage extends SimpleStage {
             }
             if(!bullet.mark) {
                 bullet.mark = true;
-                game.timerManager.run(0.015f, new TimerRunnable() {
+
+                float value = bullet.damage + unicorn.combo;
+                if(value >= 1.9f) {
+                    game.tutorialManager.fireAction(TutorialAction.COMBO_HINT, null);
+                }
+                bullet.addAction(Actions.sequence(Actions.delay(0.015f), Actions.run(new Runnable() {
                     @Override
-                    public void run(Timer timer) {
+                    public void run() {
                         bullet.destroy();
                     }
-                });
+                })));
             }
         }
 
@@ -947,9 +919,9 @@ public class GameStage extends SimpleStage {
                         if((BodyUtils.bodyIsBullet(b) || BodyUtils.bodyIsCannonBullet(b)) && BodyUtils.bodyIsSpell(a)) {
                             if(spellCandy.spellType == SpellType.HEALTH) {
                                 unicorn.regenerate();
-                            } else if(spellCandy.spellType == SpellType.RAINBOW_MODE){
+                            } else if(spellCandy.spellType == SpellType.RAINBOW_MODE) {
                                 unicorn.setRainbowMode();
-                            } else if (spellCandy.spellType == SpellType.CALL_UNICORNS){
+                            } else if (spellCandy.spellType == SpellType.CALL_UNICORNS) {
                                 unicorn.callUnicorns();
                             }
                             ((Spell)a).playClaimAnimation();
@@ -968,7 +940,8 @@ public class GameStage extends SimpleStage {
             if (actor != null) {
                 if(actor instanceof MainCharacter ||
                         actor instanceof Enemy ||
-                        actor instanceof MiniUnicorn) {
+                        actor instanceof MiniUnicorn ||
+                        actor instanceof PowerBar) {
                     actors.add(actor);
                 }
                 actors.sort(actorsComparator);
@@ -1005,143 +978,26 @@ public class GameStage extends SimpleStage {
             timeMillis += delta;
             timeTimer += delta;
             if(timeTimer >= TIME_TIME_STEP) {
+
                 int seconds = (int)((GameScreen)game.getScreen()).stage.timeMillis;
                 int minutes = seconds / 60;
                 seconds %= 60;
                 game.uiScreen.stage.timeLabel.setText(String.format("%s:%s", minutes, seconds >= 10 ? seconds : String.format("0%s", seconds)));
+                timeTimer = 0;
             }
             enemySendCounter += delta;
             enemySendTimer += delta;
             enemyMoveTimer += delta;
-//            layeringTimer += delta;
-//            if (layeringTimer >= layeringTime) {
-//                layerStage();
-//                layeringTimer = 0.0f;
-//            }
-            if (!game.tutorialManager.isTutorialMode) {
-//                if (sendWave) {
-//                    enemyAccelerationTimer += delta;
-//                    if (enemyAccelerationTimer >= _ENEMY_SEND_ACCELERATION_TIME) {
-//                        enemyAccelerationTimer = 0;
-//                        sendWave = false;
-//                        _ENEMY_SEND_ACCELERATION_TIME += 0.3f;
-//                        _ENEMY_SEND_TIME_STEP = normalEnemySendTimeStep;
-//                    }
-//                }
-//
-//                if (enemySendCounter >= _ENEMY_SEND_TIME_STEP) {
-//                    if (!sendWave && MathUtils.random(100) < 50 && level == currentWaveLevel) {
-//                        sendWave = true;
-//                        normalEnemySendTimeStep = _ENEMY_SEND_TIME_STEP;
-//                        _ENEMY_SEND_TIME_STEP = 0.2f;
-//                        currentWaveLevel++;
-//                    }
-//                    if (deadEnemyCounter >= DEAD_ENEMIES_TILL_BOSS * 0.6f && _ENEMY_SEND_TIME_STEP != 1 && !sendWave) {
-//                        normalEnemySendTimeStep = _ENEMY_SEND_TIME_STEP;
-//                        _ENEMY_SEND_TIME_STEP = 1f;
-//                    }
-//                    int bossSendProb = deadEnemyCounter >= DEAD_ENEMIES_TILL_BOSS ? MathUtils.random(100) : 100;
-//                    if (bossSendProb <= 70) {
-//                        boss = sendBoss();
-//                        _ENEMY_SEND_TIME_STEP = normalEnemySendTimeStep;
-//                        if (DEAD_ENEMIES_TILL_BOSS < MAX_DEAD_ENEMY_COUNT) {
-//                            DEAD_ENEMIES_TILL_BOSS += 10;
-//                        }
-//                        deadEnemyCounter = 0;
-//                    } else if (boss == null) {
-//                        sendEnemy();
-//                    }
-//                    enemySendCounter = 0.0f;
-//                }
-//                if (enemySendTimer >= _ENEMY_SEND_ACCELERATION_TIME_STEP && _ENEMY_SEND_TIME_STEP > _MIN_ENEMY_SEND_TIME_STEP) {
-//                    _ENEMY_SEND_TIME_STEP -= _ENEMY_SEND_ACCELERATION_STEP;
-//                    enemySendTimer = 0.0f;
-//                }
-//                if (enemyMoveTimer >= _ENEMY_MOVE_ACCELERATION_TIME_STEP && _ENEMY_MOVE_SPEED < _MAX_ENEMY_MOVE_SPEED) {
-//                    _ENEMY_MOVE_SPEED += _ENEMY_MOVE_ACCELERATION_STEP;
-//                    enemyMoveTimer = 0.0f;
-//                }
 
+            if (unicornDie != null) {
+                unicornDie.die();
+                unicornDie = null;
+            }
 
-
-                if (unicornDie != null) {
-                    unicornDie.die();
-                    unicornDie = null;
-                }
-
-                if (enemyDie != null) {
-                    enemyDie.die();
-                    enemyDie = null;
-                }
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@//
-/*@@@@@@@@*/} else {//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ TUTORIAL ACTIONS  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@//
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@//
-                Enemy enemy = null;
-                if (game.tutorialManager.currentStep == TutorialStep.FIRST) {
-                    if (!game.tutorialManager.isFirstEnemySend) {
-                        enemy = sendEnemy(true);
-                        game.tutorialManager.isFirstEnemySend = true;
-                    }
-                } else if (game.tutorialManager.currentStep == TutorialStep.SECOND) {
-                    if (!game.tutorialManager.isSecondEnemySend) {
-                        colorIndices.add(2);
-                        colorIndices.add(3);
-                        colorIndices.add(1);
-                        game.tutorialManager.isSecondEnemySend = true;
-                    }
-                    if (colorIndices.size > 0) {
-                        if(!game.tutorialManager.pauseGame && !game.tutorialManager.isTutorialEnemyOnStage) {
-                            enemy = sendEnemy(true);
-                        }
-                    } else if(!game.tutorialManager.pauseGame && !game.tutorialManager.isTutorialEnemyOnStage &&
-                            game.tutorialManager.secondStepEnemies < TutorialManager.SECOND_STEP_ENEMIES_COUNT) {
-                        if (enemySendCounter >= _ENEMY_SEND_TIME_STEP) {
-                            enemy = sendEnemy();
-                            enemySendCounter = 0;
-                            game.tutorialManager.secondStepEnemies++;
-                        }
-                    }
-                } else if(game.tutorialManager.currentStep == TutorialStep.THIRD) {
-                    if(!game.tutorialManager.isThirdEnemiesInit) {
-                        addActor(changeUnicornType);
-                        for (int i = 0; i < TutorialManager.THIRD_STEP_ENEMIES_COUNT - 1; i++) {
-                            colorIndices.add(1);
-                        }
-                        colorIndices.add(3);
-                        game.tutorialManager.isThirdEnemiesInit = true;
-                    }
-                    if (!game.tutorialManager.isThirdEnemySend && enemySendCounter >= TutorialManager.THIRD_STEP_ENEMIES_SEND_TIME) {
-                        enemy = sendEnemy(true);
-                        enemySendCounter = 0;
-                        if(++game.tutorialManager.thirdStepEnemies == TutorialManager.THIRD_STEP_ENEMIES_COUNT) {
-                            game.tutorialManager.isThirdEnemySend = true;
-                        }
-                    }
-                } else if(game.tutorialManager.currentStep == TutorialStep.FOURTH) {
-                    if(!game.tutorialManager.pauseGame && !game.tutorialManager.isTutorialEnemyOnStage &&
-                            game.tutorialManager.fourthStepEnemies < TutorialManager.FOURTH_STEP_ENEMIES_COUNT) {
-                        if (enemySendCounter >= _ENEMY_SEND_TIME_STEP) {
-                            enemy = sendEnemy();
-                            enemySendCounter = 0;
-                            game.tutorialManager.fourthStepEnemies++;
-                        }
-                    }
-                }
-
-                if(game.tutorialManager.enemies.size > 0) {
-                    if(unicorn.colorType != game.tutorialManager.enemies.get(0).colorType) {
-                        Direction direction;
-                        if(game.tutorialManager.enemies.get(0).colorType.ordinal() > unicorn.colorType.ordinal()) {
-                            direction = Direction.UP;
-                        } else {
-                            direction = Direction.DOWN;
-                        }
-                        game.tutorialManager.showSlideArrow(this, direction);
-                    }
-                }
-//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&//
-/*&&&&&&&&*/}//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& END OF TUTORIAL ACTIONS  &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&//
-//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&//
+            if (enemyDie != null) {
+                enemyDie.die();
+                enemyDie = null;
+            }
             attackCommand.update();
             collisionDetector.run();
         }

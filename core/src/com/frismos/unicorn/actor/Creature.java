@@ -1,9 +1,7 @@
 package com.frismos.unicorn.actor;
 
 import com.frismos.unicorn.enums.ColorType;
-import com.frismos.unicorn.enums.TutorialStep;
 import com.frismos.unicorn.stage.GameStage;
-import com.frismos.unicorn.util.Debug;
 
 /**
  * Created by edgar on 12/9/2015.
@@ -44,16 +42,6 @@ public abstract class Creature extends GameActor {
     public void hit(float damage, Bullet bullet) {
         old = bullet;
         if(bullet == null || !bullet.isHit) {
-            if (gameStage.game.tutorialManager.isTutorialMode) {
-                if (this instanceof MainCharacter) {
-                    return;
-                }
-                if (gameStage.game.tutorialManager.currentStep == TutorialStep.FINISH) {
-                    gameStage.game.tutorialManager.removeArrow();
-                    gameStage.game.tutorialManager.isTutorialMode = false;
-                    gameStage.game.tutorialManager.pauseGame = false;
-                }
-            }
 //            gameStage.score++;
 //            gameStage.comboLabel.setText(String.format("score: %s", String.valueOf(gameStage.score)));// TODO: 3/4/16
             hitPoints -= damage;

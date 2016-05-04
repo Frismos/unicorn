@@ -94,7 +94,6 @@ public class RunningEnemy extends WalkingEnemy {
 
     @Override
     public void eatWall() {
-        gameStage.game.soundManager.playMusic(SoundManager.TEETH_CHATTER, Sound.class, true);
-        super.eatWall();
+        gameStage.game.soundManager.playMusic(SoundManager.CRUNCH, Sound.class, true);
     }
 }

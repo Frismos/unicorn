@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.LongMap;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.frismos.unicorn.UnicornGame;
+import com.frismos.unicorn.util.Debug;
 
 import java.util.Iterator;
 
@@ -20,6 +21,7 @@ public class SoundManager implements Updatable {
     public static final String ERROR = "error";
     public static final String CHANGE_COLOR = "guyn@ pokhel";
     public static final String KNOCK = "knock";
+    public static final String KNOCK_BOUNCE = "knock_bounce";
     public static final String UNICORN_FIRE = "krakel glkhavor";
     public static final String FIRE = "krakel";
     public static final String BOSS_FALL = "monster @nknel";
@@ -27,12 +29,23 @@ public class SoundManager implements Updatable {
     public static final String BOSS_VOICE = "monster dzayn";
     public static final String BOSS_EXPLODE = "monster paytel";
     public static final String BOSS_TAIL = "monster astghik";
-    public static final String EXPLODE = "paytel";
+    public static final String EXPLODE = "paytel@ arag";
     public static final String TEETH_CHATTER = "tetth chatter";
     public static final String JUMP = "trnel";
     public static final String BUTTON = "button";
     public static final String FIRING_LAUGH = "paytel cicagh";
     public static final String RUNNING_DIE = "paytel kosht";
+    public static final String ATTACKING_ENEMY_ATTACK = "woodpecker";
+    public static final String ATTACKING_ENEMY_DIE = "paytel_attack";
+    public static final String MOTHER_BOSS_SCREAM = "scream cartoon";
+    public static final String CHEWING_ENEMY = "swallow";
+    public static final String CHEWING_ENEMY_CHEW = "eat1";
+    public static final String MOTHER_ENEMY_DIE = "paytel6 dzayn";
+    public static final String WALKING_ENEMY_HIT = "doorcnock";
+    public static final String MOTHER_ENEMY_HIT = "box beat";
+    public static final String EYE_BEAT = "beat";
+    public static final String COIN = "coin";
+    public static final String CRUNCH = "crunch";
 
     public UnicornGame game;
 
@@ -81,6 +94,7 @@ public class SoundManager implements Updatable {
                 } else {
                     long id = ((Sound)music).play();
                     ((Sound)music).setVolume(id, volume);
+                    sounds.put(id, (Sound)music);
                 }
             }
         }

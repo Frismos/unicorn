@@ -31,7 +31,7 @@ public class AIManager {
     public Array<Enemy> enemies = new Array<>();
     private Array<Timer> timers = new Array<>();
     private Array<Float> sendTimeArray = new Array<>();
-    private Array<Float> timeStepArray = new Array<>();
+    public Array<Float> timeStepArray = new Array<>();
     private Timer timer;
 
     private Timer checkNextWaveTimer;
@@ -48,7 +48,7 @@ public class AIManager {
     private static final float CHEWING_ENEMY_SEND_TIME_STEP = 1.3f;
     private static final float BOUNCING_ENEMY_SEND_TIME_STEP = 1.0f;
     private static final float ATTACKING_ENEMY_SEND_TIME_STEP = 1.1f;
-    private static final float SHOOTING_ENEMY_SEND_TIME_STEP = 1.2f;
+    private static final float SHOOTING_ENEMY_SEND_TIME_STEP = 1.1f;
 
     public static float MOTHER_ENEMY_HP = 2.5f;
     public static float WALKING_ENEMY_HP = 1.9f;
@@ -68,7 +68,8 @@ public class AIManager {
     private int sendingPatternIndex = -1;
     private int sentEnemiesCount = 0;
 
-    private int globalWaveIndex = 0;
+    public int globalWaveIndex = 0;
+    public int waveIndexForEscalation = 0;
 
     public AIManager() {
         init(level);
@@ -80,14 +81,15 @@ public class AIManager {
         patterns.addAll(
                 new SendingPattern(3, ColorType.RED),
                 new SendingPattern(3, ColorType.GREEN),
-                new SendingPattern(3, ColorType.BLUE),
-                new SendingPattern(3, ColorType.RED)//,
+                new SendingPattern(3, ColorType.BLUE)//,
+//                new SendingPattern(3, ColorType.RED),
                 //new SendingPattern(3)
         );
         patternIndex = patterns.size;
         isPattern = false;
         sentEnemiesCount = 0;
         enemyTypeIndex = 0;
+        waveIndexForEscalation = 0;
 
         WALKING_ENEMY_HP += level * 0.5f;
         MOTHER_ENEMY_HP += level * 0.5f;
@@ -138,7 +140,7 @@ public class AIManager {
 
     public void sendEnemy(final int index) {
         int size = gameStage.unicorn.getCombo() > 15 ? 7 : 5;
-        if(!isPattern && enemies.size >= 6) {
+        if(!isPattern && enemies.size >= 4 + waveIndexForEscalation / 4) {
             gameStage.game.timerManager.run(0.1f, new TimerRunnable() {
                 @Override
                 public void run(Timer timer) {
@@ -147,7 +149,7 @@ public class AIManager {
             });
         } else {
             timer.reset();
-            if (timer.getTimeStep() > 0.5f) {
+            if (timer.getTimeStep() > 0.5f && timers.indexOf(timer, false) < timeStepArray.size) {
                 timer.setTimeStep(timer.getTimeStep() - 0.015f);
                 if (timers.contains(timer, false)) {
                     timeStepArray.set(timers.indexOf(timer, false), timer.getTimeStep());
@@ -169,13 +171,17 @@ public class AIManager {
                             if (enemyTypeIndex == WaveType.BOUNCING.ordinal()) {
                                 type--;
                             }
-                            patterns.get(sendingPatternIndex).enemyType = WaveType.values()[MathUtils.random(type, index)];
+                            int min = Math.min(index, type);
+                            int max = Math.max(index,  type);
+                            patterns.get(sendingPatternIndex).enemyType = WaveType.values()[MathUtils.random(min, max)];
                         } while (patterns.get(sendingPatternIndex).enemyType == WaveType.BOUNCING);
                     }
                 }
             }
             sentEnemiesCount++;
-            int sendIndex = MathUtils.random(enemyTypeIndex, globalWaveIndex % 2 == 1 ? index : enemyTypeIndex);
+            int min = Math.min(index, enemyTypeIndex);
+            int max = Math.max(index,  enemyTypeIndex);
+            int sendIndex = MathUtils.random(min, globalWaveIndex % 2 == 1 ? max : min);
             if (sendingPatternIndex != -1) {
                 if (patternIndex < patterns.get(sendingPatternIndex).patternEnemiesCount) {
                     enemies.add(gameStage.sendWave(patterns.get(sendingPatternIndex).enemyType));
@@ -242,20 +248,27 @@ public class AIManager {
                 }
             });
             return;
-        }
-        gameStage.game.timerManager.run(sendTimeArray.get(index), new TimerRunnable() {
-            @Override
-            public void run(Timer timer) {
-                isPattern = false;
-                sentEnemiesCount = 0;
-                int sendIndex = index;
-                if(globalWaveIndex % 2 == 0) {
-                    enemyTypeIndex--;
+        } else if(index > 0 && index < sendTimeArray.size) {
+            gameStage.game.timerManager.run(sendTimeArray.get(index), new TimerRunnable() {
+                @Override
+                public void run(Timer timer) {
+                    isPattern = false;
+                    sentEnemiesCount = 0;
+                    if (globalWaveIndex % 2 == 0) {
+                        decreaseIndex();
+                    }
+                    waveIndexForEscalation++;
+                    addWaveType(index - 1);
                 }
-                sendIndex--;
-                addWaveType(sendIndex);
-            }
-        });
+            });
+        }
+    }
+
+    public void decreaseIndex() {
+        enemyTypeIndex--;
+        if(enemyTypeIndex < 0) {
+            enemyTypeIndex = 0;
+        }
     }
 
     public void unFocus(Actor actor) {
@@ -268,52 +281,37 @@ public class AIManager {
         if(timeArray.size == 0 && globalWaveIndex % 2 == 0) {
             gameStage.sendBoss(BossType.SHOOTING);
             init(++level);
+        } else if(waveIndexForEscalation == 2) {
+            waveIndexForEscalation++;
+            decreaseIndex();
+            gameStage.sendBoss(BossType.MOTHER);
         } else {
             if (sendTimeArray.size > 1) {
                 sendTimeArray.set(sendTimeArray.size - 1, 2f);
                 sendTimeArray.set(0, sendTimeArray.get(0) - 3.5f);
             }
-            if(globalWaveIndex % 2 == 0) {
+            if (globalWaveIndex % 2 == 0) {
                 sendTimeArray.add(timeArray.removeIndex(0));
                 timeStepArray.add(timeArray.removeIndex(0));
             }
             globalWaveIndex++;
-//            if(globalWaveIndex == 3) {//making music transition from slow to medium
-//                final Music slowMusic = gameStage.game.soundManager.currentPlayingMusic;
-//                gameStage.game.soundManager.playMusic("Music_Transition", Sound.class, true);
-//                gameStage.game.soundManager.playMusic("Color_Pony_Game_Music_Medium_", Music.class, true);
-//                gameStage.game.soundManager.currentPlayingMusic.setVolume(0);
-//                gameStage.game.soundManager.addActionToMusic(slowMusic, 0, 1.5f, new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        slowMusic.stop();
-//                    }
-//                });
-//                gameStage.game.soundManager.addActionToMusic(gameStage.game.soundManager.currentPlayingMusic, 1.0f, 1.5f, new Runnable() {
-//                    @Override
-//                    public void run() {
-//                    }
-//                });
-//            } else if(globalWaveIndex == 5) {//making music transition from medium to fast
-//                final Music mediumMusic = gameStage.game.soundManager.currentPlayingMusic;
-//                gameStage.game.soundManager.playMusic("Music_Transition", Sound.class, true);
-//                gameStage.game.soundManager.playMusic("Color_Pony_Game_Music_Fast_", Music.class, true);
-//                gameStage.game.soundManager.currentPlayingMusic.setVolume(0);
-//                gameStage.game.soundManager.addActionToMusic(mediumMusic, 0, 1.5f, new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        mediumMusic.stop();
-//                    }
-//                });
-//                gameStage.game.soundManager.addActionToMusic(gameStage.game.soundManager.currentPlayingMusic, 1.0f, 1.5f, new Runnable() {
-//                    @Override
-//                    public void run() {
-//                    }
-//                });
-//
-//            }
             enemyTypeIndex = timeStepArray.size - 1;
             sendWaves(enemyTypeIndex);
+        }
+    }
+
+    public void pauseGame() {
+        gameStage.game.timerManager.pause();
+        for (int i = 0; i < enemies.size; i++) {
+            enemies.get(i).pause();
+        }
+    }
+
+    public void resumeGame() {
+        gameStage.game.timerManager.resume();
+        gameStage.attackCommand.resume();
+        for (int i = 0; i < enemies.size; i++) {
+            enemies.get(i).resume();
         }
     }
 

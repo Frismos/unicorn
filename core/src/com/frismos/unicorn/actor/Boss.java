@@ -1,11 +1,13 @@
 package com.frismos.unicorn.actor;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.MathUtils;
 import com.esotericsoftware.spine.AnimationState;
 import com.esotericsoftware.spine.Event;
 import com.frismos.unicorn.enums.ActorDataType;
 import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.enums.WaveType;
+import com.frismos.unicorn.manager.SoundManager;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.util.Constants;
 
@@ -39,7 +41,7 @@ public abstract class Boss extends ShootingEnemy {
         }
     };
 
-    private AnimationState.AnimationStateListener hitAnimationStateListener = new AnimationState.AnimationStateListener() {
+    protected AnimationState.AnimationStateListener hitAnimationStateListener = new AnimationState.AnimationStateListener() {
         @Override
         public void event(int trackIndex, Event event) {
         }
@@ -69,11 +71,7 @@ public abstract class Boss extends ShootingEnemy {
             moveSpeed = GameStage._BOSS_MOVE_SPEED;
         }
         skeletonActor.getAnimationState().getData().setMix("attack", "walk", 0.1f);
-        skeletonActor.getAnimationState().getData().setMix("attack", "hit", 0.1f);
         skeletonActor.getAnimationState().getData().setMix("walk", "attack", 0.1f);
-        skeletonActor.getAnimationState().getData().setMix("hit", "attack", 0.1f);
-        skeletonActor.getAnimationState().getData().setMix("walk", "hit", 0.1f);
-        skeletonActor.getAnimationState().getData().setMix("hit", "walk", 0.1f);
         setUserObject(ActorDataType.BOSS);
     }
 
@@ -96,16 +94,6 @@ public abstract class Boss extends ShootingEnemy {
     @Override
     protected void setScaleRatio() {
         scaleRatio = Constants.BOSS_SCALE_RATIO;
-    }
-
-    @Override
-    public void hit(float damage, Bullet bullet) {
-        super.hit(damage, bullet);
-        if(isAttacking && !isAttackAnimationPlaying) {
-            skeletonActor.getAnimationState().setAnimation(0, "hit", false);
-            skeletonActor.getAnimationState().clearListeners();
-            skeletonActor.getAnimationState().addListener(hitAnimationStateListener);
-        }
     }
 
     public void fireEvent() {

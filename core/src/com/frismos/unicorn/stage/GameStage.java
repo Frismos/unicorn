@@ -304,8 +304,8 @@ public class GameStage extends SimpleStage {
 //        getCamera().viewportHeight -= 0.2f;
 
         game.aiManager.setGameStage(this);
-        game.aiManager.sendWaves(game.aiManager.timeStepArray.size - 1);
-//        sendBoss(BossType.MOTHER);
+//        game.aiManager.sendWaves(game.aiManager.timeStepArray.size - 1);
+        sendBoss(BossType.MOTHER);
         game.soundManager.playMusic();
 
         game.tutorialManager.fireAction(TutorialAction.GAME_STARTED, null);

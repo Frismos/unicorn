@@ -24,9 +24,9 @@ public class MotherBoss extends Boss {
         TIME_STEP = 0.1f;
         FIRE_CHANCE = 100;
         if(isTutorial) {
-            hitPoints = 25;
+            maxHitPoints = hitPoints = 25;
         } else {
-            hitPoints = 100;
+            maxHitPoints = hitPoints = 100;
         }
     }
 

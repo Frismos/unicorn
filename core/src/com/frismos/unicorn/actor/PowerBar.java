@@ -1,10 +1,12 @@
 package com.frismos.unicorn.actor;
 
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.Array;
 import com.esotericsoftware.spine.Slot;
 import com.frismos.TweenAccessor.BoneAccessor;
 import com.frismos.unicorn.manager.SoundManager;
+import com.frismos.unicorn.screen.GameScreen;
 import com.frismos.unicorn.spine.SpineActor;
 import com.frismos.unicorn.stage.SimpleStage;
 import com.frismos.unicorn.util.Debug;
@@ -22,6 +24,7 @@ public class PowerBar extends SpineActor {
 
     private Array<Slot> slots = new Array<>();
     private int lastIndex = 0;
+    private float slotY;
 
     public PowerBar(SimpleStage stage) {
         super(stage);
@@ -31,6 +34,7 @@ public class PowerBar extends SpineActor {
             slots.add(skeletonActor.getSkeleton().findSlot(String.format("%d", i)));
             slots.get(i).getColor().a = 0;
         }
+        slotY = slots.get(0).getBone().getY();
     }
 
     public void setProgress(int index, boolean resetPowerBar) {
@@ -39,8 +43,11 @@ public class PowerBar extends SpineActor {
         if(resetPowerBar) {
             removeSlots(slots.size - 1, index - 1);
         } else if(doTweening) {
+            ((GameScreen)stage.game.getScreen()).stage.unicorn.skeletonActor.getAnimationState().setAnimation(1, "comboup1", false);
+
             stage.game.soundManager.playMusic(SoundManager.COIN, Sound.class, true);
             slots.get(index).getColor().a = 1;
+            slots.get(index).getBone().setY(slotY);
             float time = 0.25f;
             slots.get(index).getBone().setScale(2);
             Tween.to(slots.get(index).getBone(), BoneAccessor.SCALE, time).target(1.0f).start(stage.game.tweenManager);
@@ -61,8 +68,6 @@ public class PowerBar extends SpineActor {
             return;
         }
 
-        Debug.log(" ");
-        final float y = slots.get(ii).getBone().getY();
         Tween.to(slots.get(ii).getBone(), BoneAccessor.ALPHA, 0.1f).target(0).setCallback(new TweenCallback() {
             @Override
             public void onEvent(int type, BaseTween<?> source) {
@@ -73,7 +78,7 @@ public class PowerBar extends SpineActor {
             @Override
             public void onEvent(int type, BaseTween<?> source) {
                 slots.get(ii).getColor().a = 0;
-                slots.get(ii).getBone().setY(y);
+                slots.get(ii).getBone().setY(slotY);
                 removeSlots(ii - 1, index);
             }
         });

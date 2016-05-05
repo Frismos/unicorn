@@ -17,6 +17,7 @@ import com.frismos.unicorn.manager.SoundManager;
 import com.frismos.unicorn.manager.TutorialManager;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.ui.CompleteDialog;
+import com.frismos.unicorn.util.Debug;
 import com.frismos.unicorn.util.Utils;
 
 import java.util.Observer;
@@ -97,7 +98,7 @@ public abstract class MainCharacter extends Creature implements Observer {
 
     public MainCharacter(GameStage stage, UnicornType unicornType) {
         super(stage, ColorType.values()[0]);
-
+        debug();
         setUnicornType(unicornType);
         setColorType(this.colorType);
         if(unicornType == UnicornType.RHINO) {
@@ -326,7 +327,6 @@ public abstract class MainCharacter extends Creature implements Observer {
         if(combo < 50) {
             this.combo += COMBO_VALUE;
             combo = (int)(this.combo / COMBO_VALUE);
-            gameStage.game.uiScreen.stage.comboLabel.setText(String.format("combo x%d", combo));
             if (combo >= 50) {
                 bulletsToShootCount = 3;
 //            } else if (combo >= 50) {
@@ -337,6 +337,7 @@ public abstract class MainCharacter extends Creature implements Observer {
                 bulletsToShootCount = 1;
             }
             if(combo / 5 > 0) {
+                Debug.log("combo up");
                 gameStage.game.uiScreen.stage.powerBar.setProgress(combo / 5 - 1, false);
             }
         }
@@ -372,7 +373,6 @@ public abstract class MainCharacter extends Creature implements Observer {
         } else {
             gameStage.game.uiScreen.stage.powerBar.setProgress(0, true);
         }
-        gameStage.game.uiScreen.stage.comboLabel.setText(String.format("combo x%d", combo));
         if(combo >= 50) {
             bulletsToShootCount = 3;
 //        } else if(combo >= 40) {

@@ -19,6 +19,7 @@ public class UIStage extends SimpleStage {
     public Label scoreLabel;
     public Label comboLabel;
     public Label timeLabel;
+    public Label defendLabel;
 
     private Label.LabelStyle style;
     public BitmapFont font;
@@ -38,21 +39,27 @@ public class UIStage extends SimpleStage {
 
         scoreLabel = new Label("score: 0", style);
         scoreLabel.setPosition(200, 1050);
-        addActor(scoreLabel);
+//        addActor(scoreLabel);
+
+        defendLabel = new Label("Defended time", style);
+        defendLabel.setPosition(1500, 1050);
+        defendLabel.setFontScale(0.35f);
+        addActor(defendLabel);
 
         timeLabel = new Label("0:00", style);
-        timeLabel.setPosition(1500, 1050);
+        timeLabel.setPosition(1500, 1000);
         addActor(timeLabel);
 
-        style.fontColor = Color.YELLOW;
-        comboLabel = new Label("combo: x0", style);
-        comboLabel.setPosition(getWidth() / 2 - comboLabel.getWidth() / 2, 1000);
+        style.fontColor = Color.WHITE;
+        comboLabel = new Label("POWER", style);
+        comboLabel.setFontScale(0.7f);
+        comboLabel.setPosition(getWidth() / 2 - comboLabel.getWidth() / 2, 1020);
         comboLabel.setAlignment(Align.center);
 
         powerBar = new PowerBar(this);
         powerBar.setPosition(getWidth() / 2 - powerBar.getWidth() / 2, 1000);
         addActor(powerBar);
-//        addActor(comboLabel);
+        addActor(comboLabel);
     }
 
     public void reset() {

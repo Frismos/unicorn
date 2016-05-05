@@ -58,16 +58,6 @@ public class ChewingEnemy extends WalkingEnemy {
         gameStage.game.soundManager.playMusic(SoundManager.CHEWING_ENEMY, Sound.class, true);
         gameStage.game.soundManager.playMusic(SoundManager.CHEWING_ENEMY_CHEW, Sound.class, true);
         bullet.isHit = true;
-        skeletonActor.getAnimationState().setAnimation(1, "chewing", false);
-        skeletonActor.getAnimationState().addListener(new AnimationState.AnimationStateAdapter() {
-            @Override
-            public void complete(int trackIndex, int loopCount) {
-                if(trackIndex==1) {
-                    skeletonActor.getAnimationState().setAnimation(1, "free", false);
-                    skeletonActor.getAnimationState().removeListener(this);
-                }
-                super.complete(trackIndex, loopCount);
-            }
-        });
+        skeletonActor.getAnimationState().setAnimation(1, "chewing", true);
     }
 }

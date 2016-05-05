@@ -129,6 +129,7 @@ public class CompleteDialog extends SpineActor {
                     } else if(skeletonBounds.getBoundingBoxes().get(index).getName().equals("defended-bounds")) {
                         img = new Group();
 
+                        stage.defendLabel.remove();
                         stage.timeLabel.remove();
                         Rectangle boundingRectangle = bounds.getBoundingRectangle();
                         stage.timeLabel.setSize(boundingRectangle.width, boundingRectangle.height);

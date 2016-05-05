@@ -304,8 +304,8 @@ public class GameStage extends SimpleStage {
 //        getCamera().viewportHeight -= 0.2f;
 
         game.aiManager.setGameStage(this);
-//        game.aiManager.sendWaves(game.aiManager.timeStepArray.size - 1);
-        sendBoss(BossType.MOTHER);
+        game.aiManager.sendWaves(game.aiManager.timeStepArray.size - 1);
+//        sendBoss(BossType.MOTHER);
         game.soundManager.playMusic();
 
         game.tutorialManager.fireAction(TutorialAction.GAME_STARTED, null);
@@ -588,7 +588,7 @@ public class GameStage extends SimpleStage {
         coordinates.y = screenY;
         coordinates = screenToStageCoordinates(coordinates);
         float touchX = screenX * Constants.VIEWPORT_WIDTH / Gdx.graphics.getWidth();
-        if(coordinates.x <= colorsPlatform.getRight()) {
+        if(coordinates.x <= unicorn.getRight()) {
             this.touchY = screenY;
             this.deltaY = 0;
             float fingerY = Constants.VIEWPORT_HEIGHT - Constants.VIEWPORT_HEIGHT / Gdx.graphics.getHeight() * screenY;
@@ -649,7 +649,7 @@ public class GameStage extends SimpleStage {
         coordinates.x = screenX;
         coordinates.y = screenY;
         coordinates = screenToStageCoordinates(coordinates);
-        if(coordinates.x > colorsPlatform.getRight()) {
+        if(coordinates.x > unicorn.getRight()) {
             fingerScreenX = screenX;
             fingerScreenY = screenY;
             if (joystickTouched) {
@@ -730,7 +730,7 @@ public class GameStage extends SimpleStage {
         coordinates.x = screenX;
         coordinates.y = screenY;
         coordinates = screenToStageCoordinates(coordinates);
-        if(coordinates.x > colorsPlatform.getRight()) {
+        if(coordinates.x > unicorn.getRight()) {
 //            if(unicorn.unicornType == UnicornType.UNICORN) {
 //            joystickTouched = false;
             touchUp = true;

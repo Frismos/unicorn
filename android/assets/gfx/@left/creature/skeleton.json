@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "F/ZrC9AkNCK4u2GSMMl4PLCHSoU", "spine": "3.2.01", "width": 371.74, "height": 496.58, "images": "./../../@images/" },
+"skeleton": { "hash": "FEh+uzjZo24rwgxMHbjuPzdZ0Mg", "spine": "3.2.01", "width": 371.74, "height": 496.58, "images": "./../../@images/" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "Body", "parent": "root", "x": 5.15, "y": 92.22 },
@@ -179,7 +179,7 @@
 		"bounds": {
 			"unicorn": {
 				"type": "boundingbox",
-				"vertices": [ 147.11511, -7.7915, 143.4931, 265.66946, -166.1878, 252.99245, -166.1878, -0.54747 ]
+				"vertices": [ 87.97913, -3.95149, 84.35712, 269.5095, -1.83593, 258.3684, -1.83593, 4.82849 ]
 			}
 		},
 		"colorNeckHair": {

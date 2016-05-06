@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.frismos.unicorn.spine.SpineActor;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.util.Constants;
+import com.frismos.unicorn.util.Debug;
 
 /**
  * Created by edgaravanyan on 10/19/15.
@@ -28,6 +29,7 @@ public abstract class Background extends SpineActor {
 
     @Override
     protected void startDefaultAnimation() {
+        Debug.log("default animation");
         skeletonActor.getAnimationState().setAnimation(0, "animation", true);
     }
 
@@ -41,5 +43,21 @@ public abstract class Background extends SpineActor {
             zero = new Vector2(skeletonActor.getSkeleton().findBone("zero").getX(), skeletonActor.getSkeleton().findBone("zero").getY());
         }
         return zero;
+    }
+
+    @Override
+    public boolean remove() {
+        if(topLayer != null) {
+            topLayer.remove();
+        }
+        return super.remove();
+    }
+
+    @Override
+    public boolean remove(boolean dispose) {
+        if(topLayer != null) {
+            topLayer.remove();
+        }
+        return super.remove(dispose);
     }
 }

@@ -98,7 +98,6 @@ public abstract class MainCharacter extends Creature implements Observer {
 
     public MainCharacter(GameStage stage, UnicornType unicornType) {
         super(stage, ColorType.values()[0]);
-        debug();
         setUnicornType(unicornType);
         setColorType(this.colorType);
         if(unicornType == UnicornType.RHINO) {
@@ -337,7 +336,6 @@ public abstract class MainCharacter extends Creature implements Observer {
                 bulletsToShootCount = 1;
             }
             if(combo / 5 > 0) {
-                Debug.log("combo up");
                 gameStage.game.uiScreen.stage.powerBar.setProgress(combo / 5 - 1, false);
             }
         }

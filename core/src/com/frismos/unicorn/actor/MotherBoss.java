@@ -76,9 +76,9 @@ public class MotherBoss extends Boss {
     @Override
     public void attack() {
         TIME_STEP += TIME_STEP;
-//        if(TIME_STEP > 1.5f) {
-//            TIME_STEP = 0.1f;
-//        }
+        if(TIME_STEP > 5f) {
+            TIME_STEP = 0.3f;
+        }
         if(isAttackAnimationPlaying) {
             fireEvent();
         }

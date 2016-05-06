@@ -88,6 +88,7 @@ public class SoundManager implements Updatable {
                 if(loop) {
                     do {
                         currentSoundId = ((Sound) music).play();
+                        Debug.log("sound manager 91");
                     } while(currentSoundId == -1);
                     ((Sound) music).setLooping(currentSoundId, true);
                     sounds.put(currentSoundId, (Sound)music);

@@ -12,6 +12,9 @@ import com.esotericsoftware.spine.SkeletonMeshRenderer;
 import com.esotericsoftware.spine.SkeletonRenderer;
 import com.esotericsoftware.spine.utils.SkeletonActor;
 import com.esotericsoftware.spine.utils.SkeletonActorPool;
+import com.frismos.unicorn.actor.Background;
+import com.frismos.unicorn.actor.FieldBackground;
+import com.frismos.unicorn.actor.TopLayer;
 import com.frismos.unicorn.util.Debug;
 
 import java.util.Iterator;
@@ -60,7 +63,9 @@ public class AtlasManager {
             animationStateData = animationStateDatas.get(type);
         } else {
             animationStateData = new AnimationStateData(skeletonData);
-            animationStateDatas.put(type, animationStateData);
+            if(!type.equals(FieldBackground.class) && !type.equals(TopLayer.class)) {
+                animationStateDatas.put(type, animationStateData);
+            }
         }
         return animationStateData;
     }
@@ -71,10 +76,13 @@ public class AtlasManager {
             skeletonData = skeletonDatas.get(type);
         } else {
             skeletonData = skeletonJson.readSkeletonData(Gdx.files.internal(filePath));
-            skeletonDatas.put(type, skeletonData);
+            if(!type.equals(FieldBackground.class) && !type.equals(TopLayer.class)) {
+                skeletonDatas.put(type, skeletonData);
+            }
         }
         return skeletonData;
     }
+
 
     public SkeletonJson getSkeletonJson(Class type, String filePath) {
         TextureAtlas textureAtlas = get(filePath, TextureAtlas.class);
@@ -83,7 +91,9 @@ public class AtlasManager {
             skeletonJson = skeletonJsons.get(type);
         } else {
             skeletonJson = new SkeletonJson(textureAtlas);
-            skeletonJsons.put(type, skeletonJson);
+            if(!type.equals(FieldBackground.class) && !type.equals(TopLayer.class)) {
+                skeletonJsons.put(type, skeletonJson);
+            }
         }
         return skeletonJson;
     }

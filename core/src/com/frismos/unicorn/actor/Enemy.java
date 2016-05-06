@@ -175,7 +175,6 @@ public abstract class Enemy extends Creature {
             moveSpeed = GameStage._ENEMY_MOVE_SPEED;
         }
         moveSpeed = INITIAL_MOVE_SPEED + stage.unicorn.getCombo() / 20.0f + (float)Math.log(gameStage.game.aiManager.waveIndexForEscalation + 1);
-        Debug.log("ln x = " + (float)Math.log(gameStage.game.aiManager.waveIndexForEscalation + 1));
         skeletonActor.getAnimationState().setTimeScale(moveSpeed * 0.3f);
         setUserObject(ActorDataType.ENEMY);
 

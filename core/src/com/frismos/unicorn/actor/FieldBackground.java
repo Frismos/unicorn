@@ -16,9 +16,10 @@ public class FieldBackground extends Background {
     @Override
     protected void setResourcesPath() {
         float prob = MathUtils.random(1, 100);
-        if(prob  <= 0) {//TODO
+        Debug.log("prob = " + prob);
+        if(prob  <= 33.3f) {
             path = Strings.FIELD_BACKGROUND;
-        } else if(prob  <= 0) {
+        } else if(prob  <= 66.6f) {
             path = Strings.HALL_BACKGROUND;
         } else {
             path = Strings.CRYSTAL_BACKGROUND;

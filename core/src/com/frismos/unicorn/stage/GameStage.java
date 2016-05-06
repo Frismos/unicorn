@@ -58,6 +58,7 @@ import com.frismos.unicorn.screen.GameScreen;
 import com.frismos.unicorn.spine.SpineActor;
 import com.frismos.unicorn.util.BodyUtils;
 import com.frismos.unicorn.util.Constants;
+import com.frismos.unicorn.util.Debug;
 import com.frismos.unicorn.util.Utils;
 
 import java.util.Comparator;
@@ -216,7 +217,7 @@ public class GameStage extends SimpleStage {
     public GameStage(final UnicornGame game) {
         super(new FillViewport(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT), new PolygonSpriteBatch());
         this.game = game;
-
+        Debug.log("game stage background = " + background);
         Image pixel = new Image(blackPixel);
         pixel.setSize(1, 1);
 
@@ -309,17 +310,17 @@ public class GameStage extends SimpleStage {
         game.soundManager.playMusic();
 
         game.tutorialManager.fireAction(TutorialAction.GAME_STARTED, null);
-
     }
 
     public void restartGame() {
         game.restartGame = true;
-        dispose();
+//        dispose();
     }
 
     @Override
     public void dispose() {
         super.dispose();
+        background.remove(true);
         game.aiManager.resumeGame();
         game.soundManager.reset();
         game.soundManager.sounds.get(game.soundManager.currentSoundId).stop(game.soundManager.currentSoundId);

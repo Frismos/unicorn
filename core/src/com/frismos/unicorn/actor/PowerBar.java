@@ -30,7 +30,7 @@ public class PowerBar extends SpineActor {
         super(stage);
 
         skeletonActor.getSkeleton().updateWorldTransform();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 4; i++) {
             slots.add(skeletonActor.getSkeleton().findSlot(String.format("%d", i)));
             slots.get(i).getColor().a = 0;
         }
@@ -43,7 +43,8 @@ public class PowerBar extends SpineActor {
         if(resetPowerBar) {
             removeSlots(slots.size - 1, index - 1);
         } else if(doTweening) {
-            ((GameScreen)stage.game.getScreen()).stage.unicorn.skeletonActor.getAnimationState().setAnimation(1, "comboup1", false);
+            ((GameScreen)stage.game.getScreen()).stage.unicorn.skeletonActor.getAnimationState().setAnimation(1, "comboup", false);
+            ((GameScreen)stage.game.getScreen()).stage.unicorn.skeletonActor.getAnimationState().addAnimation(1, "comboup-idle", true,0);
 
             stage.game.soundManager.playMusic(SoundManager.COIN, Sound.class, true);
             slots.get(index).getColor().a = 1;

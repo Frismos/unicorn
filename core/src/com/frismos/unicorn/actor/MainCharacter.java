@@ -149,6 +149,7 @@ public abstract class MainCharacter extends Creature implements Observer {
     @Override
     protected void startDefaultAnimation() {
         skeletonActor.getAnimationState().setAnimation(0, "idle", true);
+        skeletonActor.getAnimationState().setAnimation(1, "comboup-idle", true);
     }
 
     public void setUnicornType(UnicornType unicornType) {
@@ -336,7 +337,7 @@ public abstract class MainCharacter extends Creature implements Observer {
                 bulletsToShootCount = 1;
             }
             if(combo / 5 > 0) {
-                gameStage.game.uiScreen.stage.powerBar.setProgress(combo / 5 - 1, false);
+               // gameStage.game.uiScreen.stage.powerBar.setProgress(combo / 5 - 1, false);
             }
         }
     }
@@ -367,9 +368,9 @@ public abstract class MainCharacter extends Creature implements Observer {
         }
         combo = (int)(this.combo / COMBO_VALUE);
         if(combo / 5 >= 0) {
-            gameStage.game.uiScreen.stage.powerBar.setProgress(combo / 5, true);
+          //  gameStage.game.uiScreen.stage.powerBar.setProgress(combo / 5, true);
         } else {
-            gameStage.game.uiScreen.stage.powerBar.setProgress(0, true);
+           // gameStage.game.uiScreen.stage.powerBar.setProgress(0, true);
         }
         if(combo >= 50) {
             bulletsToShootCount = 3;

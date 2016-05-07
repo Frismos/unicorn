@@ -1,69 +1,69 @@
 
 top.png
-size: 3879,1285
+size: 1946,656
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 worlds/2/bg/bubles
   rotate: false
-  xy: 2359, 158
-  size: 1265, 379
-  orig: 1265, 379
+  xy: 2, 2
+  size: 633, 190
+  orig: 633, 190
   offset: 0, 0
   index: -1
 worlds/2/bg/fall
   rotate: true
-  xy: 3626, 255
-  size: 1028, 251
-  orig: 1028, 251
+  xy: 1818, 140
+  size: 514, 126
+  orig: 514, 126
   offset: 0, 0
   index: -1
 worlds/2/bg/greens
   rotate: false
-  xy: 2, 368
-  size: 2318, 98
-  orig: 2318, 98
+  xy: 2, 194
+  size: 1159, 49
+  orig: 1159, 49
   offset: 0, 0
   index: -1
 worlds/2/bg/left
   rotate: false
-  xy: 2, 468
-  size: 1995, 509
-  orig: 1995, 509
+  xy: 2, 245
+  size: 998, 255
+  orig: 998, 255
   offset: 0, 0
   index: -1
 worlds/2/bg/pool
   rotate: false
-  xy: 2, 979
-  size: 3411, 304
-  orig: 3411, 304
+  xy: 2, 502
+  size: 1706, 152
+  orig: 1706, 152
   offset: 0, 0
   index: -1
 worlds/2/bg/prpur1
   rotate: false
-  xy: 1191, 2
-  size: 1166, 364
-  orig: 1166, 364
+  xy: 637, 10
+  size: 583, 182
+  orig: 583, 182
   offset: 0, 0
   index: -1
 worlds/2/bg/prpur2
   rotate: false
-  xy: 2, 2
-  size: 1187, 364
-  orig: 1187, 364
+  xy: 1222, 97
+  size: 594, 182
+  orig: 594, 182
   offset: 0, 0
   index: -1
 worlds/2/bg/right
   rotate: false
-  xy: 1999, 539
-  size: 1565, 438
-  orig: 1565, 438
+  xy: 1002, 281
+  size: 783, 219
+  orig: 783, 219
   offset: 0, 0
   index: -1
 worlds/2/bg/wave
   rotate: false
-  xy: 2359, 17
-  size: 693, 139
-  orig: 700, 139
-  offset: 7, 0
+  xy: 1222, 25
+  size: 347, 70
+  orig: 350, 70
+  offset: 3, 0
   index: -1

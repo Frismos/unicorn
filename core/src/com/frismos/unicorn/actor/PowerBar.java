@@ -35,6 +35,7 @@ public class PowerBar extends SpineActor {
             slots.get(i).getColor().a = 0;
         }
         slotY = slots.get(0).getBone().getY();
+        startDefaultAnimation();
     }
 
     public void setProgress(int index, boolean resetPowerBar) {
@@ -44,7 +45,11 @@ public class PowerBar extends SpineActor {
         }
         boolean doTweening = slots.get(index).getColor().a == 0;
 
+        if(index == 3) {
+            skeletonActor.getAnimationState().setAnimation(0, "animation2", true);
+        }
         if(resetPowerBar) {
+            skeletonActor.getAnimationState().setAnimation(0, "idle", true);
             removeSlots(slots.size - 1, ind);
         } else if(doTweening) {
             ((GameScreen)stage.game.getScreen()).stage.unicorn.skeletonActor.getAnimationState().setAnimation(1, "comboup", false);
@@ -101,6 +106,6 @@ public class PowerBar extends SpineActor {
 
     @Override
     protected void startDefaultAnimation() {
-        skeletonActor.getAnimationState().setAnimation(0, "animation", true);
+        skeletonActor.getAnimationState().setAnimation(0, "idle", true);
     }
 }

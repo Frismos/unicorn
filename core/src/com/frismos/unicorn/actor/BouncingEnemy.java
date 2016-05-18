@@ -67,7 +67,6 @@ public class BouncingEnemy extends ShootingEnemy {
         TIME_STEP = 2f;
         FIRE_CHANCE = 70;
         maxHitPoints = hitPoints = AIManager.BOUNCING_ENEMY_HP;
-        showProgressBar();
         setHeight(getHeight() + 1);
     }
 

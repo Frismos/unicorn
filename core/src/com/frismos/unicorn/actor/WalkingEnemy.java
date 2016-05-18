@@ -56,7 +56,6 @@ public class WalkingEnemy extends Enemy {
     public WalkingEnemy(GameStage stage, ColorType colorType, boolean isTutorial) {
         super(stage, colorType, isTutorial);
         maxHitPoints = hitPoints = AIManager.WALKING_ENEMY_HP;
-        showProgressBar();
         TIME_STEP = MathUtils.random(1.3f, 2.5f);
         attackTimer = gameStage.game.timerManager.loop(TIME_STEP, new TimerRunnable() {
             @Override

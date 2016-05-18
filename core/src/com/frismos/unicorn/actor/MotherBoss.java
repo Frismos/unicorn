@@ -44,7 +44,6 @@ public class MotherBoss extends Boss {
         hitPoints = 10 + index * 2;
 //        FIRE_CHANCE = 100 - index * 10;
         this.waveIndex = index;
-        showProgressBar();
     }
 
     @Override

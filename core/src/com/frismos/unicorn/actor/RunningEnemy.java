@@ -28,7 +28,6 @@ public class RunningEnemy extends WalkingEnemy {
     public RunningEnemy(GameStage stage, ColorType colorType) {
         super(stage, colorType);
         maxHitPoints = hitPoints = AIManager.RUNNING_ENEMY_HP;
-        showProgressBar();
     }
 
     public void playDieSound() {

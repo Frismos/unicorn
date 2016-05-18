@@ -13,7 +13,6 @@ public class BossSon extends WalkingEnemy {
     public BossSon(GameStage stage, ColorType colorType) {
         super(stage, colorType);
         maxHitPoints = hitPoints = 1;
-        showProgressBar();
         moveSpeed = INITIAL_MOVE_SPEED + stage.unicorn.getCombo() / 20.0f + (float)Math.sqrt(gameStage.gameTime / 4);
     }
 

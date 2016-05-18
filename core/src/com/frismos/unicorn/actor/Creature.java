@@ -78,7 +78,6 @@ public abstract class Creature extends GameActor {
 
     @Override
     public void actorAddedToStage() {
-        showProgressBar();
         super.actorAddedToStage();
     }
 

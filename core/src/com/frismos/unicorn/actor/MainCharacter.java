@@ -54,6 +54,8 @@ public abstract class MainCharacter extends Creature implements Observer {
     private static Array<Enemy> positionChangeListeners = new Array<>();
     private TutorialManager.EventListener listener;
 
+    private Bone posFill;
+
     protected AnimationState.AnimationStateListener fireAnimationListener = new AnimationState.AnimationStateListener() {
         @Override
         public void event(int trackIndex, Event event) {
@@ -119,10 +121,20 @@ public abstract class MainCharacter extends Creature implements Observer {
         this.setPosition(gameStage.colorsPlatform.positions.get(positionY).x, gameStage.colorsPlatform.positions.get(positionY).y);
         positionChanged();
         maxHitPoints = hitPoints = MAX_HIT_POINTS;
-        showProgressBar();
 //        enableRainbowMode();
         setUserObject(ActorDataType.UNICORN);
         fireBone = skeletonActor.getSkeleton().findBone("center-spawn");
+
+        posFill = gameStage.colorsPlatform.skeletonActor.getSkeleton().findBone("health-bar");
+        Debug.log("posfill x  = " + posFill.getX());
+    }
+
+    public void setProgress() {
+        Debug.log("progress = " + (hitPoints / maxHitPoints * getWidth()));
+        posFill.setX(2.23f + hitPoints / maxHitPoints * 1.36f);
+        if(hitPoints <= 0) {
+            gameStage.colorsPlatform.skeletonActor.getSkeleton().findSlot("healthbar").getColor().a = 0;
+        }
     }
 
     @Override
@@ -130,9 +142,13 @@ public abstract class MainCharacter extends Creature implements Observer {
         super.hit(damage);
         if(gameStage.colorsPlatform.skeletonActor.getAnimationState().getTracks().get(0) == null ||
                 !gameStage.colorsPlatform.skeletonActor.getAnimationState().getTracks().get(0).getAnimation().getName().equals("hit")) {
-            gameStage.colorsPlatform.skeletonActor.getAnimationState().setAnimation(0, "hit", false);
+            gameStage.colorsPlatform.skeletonActor.getAnimationState().setAnimation(1, "hit", false);
         }
-        if(hitPoints < maxHitPoints / 2) {
+        if(hitPoints < maxHitPoints / 3) {
+            if(!gameStage.colorsPlatform.skeletonActor.getSkeleton().getSkin().equals("2")) {
+                gameStage.colorsPlatform.skeletonActor.getSkeleton().setSkin("2");
+            }
+        } else if(hitPoints < maxHitPoints / 1.5f) {
             if(!gameStage.colorsPlatform.skeletonActor.getSkeleton().getSkin().equals("1")) {
                 gameStage.colorsPlatform.skeletonActor.getSkeleton().setSkin("1");
             }
@@ -285,15 +301,37 @@ public abstract class MainCharacter extends Creature implements Observer {
     public void die() {
         if(!gameStage.stopGame) {
             gameStage.stopGame = true;
-            gameStage.colorsPlatform.skeletonActor.getSkeleton().setSkin("2");
             skeletonActor.getAnimationState().setAnimation(0, "die", false);
             skeletonActor.getAnimationState().setAnimation(1, "die", false);
             skeletonActor.getAnimationState().clearListeners();
+            gameStage.colorsPlatform.skeletonActor.getAnimationState().setAnimation(0, "die", false);
+            setProgress();
+            gameStage.colorsPlatform.skeletonActor.getAnimationState().addListener(new AnimationState.AnimationStateListener() {
+                @Override
+                public void event(int trackIndex, Event event) {
+
+                }
+
+                @Override
+                public void complete(int trackIndex, int loopCount) {
+                    CompleteDialog dialog = new CompleteDialog(gameStage.game.uiScreen.stage);
+                    gameStage.game.uiScreen.stage.addActor(dialog);
+                    gameStage.colorsPlatform.skeletonActor.getAnimationState().clearListeners();
+                }
+
+                @Override
+                public void start(int trackIndex) {
+
+                }
+
+                @Override
+                public void end(int trackIndex) {
+
+                }
+            });
 //            addAction(Actions.delay(0.3f, Actions.run(new Runnable() {
 //                @Override
 //                public void run() {
-                    CompleteDialog dialog = new CompleteDialog(gameStage.game.uiScreen.stage);
-                    gameStage.game.uiScreen.stage.addActor(dialog);
                     stage.game.multiplexer.removeProcessor(stage);
                     Gdx.input.setInputProcessor(stage.game.multiplexer);
 //                }
@@ -302,8 +340,10 @@ public abstract class MainCharacter extends Creature implements Observer {
     }
 
     public void regenerate() {
-        if(hitPoints < maxHitPoints) {
-            hitPoints++;
+        if(!gameStage.stopGame) {
+            if (hitPoints < maxHitPoints) {
+                hitPoints += 0.1f;
+            }
         }
     }
 
@@ -411,10 +451,19 @@ public abstract class MainCharacter extends Creature implements Observer {
     @Override
     public void act(float delta) {
         super.act(delta);
-        if(hitPoints < maxHitPoints) {
-            hitPoints += 0.05f * delta;
-            if(progressBar != null) {
-                progressBar.setProgress(hitPoints);
+        if(!gameStage.stopGame) {
+            if (hitPoints < maxHitPoints) {
+                hitPoints += 0.01f * delta;
+                setProgress();
+                if(hitPoints > maxHitPoints / 1.5f) {
+                    if(!gameStage.colorsPlatform.skeletonActor.getSkeleton().getSkin().equals("0")) {
+                        gameStage.colorsPlatform.skeletonActor.getSkeleton().setSkin("0");
+                    }
+                } else if(hitPoints > maxHitPoints / 3) {
+                    if(!gameStage.colorsPlatform.skeletonActor.getSkeleton().getSkin().equals("1")) {
+                        gameStage.colorsPlatform.skeletonActor.getSkeleton().setSkin("1");
+                    }
+                }
             }
         }
 //        if (gameStage.grid.isPointInsideGrid(getX() + getWidth() / 2, getY() + getHeight() / 2 / 2)) {

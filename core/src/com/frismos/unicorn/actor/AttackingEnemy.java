@@ -22,7 +22,6 @@ public class AttackingEnemy extends Enemy {
     public AttackingEnemy(GameStage stage, ColorType colorType) {
         super(stage, colorType);
         maxHitPoints = hitPoints = AIManager.ATTACKING_ENEMY_HP;
-        showProgressBar();
     }
 
     @Override

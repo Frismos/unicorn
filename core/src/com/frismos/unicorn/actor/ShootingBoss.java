@@ -32,7 +32,6 @@ public class ShootingBoss extends Boss {
         skeletonActor.getAnimationState().getData().setMix("attack", "hit", 0.1f);
         skeletonActor.getAnimationState().getData().setMix("hit", "walk", 0.1f);
 
-        showProgressBar();
         gameStage.game.soundManager.playMusic(SoundManager.BOSS_VOICE, Sound.class, true);
         soundTimer = gameStage.game.timerManager.loop(4, new TimerRunnable() {
             @Override

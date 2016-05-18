@@ -47,7 +47,6 @@ public class CompleteDialog extends SpineActor {
         this.stage = stage;
         stage.game.soundManager.stop();
         stage.game.aiManager.pauseGame();
-        stage.comboLabel.remove();
         setPosition(stage.getWidth() / 2 - getWidth() / 2, stage.getHeight() / 2 - getHeight() / 2);
 
         startDefaultAnimation();
@@ -135,7 +134,7 @@ public class CompleteDialog extends SpineActor {
                         int minutes = seconds / 60;
                         seconds %= 60;
                         stage.timeLabel.setText(String.format("%sm %ss", minutes, seconds >= 10 ? seconds : String.format("0%s", seconds)));
-                        stage.timeLabel.setPosition(0, 5);
+                        stage.timeLabel.setPosition(0, -15);
                         stage.timeLabel.setAlignment(Align.top);
                         ((Group)img).addActor(stage.timeLabel);
                         img.rotateBy(-7);

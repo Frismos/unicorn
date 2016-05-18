@@ -287,7 +287,7 @@ public abstract class Enemy extends Creature {
             skeletonActor.getAnimationState().setTimeScale(1.0f);
             playDieSound();
             gameStage.score++;
-            gameStage.game.uiScreen.stage.scoreLabel.setText(java.lang.String.format("score: %d", gameStage.score));
+            gameStage.game.uiScreen.stage.scoreLabel.setText(java.lang.String.format("Monsters killed: %d", gameStage.score));
             if(gameStage.game.aiManager.enemies.size == 0) {
                 if(!(this instanceof Boss) && !(this instanceof BossSon) && gameStage.boss == null) {
                     gameStage.game.aiManager.sendEnemy(gameStage.game.aiManager.currentIndex);
@@ -381,6 +381,13 @@ public abstract class Enemy extends Creature {
     public void eatWall() {
     }
 
+    protected boolean isMoving = true;
+    protected void move(float delta) {
+        if(isMoving) {
+            moveBy(-directionX * moveSpeed * delta, -directionY * moveSpeed * delta);
+        }
+    }
+
     @Override
     public void act(float delta) {
         super.act(delta);
@@ -393,7 +400,7 @@ public abstract class Enemy extends Creature {
                 tile.enemies.add(this);
             }
 //            if(!gameStage.game.tutorialManager.isTutorialMode || !gameStage.game.tutorialManager.pauseGame) {
-            moveBy(-directionX * moveSpeed * delta, -directionY * moveSpeed * delta);  //  23
+            move(delta);  //  23
 //            }
             if(waitingEnemy != null) {
                 if (getRight() + getWidth() / 2 < waitingEnemy.getX()) {

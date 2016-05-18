@@ -15,7 +15,7 @@ public class FontsManager {
     private BitmapFont font;
 
     public FontsManager() {
-        freeTypeFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("gfx/PossumSaltareNF.ttf"));
+        freeTypeFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("gfx/londrina.otf"));
     }
 
     public BitmapFont getFont(Color color, int size) {

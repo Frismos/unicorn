@@ -32,7 +32,6 @@ public class ShootingEnemy extends Enemy {
     public ShootingEnemy(GameStage stage, ColorType colorType, boolean isTutorial) {
         super(stage, colorType, isTutorial);
         maxHitPoints = hitPoints = AIManager.SHOOTING_ENEMY_HP;
-        showProgressBar();
         TIME_STEP = 2.0f;
     }
 
@@ -105,6 +104,9 @@ public class ShootingEnemy extends Enemy {
                 bullet.setX(getX() + offsetX);
                 bullet.setY(getY() + offsetY);
                 bullet.calculateAngle();
+            }
+            if(!(this instanceof BouncingEnemy) && getX() < stage.getWidth() / 2) {
+                isMoving = false;
             }
             float startX = this instanceof Boss ? getX() : getX() + getWidth();
             if(startX < gameStage.background.getWidth() + gameStage.background.getZero().x) {

@@ -35,7 +35,7 @@ public class UIStage extends SimpleStage {
     public PowerBar powerBar;
 
     public UIStage(final UnicornGame game) {
-        super(new FitViewport(1920, 1215), new PolygonSpriteBatch());
+        super(new FillViewport(1920, 1215), new PolygonSpriteBatch());
         this.game = game;
         addLabels();
     }
@@ -46,18 +46,20 @@ public class UIStage extends SimpleStage {
         font = game.fontsManager.getFont(100);
         style = new Label.LabelStyle(font, Color.WHITE);
 
-        scoreLabel = new Label("score: 0", style);
+        scoreLabel = new Label("Monsters killed: 0", style);
         scoreLabel.setPosition(200, 1050);
+        scoreLabel.setFontScale(0.8f);
 //        addActor(scoreLabel);
 
         Vector2 size = screenToStageCoordinates(new Vector2(Gdx.graphics.getWidth() - 10, 0));
-        defendLabel = new Label("Defended time", style);
-        defendLabel.setPosition(size.x - 400, 1050);
-        defendLabel.setFontScale(0.35f);
+        defendLabel = new Label("time", style);
+        defendLabel.setPosition(size.x - 400, 1010);
+        defendLabel.setFontScale(0.7f);
         addActor(defendLabel);
 
         timeLabel = new Label("0:00", style);
-        timeLabel.setPosition(size.x - 400, 1000);
+        timeLabel.setPosition(size.x - 400, 940);
+        timeLabel.setFontScale(0.8f);
         addActor(timeLabel);
 
         powerBar = new PowerBar(this);
@@ -66,7 +68,7 @@ public class UIStage extends SimpleStage {
 
         style.fontColor = Color.WHITE;
         comboLabel = new Label("POWER", style);
-        comboLabel.setFontScale(0.7f);
+        comboLabel.setFontScale(0.6f);
         comboLabel.setPosition(powerBar.getX() - 25, powerBar.getY() - powerBar.getHeight() / 8);
         comboLabel.setAlignment(Align.center);
         addActor(comboLabel);

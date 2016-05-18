@@ -5,10 +5,10 @@ package com.frismos.unicorn.util;
  */
 public class Strings {
 
-    public static final String BLUE = "3e98f5";
-    public static final String GREEN = "83d92d";
+    public static final String BLUE = "3ea7f5";
+    public static final String GREEN = "91e149";
     public static final String YELLOW = "ece000";
-    public static final String RED = "ef3232";
+    public static final String RED = "f73969";
 
     public static final String UNICORN = "@left/creature";
     public static final String RHINO = "rhino";

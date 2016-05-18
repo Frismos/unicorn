@@ -425,10 +425,11 @@ public abstract class Enemy extends Creature {
 //                    && getX() < gameStage.background.getZero().x + gameStage.background.getWidth() - gameStage.grid.tileWidth
                     && getX() > gameStage.colorsPlatform.getRight() + gameStage.grid.tileWidth) {
                 moveSpeed -= 0.02f;
-//                if(skeletonActor.getAnimationState().getCurrent(0) != null &&
-//                        skeletonActor.getAnimationState().getCurrent(0).getAnimation().getName().contains("walk")) {
-//                    skeletonActor.getAnimationState().setTimeScale(moveSpeed * 0.1f);
-//                }
+               if(skeletonActor.getAnimationState().getCurrent(0) != null &&
+                       (skeletonActor.getAnimationState().getCurrent(0).getAnimation().getName().equals("walk") ||
+                       skeletonActor.getAnimationState().getCurrent(0).getAnimation().getName().equals("walk1"))) {
+                  skeletonActor.getAnimationState().setTimeScale(moveSpeed * 0.1f);
+               }
             }
             if(isTutorialEnemy) {
                 if(getX() < gameStage.background.getZero().x + gameStage.background.getWidth() - gameStage.grid.tileWidth) {

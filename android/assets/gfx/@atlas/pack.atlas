@@ -95,6 +95,13 @@ UI/powerbar/healthbar
   orig: 234, 90
   offset: 0, 0
   index: -1
+UI/powerbar/power
+  rotate: false
+  xy: 1277, 161
+  size: 44, 45
+  orig: 45, 45
+  offset: 1, 0
+  index: -1
 bullets/simple/2
   rotate: false
   xy: 3289, 2845
@@ -124,22 +131,22 @@ effects/bomb-explosion/explosion-0002
   offset: 11, 6
   index: -1
 effects/bomb-explosion/explosion-0003
-  rotate: true
-  xy: 1277, 102
+  rotate: false
+  xy: 816, 1054
   size: 34, 35
   orig: 51, 48
   offset: 9, 4
   index: -1
 effects/bomb-explosion/explosion-0004
   rotate: false
-  xy: 4054, 388
+  xy: 4054, 437
   size: 37, 37
   orig: 51, 48
   offset: 8, 3
   index: -1
 effects/bomb-explosion/explosion-0005
   rotate: true
-  xy: 4054, 427
+  xy: 4054, 476
   size: 38, 37
   orig: 51, 48
   offset: 8, 2
@@ -153,7 +160,7 @@ effects/bomb-explosion/explosion-0006
   index: -1
 effects/bomb-explosion/explosion-0007
   rotate: true
-  xy: 4054, 467
+  xy: 4054, 516
   size: 39, 37
   orig: 51, 48
   offset: 6, 4
@@ -195,7 +202,7 @@ effects/bullet-explosion/4
   index: -1
 effects/bullet-explosion/8
   rotate: false
-  xy: 1277, 138
+  xy: 3823, 1475
   size: 39, 68
   orig: 39, 70
   offset: 0, 0
@@ -551,8 +558,8 @@ left/Unicornimages/rainbowfx/rainbowfx1
   offset: 0, 0
   index: -1
 left/Unicornimages/rainbowfx/rainbowfx2
-  rotate: true
-  xy: 1410, 1609
+  rotate: false
+  xy: 4074, 4043
   size: 16, 51
   orig: 16, 51
   offset: 0, 0
@@ -951,7 +958,7 @@ monsters/slime-shooter/pak
   index: -1
 monsters/slime/ashk spitak
   rotate: true
-  xy: 4054, 837
+  xy: 3823, 1410
   size: 63, 35
   orig: 63, 35
   offset: 0, 0
@@ -979,7 +986,7 @@ monsters/slime/dzerq
   index: -1
 monsters/slime/dzerq1
   rotate: true
-  xy: 4054, 508
+  xy: 1277, 112
   size: 47, 38
   orig: 47, 38
   offset: 0, 0
@@ -993,7 +1000,7 @@ monsters/slime/eye half close
   index: -1
 monsters/slime/eye half open
   rotate: true
-  xy: 3823, 1477
+  xy: 4054, 834
   size: 66, 35
   orig: 66, 35
   offset: 0, 0
@@ -1007,7 +1014,7 @@ monsters/slime/eye open
   index: -1
 monsters/slime/gndik
   rotate: true
-  xy: 3823, 1421
+  xy: 4054, 778
   size: 54, 25
   orig: 55, 25
   offset: 1, 0
@@ -1034,15 +1041,15 @@ monsters/slime/hetqmas
   offset: 0, 0
   index: -1
 monsters/slime/loz
-  rotate: false
-  xy: 3850, 1419
+  rotate: true
+  xy: 1410, 1610
   size: 15, 56
   orig: 15, 56
   offset: 0, 0
   index: -1
 monsters/slime/loz1
   rotate: false
-  xy: 4054, 790
+  xy: 423, 356
   size: 25, 45
   orig: 25, 45
   offset: 0, 0

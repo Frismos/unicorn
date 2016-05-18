@@ -286,6 +286,7 @@ public abstract class MainCharacter extends Creature implements Observer {
             gameStage.stopGame = true;
             gameStage.colorsPlatform.skeletonActor.getSkeleton().setSkin("2");
             skeletonActor.getAnimationState().setAnimation(0, "die", false);
+            skeletonActor.getAnimationState().setAnimation(1, "die", false);
 //            addAction(Actions.delay(0.3f, Actions.run(new Runnable() {
 //                @Override
 //                public void run() {

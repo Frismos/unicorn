@@ -7,6 +7,7 @@ import com.frismos.unicorn.analytics.GoogleAnalytics;
 import com.frismos.unicorn.gamecenter.GameCenterListener;
 import com.frismos.unicorn.gamecenter.GameCenterManager;
 import com.frismos.unicorn.patterns.GameCenterController;
+import com.frismos.unicorn.util.Debug;
 
 import org.robovm.apple.foundation.NSAutoreleasePool;
 import org.robovm.apple.foundation.NSError;
@@ -29,11 +30,7 @@ import java.util.ArrayList;
 public class IOSLauncher extends IOSApplication.Delegate {
 
     private GoogleAnalytics googleAnalytics;
-
-    @Override
-    public UIInterfaceOrientationMask getSupportedInterfaceOrientations(UIApplication application, UIWindow window) {
-        return UIInterfaceOrientationMask.LandscapeLeft;
-    }
+    private UnicornGame game;
 
     @Override
     public boolean didFinishLaunching(UIApplication application, UIApplicationLaunchOptions options) {
@@ -142,7 +139,21 @@ public class IOSLauncher extends IOSApplication.Delegate {
         config.orientationLandscape = true;
         config.orientationPortrait = false;
 
-        return new IOSApplication(new UnicornGame(controllers), config);
+        game = new UnicornGame(controllers);
+        return new IOSApplication(game, config);
+    }
+
+    @Override
+    public void willResignActive(UIApplication application) {
+        game.pause1();
+        super.willResignActive(application);
+    }
+
+    @Override
+    public void didBecomeActive(UIApplication application) {
+        game.resume = true;
+        game.counter = 0;
+        super.didBecomeActive(application);
     }
 
     public static void main(String[] argv) {

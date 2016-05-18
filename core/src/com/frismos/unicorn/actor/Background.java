@@ -29,7 +29,6 @@ public abstract class Background extends SpineActor {
 
     @Override
     protected void startDefaultAnimation() {
-        Debug.log("default animation");
         skeletonActor.getAnimationState().setAnimation(0, "animation", true);
     }
 

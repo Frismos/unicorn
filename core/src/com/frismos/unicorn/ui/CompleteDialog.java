@@ -52,8 +52,6 @@ public class CompleteDialog extends SpineActor {
 
         startDefaultAnimation();
 //        stage.game.soundManager.playMusic("005575160-magic-turning-spells-casting (mp3cut.net)", Sound.class, true);
-        stage.game.multiplexer.removeProcessor(((GameScreen)stage.game.getScreen()).stage);
-        Gdx.input.setInputProcessor(stage.game.multiplexer);
     }
 
     public void calculateButtonSizes() {

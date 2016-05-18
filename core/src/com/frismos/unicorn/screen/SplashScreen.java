@@ -4,6 +4,7 @@ import com.badlogic.gdx.Screen;
 import com.frismos.unicorn.UnicornGame;
 import com.frismos.unicorn.actor.SplashActor;
 import com.frismos.unicorn.actor.Unicorn;
+import com.frismos.unicorn.util.Debug;
 
 /**
  * Created by eavanyan on 4/11/16.

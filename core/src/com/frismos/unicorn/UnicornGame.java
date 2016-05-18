@@ -41,6 +41,7 @@ import com.frismos.unicorn.screen.GameScreen;
 import com.frismos.unicorn.screen.SplashScreen;
 import com.frismos.unicorn.screen.UIScreen;
 import com.frismos.unicorn.util.Constants;
+import com.frismos.unicorn.util.Debug;
 import com.frismos.unicorn.util.Strings;
 
 import aurelienribon.tweenengine.Tween;
@@ -119,12 +120,17 @@ public class UnicornGame extends Game {
 			multiplexer = new InputMultiplexer();
 			multiplexer.addProcessor(uiScreen.stage);
 			Gdx.input.setInputProcessor(multiplexer);
+			Gdx.graphics.setVSync(true);
 		}
 	}
 
-	@Override
+    public boolean resume = false;
+    public boolean pauseCalled = false;
+    public float counter = 0;
+
+    @Override
 	public void render () {
-		Gdx.gl.glClearColor(0.3f, 0.9f, 0.7f, 1);
+		Gdx.gl.glClearColor(0f, 0f, 0f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         tweenManager.update(Gdx.graphics.getDeltaTime());
@@ -134,17 +140,40 @@ public class UnicornGame extends Game {
 		}
 		uiScreen.render(Gdx.graphics.getDeltaTime());
 
+		counter += Gdx.graphics.getDeltaTime();
+		if(pauseCalled && resume && counter > 2) {
+			counter = 0;
+			resume1();
+			resume = false;
+			pauseCalled = false;
+		}
+		if(Gdx.graphics.getFramesPerSecond() < 30) {
+//			Debug.log("fps: "+Gdx.graphics.getFramesPerSecond());
+		}
+
 		if(restartGame) {
             getScreen().dispose();
 			setScreen(new GameScreen(this));
-			multiplexer.addProcessor(((GameScreen)getScreen()).stage);
 //			Gdx.input.setInputProcessor(multiplexer);
 		}
 	}
 
-	@Override
-	public void pause() {
-		super.pause();
+	public void pause1() {
+        pauseCalled = true;
+		resume = false;
+		if(aiManager != null) {
+			aiManager.pauseGame();
+			soundManager.pause();
+		}
+	}
+
+	public void resume1() {
+		if(aiManager != null) {
+			if (aiManager.isGamePaused) {
+				aiManager.resumeGame();
+				soundManager.resume();
+			}
+		}
 	}
 
 	@Override

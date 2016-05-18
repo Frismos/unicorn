@@ -45,18 +45,18 @@ public class AIManager {
 
     private static final float WALKING_ENEMY_SEND_TIME_STEP = 1.4f;
     private static final float RUNNING_ENEMY_SEND_TIME_STEP = 0.9f;
-    private static final float CHEWING_ENEMY_SEND_TIME_STEP = 1.3f;
-    private static final float BOUNCING_ENEMY_SEND_TIME_STEP = 1.0f;
-    private static final float ATTACKING_ENEMY_SEND_TIME_STEP = 1.1f;
-    private static final float SHOOTING_ENEMY_SEND_TIME_STEP = 1.1f;
+    private static final float CHEWING_ENEMY_SEND_TIME_STEP = 1.1f;
+    private static final float BOUNCING_ENEMY_SEND_TIME_STEP = 0.9f;
+    private static final float ATTACKING_ENEMY_SEND_TIME_STEP = 1.0f;
+    private static final float SHOOTING_ENEMY_SEND_TIME_STEP = 1.0f;
 
-    public static float MOTHER_ENEMY_HP = 2.5f;
+    public static float MOTHER_ENEMY_HP = 2.35f;
     public static float WALKING_ENEMY_HP = 1.9f;
     public static float RUNNING_ENEMY_HP = 1.1f;
     public static float CHEWING_ENEMY_HP = 1.0f;
     public static float BOUNCING_ENEMY_HP = 1.5f;
-    public static float ATTACKING_ENEMY_HP = 3.5f;
-    public static float SHOOTING_ENEMY_HP = 2.6f;
+    public static float ATTACKING_ENEMY_HP = 2.3f;
+    public static float SHOOTING_ENEMY_HP = 2.3f;
 
     private int enemyTypeIndex;
     public int currentIndex;
@@ -70,6 +70,7 @@ public class AIManager {
 
     public int globalWaveIndex = 0;
     public int waveIndexForEscalation = 0;
+    public boolean isGamePaused;
 
     public AIManager() {
         init(level);
@@ -89,7 +90,10 @@ public class AIManager {
         isPattern = false;
         sentEnemiesCount = 0;
         enemyTypeIndex = 0;
-        waveIndexForEscalation = 0;
+
+        if(gameStage != null) {
+            gameStage.gameTime = 30;
+        }
 
         WALKING_ENEMY_HP += level * 0.5f;
         MOTHER_ENEMY_HP += level * 0.5f;
@@ -104,17 +108,17 @@ public class AIManager {
         timers.clear();
         timeArray.clear();
         timeArray.addAll(THIRD_WAVE_SEND_TIME,
-                RUNNING_ENEMY_SEND_TIME_STEP - 0.7f * level,
+                RUNNING_ENEMY_SEND_TIME_STEP - 0.1f * level,
                 FOURTH_WAVE_SEND_TIME,
-                CHEWING_ENEMY_SEND_TIME_STEP - 0.4f * level,
+                CHEWING_ENEMY_SEND_TIME_STEP - 0.1f * level,
                 FIFTH_WAVE_SEND_TIME,
-                BOUNCING_ENEMY_SEND_TIME_STEP - 0.5f * level,
+                BOUNCING_ENEMY_SEND_TIME_STEP - 0.1f * level,
                 SIXTH_WAVE_SEND_TIME,
-                ATTACKING_ENEMY_SEND_TIME_STEP - 0.5f * level,
+                ATTACKING_ENEMY_SEND_TIME_STEP - 0.1f * level,
                 SEVENTH_WAVE_SEND_TIME,
-                SHOOTING_ENEMY_SEND_TIME_STEP - 0.5f * level);
+                SHOOTING_ENEMY_SEND_TIME_STEP - 0.1f * level);
         sendTimeArray.add(SECOND_WAVE_SEND_TIME);
-        timeStepArray.add(WALKING_ENEMY_SEND_TIME_STEP - 0.5f * level);
+        timeStepArray.add(WALKING_ENEMY_SEND_TIME_STEP - 0.1f * level);
     }
 
     public Array<Enemy> getEnemies() {
@@ -141,12 +145,13 @@ public class AIManager {
     public void sendEnemy(final int index) {
         int size = gameStage.unicorn.getCombo() > 15 ? 7 : 5;
         if(!isPattern && enemies.size >= 4 + waveIndexForEscalation / 4) {
-            gameStage.game.timerManager.run(0.1f, new TimerRunnable() {
-                @Override
-                public void run(Timer timer) {
-                    sendEnemy(index);
-                }
-            });
+            return;
+//            gameStage.game.timerManager.run(0.1f, new TimerRunnable() {
+//                @Override
+//                public void run(Timer timer) {
+//                    sendEnemy(index);
+//                }
+//            });
         } else {
             timer.reset();
             if (timer.getTimeStep() > 0.5f && timers.indexOf(timer, false) < timeStepArray.size) {
@@ -301,22 +306,29 @@ public class AIManager {
     }
 
     public void pauseGame() {
-        gameStage.game.timerManager.pause();
-        for (int i = 0; i < enemies.size; i++) {
-            enemies.get(i).pause();
+        isGamePaused = true;
+        if(gameStage != null) {
+            gameStage.game.timerManager.pause();
+            for (int i = 0; i < enemies.size; i++) {
+                enemies.get(i).pause();
+            }
         }
     }
 
     public void resumeGame() {
-        gameStage.game.timerManager.resume();
-        gameStage.attackCommand.resume();
-        for (int i = 0; i < enemies.size; i++) {
-            enemies.get(i).resume();
+        isGamePaused = false;
+        if(gameStage != null) {
+            gameStage.game.timerManager.resume();
+            gameStage.attackCommand.resume();
+            for (int i = 0; i < enemies.size; i++) {
+                enemies.get(i).resume();
+            }
         }
     }
 
     public void reset() {
         globalWaveIndex = 0;
+        waveIndexForEscalation = 0;
         sendTimeArray.clear();
         timeStepArray.clear();
         timers.clear();

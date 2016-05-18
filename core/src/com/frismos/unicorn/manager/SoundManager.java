@@ -55,6 +55,7 @@ public class SoundManager implements Updatable {
     public long currentSoundId = -1;
     private float musicPitch = 1.0f;
     public Music currentMusic;
+    public Sound music;
 
     public SoundManager(UnicornGame game) {
         this.game = game;
@@ -74,66 +75,66 @@ public class SoundManager implements Updatable {
     }
 
     public <T> void playMusic(String path, Class<T> type, boolean play, boolean loop, float volume) {
-        String filePath = Gdx.files.internal(String.format("sounds/%s.wav", path)).exists() ? String.format("sounds/%s.wav", path) :
-                Gdx.files.internal(String.format("sounds/%s.mp3", path)).exists() ? String.format("sounds/%s.mp3", path) : String.format("sounds/%s.ogg", path);
-        T music = game.atlasManager.get(filePath, type);
-        if(music instanceof Music) {
-            if(play) {
-                currentMusic = (Music)music;
-                ((Music) music).play();
-            }
-            ((Music) music).setLooping(true);
-        } else if(music instanceof Sound) {
-            if(play) {
-                if(loop) {
-                    do {
-                        currentSoundId = ((Sound) music).play();
-                        Debug.log("sound manager 91");
-                    } while(currentSoundId == -1);
-                    ((Sound) music).setLooping(currentSoundId, true);
-                    sounds.put(currentSoundId, (Sound)music);
-                } else {
-                    long id = ((Sound)music).play();
-                    ((Sound)music).setVolume(id, volume);
-                    sounds.put(id, (Sound)music);
-                }
-            }
-        }
-    }
-
-    public void addActionToMusic(final Music music, float target, float duration, Runnable runnable) {
-        actionActors.put(music, new Actor());
-        actionActors.get(music).addAction(Actions.sequence(Actions.alpha(target, duration), Actions.run(new Runnable() {
-            @Override
-            public void run() {
-                keysToRemove.add(music);
-            }
-        }), Actions.run(runnable)));
+//        String filePath = Gdx.files.internal(String.format("sounds/%s.wav", path)).exists() ? String.format("sounds/%s.wav", path) :
+//                Gdx.files.internal(String.format("sounds/%s.mp3", path)).exists() ? String.format("sounds/%s.mp3", path) : String.format("sounds/%s.ogg", path);
+//        T music = game.atlasManager.get(filePath, type);
+//        if(music instanceof Music) {
+//            if(play) {
+//                currentMusic = (Music)music;
+//                ((Music) music).play();
+//                this.music = null;
+//            }
+//            ((Music) music).setLooping(true);
+//        } else if(music instanceof Sound) {
+//            if(play) {
+//                if(loop) {
+//                    do {
+//                        currentSoundId = ((Sound) music).play();
+//                    } while(currentSoundId == -1);
+//                    ((Sound) music).setLooping(currentSoundId, true);
+//                    this.music = (Sound) music;
+//                    currentMusic = null;
+//                } else {
+//                    long id = ((Sound)music).play();
+//                    ((Sound)music).setVolume(id, volume);
+//                    sounds.put(id, (Sound)music);
+//                }
+//            }
+//        }
     }
 
     @Override
     public void update(float delta) {
-        if(currentSoundId != -1) {
+        if(music != null) {
             musicPitch += 0.0023f * delta;
-            sounds.get(currentSoundId).setPitch(currentSoundId, musicPitch);
-        }
-        if(actionActors.size > 0) {
-            ObjectMap.Keys<Music> keys = actionActors.keys();
-            Iterator<Music> iterator = keys.iterator();
-            while (iterator.hasNext()) {
-                Music key = iterator.next();
-                actionActors.get(key).act(delta);
-                key.setVolume(actionActors.get(key).getColor().a);
-            }
-            for(int i = 0; i < keysToRemove.size; i++) {
-                actionActors.remove(keysToRemove.get(i));
-            }
-            keysToRemove.clear();
+            music.setPitch(currentSoundId, musicPitch);
         }
     }
 
     public void reset() {
         musicPitch = 1.0f;
+    }
+
+    public void resume() {
+        if(music != null) {
+            music.resume();
+        } else if(currentMusic != null) {
+            currentMusic.play();
+        }
+    }
+
+    public void pause() {
+        LongMap.Keys keys = sounds.keys();
+        while (keys.hasNext) {
+            sounds.get(keys.next()).stop();
+        }
+        sounds.clear();
+        if(currentMusic != null) {
+            currentMusic.pause();
+        }
+        if(music != null) {
+            music.pause();
+        }
     }
 
     public void stop() {

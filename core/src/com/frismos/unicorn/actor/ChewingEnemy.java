@@ -6,16 +6,19 @@ import com.frismos.unicorn.enums.ColorType;
 import com.frismos.unicorn.manager.SoundManager;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.util.Constants;
+import com.frismos.unicorn.util.Debug;
 import com.frismos.unicorn.util.Strings;
 
 /**
  * Created by eavanyan on 4/8/16.
  */
 public class ChewingEnemy extends WalkingEnemy {
+
+    private boolean isHit = false;
     public ChewingEnemy(GameStage stage, ColorType colorType) {
         super(stage, colorType);
 
-        moveSpeed = INITIAL_MOVE_SPEED + gameStage.game.aiManager.waveIndexForEscalation / 3;
+        moveSpeed = INITIAL_MOVE_SPEED + stage.unicorn.getCombo() / 20.0f + (float)Math.sqrt(gameStage.gameTime / 4);
     }
 
     @Override
@@ -30,12 +33,11 @@ public class ChewingEnemy extends WalkingEnemy {
 
     @Override
     public void hit(float damage, Bullet bullet) {
-        if(skeletonActor.getAnimationState().getTracks().size > 1 &&
-                skeletonActor.getAnimationState().getCurrent(1) != null &&
-                skeletonActor.getAnimationState().getCurrent(1).getAnimation().getName().equals("chewing") &&
-                !skeletonActor.getAnimationState().getCurrent(1).isComplete()) {
+        long time = System.currentTimeMillis();
+        if(isHit) {
             super.hit(damage, bullet);
         } else {
+            isHit = true;
             swallowBullet(bullet);
         }
     }

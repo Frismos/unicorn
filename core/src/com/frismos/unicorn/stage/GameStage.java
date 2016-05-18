@@ -171,6 +171,8 @@ public class GameStage extends SimpleStage {
 
     public Spell spellCandy;
 
+    public float gameTime = 0;
+
     public CollisionDetector collisionDetector = new CollisionDetector();
     private Runnable spellCandyRunnable = new Runnable() {
         @Override
@@ -217,7 +219,6 @@ public class GameStage extends SimpleStage {
     public GameStage(final UnicornGame game) {
         super(new FillViewport(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT), new PolygonSpriteBatch());
         this.game = game;
-        Debug.log("game stage background = " + background);
         Image pixel = new Image(blackPixel);
         pixel.setSize(1, 1);
 
@@ -323,7 +324,9 @@ public class GameStage extends SimpleStage {
         background.remove(true);
         game.aiManager.resumeGame();
         game.soundManager.reset();
-        game.soundManager.sounds.get(game.soundManager.currentSoundId).stop(game.soundManager.currentSoundId);
+        if(game.soundManager.music != null) {
+            game.soundManager.music.stop(game.soundManager.currentSoundId);
+        }
         initConstants();
         game.timerManager.reset();
         game.tutorialManager = new TutorialManager(game);
@@ -976,11 +979,13 @@ public class GameStage extends SimpleStage {
     public void act(float delta) {
         super.act(delta);
         if(!stopGame) {
-            timeMillis += delta;
+            if(!game.aiManager.isGamePaused) {
+                gameTime += delta;
+                timeMillis += delta;
+            }
             timeTimer += delta;
             if(timeTimer >= TIME_TIME_STEP) {
-
-                int seconds = (int)((GameScreen)game.getScreen()).stage.timeMillis;
+                int seconds = (int)timeMillis;
                 int minutes = seconds / 60;
                 seconds %= 60;
                 game.uiScreen.stage.timeLabel.setText(String.format("%s:%s", minutes, seconds >= 10 ? seconds : String.format("0%s", seconds)));

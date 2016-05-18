@@ -24,6 +24,7 @@ import com.frismos.unicorn.enums.TutorialAction;
 import com.frismos.unicorn.screen.GameScreen;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.ui.TutorialLabel;
+import com.frismos.unicorn.util.Debug;
 
 
 /**

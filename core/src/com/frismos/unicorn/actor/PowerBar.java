@@ -38,10 +38,14 @@ public class PowerBar extends SpineActor {
     }
 
     public void setProgress(int index, boolean resetPowerBar) {
+        int ind = index;
+        if(index < 0) {
+            index = 0;
+        }
         boolean doTweening = slots.get(index).getColor().a == 0;
 
         if(resetPowerBar) {
-            removeSlots(slots.size - 1, index - 1);
+            removeSlots(slots.size - 1, ind);
         } else if(doTweening) {
             ((GameScreen)stage.game.getScreen()).stage.unicorn.skeletonActor.getAnimationState().setAnimation(1, "comboup", false);
             ((GameScreen)stage.game.getScreen()).stage.unicorn.skeletonActor.getAnimationState().addAnimation(1, "comboup-idle", true,0);

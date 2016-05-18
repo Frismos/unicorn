@@ -174,10 +174,12 @@ public abstract class Enemy extends Creature {
         if(isSonOfABoss) {
             moveSpeed = GameStage._ENEMY_MOVE_SPEED;
         }
-        moveSpeed = INITIAL_MOVE_SPEED + stage.unicorn.getCombo() / 20.0f + (float)Math.log(gameStage.game.aiManager.waveIndexForEscalation + 1);
+        if(gameStage.gameTime > 240) {
+            gameStage.gameTime = 90;
+        }
+        moveSpeed = INITIAL_MOVE_SPEED + stage.unicorn.getCombo() / 20.0f + (float)Math.sqrt(gameStage.gameTime < 30 || gameStage.gameTime > 120 ? gameStage.gameTime / 4 : gameStage.gameTime / 2);
         skeletonActor.getAnimationState().setTimeScale(moveSpeed * 0.3f);
         setUserObject(ActorDataType.ENEMY);
-
 
         shadow = new Shadow(gameStage, this);
 
@@ -416,10 +418,10 @@ public abstract class Enemy extends Creature {
 //                    && getX() < gameStage.background.getZero().x + gameStage.background.getWidth() - gameStage.grid.tileWidth
                     && getX() > gameStage.colorsPlatform.getRight() + gameStage.grid.tileWidth) {
                 moveSpeed -= 0.02f;
-                if(skeletonActor.getAnimationState().getCurrent(0) != null &&
-                        skeletonActor.getAnimationState().getCurrent(0).getAnimation().getName().contains("walk")) {
-                    skeletonActor.getAnimationState().setTimeScale(moveSpeed * 0.3f);
-                }
+//                if(skeletonActor.getAnimationState().getCurrent(0) != null &&
+//                        skeletonActor.getAnimationState().getCurrent(0).getAnimation().getName().contains("walk")) {
+//                    skeletonActor.getAnimationState().setTimeScale(moveSpeed * 0.1f);
+//                }
             }
             if(isTutorialEnemy) {
                 if(getX() < gameStage.background.getZero().x + gameStage.background.getWidth() - gameStage.grid.tileWidth) {

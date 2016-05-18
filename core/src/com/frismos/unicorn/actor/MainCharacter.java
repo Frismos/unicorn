@@ -15,6 +15,7 @@ import com.frismos.unicorn.enums.UnicornType;
 import com.frismos.unicorn.grid.Tile;
 import com.frismos.unicorn.manager.SoundManager;
 import com.frismos.unicorn.manager.TutorialManager;
+import com.frismos.unicorn.screen.GameScreen;
 import com.frismos.unicorn.stage.GameStage;
 import com.frismos.unicorn.ui.CompleteDialog;
 import com.frismos.unicorn.util.Debug;
@@ -28,7 +29,7 @@ import java.util.Observer;
 public abstract class MainCharacter extends Creature implements Observer {
 
     public static final float MAX_HIT_POINTS = 3;
-    public static final float COMBO_VALUE = 0.12f;
+    public static final float COMBO_VALUE = 0.13f;
     private PowerBar powerBar;
     public float AUTO_ATTACK_SPEED = 0.2f;
     public float SINGLE_ATTACK_SPEED = 0.1f;
@@ -287,11 +288,14 @@ public abstract class MainCharacter extends Creature implements Observer {
             gameStage.colorsPlatform.skeletonActor.getSkeleton().setSkin("2");
             skeletonActor.getAnimationState().setAnimation(0, "die", false);
             skeletonActor.getAnimationState().setAnimation(1, "die", false);
+            skeletonActor.getAnimationState().clearListeners();
 //            addAction(Actions.delay(0.3f, Actions.run(new Runnable() {
 //                @Override
 //                public void run() {
                     CompleteDialog dialog = new CompleteDialog(gameStage.game.uiScreen.stage);
                     gameStage.game.uiScreen.stage.addActor(dialog);
+                    stage.game.multiplexer.removeProcessor(stage);
+                    Gdx.input.setInputProcessor(stage.game.multiplexer);
 //                }
 //            })));
         }
@@ -325,21 +329,20 @@ public abstract class MainCharacter extends Creature implements Observer {
 
     public void setCombo(float value) {
         int combo = (int)(this.combo / COMBO_VALUE);
-        if(combo < 50) {
+        if(combo < 19) {
             this.combo += COMBO_VALUE;
             combo = (int)(this.combo / COMBO_VALUE);
-            if (combo >= 50) {
-                bulletsToShootCount = 3;
-//            } else if (combo >= 50) {
+
+//            if (combo >= 20) {
 //                bulletsToShootCount = 3;
-//        } else if(combo > 10) {
-//            bulletsToShootCount = 2;
-            } else {
-                bulletsToShootCount = 1;
-            }
-            if(combo / 5 > 0) {
-               // gameStage.game.uiScreen.stage.powerBar.setProgress(combo / 5 - 1, false);
-            }
+////            } else if (combo >= 50) {
+////                bulletsToShootCount = 3;
+////        } else if(combo > 10) {
+////            bulletsToShootCount = 2;
+//            } else {
+//                bulletsToShootCount = 1;
+//            }
+            gameStage.game.uiScreen.stage.powerBar.setProgress(combo / 5, false);
         }
     }
 
@@ -355,33 +358,38 @@ public abstract class MainCharacter extends Creature implements Observer {
         gameStage.game.soundManager.playMusic(SoundManager.ERROR, Sound.class, true, false, 1.5f);
         Gdx.input.vibrate(100);
         int combo = (int)(this.combo / COMBO_VALUE);
-        if(combo < 10) {
-            this.combo -= COMBO_VALUE;
-        } else if(combo < 15){
+        int progress = -1;
+        if(combo >= 5) {
             this.combo -= COMBO_VALUE * 5;
-        } else if (combo < 20) {
-            this.combo /= 2;
+            progress = (int)(this.combo / COMBO_VALUE) / 5;
         } else {
-            this.combo /= 3;
+            this.combo = 0;
         }
-        if(this.combo < COMBO_VALUE) {
-            this.combo = COMBO_VALUE;
-        }
+//        if(combo <= 5) {
+//            this.combo = 0;
+//        } else if(combo <= 10) {
+//            this.combo = COMBO_VALUE * 5;
+//        } else if (combo <= 15) {
+//            this.combo = COMBO_VALUE * 10;
+//        } else {
+//            this.combo = COMBO_VALUE * 15;
+//        }
+//        if(this.combo < COMBO_VALUE) {
+//            this.combo = COMBO_VALUE;
+//        }
         combo = (int)(this.combo / COMBO_VALUE);
         if(combo / 5 >= 0) {
-          //  gameStage.game.uiScreen.stage.powerBar.setProgress(combo / 5, true);
-        } else {
-           // gameStage.game.uiScreen.stage.powerBar.setProgress(0, true);
+            gameStage.game.uiScreen.stage.powerBar.setProgress(progress, true);
         }
-        if(combo >= 50) {
-            bulletsToShootCount = 3;
-//        } else if(combo >= 40) {
+//        if(combo >= 20) {
 //            bulletsToShootCount = 3;
-//        } else if(combo > 10) {
-//            bulletsToShootCount = 2;
-        } else {
-            bulletsToShootCount = 1;
-        }
+////        } else if(combo >= 40) {
+////            bulletsToShootCount = 3;
+////        } else if(combo > 10) {
+////            bulletsToShootCount = 2;
+//        } else {
+//            bulletsToShootCount = 1;
+//        }
     }
 
     protected void showProgressBar() {

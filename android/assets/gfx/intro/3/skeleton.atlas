@@ -1,236 +1,307 @@
 
 skeleton.png
-size: 2045,2046
+size: 1987,1733
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-main stage/s3p3
-  rotate: false
-  xy: 1968, 1936
-  size: 75, 108
-  orig: 75, 108
-  offset: 0, 0
-  index: -1
-main stage/s3p4
-  rotate: false
-  xy: 1968, 1876
-  size: 75, 58
-  orig: 75, 58
-  offset: 0, 0
-  index: -1
-scene1panel2/s1p2sun
-  rotate: false
-  xy: 876, 931
-  size: 208, 208
-  orig: 208, 208
-  offset: 0, 0
-  index: -1
-scene3panel1/s3p1bg1
+main stage/s2border
   rotate: true
-  xy: 999, 1142
-  size: 360, 540
-  orig: 360, 540
-  offset: 0, 0
-  index: -1
-scene3panel1/s3p1bg2
-  rotate: false
-  xy: 1157, 600
-  size: 360, 540
-  orig: 360, 540
-  offset: 0, 0
-  index: -1
-scene3panel1/s3p1bg3
-  rotate: false
-  xy: 1663, 72
-  size: 360, 540
-  orig: 360, 540
-  offset: 0, 0
-  index: -1
-scene3panel1/s3p1brow
-  rotate: true
-  xy: 1968, 1674
-  size: 200, 52
-  orig: 200, 52
-  offset: 0, 0
-  index: -1
-scene3panel1/s3p1unihair
-  rotate: true
-  xy: 1519, 614
-  size: 423, 524
-  orig: 423, 524
-  offset: 0, 0
-  index: -1
-scene3panel1/s3p1uniportrait
-  rotate: true
-  xy: 2, 1205
-  size: 603, 703
-  orig: 603, 703
-  offset: 0, 0
-  index: -1
-scene3panel1/s3p1winkfx
-  rotate: true
-  xy: 2, 814
-  size: 389, 570
-  orig: 389, 570
-  offset: 0, 0
-  index: -1
-scene3panel2/s3p2bg1
-  rotate: false
-  xy: 742, 281
-  size: 413, 540
-  orig: 413, 540
-  offset: 0, 0
-  index: -1
-scene3panel2/s3p2bg2
-  rotate: false
-  xy: 1248, 58
-  size: 413, 540
-  orig: 413, 540
-  offset: 0, 0
-  index: -1
-scene3panel2/s3p2cir1
-  rotate: true
-  xy: 707, 1518
-  size: 290, 291
-  orig: 290, 291
-  offset: 0, 0
-  index: -1
-scene3panel2/s3p2cir2
-  rotate: true
-  xy: 1541, 1039
-  size: 463, 464
-  orig: 463, 464
-  offset: 0, 0
-  index: -1
-scene3panel2/s3p2rad
-  rotate: false
-  xy: 1036, 69
-  size: 210, 210
-  orig: 210, 210
-  offset: 0, 0
-  index: -1
-scene3panel2/s3p2uni
-  rotate: false
-  xy: 464, 267
-  size: 276, 545
-  orig: 276, 545
-  offset: 0, 0
-  index: -1
-scene3panel3/s3p3bg
-  rotate: false
-  xy: 329, 2
-  size: 324, 257
-  orig: 324, 257
-  offset: 0, 0
-  index: -1
-scene3panel3/s3p3fx
-  rotate: true
-  xy: 697, 823
-  size: 316, 177
-  orig: 316, 177
-  offset: 0, 0
-  index: -1
-scene3panel3/s3p3leg2
-  rotate: false
-  xy: 574, 855
-  size: 121, 348
-  orig: 121, 348
-  offset: 0, 0
-  index: -1
-scene3panel3/s3p3plate
-  rotate: false
-  xy: 2, 2
-  size: 325, 257
-  orig: 325, 257
-  offset: 0, 0
-  index: -1
-scene3panel3/s3p3shadow
-  rotate: false
-  xy: 655, 48
-  size: 379, 217
-  orig: 379, 217
-  offset: 0, 0
-  index: -1
-scene3panel4/s3p4bg
-  rotate: true
-  xy: 707, 1141
-  size: 375, 290
-  orig: 375, 290
-  offset: 0, 0
-  index: -1
-scene3panel4/s3p4body
-  rotate: true
-  xy: 2, 261
-  size: 551, 460
-  orig: 551, 460
-  offset: 0, 0
-  index: -1
-scene3panel4/whitefill1080
-  rotate: false
-  xy: 1006, 1504
-  size: 960, 540
-  orig: 960, 540
-  offset: 0, 0
-  index: -1
-textfx/tfxpowerrr
-  rotate: false
-  xy: 2, 1810
-  size: 1002, 234
-  orig: 1002, 234
-  offset: 0, 0
-  index: -1
-
-skeleton2.png
-size: 536,1072
-format: RGBA8888
-filter: Linear,Linear
-repeat: none
-main stage/s3border
-  rotate: true
-  xy: 417, 684
+  xy: 1854, 649
   size: 192, 108
   orig: 192, 108
   offset: 0, 0
   index: -1
-main stage/s3p2
+main stage/s2p2
+  rotate: false
+  xy: 1713, 46
+  size: 192, 108
+  orig: 192, 108
+  offset: 0, 0
+  index: -1
+main stage/s2p3
   rotate: true
-  xy: 417, 544
-  size: 138, 108
-  orig: 138, 108
+  xy: 226, 426
+  size: 102, 108
+  orig: 102, 108
   offset: 0, 0
   index: -1
 main stage/workarea black 1080
-  rotate: true
-  xy: 417, 878
+  rotate: false
+  xy: 1519, 45
   size: 192, 109
   orig: 192, 109
   offset: 0, 0
   index: -1
-scene3panel2/s3p2bg3
+scene2panel1/s2p1bg1
   rotate: false
-  xy: 2, 530
-  size: 413, 540
-  orig: 413, 540
+  xy: 1471, 1443
+  size: 514, 288
+  orig: 514, 288
   offset: 0, 0
   index: -1
-scene3panel3/s3p3leg1
-  rotate: false
-  xy: 350, 188
-  size: 184, 340
-  orig: 184, 340
+scene2panel1/s2p1cloud1
+  rotate: true
+  xy: 447, 548
+  size: 641, 153
+  orig: 641, 153
   offset: 0, 0
   index: -1
-scene3panel4/s3p4tail
-  rotate: false
-  xy: 2, 2
-  size: 426, 170
-  orig: 426, 170
+scene2panel1/s2p1cloud2
+  rotate: true
+  xy: 226, 530
+  size: 659, 219
+  orig: 659, 219
   offset: 0, 0
   index: -1
-scene3panel4/s3p4tailwink
+scene2panel1/s2p1cloud3
+  rotate: true
+  xy: 2, 421
+  size: 768, 222
+  orig: 768, 222
+  offset: 0, 0
+  index: -1
+scene2panel1/s2p1light1
+  rotate: true
+  xy: 1330, 547
+  size: 168, 362
+  orig: 168, 362
+  offset: 0, 0
+  index: -1
+scene2panel1/s2p1light2
+  rotate: true
+  xy: 1294, 30
+  size: 132, 223
+  orig: 132, 223
+  offset: 0, 0
+  index: -1
+scene2panel1/s2p1light3
   rotate: false
-  xy: 2, 174
-  size: 346, 354
-  orig: 346, 354
+  xy: 1785, 684
+  size: 67, 239
+  orig: 67, 239
+  offset: 0, 0
+  index: -1
+scene2panel1/s2p1mist1
+  rotate: true
+  xy: 345, 195
+  size: 333, 166
+  orig: 333, 166
+  offset: 0, 0
+  index: -1
+scene2panel1/s2p1mist2
+  rotate: false
+  xy: 1290, 164
+  size: 310, 139
+  orig: 310, 139
+  offset: 0, 0
+  index: -1
+scene2panel1/s2p1mist3
+  rotate: true
+  xy: 789, 2
+  size: 229, 126
+  orig: 229, 126
+  offset: 0, 0
+  index: -1
+scene2panel1/s2p1thunder1
+  rotate: true
+  xy: 1602, 156
+  size: 120, 213
+  orig: 120, 213
+  offset: 0, 0
+  index: -1
+scene2panel1/s2p1thunder2
+  rotate: true
+  xy: 527, 50
+  size: 197, 260
+  orig: 197, 260
+  offset: 0, 0
+  index: -1
+scene2panel2/s2p2bg1
+  rotate: false
+  xy: 1396, 925
+  size: 480, 299
+  orig: 480, 299
+  offset: 0, 0
+  index: -1
+scene2panel2/s2p2fx1
+  rotate: false
+  xy: 790, 233
+  size: 228, 228
+  orig: 228, 228
+  offset: 0, 0
+  index: -1
+scene2panel2/s2p2fx2
+  rotate: false
+  xy: 1022, 550
+  size: 306, 307
+  orig: 306, 307
+  offset: 0, 0
+  index: -1
+scene2panel2/s2p2mist1
+  rotate: false
+  xy: 1324, 305
+  size: 361, 240
+  orig: 361, 240
+  offset: 0, 0
+  index: -1
+scene2panel2/s2p2mist2
+  rotate: false
+  xy: 513, 249
+  size: 275, 212
+  orig: 275, 212
+  offset: 0, 0
+  index: -1
+scene2panel2/s2p2mist3
+  rotate: false
+  xy: 1022, 334
+  size: 300, 214
+  orig: 300, 214
+  offset: 0, 0
+  index: -1
+scene2panel2/s2p2mist4
+  rotate: false
+  xy: 1471, 1226
+  size: 488, 215
+  orig: 488, 215
+  offset: 0, 0
+  index: -1
+scene2panel2/s2p2mist5
+  rotate: false
+  xy: 2, 5
+  size: 341, 414
+  orig: 341, 414
+  offset: 0, 0
+  index: -1
+scene2panel2/s2p2slime1
+  rotate: false
+  xy: 917, 2
+  size: 181, 150
+  orig: 181, 150
+  offset: 0, 0
+  index: -1
+scene2panel2/s2p2slime2
+  rotate: false
+  xy: 345, 5
+  size: 180, 188
+  orig: 180, 188
+  offset: 0, 0
+  index: -1
+scene2panel2/s2p2slime3
+  rotate: false
+  xy: 1687, 278
+  size: 210, 267
+  orig: 210, 267
+  offset: 0, 0
+  index: -1
+scene2panel3/s2p3bg1
+  rotate: false
+  xy: 958, 1307
+  size: 511, 424
+  orig: 511, 424
+  offset: 0, 0
+  index: -1
+scene2panel3/s2p3bg2
+  rotate: false
+  xy: 2, 1191
+  size: 511, 540
+  orig: 511, 540
+  offset: 0, 0
+  index: -1
+scene2panel3/s2p3cloud
+  rotate: false
+  xy: 1396, 717
+  size: 387, 206
+  orig: 387, 206
+  offset: 0, 0
+  index: -1
+scene2panel3/s2p3fxray
+  rotate: false
+  xy: 1764, 574
+  size: 195, 73
+  orig: 195, 73
+  offset: 0, 0
+  index: -1
+scene2panel3/s2p3rainbow
+  rotate: false
+  xy: 1878, 843
+  size: 76, 381
+  orig: 76, 381
+  offset: 0, 0
+  index: -1
+scene2panel3/s2p3slime1
+  rotate: false
+  xy: 602, 751
+  size: 409, 464
+  orig: 409, 464
+  offset: 0, 0
+  index: -1
+scene2panel3/s2p3slime2
+  rotate: false
+  xy: 1899, 472
+  size: 83, 100
+  orig: 83, 100
+  offset: 0, 0
+  index: -1
+scene2panel3/s2p3slime3
+  rotate: true
+  xy: 1100, 17
+  size: 135, 192
+  orig: 135, 192
+  offset: 0, 0
+  index: -1
+scene2panel4/s2p4movefx
+  rotate: false
+  xy: 1817, 172
+  size: 96, 104
+  orig: 96, 104
+  offset: 0, 0
+  index: -1
+scene2panel4/s2p4omg
+  rotate: true
+  xy: 1020, 154
+  size: 178, 268
+  orig: 178, 268
+  offset: 0, 0
+  index: -1
+scene2panel4/s2p4panel
+  rotate: false
+  xy: 1013, 859
+  size: 381, 446
+  orig: 381, 446
+  offset: 0, 0
+  index: -1
+scene2panel4/s2p4uniportrait
+  rotate: false
+  xy: 515, 1217
+  size: 441, 514
+  orig: 441, 514
+  offset: 0, 0
+  index: -1
+scene2panel4/s2p4winkfx
+  rotate: true
+  xy: 602, 463
+  size: 286, 418
+  orig: 286, 418
+  offset: 0, 0
+  index: -1
+textfx/tfx03thunder
+  rotate: true
+  xy: 917, 154
+  size: 77, 31
+  orig: 77, 31
+  offset: 0, 0
+  index: -1
+textfx/tfxrawr01
+  rotate: true
+  xy: 1330, 733
+  size: 124, 63
+  orig: 124, 63
+  offset: 0, 0
+  index: -1
+textfx/tfxrawr02
+  rotate: true
+  xy: 1694, 566
+  size: 149, 68
+  orig: 149, 68
   offset: 0, 0
   index: -1

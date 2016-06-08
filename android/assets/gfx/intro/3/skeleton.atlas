@@ -1,9 +1,23 @@
 
 skeleton.png
-size: 2045,2046
+size: 2048,2046
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
+main stage/s3border
+  rotate: false
+  xy: 2, 11
+  size: 576, 324
+  orig: 576, 324
+  offset: 0, 0
+  index: -1
+main stage/s3p2
+  rotate: true
+  xy: 1707, 2
+  size: 138, 108
+  orig: 138, 108
+  offset: 0, 0
+  index: -1
 main stage/s3p3
   rotate: false
   xy: 1968, 1936
@@ -13,128 +27,190 @@ main stage/s3p3
   index: -1
 main stage/s3p4
   rotate: false
-  xy: 1968, 1876
+  xy: 1413, 1472
   size: 75, 58
   orig: 75, 58
   offset: 0, 0
   index: -1
-scene1panel2/s1p2sun
+main stage/workarea black 1080
   rotate: false
-  xy: 876, 931
-  size: 208, 208
-  orig: 208, 208
+  xy: 1822, 75
+  size: 192, 109
+  orig: 192, 109
   offset: 0, 0
   index: -1
 scene3panel1/s3p1bg1
   rotate: true
-  xy: 999, 1142
+  xy: 607, 570
   size: 360, 540
   orig: 360, 540
   offset: 0, 0
   index: -1
 scene3panel1/s3p1bg2
   rotate: false
-  xy: 1157, 600
+  xy: 995, 28
   size: 360, 540
   orig: 360, 540
   offset: 0, 0
   index: -1
 scene3panel1/s3p1bg3
-  rotate: false
-  xy: 1663, 72
+  rotate: true
+  xy: 1149, 608
   size: 360, 540
   orig: 360, 540
   offset: 0, 0
   index: -1
 scene3panel1/s3p1brow
   rotate: true
-  xy: 1968, 1674
+  xy: 1994, 412
   size: 200, 52
   orig: 200, 52
   offset: 0, 0
   index: -1
 scene3panel1/s3p1unihair
   rotate: true
-  xy: 1519, 614
+  xy: 1511, 1385
   size: 423, 524
   orig: 423, 524
   offset: 0, 0
   index: -1
 scene3panel1/s3p1uniportrait
-  rotate: true
-  xy: 2, 1205
+  rotate: false
+  xy: 2, 799
   size: 603, 703
   orig: 603, 703
   offset: 0, 0
   index: -1
 scene3panel1/s3p1winkfx
-  rotate: true
-  xy: 2, 814
+  rotate: false
+  xy: 607, 932
   size: 389, 570
   orig: 389, 570
   offset: 0, 0
   index: -1
 scene3panel2/s3p2bg1
   rotate: false
-  xy: 742, 281
+  xy: 998, 990
   size: 413, 540
   orig: 413, 540
   offset: 0, 0
   index: -1
 scene3panel2/s3p2bg2
-  rotate: false
-  xy: 1248, 58
+  rotate: true
+  xy: 1413, 970
   size: 413, 540
   orig: 413, 540
   offset: 0, 0
   index: -1
-scene3panel2/s3p2cir1
-  rotate: true
-  xy: 707, 1518
-  size: 290, 291
-  orig: 290, 291
+scene3panel2/s3p2bg3
+  rotate: false
+  xy: 580, 28
+  size: 413, 540
+  orig: 413, 540
   offset: 0, 0
   index: -1
 scene3panel2/s3p2cir2
-  rotate: true
-  xy: 1541, 1039
+  rotate: false
+  xy: 1357, 142
   size: 463, 464
   orig: 463, 464
   offset: 0, 0
   index: -1
-scene3panel2/s3p2rad
-  rotate: false
-  xy: 1036, 69
-  size: 210, 210
-  orig: 210, 210
-  offset: 0, 0
-  index: -1
 scene3panel2/s3p2uni
-  rotate: false
-  xy: 464, 267
+  rotate: true
+  xy: 964, 1532
   size: 276, 545
   orig: 276, 545
   offset: 0, 0
   index: -1
-scene3panel3/s3p3bg
+scene3panel3/s3p3leg2
+  rotate: true
+  xy: 1357, 19
+  size: 121, 348
+  orig: 121, 348
+  offset: 0, 0
+  index: -1
+scene3panel4/s3p4body
   rotate: false
-  xy: 329, 2
+  xy: 2, 337
+  size: 551, 460
+  orig: 551, 460
+  offset: 0, 0
+  index: -1
+scene3panel4/s3p4tail
+  rotate: true
+  xy: 1822, 186
+  size: 426, 170
+  orig: 426, 170
+  offset: 0, 0
+  index: -1
+scene3panel4/s3p4tailwink
+  rotate: false
+  xy: 1691, 614
+  size: 346, 354
+  orig: 346, 354
+  offset: 0, 0
+  index: -1
+scene3panel4/whitefill1080
+  rotate: false
+  xy: 2, 1504
+  size: 960, 540
+  orig: 960, 540
+  offset: 0, 0
+  index: -1
+textfx/tfxpowerrr
+  rotate: false
+  xy: 964, 1810
+  size: 1002, 234
+  orig: 1002, 234
+  offset: 0, 0
+  index: -1
+
+skeleton2.png
+size: 1146,638
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+scene1panel2/s1p2sun
+  rotate: false
+  xy: 588, 23
+  size: 208, 208
+  orig: 208, 208
+  offset: 0, 0
+  index: -1
+scene3panel2/s3p2cir1
+  rotate: false
+  xy: 294, 345
+  size: 290, 291
+  orig: 290, 291
+  offset: 0, 0
+  index: -1
+scene3panel2/s3p2rad
+  rotate: false
+  xy: 930, 108
+  size: 210, 210
+  orig: 210, 210
+  offset: 0, 0
+  index: -1
+scene3panel3/s3p3bg
+  rotate: true
+  xy: 329, 19
   size: 324, 257
   orig: 324, 257
   offset: 0, 0
   index: -1
 scene3panel3/s3p3fx
   rotate: true
-  xy: 697, 823
+  xy: 967, 320
   size: 316, 177
   orig: 316, 177
   offset: 0, 0
   index: -1
-scene3panel3/s3p3leg2
-  rotate: false
-  xy: 574, 855
-  size: 121, 348
-  orig: 121, 348
+scene3panel3/s3p3leg1
+  rotate: true
+  xy: 588, 233
+  size: 184, 340
+  orig: 184, 340
   offset: 0, 0
   index: -1
 scene3panel3/s3p3plate
@@ -146,91 +222,15 @@ scene3panel3/s3p3plate
   index: -1
 scene3panel3/s3p3shadow
   rotate: false
-  xy: 655, 48
+  xy: 586, 419
   size: 379, 217
   orig: 379, 217
   offset: 0, 0
   index: -1
 scene3panel4/s3p4bg
   rotate: true
-  xy: 707, 1141
+  xy: 2, 261
   size: 375, 290
   orig: 375, 290
-  offset: 0, 0
-  index: -1
-scene3panel4/s3p4body
-  rotate: true
-  xy: 2, 261
-  size: 551, 460
-  orig: 551, 460
-  offset: 0, 0
-  index: -1
-scene3panel4/whitefill1080
-  rotate: false
-  xy: 1006, 1504
-  size: 960, 540
-  orig: 960, 540
-  offset: 0, 0
-  index: -1
-textfx/tfxpowerrr
-  rotate: false
-  xy: 2, 1810
-  size: 1002, 234
-  orig: 1002, 234
-  offset: 0, 0
-  index: -1
-
-skeleton2.png
-size: 536,1072
-format: RGBA8888
-filter: Linear,Linear
-repeat: none
-main stage/s3border
-  rotate: true
-  xy: 417, 684
-  size: 192, 108
-  orig: 192, 108
-  offset: 0, 0
-  index: -1
-main stage/s3p2
-  rotate: true
-  xy: 417, 544
-  size: 138, 108
-  orig: 138, 108
-  offset: 0, 0
-  index: -1
-main stage/workarea black 1080
-  rotate: true
-  xy: 417, 878
-  size: 192, 109
-  orig: 192, 109
-  offset: 0, 0
-  index: -1
-scene3panel2/s3p2bg3
-  rotate: false
-  xy: 2, 530
-  size: 413, 540
-  orig: 413, 540
-  offset: 0, 0
-  index: -1
-scene3panel3/s3p3leg1
-  rotate: false
-  xy: 350, 188
-  size: 184, 340
-  orig: 184, 340
-  offset: 0, 0
-  index: -1
-scene3panel4/s3p4tail
-  rotate: false
-  xy: 2, 2
-  size: 426, 170
-  orig: 426, 170
-  offset: 0, 0
-  index: -1
-scene3panel4/s3p4tailwink
-  rotate: false
-  xy: 2, 174
-  size: 346, 354
-  orig: 346, 354
   offset: 0, 0
   index: -1

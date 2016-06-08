@@ -1,306 +1,306 @@
 
 skeleton.png
-size: 1987,1733
+size: 2012,1778
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 main stage/s2border
   rotate: true
-  xy: 1854, 649
-  size: 192, 108
-  orig: 192, 108
+  xy: 226, 1200
+  size: 576, 324
+  orig: 576, 324
   offset: 0, 0
   index: -1
 main stage/s2p2
-  rotate: false
-  xy: 1713, 46
+  rotate: true
+  xy: 1852, 57
   size: 192, 108
   orig: 192, 108
   offset: 0, 0
   index: -1
 main stage/s2p3
   rotate: true
-  xy: 226, 426
+  xy: 1713, 76
   size: 102, 108
   orig: 102, 108
   offset: 0, 0
   index: -1
 main stage/workarea black 1080
-  rotate: false
-  xy: 1519, 45
+  rotate: true
+  xy: 1852, 251
   size: 192, 109
   orig: 192, 109
   offset: 0, 0
   index: -1
 scene2panel1/s2p1bg1
-  rotate: false
-  xy: 1471, 1443
+  rotate: true
+  xy: 891, 504
   size: 514, 288
   orig: 514, 288
   offset: 0, 0
   index: -1
 scene2panel1/s2p1cloud1
   rotate: true
-  xy: 447, 548
+  xy: 223, 365
   size: 641, 153
   orig: 641, 153
   offset: 0, 0
   index: -1
 scene2panel1/s2p1cloud2
   rotate: true
-  xy: 226, 530
+  xy: 2, 347
   size: 659, 219
   orig: 659, 219
   offset: 0, 0
   index: -1
 scene2panel1/s2p1cloud3
   rotate: true
-  xy: 2, 421
+  xy: 2, 1008
   size: 768, 222
   orig: 768, 222
   offset: 0, 0
   index: -1
 scene2panel1/s2p1light1
   rotate: true
-  xy: 1330, 547
+  xy: 1349, 5
   size: 168, 362
   orig: 168, 362
   offset: 0, 0
   index: -1
 scene2panel1/s2p1light2
-  rotate: true
-  xy: 1294, 30
+  rotate: false
+  xy: 1350, 1040
   size: 132, 223
   orig: 132, 223
   offset: 0, 0
   index: -1
 scene2panel1/s2p1light3
   rotate: false
-  xy: 1785, 684
+  xy: 923, 1021
   size: 67, 239
   orig: 67, 239
   offset: 0, 0
   index: -1
 scene2panel1/s2p1mist1
   rotate: true
-  xy: 345, 195
+  xy: 1684, 180
   size: 333, 166
   orig: 333, 166
   offset: 0, 0
   index: -1
 scene2panel1/s2p1mist2
   rotate: false
-  xy: 1290, 164
+  xy: 1700, 1003
   size: 310, 139
   orig: 310, 139
   offset: 0, 0
   index: -1
 scene2panel1/s2p1mist3
   rotate: true
-  xy: 789, 2
+  xy: 992, 1031
   size: 229, 126
   orig: 229, 126
   offset: 0, 0
   index: -1
 scene2panel1/s2p1thunder1
   rotate: true
-  xy: 1602, 156
+  xy: 1483, 872
   size: 120, 213
   orig: 120, 213
   offset: 0, 0
   index: -1
 scene2panel1/s2p1thunder2
   rotate: true
-  xy: 527, 50
+  xy: 1212, 240
   size: 197, 260
   orig: 197, 260
   offset: 0, 0
   index: -1
 scene2panel2/s2p2bg1
-  rotate: false
-  xy: 1396, 925
+  rotate: true
+  xy: 1421, 1296
   size: 480, 299
   orig: 480, 299
   offset: 0, 0
   index: -1
 scene2panel2/s2p2fx1
   rotate: false
-  xy: 790, 233
+  xy: 1120, 1035
   size: 228, 228
   orig: 228, 228
   offset: 0, 0
   index: -1
 scene2panel2/s2p2fx2
-  rotate: false
-  xy: 1022, 550
+  rotate: true
+  xy: 1700, 695
   size: 306, 307
   orig: 306, 307
   offset: 0, 0
   index: -1
 scene2panel2/s2p2mist1
   rotate: false
-  xy: 1324, 305
+  xy: 560, 1020
   size: 361, 240
   orig: 361, 240
   offset: 0, 0
   index: -1
 scene2panel2/s2p2mist2
   rotate: false
-  xy: 513, 249
+  xy: 1722, 1144
   size: 275, 212
   orig: 275, 212
   offset: 0, 0
   index: -1
 scene2panel2/s2p2mist3
-  rotate: false
-  xy: 1022, 334
+  rotate: true
+  xy: 1484, 994
   size: 300, 214
   orig: 300, 214
   offset: 0, 0
   index: -1
 scene2panel2/s2p2mist4
-  rotate: false
-  xy: 1471, 1226
+  rotate: true
+  xy: 1181, 545
   size: 488, 215
   orig: 488, 215
   offset: 0, 0
   index: -1
 scene2panel2/s2p2mist5
-  rotate: false
-  xy: 2, 5
+  rotate: true
+  xy: 2, 4
   size: 341, 414
   orig: 341, 414
   offset: 0, 0
   index: -1
 scene2panel2/s2p2slime1
-  rotate: false
-  xy: 917, 2
+  rotate: true
+  xy: 408, 1017
   size: 181, 150
   orig: 181, 150
   offset: 0, 0
   index: -1
 scene2panel2/s2p2slime2
   rotate: false
-  xy: 345, 5
+  xy: 226, 1010
   size: 180, 188
   orig: 180, 188
   offset: 0, 0
   index: -1
 scene2panel2/s2p2slime3
   rotate: false
-  xy: 1687, 278
+  xy: 1476, 603
   size: 210, 267
   orig: 210, 267
   offset: 0, 0
   index: -1
 scene2panel3/s2p3bg1
-  rotate: false
-  xy: 958, 1307
+  rotate: true
+  xy: 995, 1265
   size: 511, 424
   orig: 511, 424
   offset: 0, 0
   index: -1
 scene2panel3/s2p3bg2
   rotate: false
-  xy: 2, 1191
+  xy: 378, 468
   size: 511, 540
   orig: 511, 540
   offset: 0, 0
   index: -1
 scene2panel3/s2p3cloud
-  rotate: false
-  xy: 1396, 717
+  rotate: true
+  xy: 1476, 214
   size: 387, 206
   orig: 387, 206
   offset: 0, 0
   index: -1
 scene2panel3/s2p3fxray
   rotate: false
-  xy: 1764, 574
+  xy: 1181, 470
   size: 195, 73
   orig: 195, 73
   offset: 0, 0
   index: -1
 scene2panel3/s2p3rainbow
   rotate: false
-  xy: 1878, 843
+  xy: 1398, 555
   size: 76, 381
   orig: 76, 381
   offset: 0, 0
   index: -1
 scene2panel3/s2p3slime1
   rotate: false
-  xy: 602, 751
+  xy: 418, 2
   size: 409, 464
   orig: 409, 464
   offset: 0, 0
   index: -1
 scene2panel3/s2p3slime2
   rotate: false
-  xy: 1899, 472
+  xy: 1398, 938
   size: 83, 100
   orig: 83, 100
   offset: 0, 0
   index: -1
 scene2panel3/s2p3slime3
-  rotate: true
-  xy: 1100, 17
+  rotate: false
+  xy: 1212, 20
   size: 135, 192
   orig: 135, 192
   offset: 0, 0
   index: -1
 scene2panel4/s2p4movefx
   rotate: false
-  xy: 1817, 172
+  xy: 1378, 439
   size: 96, 104
   orig: 96, 104
   offset: 0, 0
   index: -1
 scene2panel4/s2p4omg
   rotate: true
-  xy: 1020, 154
+  xy: 1688, 515
   size: 178, 268
   orig: 178, 268
   offset: 0, 0
   index: -1
 scene2panel4/s2p4panel
   rotate: false
-  xy: 1013, 859
+  xy: 829, 20
   size: 381, 446
   orig: 381, 446
   offset: 0, 0
   index: -1
 scene2panel4/s2p4uniportrait
   rotate: false
-  xy: 515, 1217
+  xy: 552, 1262
   size: 441, 514
   orig: 441, 514
   offset: 0, 0
   index: -1
 scene2panel4/s2p4winkfx
-  rotate: true
-  xy: 602, 463
+  rotate: false
+  xy: 1722, 1358
   size: 286, 418
   orig: 286, 418
   offset: 0, 0
   index: -1
 textfx/tfx03thunder
   rotate: true
-  xy: 917, 154
+  xy: 378, 389
   size: 77, 31
   orig: 77, 31
   offset: 0, 0
   index: -1
 textfx/tfxrawr01
-  rotate: true
-  xy: 1330, 733
+  rotate: false
+  xy: 1349, 175
   size: 124, 63
   orig: 124, 63
   offset: 0, 0
   index: -1
 textfx/tfxrawr02
-  rotate: true
-  xy: 1694, 566
+  rotate: false
+  xy: 1852, 445
   size: 149, 68
   orig: 149, 68
   offset: 0, 0
